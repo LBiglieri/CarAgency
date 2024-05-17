@@ -95,5 +95,12 @@ namespace CarAgency.UI
             frm.MdiParent = this;
             frm.Show();
         }
+
+        private void userManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UserManagementForm frm = new UserManagementForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
     }
 }

@@ -110,6 +110,48 @@ namespace CarAgency.Repository
                     sql.Close();
             }
         }
+
+        public List<User> GetAllByState(Boolean Active)
+        {
+            SqlConnection sql = new SqlConnection(base.GetConnectionString());
+            IDataReader reader = null;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("User_GetAllByState", sql);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("Active", Active));
+
+                sql.Open();
+                reader = cmd.ExecuteReader();
+
+                if (reader == null) return null;
+
+
+                return MappingHandler.MapReaderToEntities<User>(reader);
+                //var lista = new List<User>();
+
+                //while (reader.Read())
+                //{
+                //    User c = new User();
+                //    c.Id = reader.GetGuid(reader.GetOrdinal("Id"));
+                //    c.Username = reader.GetString(reader.GetOrdinal("Username"));
+                //    lista.Add(c);
+                //}
+                //return lista;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+                if (sql != null)
+                    sql.Close();
+            }
+        }
         public void SavePermissions(User u)
         {
             SqlConnection sql = new SqlConnection(base.GetConnectionString());

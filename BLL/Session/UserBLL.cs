@@ -23,6 +23,10 @@ namespace CarAgency.BLL
         {
             return _userrepository.GetAll();
         }
+        public List<User> GetAllByState(Boolean Active)
+        {
+            return _userrepository.GetAllByState(Active);
+        }
         public void SavePermissions(User u)
         {
             _userrepository.SavePermissions(u);
