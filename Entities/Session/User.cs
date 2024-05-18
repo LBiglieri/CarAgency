@@ -16,6 +16,9 @@ namespace CarAgency.Entities
             _permissions = new List<ComposedPermission>();
         }
         [TableColumnAttribute]
+        public int Dni { get; set; }
+
+        [TableColumnAttribute]
         public string Username { get; set; }
 
         [TableColumnAttribute]
@@ -35,6 +38,9 @@ namespace CarAgency.Entities
 
         [TableColumnAttribute]
         public Boolean Active { get; set; }
+
+        [TableColumnAttribute]
+        public int Available_Login_Attempts { get; set; }
         public IList<ComposedPermission> Permissions
         {
             get
