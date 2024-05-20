@@ -79,6 +79,12 @@
     <Compile Include="Permisions\PermissionManagementForm.Designer.cs">
       <DependentUpon>PermissionManagementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Users\ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users\ChangePasswordForm.Designer.cs">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Session\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     </Compile>
     <EmbeddedResource Include="Permisions\PermissionManagementForm.resx">
       <DependentUpon>PermissionManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\ChangePasswordForm.resx">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Session\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
