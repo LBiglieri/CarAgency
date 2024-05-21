@@ -53,6 +53,9 @@ namespace CarAgency.BLL
         public SQLUpdateResult AlterBlockedState(User user, Boolean state)
         {
             user.Blocked = state;
+            if (!state)
+                user.Available_Login_Attempts = 3;
+
             return _userrepository.UpdateUser(user);
         }
 
