@@ -88,7 +88,17 @@ namespace CarAgency.UI
         }
         Boolean PerformValidateTextBoxData()
         {
-            //falta validar los datos
+            if (tbDniUser.Text == "" || tbUsername.Text == "" || tbName.Text == "" || tbSurname.Text == "" || tbRole.Text == "")
+            {
+                MessageBox.Show("Please fill all the fields in the form to perform the selected action.");
+                return false;
+            }
+            if (!int.TryParse(tbDniUser.Text, out _))
+            {
+                MessageBox.Show("Please only use numeric digits in the DNI field.");
+                return false;
+            }
+
             return true;
         }
 
@@ -100,6 +110,16 @@ namespace CarAgency.UI
             selected_user.Surname = tbSurname.Text;
             selected_user.Role = tbRole.Text;
         }
+
+        private void ToggleActionButtonsStates(bool state)
+        {
+            btnAddUser.Enabled = state;
+            btnUpdateUser.Enabled = state;
+            btnDeleteUser.Enabled = state;
+            btnUnblockUser.Enabled = state;
+            btnApplyOpp.Enabled = !state;
+            btnCancelOpp.Enabled = !state;
+        }
         #endregion
 
         #region  Form Events 
@@ -109,6 +129,7 @@ namespace CarAgency.UI
             metroGrid1.Enabled = false;
 
             PerformEnableDisableTextBoxes(true);
+            ToggleActionButtonsStates(false);
             PerformClearTextBoxData();
             Form_Action = UserManagementFormAction.Add;
         }
@@ -118,6 +139,7 @@ namespace CarAgency.UI
             metroGrid1.Enabled = true;
 
             PerformEnableDisableTextBoxes(true);
+            ToggleActionButtonsStates(false);
             PerformClearTextBoxData();
             Form_Action = UserManagementFormAction.Update;
 
@@ -129,6 +151,7 @@ namespace CarAgency.UI
             metroGrid1.Enabled = true;
 
             PerformEnableDisableTextBoxes(false);
+            ToggleActionButtonsStates(false);
             PerformClearTextBoxData();
             Form_Action = UserManagementFormAction.Delete;
         }
@@ -138,6 +161,7 @@ namespace CarAgency.UI
             metroGrid1.Enabled = true;
 
             PerformEnableDisableTextBoxes(false);
+            ToggleActionButtonsStates(false);
             PerformClearTextBoxData();
             Form_Action = UserManagementFormAction.Unblock;
         }
@@ -150,46 +174,72 @@ namespace CarAgency.UI
         private void btnApplyOpp_Click(object sender, EventArgs e)
         {
             SQLUpdateResult result = null;
-            switch (Form_Action)
+            if (Form_Action != UserManagementFormAction.Add && selected_user == null)
             {
-                case UserManagementFormAction.Add:
-                    PerformValidateTextBoxData();
-                    selected_user = new User();
-                    MapTextboxesToUser();
-                    result = _userBLL.AddUser(selected_user);
-                    break;
-                case UserManagementFormAction.Update:
-                    PerformValidateTextBoxData();
-                    MapTextboxesToUser(); 
-                    if (MessageBox.Show("Are you sure you want to update the user " + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        result = _userBLL.UpdateUser(selected_user);
-                    }
-                    break;
-                case UserManagementFormAction.Delete:
-                    if (MessageBox.Show("Are you sure you want to delete the user " + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        result = _userBLL.DeleteUser(selected_user);
-                    }
-                    break;
-                case UserManagementFormAction.Unblock:
-                    if (MessageBox.Show("Are you sure you want to unblock the user " + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        result = _userBLL.AlterBlockedState(selected_user,false);
-                    }
-                    break;
+                MessageBox.Show("Please select a user to perform the action.");
+                ToggleActionButtonsStates(true);
+                PerformCleanFormAction();
+                return;
             }
+            try
+            {
+                switch (Form_Action)
+                {
+                    case UserManagementFormAction.Add:
+                        if (PerformValidateTextBoxData())
+                        {
+                            selected_user = new User();
+                            MapTextboxesToUser();
+                            result = _userBLL.AddUser(selected_user);
+                        }
+                        break;
+                    case UserManagementFormAction.Update:
+                        if (PerformValidateTextBoxData())
+                        {
+                            MapTextboxesToUser(); 
+                            if (MessageBox.Show("Are you sure you want to update the user " + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            {
+                                result = _userBLL.UpdateUser(selected_user);
+                            }
+                        }
+                        break;
+                    case UserManagementFormAction.Delete:
+                        if (MessageBox.Show("Are you sure you want to delete the user " + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            result = _userBLL.DeleteUser(selected_user);
+                        }
+                        break;
+                    case UserManagementFormAction.Unblock:
+                        if (!selected_user.Blocked)
+                            MessageBox.Show("The selected User is not blocked.");
+                        else if (MessageBox.Show("Are you sure you want to unblock the user " + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            result = _userBLL.AlterBlockedState(selected_user,false);
+                        }
+                        break;
+                }
 
-            if (result != null)
-            {
-                MessageBox.Show(result.message);
+                if (result != null)
+                {
+                    MessageBox.Show(result.message);
+                }
+                PerformCleanFormAction();
             }
-            PerformCleanFormAction();
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
+            finally
+            {
+                ToggleActionButtonsStates(true);
+                PerformCleanFormAction();
+            }
         }
 
         private void btnCancelOpp_Click(object sender, EventArgs e)
         {
             PerformCleanFormAction();
+            ToggleActionButtonsStates(true);
         }
 
         private void metroGrid1_SelectionChanged(object sender, EventArgs e)

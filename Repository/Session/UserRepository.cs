@@ -74,6 +74,34 @@ namespace CarAgency.Repository
                     sql.Close();
             }
         }
+        public User GetUserByDni(int Dni)
+        {
+            SqlConnection sql = new SqlConnection(base.GetConnectionString());
+            IDataReader reader = null;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("User_GetUserByDni", sql);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("Dni", Dni);
+                sql.Open();
+                reader = cmd.ExecuteReader();
+
+                if (!reader.Read()) return null;
+                return MappingHandler.MapReaderToEntity<User>(reader);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+                if (sql != null)
+                    sql.Close();
+            }
+        }
         public List<User> GetAll()
         {
             SqlConnection sql = new SqlConnection(base.GetConnectionString());
@@ -250,6 +278,7 @@ namespace CarAgency.Repository
                 cmd.Parameters.Add(new SqlParameter("Id", user.Id));
                 cmd.Parameters.Add(new SqlParameter("Dni", user.Dni));
                 cmd.Parameters.Add(new SqlParameter("Username", user.Username));
+                cmd.Parameters.Add(new SqlParameter("Password", user.Password));
                 cmd.Parameters.Add(new SqlParameter("Name", user.Name));
                 cmd.Parameters.Add(new SqlParameter("Surname", user.Surname));
                 cmd.Parameters.Add(new SqlParameter("Role", user.Role));

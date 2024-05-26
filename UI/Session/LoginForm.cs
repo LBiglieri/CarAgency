@@ -8,15 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
+using CarAgency.Utilities.Session;
 
 namespace CarAgency.UI
 {
     public partial class LoginForm : MetroFramework.Forms.MetroForm
     {
-        LoginBLL _login;
+        UserBLL _userBLL;
         public LoginForm()
         {
-            _login = new LoginBLL();
+            _userBLL = new UserBLL();
             InitializeComponent();
         }
 
@@ -24,7 +25,7 @@ namespace CarAgency.UI
         {
             try
             {
-                _login.Login(this.tbUser.Text, this.tbPassword.Text);
+                _userBLL.Login(this.tbUser.Text, this.tbPassword.Text);
                 MessageBox.Show("Login successful!");
                 this.Close();
             }

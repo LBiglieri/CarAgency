@@ -41,9 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Session\LoginBLL.cs" />
     <Compile Include="Permissions\PermissionBLL.cs" />
-    <Compile Include="Session\UserBLL.cs" />
+    <Compile Include="Users\UserBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

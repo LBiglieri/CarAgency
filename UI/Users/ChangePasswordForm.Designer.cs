@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangePasswordForm));
             this.LoginPanel = new MetroFramework.Controls.MetroPanel();
-            this.btnLogin = new MetroFramework.Controls.MetroButton();
-            this.tbPassword = new MetroFramework.Controls.MetroTextBox();
-            this.lblWelcome = new MetroFramework.Controls.MetroLabel();
-            this.tbUser = new MetroFramework.Controls.MetroTextBox();
+            this.tbOldPassword = new MetroFramework.Controls.MetroTextBox();
+            this.tbNewPassword = new MetroFramework.Controls.MetroTextBox();
+            this.btnChangePassword = new MetroFramework.Controls.MetroButton();
+            this.tbRepeatPassword = new MetroFramework.Controls.MetroTextBox();
             this.LoginPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,10 +42,10 @@
             this.LoginPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LoginPanel.Controls.Add(this.btnLogin);
-            this.LoginPanel.Controls.Add(this.tbPassword);
-            this.LoginPanel.Controls.Add(this.lblWelcome);
-            this.LoginPanel.Controls.Add(this.tbUser);
+            this.LoginPanel.Controls.Add(this.tbOldPassword);
+            this.LoginPanel.Controls.Add(this.tbNewPassword);
+            this.LoginPanel.Controls.Add(this.btnChangePassword);
+            this.LoginPanel.Controls.Add(this.tbRepeatPassword);
             this.LoginPanel.HorizontalScrollbarBarColor = true;
             this.LoginPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.LoginPanel.HorizontalScrollbarSize = 10;
@@ -58,109 +58,131 @@
             this.LoginPanel.VerticalScrollbarHighlightOnWheel = false;
             this.LoginPanel.VerticalScrollbarSize = 10;
             // 
-            // btnLogin
-            // 
-            this.btnLogin.Location = new System.Drawing.Point(182, 204);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(153, 23);
-            this.btnLogin.TabIndex = 3;
-            this.btnLogin.Text = "Login";
-            this.btnLogin.UseSelectable = true;
-            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
-            // 
-            // tbPassword
+            // tbOldPassword
             // 
             // 
             // 
             // 
-            this.tbPassword.CustomButton.Image = null;
-            this.tbPassword.CustomButton.Location = new System.Drawing.Point(211, 2);
-            this.tbPassword.CustomButton.Name = "";
-            this.tbPassword.CustomButton.Size = new System.Drawing.Size(27, 27);
-            this.tbPassword.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.tbPassword.CustomButton.TabIndex = 1;
-            this.tbPassword.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.tbPassword.CustomButton.UseSelectable = true;
-            this.tbPassword.CustomButton.Visible = false;
-            this.tbPassword.DisplayIcon = true;
-            this.tbPassword.FontSize = MetroFramework.MetroTextBoxSize.Tall;
-            this.tbPassword.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
-            this.tbPassword.Icon = global::UI.Properties.Resources.secured_lock__2_;
-            this.tbPassword.Lines = new string[] {
-        "ContraseñaAdmin"};
-            this.tbPassword.Location = new System.Drawing.Point(140, 134);
-            this.tbPassword.MaxLength = 32767;
-            this.tbPassword.Name = "tbPassword";
-            this.tbPassword.PasswordChar = '●';
-            this.tbPassword.PromptText = "Enter your Password";
-            this.tbPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.tbPassword.SelectedText = "";
-            this.tbPassword.SelectionLength = 0;
-            this.tbPassword.SelectionStart = 0;
-            this.tbPassword.ShortcutsEnabled = true;
-            this.tbPassword.Size = new System.Drawing.Size(241, 32);
-            this.tbPassword.TabIndex = 2;
-            this.tbPassword.Text = "ContraseñaAdmin";
-            this.tbPassword.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.tbPassword.UseSelectable = true;
-            this.tbPassword.UseSystemPasswordChar = true;
-            this.tbPassword.WaterMark = "Enter your Password";
-            this.tbPassword.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.tbPassword.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.tbPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbPassword_KeyDown);
+            this.tbOldPassword.CustomButton.Image = null;
+            this.tbOldPassword.CustomButton.Location = new System.Drawing.Point(211, 2);
+            this.tbOldPassword.CustomButton.Name = "";
+            this.tbOldPassword.CustomButton.Size = new System.Drawing.Size(27, 27);
+            this.tbOldPassword.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tbOldPassword.CustomButton.TabIndex = 1;
+            this.tbOldPassword.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tbOldPassword.CustomButton.UseSelectable = true;
+            this.tbOldPassword.CustomButton.Visible = false;
+            this.tbOldPassword.DisplayIcon = true;
+            this.tbOldPassword.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.tbOldPassword.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
+            this.tbOldPassword.Icon = global::UI.Properties.Resources.secured_lock__2_;
+            this.tbOldPassword.Lines = new string[0];
+            this.tbOldPassword.Location = new System.Drawing.Point(139, 40);
+            this.tbOldPassword.MaxLength = 32767;
+            this.tbOldPassword.Name = "tbOldPassword";
+            this.tbOldPassword.PasswordChar = '●';
+            this.tbOldPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tbOldPassword.SelectedText = "";
+            this.tbOldPassword.SelectionLength = 0;
+            this.tbOldPassword.SelectionStart = 0;
+            this.tbOldPassword.ShortcutsEnabled = true;
+            this.tbOldPassword.Size = new System.Drawing.Size(241, 32);
+            this.tbOldPassword.TabIndex = 0;
+            this.tbOldPassword.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tbOldPassword.UseSelectable = true;
+            this.tbOldPassword.UseSystemPasswordChar = true;
+            this.tbOldPassword.WaterMark = "Enter your Old Password";
+            this.tbOldPassword.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.tbOldPassword.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.tbOldPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbOldPassword_KeyDown);
             // 
-            // lblWelcome
-            // 
-            this.lblWelcome.AutoSize = true;
-            this.lblWelcome.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblWelcome.Location = new System.Drawing.Point(216, 20);
-            this.lblWelcome.Name = "lblWelcome";
-            this.lblWelcome.Size = new System.Drawing.Size(82, 25);
-            this.lblWelcome.TabIndex = 0;
-            this.lblWelcome.Text = "Welcome";
-            this.lblWelcome.Theme = MetroFramework.MetroThemeStyle.Light;
-            // 
-            // tbUser
+            // tbNewPassword
             // 
             // 
             // 
             // 
-            this.tbUser.CustomButton.Image = null;
-            this.tbUser.CustomButton.Location = new System.Drawing.Point(211, 2);
-            this.tbUser.CustomButton.Name = "";
-            this.tbUser.CustomButton.Size = new System.Drawing.Size(27, 27);
-            this.tbUser.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.tbUser.CustomButton.TabIndex = 1;
-            this.tbUser.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.tbUser.CustomButton.UseSelectable = true;
-            this.tbUser.CustomButton.Visible = false;
-            this.tbUser.DisplayIcon = true;
-            this.tbUser.FontSize = MetroFramework.MetroTextBoxSize.Tall;
-            this.tbUser.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
-            this.tbUser.Icon = global::UI.Properties.Resources.user__1_;
-            this.tbUser.Lines = new string[] {
-        "Admin"};
-            this.tbUser.Location = new System.Drawing.Point(140, 88);
-            this.tbUser.MaxLength = 32767;
-            this.tbUser.Name = "tbUser";
-            this.tbUser.PasswordChar = '\0';
-            this.tbUser.PromptText = "Enter your Username";
-            this.tbUser.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.tbUser.SelectedText = "";
-            this.tbUser.SelectionLength = 0;
-            this.tbUser.SelectionStart = 0;
-            this.tbUser.ShortcutsEnabled = true;
-            this.tbUser.Size = new System.Drawing.Size(241, 32);
-            this.tbUser.TabIndex = 1;
-            this.tbUser.Text = "Admin";
-            this.tbUser.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.tbUser.UseSelectable = true;
-            this.tbUser.WaterMark = "Enter your Username";
-            this.tbUser.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.tbUser.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.tbUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbUser_KeyDown);
+            this.tbNewPassword.CustomButton.Image = null;
+            this.tbNewPassword.CustomButton.Location = new System.Drawing.Point(211, 2);
+            this.tbNewPassword.CustomButton.Name = "";
+            this.tbNewPassword.CustomButton.Size = new System.Drawing.Size(27, 27);
+            this.tbNewPassword.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tbNewPassword.CustomButton.TabIndex = 1;
+            this.tbNewPassword.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tbNewPassword.CustomButton.UseSelectable = true;
+            this.tbNewPassword.CustomButton.Visible = false;
+            this.tbNewPassword.DisplayIcon = true;
+            this.tbNewPassword.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.tbNewPassword.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
+            this.tbNewPassword.Icon = global::UI.Properties.Resources.secured_lock__2_;
+            this.tbNewPassword.Lines = new string[0];
+            this.tbNewPassword.Location = new System.Drawing.Point(139, 87);
+            this.tbNewPassword.MaxLength = 32767;
+            this.tbNewPassword.Name = "tbNewPassword";
+            this.tbNewPassword.PasswordChar = '●';
+            this.tbNewPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tbNewPassword.SelectedText = "";
+            this.tbNewPassword.SelectionLength = 0;
+            this.tbNewPassword.SelectionStart = 0;
+            this.tbNewPassword.ShortcutsEnabled = true;
+            this.tbNewPassword.Size = new System.Drawing.Size(241, 32);
+            this.tbNewPassword.TabIndex = 1;
+            this.tbNewPassword.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tbNewPassword.UseSelectable = true;
+            this.tbNewPassword.UseSystemPasswordChar = true;
+            this.tbNewPassword.WaterMark = "Enter your New Password";
+            this.tbNewPassword.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.tbNewPassword.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.tbNewPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbNewPassword_KeyDown);
             // 
-            // LoginForm
+            // btnChangePassword
+            // 
+            this.btnChangePassword.Location = new System.Drawing.Point(182, 199);
+            this.btnChangePassword.Name = "btnChangePassword";
+            this.btnChangePassword.Size = new System.Drawing.Size(153, 29);
+            this.btnChangePassword.TabIndex = 3;
+            this.btnChangePassword.Text = " Change Password";
+            this.btnChangePassword.UseSelectable = true;
+            this.btnChangePassword.Click += new System.EventHandler(this.btnChangePassword_Click);
+            // 
+            // tbRepeatPassword
+            // 
+            // 
+            // 
+            // 
+            this.tbRepeatPassword.CustomButton.Image = null;
+            this.tbRepeatPassword.CustomButton.Location = new System.Drawing.Point(211, 2);
+            this.tbRepeatPassword.CustomButton.Name = "";
+            this.tbRepeatPassword.CustomButton.Size = new System.Drawing.Size(27, 27);
+            this.tbRepeatPassword.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tbRepeatPassword.CustomButton.TabIndex = 1;
+            this.tbRepeatPassword.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tbRepeatPassword.CustomButton.UseSelectable = true;
+            this.tbRepeatPassword.CustomButton.Visible = false;
+            this.tbRepeatPassword.DisplayIcon = true;
+            this.tbRepeatPassword.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.tbRepeatPassword.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
+            this.tbRepeatPassword.Icon = global::UI.Properties.Resources.secured_lock__2_;
+            this.tbRepeatPassword.Lines = new string[0];
+            this.tbRepeatPassword.Location = new System.Drawing.Point(139, 134);
+            this.tbRepeatPassword.MaxLength = 32767;
+            this.tbRepeatPassword.Name = "tbRepeatPassword";
+            this.tbRepeatPassword.PasswordChar = '●';
+            this.tbRepeatPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tbRepeatPassword.SelectedText = "";
+            this.tbRepeatPassword.SelectionLength = 0;
+            this.tbRepeatPassword.SelectionStart = 0;
+            this.tbRepeatPassword.ShortcutsEnabled = true;
+            this.tbRepeatPassword.Size = new System.Drawing.Size(241, 32);
+            this.tbRepeatPassword.TabIndex = 2;
+            this.tbRepeatPassword.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.tbRepeatPassword.UseSelectable = true;
+            this.tbRepeatPassword.UseSystemPasswordChar = true;
+            this.tbRepeatPassword.WaterMark = "Repeat your new Password";
+            this.tbRepeatPassword.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.tbRepeatPassword.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.tbRepeatPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbRepeatPassword_KeyDown);
+            // 
+            // ChangePasswordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -168,12 +190,11 @@
             this.Controls.Add(this.LoginPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "LoginForm";
+            this.Name = "ChangePasswordForm";
             this.Resizable = false;
-            this.Text = "CarAgency";
+            this.Text = "Please change your password";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.LoginPanel.ResumeLayout(false);
-            this.LoginPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -181,10 +202,10 @@
         #endregion
 
         private MetroFramework.Controls.MetroPanel LoginPanel;
-        private MetroFramework.Controls.MetroLabel lblWelcome;
-        private MetroFramework.Controls.MetroTextBox tbUser;
-        private MetroFramework.Controls.MetroTextBox tbPassword;
-        private MetroFramework.Controls.MetroButton btnLogin;
+        private MetroFramework.Controls.MetroTextBox tbRepeatPassword;
+        private MetroFramework.Controls.MetroButton btnChangePassword;
+        private MetroFramework.Controls.MetroTextBox tbOldPassword;
+        private MetroFramework.Controls.MetroTextBox tbNewPassword;
     }
 }
 

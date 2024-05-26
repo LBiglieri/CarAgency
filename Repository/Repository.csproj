@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Session\SQL\User_Delete.sql" />
+    <Content Include="Session\SQL\User_GetUserByDni.sql" />
     <Content Include="Session\SQL\User_Update.sql" />
     <Content Include="Session\SQL\User_GetAllByState.sql" />
     <Content Include="Session\SQL\User_Add.sql" />

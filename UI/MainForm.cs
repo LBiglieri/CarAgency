@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CarAgency.BLL;
 using CarAgency.Utilities;
 using CarAgency.Utilities.Session;
 
@@ -43,7 +44,16 @@ namespace CarAgency.UI
                 LoginForm form = new LoginForm();
                 form.ShowDialog();
                 if (SessionHandler.Logged())
+                {
                     UpdateTitle();
+                    UserBLL _userBLL = new UserBLL();
+                    if (_userBLL.IsUsingDefaultPassword(SessionHandler.GetId()))
+                    {
+                        ChangePasswordForm frm = new ChangePasswordForm();
+                        frm.Show();
+                        frm.Focus();
+                    }
+                }
             }
             else
             {
@@ -70,37 +80,46 @@ namespace CarAgency.UI
         {
             Login();
         }
-
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logout();
         }
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();   
         }
-
         private void permissionConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PermissionManagementForm frm = new PermissionManagementForm();
             frm.MdiParent = this;
             frm.Show();
         }
-        #endregion
-
         private void userPermissionConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserPermissionManagementForm frm = new UserPermissionManagementForm();
             frm.MdiParent = this;
             frm.Show();
         }
-
         private void userManagementToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserManagementForm frm = new UserManagementForm();
             frm.MdiParent = this;
             frm.Show();
         }
+
+        private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (SessionHandler.Logged())
+            {
+                ChangePasswordForm frm = new ChangePasswordForm();
+                frm.MdiParent = this;
+                frm.Show();
+            }
+            else
+            {
+                MessageBox.Show("You are not logged in.");
+            }
+        }
+        #endregion
     }
 }
