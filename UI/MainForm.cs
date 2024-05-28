@@ -65,8 +65,16 @@ namespace CarAgency.UI
             if (SessionHandler.Logged())
             {
                 SessionHandler.Logout();
+                
+                foreach (Form frmClose in MdiChildren.ToArray())
+                {
+                    frmClose.Close();
+                }
+
                 if (!SessionHandler.Logged())
                     UpdateTitle();
+
+                MessageBox.Show("Session closed correctly.");
             }
             else
             {

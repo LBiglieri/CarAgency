@@ -37,14 +37,7 @@ namespace CarAgency.UI
             {
                 if(ValidatePassword())
                 {
-                    string NewPassword = CryptographyHandler.GenerateSHA512Hash(tbNewPassword.Text);
-                    if (!SessionHandler.ValidatePassword(NewPassword))
-                    {
-                        MessageBox.Show("The new password you entered is the same as the one you had before.");
-                        return;
-                    }
-
-                    result = _userBLL.ChangePassword(SessionHandler.GetId(), NewPassword);
+                    result = _userBLL.ChangePassword(SessionHandler.GetId(), tbNewPassword.Text);
 
                     if (result != null && result.sqlResult != SQLResultType.success)
                     {
@@ -53,6 +46,7 @@ namespace CarAgency.UI
                     }
 
                     MessageBox.Show("Password changed successfully!");
+                    Close();
                 }
             }
             catch (Exception ee)

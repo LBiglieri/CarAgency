@@ -158,16 +158,6 @@ namespace CarAgency.Repository
 
 
                 return MappingHandler.MapReaderToEntities<User>(reader);
-                //var lista = new List<User>();
-
-                //while (reader.Read())
-                //{
-                //    User c = new User();
-                //    c.Id = reader.GetGuid(reader.GetOrdinal("Id"));
-                //    c.Username = reader.GetString(reader.GetOrdinal("Username"));
-                //    lista.Add(c);
-                //}
-                //return lista;
             }
             catch (Exception e)
             {

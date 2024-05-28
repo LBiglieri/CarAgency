@@ -90,9 +90,27 @@ namespace CarAgency.BLL
 
         public SQLUpdateResult ChangePassword(Guid Id, string NewPassword)
         {
-            User user = GetFullUserById(Id);
-            user.Password = NewPassword;
-            return _userrepository.UpdateUser(user);
+            SQLUpdateResult result;
+
+            NewPassword = CryptographyHandler.GenerateSHA512Hash(NewPassword);
+            if (!SessionHandler.ValidatePassword(NewPassword))
+            {
+                result = new SQLUpdateResult(SQLResultType.validation_error, "The new password you entered is the same as the one you had before.");
+            }
+            else
+            {
+                User user = GetFullUserById(Id);
+                user.Password = NewPassword;
+                result = _userrepository.UpdateUser(user);
+
+                if (result != null && result.sqlResult == SQLResultType.success)
+                {
+                    SessionHandler.Logout();
+                    SessionHandler.Login(user);
+                }
+            }
+
+            return result;
         }
 
         public bool IsUsingDefaultPassword(Guid Id)
