@@ -13,26 +13,6 @@ namespace CarAgency.Utilities.Persistence
     {
 		static Dictionary<(Type from, Type to), List<(MethodInfo Get, MethodInfo Set)>> _cache = new Dictionary<(Type from, Type to), List<(MethodInfo Get, MethodInfo Set)>>();
 
-		public static T MapEntityToEntity<T>(IEntity f) where T : IEntity, new()
-		{
-			var key = (from: f.GetType(), to: typeof(T));
-
-			if (!_cache.ContainsKey(key))
-			{
-				PopulateCacheKey(key);
-			}
-
-			var result = new T();
-			var entry = _cache[key];
-			foreach (var e in entry)
-			{
-				var val = e.Get.Invoke(f, null);
-				e.Set.Invoke(result, new[] { val });
-			}
-
-			return result;
-		}
-
 		public static T MapReaderToEntity<T>(IDataReader reader) where T : class, new()
 		{
 			var type = typeof(T);
@@ -75,9 +55,28 @@ namespace CarAgency.Utilities.Persistence
 				list.Add(obj);
             }
 			return list;
-		}
+        }
+        public static T MapEntityToEntity<T>(IEntity f) where T : IEntity, new()
+        {
+            var key = (from: f.GetType(), to: typeof(T));
 
-		public static void PopulateCacheKey((Type from, Type to) key)
+            if (!_cache.ContainsKey(key))
+            {
+                PopulateCacheKey(key);
+            }
+
+            var result = new T();
+            var entry = _cache[key];
+            foreach (var e in entry)
+            {
+                var val = e.Get.Invoke(f, null);
+                e.Set.Invoke(result, new[] { val });
+            }
+
+            return result;
+        }
+
+        public static void PopulateCacheKey((Type from, Type to) key)
 		{
 			var fromProps = key.from.GetProperties();
 			var toProps = key.to.GetProperties();

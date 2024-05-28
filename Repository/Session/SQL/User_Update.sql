@@ -1,0 +1,18 @@
+﻿CREATE or ALTER proc User_Update	@Id uniqueidentifier, @Dni int, @Username varchar(50), @Password varchar(max), @Name varchar(max), @Surname varchar(max), 
+											@Role varchar(50), @Blocked bit, @Active bit, @Available_Login_Attempts int as
+
+update Users
+set Dni = @Dni,
+	Username = @Username,
+	Password = @Password,
+	Name = @Name,
+	Surname = @Surname,
+	Role = @Role,
+	Blocked = @Blocked,
+	Active = @Active,
+	Available_Login_Attempts = @Available_Login_Attempts 
+where Id = @Id
+
+select 'success' as SQLResultType,'User updated succesfully!' as message
+go
+

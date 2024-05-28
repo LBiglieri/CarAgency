@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PermissionManagementForm));
             this.Patents = new MetroFramework.Controls.MetroPanel();
             this.NewPatent = new MetroFramework.Controls.MetroPanel();
             this.comboNewPatent = new MetroFramework.Controls.MetroComboBox();
@@ -127,7 +128,6 @@
             this.tbNewPatent.MaxLength = 32767;
             this.tbNewPatent.Name = "tbNewPatent";
             this.tbNewPatent.PasswordChar = '\0';
-            this.tbNewPatent.PromptText = "Enter the new Pantent Name";
             this.tbNewPatent.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbNewPatent.SelectedText = "";
             this.tbNewPatent.SelectionLength = 0;
@@ -263,7 +263,6 @@
             this.tbNewFamily.MaxLength = 32767;
             this.tbNewFamily.Name = "tbNewFamily";
             this.tbNewFamily.PasswordChar = '\0';
-            this.tbNewFamily.PromptText = "Enter the new Family Name";
             this.tbNewFamily.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbNewFamily.SelectedText = "";
             this.tbNewFamily.SelectionLength = 0;
@@ -383,6 +382,7 @@
             this.Controls.Add(this.ConfigureFamilies);
             this.Controls.Add(this.Families);
             this.Controls.Add(this.Patents);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "PermissionManagementForm";
             this.Resizable = false;

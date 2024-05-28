@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserPermissionManagementForm));
             this.Users = new MetroFramework.Controls.MetroPanel();
             this.Patent = new MetroFramework.Controls.MetroPanel();
             this.comboPatent = new MetroFramework.Controls.MetroComboBox();
@@ -252,6 +253,7 @@
             this.ClientSize = new System.Drawing.Size(781, 597);
             this.Controls.Add(this.ConfigureUsers);
             this.Controls.Add(this.Users);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "UserPermissionManagementForm";
             this.Resizable = false;

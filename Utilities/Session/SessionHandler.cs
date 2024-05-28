@@ -36,5 +36,19 @@ namespace CarAgency.Utilities.Session
         {
             return _user.Username;
         }
+
+        public static Guid GetId()
+        {
+            return _user.Id;
+        }
+
+        public static bool ValidatePassword(string NewPassword)
+        {
+            if(_user == null)
+                return false;
+            if (_user.Password == NewPassword)
+                return false;
+            return true;
+        }
     }
 }
