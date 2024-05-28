@@ -4,16 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CarAgency.Abstractions;
-using CarAgency.Utilities.Permissions;
 
 namespace CarAgency.Entities
 {
     public class User : Entity, IUser
     {
-        private IList<ComposedPermission> _permissions;
         public User()
         {
-            _permissions = new List<ComposedPermission>();
         }
         [TableColumnAttribute]
         public int Dni { get; set; }
@@ -41,12 +38,5 @@ namespace CarAgency.Entities
 
         [TableColumnAttribute]
         public int Available_Login_Attempts { get; set; }
-        public IList<ComposedPermission> Permissions
-        {
-            get
-            {
-                return _permissions;
-            }
-        }
     }
 }

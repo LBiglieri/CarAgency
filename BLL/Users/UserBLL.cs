@@ -31,10 +31,6 @@ namespace CarAgency.BLL
         {
             return _userrepository.GetAllByState(Active);
         }
-        public void SavePermissions(User u)
-        {
-            _userrepository.SavePermissions(u);
-        }
 
         public SQLUpdateResult AddUser(User user)
         {

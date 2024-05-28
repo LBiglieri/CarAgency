@@ -41,10 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Permissions\Family.cs" />
-    <Compile Include="Permissions\PermissionType.cs" />
-    <Compile Include="Permissions\Patent.cs" />
-    <Compile Include="Permissions\ComposedPermission.cs" />
     <Compile Include="ServiceEntity.cs" />
     <Compile Include="Persistence\BaseRepository.cs" />
     <Compile Include="Persistence\MappingHandler.cs" />

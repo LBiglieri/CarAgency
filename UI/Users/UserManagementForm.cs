@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
 using CarAgency.Entities;
-using CarAgency.Utilities.Permissions;
 using CarAgency.Utilities.Persistence;
 
 namespace CarAgency.UI
@@ -45,7 +44,6 @@ namespace CarAgency.UI
             metroGrid1.DataSource = null;
             metroGrid1.DataSource = users;
             metroGrid1.Columns["Password"].Visible = false;
-            metroGrid1.Columns["Permissions"].Visible = false;
             metroGrid1.Columns["Id"].Visible = false;
             metroGrid1.Columns["Available_Login_Attempts"].Visible = false;
         }

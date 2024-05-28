@@ -14,7 +14,7 @@ namespace CarAgency.Utilities.Persistence
         {
             var cs = new SqlConnectionStringBuilder();
             cs.InitialCatalog = "CarAgency";
-            cs.DataSource = "PersDev-01";
+            cs.DataSource = ".";
             cs.IntegratedSecurity = true;
             return cs.ConnectionString;
         }

@@ -96,18 +96,6 @@ namespace CarAgency.UI
         {
             this.Close();   
         }
-        private void permissionConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PermissionManagementForm frm = new PermissionManagementForm();
-            frm.MdiParent = this;
-            frm.Show();
-        }
-        private void userPermissionConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            UserPermissionManagementForm frm = new UserPermissionManagementForm();
-            frm.MdiParent = this;
-            frm.Show();
-        }
         private void userManagementToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserManagementForm frm = new UserManagementForm();

@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Permissions\PermissionRepository.cs" />
     <Compile Include="Session\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,13 +65,6 @@
     <Content Include="Session\SQL\User_GetAllByState.sql" />
     <Content Include="Session\SQL\User_Add.sql" />
     <Content Include="Session\SQL\User_InsertPermission.sql" />
-    <Content Include="Permissions\SQL\Permissions_GetAllByUser.sql" />
-    <Content Include="Permissions\SQL\Permissions_GetAll.sql" />
-    <Content Include="Permissions\SQL\Permissions_GetFamilies.sql" />
-    <Content Include="Permissions\SQL\Permissions_GetPatents.sql" />
-    <Content Include="Permissions\SQL\Permissions_DeleteFamily.sql" />
-    <Content Include="Permissions\SQL\Permissions_Insert_Permission_Permission.sql" />
-    <Content Include="Permissions\SQL\Permissions_InsertComponent.sql" />
     <Content Include="Session\SQL\User_GetAll.sql" />
     <Content Include="Session\SQL\User_GetUserById.sql" />
     <Content Include="Session\SQL\User_DeleteAllPermissions.sql" />

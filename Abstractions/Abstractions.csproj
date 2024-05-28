@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="CustomAttributes\TableColumnAttribute.cs" />
     <Compile Include="IEntity.cs" />
-    <Compile Include="Permissions\IPermission.cs" />
     <Compile Include="Session\IUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

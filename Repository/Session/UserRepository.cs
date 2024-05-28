@@ -29,9 +29,6 @@ namespace CarAgency.Repository
 
                 if (!reader.Read()) return null;
                 User user = MappingHandler.MapReaderToEntity<User>(reader);
-                
-                PermissionRepository permissionRepository = new PermissionRepository();
-                permissionRepository.FillUserComponents(user);
                 return user;
             }
             catch (Exception e)
@@ -171,42 +168,7 @@ namespace CarAgency.Repository
                     sql.Close();
             }
         }
-        public void SavePermissions(User u)
-        {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_DeleteAllPermissions", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Id", u.Id));
-
-                sql.Open();
-
-                cmd.ExecuteNonQuery();
-
-                foreach (var item in u.Permissions)
-                {
-                    cmd = new SqlCommand("User_InsertPermission", sql);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.Add(new SqlParameter("User_Id", u.Id));
-                    cmd.Parameters.Add(new SqlParameter("Permission_Id", item.Id));
-
-                    cmd.ExecuteNonQuery();
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (sql != null)
-                    sql.Close();
-            }
-        }
+        
 
         public SQLUpdateResult AddUser(User user)
         {
