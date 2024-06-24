@@ -12,7 +12,7 @@ namespace CarAgency.Utilities.Security
     public static class CryptographyHandler
     {
         static string PasswordHash = "7zpUbxe8";
-        static string SaltKey = "W[n5!8u";
+        static string SaltKey = "W[n5!8uV";
         static string VIKey = "aVP-37]=h76$Mjkw";
         public static string Encrypt(string text)
         {

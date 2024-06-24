@@ -9,18 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
 using CarAgency.Entities;
-using CarAgency.Utilities.Permissions;
 using CarAgency.Utilities.Persistence;
 
 namespace CarAgency.UI
 {
     public enum UserManagementFormAction
     {
+        NoAction,
         Add,
         Update,
         Delete,
-        Unblock,
-        NoAction
+        Unblock
     }
     public partial class UserManagementForm : MetroFramework.Forms.MetroForm
     {

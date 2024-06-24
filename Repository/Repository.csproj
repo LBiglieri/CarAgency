@@ -41,15 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Billing\Invoices\InvoiceRepository.cs" />
+    <Compile Include="Billing\Payments\PaymentRepository.cs" />
+    <Compile Include="Clients\ClientRepository.cs" />
     <Compile Include="Permissions\PermissionRepository.cs" />
+    <Compile Include="Sales\Quotations\QuotationRepository.cs" />
+    <Compile Include="Sales\Reservation\ReservationRepository.cs" />
     <Compile Include="Session\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vehicles\VehicleRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Abstractions\Abstractions.csproj">
-      <Project>{0f63104d-bcd0-4fdb-af48-c0943fdc118b}</Project>
-      <Name>Abstractions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{569fec50-9ba5-44c9-bf55-da53213c6031}</Project>
       <Name>Entities</Name>
@@ -60,6 +62,26 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Billing\Invoices\SQL\Invoice_Add.sql" />
+    <Content Include="Billing\Invoices\SQL\Invoice_Delete.sql" />
+    <Content Include="Billing\Invoices\SQL\Invoice_GetAllPendingOfPaperwork.sql" />
+    <Content Include="Billing\Invoices\SQL\Invoice_GetById.sql" />
+    <Content Include="Billing\Invoices\SQL\Invoice_Update.sql" />
+    <Content Include="Billing\Payments\SQL\PaymentTypes_GetAll.sql" />
+    <Content Include="Billing\Payments\SQL\Payments_Add.sql" />
+    <Content Include="Billing\Payments\SQL\Payments_Delete.sql" />
+    <Content Include="Billing\Payments\SQL\Payments_GetAllByInvoice.sql" />
+    <Content Include="Clients\SQL\Clients_Add.sql" />
+    <Content Include="Clients\SQL\Clients_GetByDni.sql" />
+    <Content Include="Clients\SQL\Clients_GetById.sql" />
+    <Content Include="Sales\Quotations\SQL\Quotations_Add.sql" />
+    <Content Include="Sales\Quotations\SQL\Quotations_GetAll.sql" />
+    <Content Include="Sales\Quotations\SQL\Quotations_GetAllActiveByClient.sql" />
+    <Content Include="Sales\Quotations\SQL\Quotations_GetById.sql" />
+    <Content Include="Sales\Reservation\SQL\Reservation_Add.sql" />
+    <Content Include="Sales\Reservation\SQL\Reservation_GetAllActiveByClient.sql" />
+    <Content Include="Sales\Reservation\SQL\Reservation_GetAll.sql" />
+    <Content Include="Sales\Reservation\SQL\Reservation_GetById.sql" />
     <Content Include="Session\SQL\User_Delete.sql" />
     <Content Include="Session\SQL\User_GetUserByDni.sql" />
     <Content Include="Session\SQL\User_Update.sql" />
@@ -77,6 +99,22 @@
     <Content Include="Session\SQL\User_GetUserById.sql" />
     <Content Include="Session\SQL\User_DeleteAllPermissions.sql" />
     <Content Include="Session\SQL\User_GetUserByUsername.sql" />
+    <Content Include="Vehicles\SQL\Colours_GetAll.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_Add.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_Delete.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_Update.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_GetAll.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_GetActiveVehiclesByFilters.sql" />
+    <Content Include="Vehicles\SQL\Versions_Delete.sql" />
+    <Content Include="Vehicles\SQL\Models_Delete.sql" />
+    <Content Include="Vehicles\SQL\Makes_Delete.sql" />
+    <Content Include="Vehicles\SQL\Versions_GetAllByMakeModel.sql" />
+    <Content Include="Vehicles\SQL\Models_GetAllByMake.sql" />
+    <Content Include="Vehicles\SQL\Makes_GetAll.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_GetById.sql" />
+    <Content Include="Vehicles\SQL\Versions_Insert.sql" />
+    <Content Include="Vehicles\SQL\Models_Insert.sql" />
+    <Content Include="Vehicles\SQL\Makes_Insert.sql" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

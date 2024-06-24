@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.Abstractions;
-using CarAgency.Utilities.Permissions;
 
 namespace CarAgency.Entities
 {
-    public class User : Entity, IUser
+    public class User : Entity
     {
         private IList<ComposedPermission> _permissions;
         public User()

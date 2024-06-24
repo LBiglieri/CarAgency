@@ -7,7 +7,6 @@ using CarAgency.Repository;
 using CarAgency.Entities;
 using CarAgency.Utilities.Persistence;
 using CarAgency.Utilities.Security;
-using CarAgency.Abstractions;
 using CarAgency.Utilities.Session;
 
 namespace CarAgency.BLL

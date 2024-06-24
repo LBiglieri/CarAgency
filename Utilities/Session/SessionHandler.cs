@@ -1,17 +1,17 @@
-﻿using System;
+﻿using CarAgency.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.Abstractions;
 
 namespace CarAgency.Utilities.Session
 {
     public static class SessionHandler
     {
-        static IUser _user;
+        static User _user;
 
-        public static IUser User
+        public static User User
         {
             get { return _user; }
         }
@@ -21,7 +21,7 @@ namespace CarAgency.Utilities.Session
             return _user != null;
         }
 
-        public static void Login(IUser user)
+        public static void Login(User user)
         {
             if (user != null)
                 _user = user;

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using CarAgency.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.Abstractions;
 
 namespace CarAgency.Utilities.Persistence
 {
@@ -32,7 +32,7 @@ namespace CarAgency.Utilities.Persistence
 			return obj;
 		}
 
-		public static List<T> MapReaderToEntities<T>(IDataReader reader) where T : IEntity, new()
+		public static List<T> MapReaderToEntities<T>(IDataReader reader) where T : Entity, new()
 		{
 			List <T> list = new List<T>();
 
@@ -56,7 +56,7 @@ namespace CarAgency.Utilities.Persistence
             }
 			return list;
         }
-        public static T MapEntityToEntity<T>(IEntity f) where T : IEntity, new()
+        public static T MapEntityToEntity<T>(Entity f) where T : Entity, new()
         {
             var key = (from: f.GetType(), to: typeof(T));
 

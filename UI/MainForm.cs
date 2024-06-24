@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using CarAgency.BLL;
 using CarAgency.Utilities;
 using CarAgency.Utilities.Session;
+using UI.Vehicles;
 
 namespace CarAgency.UI
 {
@@ -129,5 +130,40 @@ namespace CarAgency.UI
             }
         }
         #endregion
+
+        private void vehicleModelManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VehicleModelConfigurationForm frm = new VehicleModelConfigurationForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void vehicleManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VehicleManagementForm frm = new VehicleManagementForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void newQuotationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GenerateQuotationForm frm = new GenerateQuotationForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void newReservationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GenerateReservationForm frm = new GenerateReservationForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void generateInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GenerateInvoiceForm frm = new GenerateInvoiceForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
     }
 }

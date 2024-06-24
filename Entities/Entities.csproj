@@ -41,19 +41,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Billing\PaymentType.cs" />
+    <Compile Include="Billing\Payment.cs" />
+    <Compile Include="Clients\Client.cs" />
+    <Compile Include="CustomAttributes\TableColumnAttribute.cs" />
+    <Compile Include="Permissions\ComposedPermission.cs" />
+    <Compile Include="Permissions\Family.cs" />
+    <Compile Include="Permissions\IPermission.cs" />
+    <Compile Include="Permissions\Patent.cs" />
+    <Compile Include="Permissions\PermissionType.cs" />
+    <Compile Include="Billing\Invoice.cs" />
+    <Compile Include="Sales\Reservation.cs" />
+    <Compile Include="Sales\Quotation.cs" />
     <Compile Include="Session\User.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Abstractions\Abstractions.csproj">
-      <Project>{0f63104d-bcd0-4fdb-af48-c0943fdc118b}</Project>
-      <Name>Abstractions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
-      <Project>{7a8ac403-957d-4bba-bf1e-46b5e9123d46}</Project>
-      <Name>Utilities</Name>
-    </ProjectReference>
+    <Compile Include="Vehicles\Colour.cs" />
+    <Compile Include="Vehicles\Vehicle.cs" />
+    <Compile Include="Vehicles\Version.cs" />
+    <Compile Include="Vehicles\Model.cs" />
+    <Compile Include="Vehicles\Make.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

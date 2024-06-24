@@ -41,11 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Permissions\Family.cs" />
-    <Compile Include="Permissions\PermissionType.cs" />
-    <Compile Include="Permissions\Patent.cs" />
-    <Compile Include="Permissions\ComposedPermission.cs" />
-    <Compile Include="ServiceEntity.cs" />
     <Compile Include="Persistence\BaseRepository.cs" />
     <Compile Include="Persistence\MappingHandler.cs" />
     <Compile Include="Security\CryptographyHandler.cs" />
@@ -53,11 +48,10 @@
     <Compile Include="Session\SessionHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Abstractions\Abstractions.csproj">
-      <Project>{0f63104d-bcd0-4fdb-af48-c0943fdc118b}</Project>
-      <Name>Abstractions</Name>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{569fec50-9ba5-44c9-bf55-da53213c6031}</Project>
+      <Name>Entities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

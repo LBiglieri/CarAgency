@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
-using CarAgency.Utilities.Permissions;
+using CarAgency.Entities;
 
 namespace CarAgency.UI
 {

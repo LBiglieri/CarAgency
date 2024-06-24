@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CarAgency.Entities;
-using CarAgency.Utilities.Permissions;
 using CarAgency.Utilities.Persistence;
 using System.Data;
 using System.Data.SqlClient;
@@ -110,7 +109,7 @@ namespace CarAgency.Repository
         public IList<Patent> GetPatents()
         {
             SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
+            SqlDataReader reader = null;
             try
             {
                 SqlCommand cmd = new SqlCommand("Permissions_GetPatents", sql);
@@ -120,7 +119,7 @@ namespace CarAgency.Repository
 
                 reader = cmd.ExecuteReader();
 
-                if (reader == null) return null;
+                if (!reader.HasRows) return null;
 
                 var list = new List<Patent>();
 
@@ -156,7 +155,7 @@ namespace CarAgency.Repository
         public IList<Family> GetFamilies()
         {
             SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
+            SqlDataReader reader = null;
             try
             {
                 SqlCommand cmd = new SqlCommand("Permissions_GetFamilies", sql);
@@ -166,7 +165,7 @@ namespace CarAgency.Repository
 
                 reader = cmd.ExecuteReader();
 
-                if (reader == null) return null;
+                if (!reader.HasRows) return null;
 
                 var list = new List<Family>();
 
@@ -199,7 +198,7 @@ namespace CarAgency.Repository
         public IList<ComposedPermission> GetAll(Guid family)
         {
             SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
+            SqlDataReader reader = null;
             try
             {
                 SqlCommand cmd = new SqlCommand("Permissions_GetAll", sql);
@@ -213,7 +212,7 @@ namespace CarAgency.Repository
 
                 reader = cmd.ExecuteReader();
 
-                if (reader == null) return null;
+                if (!reader.HasRows) return null;
 
                 var list = new List<ComposedPermission>();
 
@@ -305,7 +304,7 @@ namespace CarAgency.Repository
         public void FillUserComponents(User u)
         {
             SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
+            SqlDataReader reader = null;
             try
             {
                 SqlCommand cmd = new SqlCommand("Permissions_GetAllByUser", sql);
