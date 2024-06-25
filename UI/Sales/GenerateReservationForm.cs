@@ -61,7 +61,8 @@ namespace UI.Vehicles
             InitializeComponent();
             _VehicleBLL = new VehicleBLL();
             _ReservationBLL = new ReservationBLL();
-            _quotationbll = new QuotationBLL();
+            if (_quotationbll == null)
+                 _quotationbll = new QuotationBLL();
 
             PerformUpdateMakeCombos();
             PerformUpdateColourCombos();
@@ -437,6 +438,8 @@ namespace UI.Vehicles
             try
             {
                 client = clientView1.client;
+                if (_quotationbll == null)
+                    _quotationbll = new QuotationBLL();
                 quotations = _quotationbll.GetAllActiveByClient(client.Id);
                 if (quotations!=null && quotations.Count > 0 && MessageBox.Show("There are active Quotations for this client, do you want to precharge them to generate a reservation?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
