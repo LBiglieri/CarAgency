@@ -22,9 +22,9 @@ namespace CarAgency.BLL
         {
             return _invoicerepository.GetById(id);
         }
-        public List<Invoice> GetAllPendingOfPaperwork()
+        public List<Invoice> GetAllPendingOfPaperworkByClient(Guid Client_id)
         {
-            return _invoicerepository.GetAllPendingOfPaperwork();
+            return _invoicerepository.GetAllPendingOfPaperworkByClient(Client_id);
         }
 
         public SQLUpdateResult AddInvoice(Invoice invoice)

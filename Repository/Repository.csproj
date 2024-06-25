@@ -44,6 +44,7 @@
     <Compile Include="Billing\Invoices\InvoiceRepository.cs" />
     <Compile Include="Billing\Payments\PaymentRepository.cs" />
     <Compile Include="Clients\ClientRepository.cs" />
+    <Compile Include="Management\PaperworkRepository.cs" />
     <Compile Include="Permissions\PermissionRepository.cs" />
     <Compile Include="Sales\Quotations\QuotationRepository.cs" />
     <Compile Include="Sales\Reservation\ReservationRepository.cs" />
@@ -64,7 +65,7 @@
   <ItemGroup>
     <Content Include="Billing\Invoices\SQL\Invoice_Add.sql" />
     <Content Include="Billing\Invoices\SQL\Invoice_Delete.sql" />
-    <Content Include="Billing\Invoices\SQL\Invoice_GetAllPendingOfPaperwork.sql" />
+    <Content Include="Billing\Invoices\SQL\Invoice_GetAllPendingOfPaperworkByClient.sql" />
     <Content Include="Billing\Invoices\SQL\Invoice_GetById.sql" />
     <Content Include="Billing\Invoices\SQL\Invoice_Update.sql" />
     <Content Include="Billing\Payments\SQL\PaymentTypes_GetAll.sql" />
@@ -74,6 +75,14 @@
     <Content Include="Clients\SQL\Clients_Add.sql" />
     <Content Include="Clients\SQL\Clients_GetByDni.sql" />
     <Content Include="Clients\SQL\Clients_GetById.sql" />
+    <Content Include="Management\SQL\PaperworkFile_Add.sql" />
+    <Content Include="Management\SQL\Paperwork_Add.sql" />
+    <Content Include="Management\SQL\PaperworkFile_Delete.sql" />
+    <Content Include="Management\SQL\Paperwork_Delete.sql" />
+    <Content Include="Management\SQL\Paperwork_GetAllActiveByClient.sql" />
+    <Content Include="Management\SQL\PaperworkFile_GetByPaperWork.sql" />
+    <Content Include="Management\SQL\Paperwork_GetById.sql" />
+    <Content Include="Management\SQL\Paperwork_Update.sql" />
     <Content Include="Sales\Quotations\SQL\Quotations_Add.sql" />
     <Content Include="Sales\Quotations\SQL\Quotations_GetAll.sql" />
     <Content Include="Sales\Quotations\SQL\Quotations_GetAllActiveByClient.sql" />

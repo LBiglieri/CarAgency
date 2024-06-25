@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddPaymentForm));
             this.ConfigureFamilies = new MetroFramework.Controls.MetroPanel();
             this.CardPanel = new MetroFramework.Controls.MetroPanel();
             this.tbCVV = new MetroFramework.Controls.MetroTextBox();
@@ -341,6 +342,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(467, 465);
             this.Controls.Add(this.ConfigureFamilies);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddPaymentForm";
             this.Text = "Add Payment";
             this.ConfigureFamilies.ResumeLayout(false);

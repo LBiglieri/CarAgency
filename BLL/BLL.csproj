@@ -44,6 +44,7 @@
     <Compile Include="Billing\PaymentBLL.cs" />
     <Compile Include="Billing\InvoiceBLL.cs" />
     <Compile Include="Clients\ClientsBLL.cs" />
+    <Compile Include="Management\PaperworkBLL.cs" />
     <Compile Include="Permissions\PermissionBLL.cs" />
     <Compile Include="Sales\ReservationBLL.cs" />
     <Compile Include="Sales\QuotationBLL.cs" />

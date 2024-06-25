@@ -30,8 +30,36 @@ namespace CarAgency.Repository
 
                 if (!reader.HasRows) return null;
 
-                
-                return MappingHandler.MapReaderToEntity<Invoice>(reader); 
+                Invoice invoice = new Invoice();
+
+                while (reader.Read())
+                {
+                    var Id = reader.GetGuid(reader.GetOrdinal("Id"));
+                    var Vehicle_Id = reader.GetGuid(reader.GetOrdinal("Vehicle_Id"));
+                    var Vehicle_Description = reader.GetString(reader.GetOrdinal("Vehicle_Description"));
+                    var Client_Id = reader.GetGuid(reader.GetOrdinal("Client_Id"));
+                    var Reservation_Id = reader.GetGuid(reader.GetOrdinal("Reservation_Id"));
+                    var Detail = reader.GetString(reader.GetOrdinal("Detail"));
+                    var CUIL_CUIT_Client = reader.GetString(reader.GetOrdinal("CUIL_CUIT_Client"));
+                    var Razon_Social = reader.GetString(reader.GetOrdinal("Razon_Social"));
+                    var Amount = reader.GetDouble(reader.GetOrdinal("Amount"));
+                    var Payment_Status = reader.GetBoolean(reader.GetOrdinal("Payment_Status"));
+                    var Creation_Date = reader.GetDateTime(reader.GetOrdinal("Creation_Date"));
+
+
+                    invoice.Id = Id;
+                    invoice.Vehicle_Id = Vehicle_Id;
+                    invoice.Vehicle_Description = Vehicle_Description;
+                    invoice.Client_Id = Client_Id;
+                    invoice.Reservation_Id = Reservation_Id;
+                    invoice.Detail = Detail;
+                    invoice.CUIL_CUIT_Client = CUIL_CUIT_Client;
+                    invoice.Razon_Social = Razon_Social;
+                    invoice.Amount = Amount;
+                    invoice.Payment_Status = Payment_Status;
+                    invoice.Creation_Date = Creation_Date;
+                }
+                return invoice; 
             }
             catch (Exception e)
             {
@@ -45,14 +73,16 @@ namespace CarAgency.Repository
                     sql.Close();
             }
         }
-        public List<Invoice> GetAllPendingOfPaperwork()
+        public List<Invoice> GetAllPendingOfPaperworkByClient(Guid Client_id)
         {
             SqlConnection sql = new SqlConnection(base.GetConnectionString());
             SqlDataReader reader = null;
             try
             {
-                SqlCommand cmd = new SqlCommand("Invoice_GetAllPendingOfPaperwork", sql);
+                SqlCommand cmd = new SqlCommand("Invoice_GetAllPendingOfPaperworkByClient", sql);
                 cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("Client_id", Client_id));
 
                 sql.Open();
                 reader = cmd.ExecuteReader();

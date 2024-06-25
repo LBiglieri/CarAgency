@@ -165,5 +165,12 @@ namespace CarAgency.UI
             frm.MdiParent = this;
             frm.Show();
         }
+
+        private void managePaperworkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ManagePaperworkForm frm = new ManagePaperworkForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
     }
 }

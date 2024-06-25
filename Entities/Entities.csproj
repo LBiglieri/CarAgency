@@ -45,6 +45,8 @@
     <Compile Include="Billing\Payment.cs" />
     <Compile Include="Clients\Client.cs" />
     <Compile Include="CustomAttributes\TableColumnAttribute.cs" />
+    <Compile Include="Management\PaperworkFile.cs" />
+    <Compile Include="Management\Paperwork.cs" />
     <Compile Include="Permissions\ComposedPermission.cs" />
     <Compile Include="Permissions\Family.cs" />
     <Compile Include="Permissions\IPermission.cs" />

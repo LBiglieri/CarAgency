@@ -94,7 +94,32 @@ namespace CarAgency.Repository
 
                 if (!reader.HasRows) return null;
 
-                Client client = MappingHandler.MapReaderToEntity<Client>(reader);
+                Client client = new Client();
+
+                while (reader.Read())
+                {
+                    var Id = reader.GetGuid(reader.GetOrdinal("Id"));
+                    var Dni = reader.GetInt32(reader.GetOrdinal("Dni"));
+                    var Name = reader.GetString(reader.GetOrdinal("Name"));
+                    var Surname = reader.GetString(reader.GetOrdinal("Surname"));
+                    var Address = reader.GetString(reader.GetOrdinal("Address"));
+                    var Phone_Number_Personal = reader.GetString(reader.GetOrdinal("Phone_Number_Personal"));
+                    var Phone_Number_House = reader.GetString(reader.GetOrdinal("Phone_Number_House"));
+                    var Email = reader.GetString(reader.GetOrdinal("Email"));
+                    var Date_Of_Birth = reader.GetDateTime(reader.GetOrdinal("Date_Of_Birth"));
+
+
+                    client.Id = Id;
+                    client.Dni = Dni;
+                    client.Name = Name;
+                    client.Surname = Surname;
+                    client.Address = Address;
+                    client.Phone_Number_Personal = Phone_Number_Personal;
+                    client.Phone_Number_House = Phone_Number_House;
+                    client.Email = Email;
+                    client.Date_Of_Birth = Date_Of_Birth;
+                }
+
                 client.Name = CryptographyHandler.Decrypt(client.Name);
                 client.Surname = CryptographyHandler.Decrypt(client.Surname);
                 client.Address = CryptographyHandler.Decrypt(client.Address);

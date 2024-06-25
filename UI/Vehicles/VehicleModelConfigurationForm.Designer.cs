@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VehicleModelConfigurationForm));
             this.ConfigureFamilies = new MetroFramework.Controls.MetroPanel();
             this.metroPanel3 = new MetroFramework.Controls.MetroPanel();
             this.comboDeleteVersions = new MetroFramework.Controls.MetroComboBox();
@@ -230,6 +231,7 @@
             this.tbNewVersion.MaxLength = 32767;
             this.tbNewVersion.Name = "tbNewVersion";
             this.tbNewVersion.PasswordChar = '\0';
+            this.tbNewVersion.PromptText = "Enter the new Version Name";
             this.tbNewVersion.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbNewVersion.SelectedText = "";
             this.tbNewVersion.SelectionLength = 0;
@@ -405,6 +407,7 @@
             this.tbNewModel.MaxLength = 32767;
             this.tbNewModel.Name = "tbNewModel";
             this.tbNewModel.PasswordChar = '\0';
+            this.tbNewModel.PromptText = "Enter the new Model Name";
             this.tbNewModel.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbNewModel.SelectedText = "";
             this.tbNewModel.SelectionLength = 0;
@@ -557,6 +560,7 @@
             this.tbNewMake.MaxLength = 32767;
             this.tbNewMake.Name = "tbNewMake";
             this.tbNewMake.PasswordChar = '\0';
+            this.tbNewMake.PromptText = "Enter the new Make Name";
             this.tbNewMake.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbNewMake.SelectedText = "";
             this.tbNewMake.SelectionLength = 0;
@@ -610,6 +614,7 @@
             this.Controls.Add(this.ConfigureFamilies);
             this.Controls.Add(this.Families);
             this.Controls.Add(this.Patents);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VehicleModelConfigurationForm";
             this.Text = "Vehicle Model Management";
             this.ConfigureFamilies.ResumeLayout(false);

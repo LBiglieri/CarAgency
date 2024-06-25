@@ -202,6 +202,10 @@ namespace UI.Vehicles
                     if (result != null && result.sqlResult == SQLResultType.success)
                     {
                         PerformGenerateInvoicePDF(_client);
+                        btnAddPayment.Enabled = false;
+                        btnDeletePayment.Enabled = false;
+                        InvoiceDetailsPanel.Enabled = false;
+                        btnGenerateInvoice.Enabled = false;
                     }
                     else
                         return;

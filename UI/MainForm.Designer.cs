@@ -39,6 +39,8 @@
             this.salesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newQuotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newReservationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.billingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.masterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vehicleModelManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vehicleManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,8 +49,8 @@
             this.userPermissionConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.billingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.managementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.managePaperworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -70,6 +72,7 @@
             this.SessionToolStripMenuItem,
             this.salesToolStripMenuItem,
             this.billingToolStripMenuItem,
+            this.managementToolStripMenuItem,
             this.masterToolStripMenuItem,
             this.configurationToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
@@ -140,6 +143,21 @@
             this.newReservationToolStripMenuItem.Text = "New Reservation";
             this.newReservationToolStripMenuItem.Click += new System.EventHandler(this.newReservationToolStripMenuItem_Click);
             // 
+            // billingToolStripMenuItem
+            // 
+            this.billingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateInvoiceToolStripMenuItem});
+            this.billingToolStripMenuItem.Name = "billingToolStripMenuItem";
+            this.billingToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.billingToolStripMenuItem.Text = "Billing";
+            // 
+            // generateInvoiceToolStripMenuItem
+            // 
+            this.generateInvoiceToolStripMenuItem.Name = "generateInvoiceToolStripMenuItem";
+            this.generateInvoiceToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.generateInvoiceToolStripMenuItem.Text = "Generate Invoice";
+            this.generateInvoiceToolStripMenuItem.Click += new System.EventHandler(this.generateInvoiceToolStripMenuItem_Click);
+            // 
             // masterToolStripMenuItem
             // 
             this.masterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -203,20 +221,20 @@
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
-            // billingToolStripMenuItem
+            // managementToolStripMenuItem
             // 
-            this.billingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateInvoiceToolStripMenuItem});
-            this.billingToolStripMenuItem.Name = "billingToolStripMenuItem";
-            this.billingToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.billingToolStripMenuItem.Text = "Billing";
+            this.managementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.managePaperworkToolStripMenuItem});
+            this.managementToolStripMenuItem.Name = "managementToolStripMenuItem";
+            this.managementToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
+            this.managementToolStripMenuItem.Text = "Management";
             // 
-            // generateInvoiceToolStripMenuItem
+            // managePaperworkToolStripMenuItem
             // 
-            this.generateInvoiceToolStripMenuItem.Name = "generateInvoiceToolStripMenuItem";
-            this.generateInvoiceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.generateInvoiceToolStripMenuItem.Text = "Generate Invoice";
-            this.generateInvoiceToolStripMenuItem.Click += new System.EventHandler(this.generateInvoiceToolStripMenuItem_Click);
+            this.managePaperworkToolStripMenuItem.Name = "managePaperworkToolStripMenuItem";
+            this.managePaperworkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.managePaperworkToolStripMenuItem.Text = "Manage Paperwork";
+            this.managePaperworkToolStripMenuItem.Click += new System.EventHandler(this.managePaperworkToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -262,6 +280,8 @@
         private System.Windows.Forms.ToolStripMenuItem newReservationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem billingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateInvoiceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem managementToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem managePaperworkToolStripMenuItem;
     }
 }
 

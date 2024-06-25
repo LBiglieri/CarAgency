@@ -156,6 +156,18 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Management\PaperworkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Management\ManagePaperworkForm - Copy.Designer.cs">
+      <DependentUpon>PaperworkForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Management\ManagePaperworkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Management\ManagePaperworkForm.Designer.cs">
+      <DependentUpon>ManagePaperworkForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Permisions\UserPermissionManagementForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -232,6 +244,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Management\ManagePaperworkForm.resx">
+      <DependentUpon>ManagePaperworkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Management\PaperworkForm.resx">
+      <DependentUpon>PaperworkForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Permisions\UserPermissionManagementForm.resx">
       <DependentUpon>UserPermissionManagementForm.cs</DependentUpon>
