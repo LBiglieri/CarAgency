@@ -174,10 +174,13 @@ namespace UI.Vehicles
         {
             try
             {
-                List<Model> models = _VehicleBLL.GetAllModelsByMake((Make)comboMake.SelectedValue);
-                comboModel.DataSource = models;
-                comboModel.DisplayMember = "Description";
-                comboModel.SelectedIndex = -1;
+                if (comboMake.SelectedIndex != -1)
+                {
+                    List<Model> models = _VehicleBLL.GetAllModelsByMake((Make)comboMake.SelectedValue);
+                    comboModel.DataSource = models;
+                    comboModel.DisplayMember = "Description";
+                    comboModel.SelectedIndex = -1;
+                }
             }
             catch (Exception ex)
             {
