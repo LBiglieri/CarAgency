@@ -48,8 +48,8 @@ namespace UI.Clients.Controls
             {
                 lblDNI.Text = "DNI: " + client.Dni.ToString();
                 lblNameSurname.Text = "Full Name: " + client.Name.ToString() + " " + client.Surname.ToString();
-                lblPhoneHome.Text = "Home Phone: " + client.Name.ToString() + " " + client.Surname.ToString();
-                lblPhonePersonal.Text = "Personal Phone: " + client.Name.ToString() + " " + client.Surname.ToString();
+                lblPhoneHome.Text = "Home Phone: " + client.Phone_Number_House.ToString();
+                lblPhonePersonal.Text = "Personal Phone: " + client.Phone_Number_Personal.ToString();
                 lblEmail.Text = "Email: " + client.Email;
 
                 lblDNI.Visible = true;
