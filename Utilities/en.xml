@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+  <translation tag="Welcome">Welcome</translation>
+  <translation tag="SessionToolStripMenuItem">Session</translation>
+  <translation tag="loginToolStripMenuItem">Login</translation>
+  <translation tag="changePasswordToolStripMenuItem">Change Password</translation>
+  <translation tag="logoutToolStripMenuItem">Log out</translation>
+  <translation tag="exitToolStripMenuItem">Exit</translation>
+
+  <translation tag="salesToolStripMenuItem">Sales</translation>
+  <translation tag="newQuotationToolStripMenuItem">New Quotation</translation>
+  <translation tag="newReservationToolStripMenuItem">New Reservation</translation>
+
+  <translation tag="billingToolStripMenuItem">Billing</translation>
+  <translation tag="generateInvoiceToolStripMenuItem">Generate Invoice</translation>
+  
+  <translation tag="managementToolStripMenuItem">Management</translation>
+  <translation tag="managePaperworkToolStripMenuItem">Manage Paperwork</translation>
+  
+  <translation tag="configurationToolStripMenuItem">Configuration</translation>
+  <translation tag="permissionConfigurationToolStripMenuItem">Permission Configuration</translation>
+  <translation tag="userManagementToolStripMenuItem">User Management</translation>
+  <translation tag="vehicleModelConfigurationToolStripMenuItem">Vehicle Model Configuration</translation>
+  <translation tag="vehicleManagementToolStripMenuItem">Vehicle Management</translation>
+  
+  <translation tag="successfullLogin">Login successful!</translation>
+  <translation tag="alreadyLogged">You are already logged in.</translation>
+  <translation tag="sessionClosed">Session closed correctly.</translation>
+  <translation tag="notLogged">You are not logged in.</translation>
+  
+  <translation tag="tbUser">Enter your Username</translation>
+  <translation tag="tbPassword">Enter your Password</translation>
+  <translation tag="btnLogin">Login</translation>
+  <translation tag="lblLanguage">Language:</translation>
+  
+  <translation tag="ChangePasswordForm">Please change your password</translation>
+  <translation tag="tbOldPassword">Enter your Old Password</translation>
+  <translation tag="tbNewPassword">Enter your New Password</translation>
+  <translation tag="tbRepeatPassword">Repeat your new Password</translation>
+  <translation tag="btnChangePassword">Change Password</translation>
+  <translation tag="passwordChangedSuccessfully">Password changed successfully!</translation>
+  <translation tag="passwordWriteOld">Please write your old password.</translation>
+  <translation tag="passwordWriteNew">Please write your new password.</translation>
+  <translation tag="passwordAtLeast8Chars">Your new password needs to be at least 8 characters.</translation>
+  <translation tag="passwordPleaseRepeat">Please repeat your new password.</translation>
+  <translation tag="passwordPleaseRepeatCorrectly">Please repeat your new password correctly.</translation>
+</translations>

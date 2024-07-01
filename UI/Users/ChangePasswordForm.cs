@@ -12,11 +12,13 @@ using CarAgency.Entities;
 using CarAgency.Utilities.Persistence;
 using CarAgency.Utilities.Security;
 using CarAgency.Utilities.Session;
+using Entities;
 using Microsoft.Win32;
+using Utilities.Session;
 
 namespace CarAgency.UI
 {
-    public partial class ChangePasswordForm : MetroFramework.Forms.MetroForm
+    public partial class ChangePasswordForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         UserBLL _userBLL;
         public ChangePasswordForm()
@@ -26,8 +28,16 @@ namespace CarAgency.UI
             if (_userBLL.IsUsingDefaultPassword(SessionHandler.GetId()))
             {
                 tbOldPassword.Visible = false;  
-                tbOldPassword.Enabled = false;  
+                tbOldPassword.Enabled = false;
             }
+            LanguageService.Attach(this);
+            this.Text = LanguageService.GetTagText(this.Tag.ToString());
+            UpdateLanguage(LanguageService.GetCurrentLanguage());
+        }
+
+        private void ChangePasswordForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LanguageService.Detach(this);
         }
 
         private void btnChangePassword_Click(object sender, EventArgs e)
@@ -45,8 +55,8 @@ namespace CarAgency.UI
                         return;
                     }
 
-                    MessageBox.Show("Password changed successfully!");
-                    Close();
+                    MessageBox.Show(LanguageService.GetTagText("passwordChangedSuccessfully"));
+                    Close(); 
                 }
             }
             catch (Exception ee)
@@ -59,30 +69,39 @@ namespace CarAgency.UI
         {
             if (tbOldPassword.Visible && (tbOldPassword.Text == ""))
             {
-                MessageBox.Show("Please write your old password.");
+                MessageBox.Show(LanguageService.GetTagText("passwordWriteOld"));
                 return false;
             }
             if (tbNewPassword.Text == "")
             {
-                MessageBox.Show("Please write your new password.");
+                MessageBox.Show(LanguageService.GetTagText("passwordWriteNew"));
                 return false;
             }
             if (tbNewPassword.Text.Length < 8)
             {
-                MessageBox.Show("Your new password needs to be at least 8 characters.");
+                MessageBox.Show(LanguageService.GetTagText("passwordAtLeast8Chars"));
                 return false;
             }
             if (tbRepeatPassword.Text == "")
             {
-                MessageBox.Show("Please repeat your new password.");
+                MessageBox.Show(LanguageService.GetTagText("passwordPleaseRepeat"));
                 return false;
             }
             if (tbNewPassword.Text != tbRepeatPassword.Text)
             {
-                MessageBox.Show("Please repeat your new password correctly.");
+                MessageBox.Show(LanguageService.GetTagText("passwordPleaseRepeatCorrectly"));
                 return false;
             }
             return true;
+        }
+
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText(this.Tag.ToString());
+            tbOldPassword.WaterMark = LanguageService.GetTagText(tbOldPassword.Tag.ToString());
+            tbNewPassword.WaterMark = LanguageService.GetTagText(tbNewPassword.Tag.ToString());
+            tbRepeatPassword.WaterMark = LanguageService.GetTagText(tbRepeatPassword.Tag.ToString());
+            btnChangePassword.Text = LanguageService.GetTagText(btnChangePassword.Tag.ToString());
         }
         #region  Form Events 
 

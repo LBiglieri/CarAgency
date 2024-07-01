@@ -81,6 +81,7 @@
             this.tbOldPassword.MaxLength = 32767;
             this.tbOldPassword.Name = "tbOldPassword";
             this.tbOldPassword.PasswordChar = '●';
+            this.tbOldPassword.PromptText = "Enter your Old Password";
             this.tbOldPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbOldPassword.SelectedText = "";
             this.tbOldPassword.SelectionLength = 0;
@@ -88,6 +89,7 @@
             this.tbOldPassword.ShortcutsEnabled = true;
             this.tbOldPassword.Size = new System.Drawing.Size(241, 32);
             this.tbOldPassword.TabIndex = 0;
+            this.tbOldPassword.Tag = "tbOldPassword";
             this.tbOldPassword.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbOldPassword.UseSelectable = true;
             this.tbOldPassword.UseSystemPasswordChar = true;
@@ -119,6 +121,7 @@
             this.tbNewPassword.MaxLength = 32767;
             this.tbNewPassword.Name = "tbNewPassword";
             this.tbNewPassword.PasswordChar = '●';
+            this.tbNewPassword.PromptText = "Enter your New Password";
             this.tbNewPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbNewPassword.SelectedText = "";
             this.tbNewPassword.SelectionLength = 0;
@@ -126,6 +129,7 @@
             this.tbNewPassword.ShortcutsEnabled = true;
             this.tbNewPassword.Size = new System.Drawing.Size(241, 32);
             this.tbNewPassword.TabIndex = 1;
+            this.tbNewPassword.Tag = "tbNewPassword";
             this.tbNewPassword.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbNewPassword.UseSelectable = true;
             this.tbNewPassword.UseSystemPasswordChar = true;
@@ -140,6 +144,7 @@
             this.btnChangePassword.Name = "btnChangePassword";
             this.btnChangePassword.Size = new System.Drawing.Size(153, 29);
             this.btnChangePassword.TabIndex = 3;
+            this.btnChangePassword.Tag = "btnChangePassword";
             this.btnChangePassword.Text = " Change Password";
             this.btnChangePassword.UseSelectable = true;
             this.btnChangePassword.Click += new System.EventHandler(this.btnChangePassword_Click);
@@ -167,6 +172,7 @@
             this.tbRepeatPassword.MaxLength = 32767;
             this.tbRepeatPassword.Name = "tbRepeatPassword";
             this.tbRepeatPassword.PasswordChar = '●';
+            this.tbRepeatPassword.PromptText = "Repeat your new Password";
             this.tbRepeatPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbRepeatPassword.SelectedText = "";
             this.tbRepeatPassword.SelectionLength = 0;
@@ -174,6 +180,7 @@
             this.tbRepeatPassword.ShortcutsEnabled = true;
             this.tbRepeatPassword.Size = new System.Drawing.Size(241, 32);
             this.tbRepeatPassword.TabIndex = 2;
+            this.tbRepeatPassword.Tag = "tbRepeatPassword";
             this.tbRepeatPassword.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbRepeatPassword.UseSelectable = true;
             this.tbRepeatPassword.UseSystemPasswordChar = true;
@@ -192,8 +199,10 @@
             this.MaximizeBox = false;
             this.Name = "ChangePasswordForm";
             this.Resizable = false;
+            this.Tag = "ChangePasswordForm";
             this.Text = "Please change your password";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ChangePasswordForm_FormClosing);
             this.LoginPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 

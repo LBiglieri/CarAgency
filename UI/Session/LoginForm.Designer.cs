@@ -34,6 +34,8 @@
             this.tbPassword = new MetroFramework.Controls.MetroTextBox();
             this.lblWelcome = new MetroFramework.Controls.MetroLabel();
             this.tbUser = new MetroFramework.Controls.MetroTextBox();
+            this.lblLanguage = new MetroFramework.Controls.MetroLabel();
+            this.comboLanguage = new MetroFramework.Controls.MetroComboBox();
             this.LoginPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,6 +44,8 @@
             this.LoginPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.LoginPanel.Controls.Add(this.comboLanguage);
+            this.LoginPanel.Controls.Add(this.lblLanguage);
             this.LoginPanel.Controls.Add(this.btnLogin);
             this.LoginPanel.Controls.Add(this.tbPassword);
             this.LoginPanel.Controls.Add(this.lblWelcome);
@@ -51,7 +55,7 @@
             this.LoginPanel.HorizontalScrollbarSize = 10;
             this.LoginPanel.Location = new System.Drawing.Point(23, 63);
             this.LoginPanel.Name = "LoginPanel";
-            this.LoginPanel.Size = new System.Drawing.Size(528, 264);
+            this.LoginPanel.Size = new System.Drawing.Size(528, 317);
             this.LoginPanel.TabIndex = 0;
             this.LoginPanel.Theme = MetroFramework.MetroThemeStyle.Light;
             this.LoginPanel.VerticalScrollbarBarColor = true;
@@ -60,10 +64,11 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(182, 204);
+            this.btnLogin.Location = new System.Drawing.Point(182, 260);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(153, 23);
             this.btnLogin.TabIndex = 3;
+            this.btnLogin.Tag = "btnLogin";
             this.btnLogin.Text = "Login";
             this.btnLogin.UseSelectable = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
@@ -92,6 +97,7 @@
             this.tbPassword.MaxLength = 32767;
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.PasswordChar = '●';
+            this.tbPassword.PromptText = "Enter your Password";
             this.tbPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbPassword.SelectedText = "";
             this.tbPassword.SelectionLength = 0;
@@ -99,6 +105,7 @@
             this.tbPassword.ShortcutsEnabled = true;
             this.tbPassword.Size = new System.Drawing.Size(241, 32);
             this.tbPassword.TabIndex = 2;
+            this.tbPassword.Tag = "tbPassword";
             this.tbPassword.Text = "ContraseñaAdmin";
             this.tbPassword.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbPassword.UseSelectable = true;
@@ -143,6 +150,7 @@
             this.tbUser.MaxLength = 32767;
             this.tbUser.Name = "tbUser";
             this.tbUser.PasswordChar = '\0';
+            this.tbUser.PromptText = "Enter your Username";
             this.tbUser.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbUser.SelectedText = "";
             this.tbUser.SelectionLength = 0;
@@ -150,6 +158,7 @@
             this.tbUser.ShortcutsEnabled = true;
             this.tbUser.Size = new System.Drawing.Size(241, 32);
             this.tbUser.TabIndex = 1;
+            this.tbUser.Tag = "tbUser";
             this.tbUser.Text = "Admin";
             this.tbUser.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbUser.UseSelectable = true;
@@ -158,11 +167,32 @@
             this.tbUser.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.tbUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbUser_KeyDown);
             // 
+            // lblLanguage
+            // 
+            this.lblLanguage.AutoSize = true;
+            this.lblLanguage.Location = new System.Drawing.Point(138, 184);
+            this.lblLanguage.Name = "lblLanguage";
+            this.lblLanguage.Size = new System.Drawing.Size(69, 19);
+            this.lblLanguage.TabIndex = 4;
+            this.lblLanguage.Tag = "lblLanguage";
+            this.lblLanguage.Text = "Language:";
+            // 
+            // comboLanguage
+            // 
+            this.comboLanguage.FormattingEnabled = true;
+            this.comboLanguage.ItemHeight = 23;
+            this.comboLanguage.Location = new System.Drawing.Point(211, 180);
+            this.comboLanguage.Name = "comboLanguage";
+            this.comboLanguage.Size = new System.Drawing.Size(170, 29);
+            this.comboLanguage.TabIndex = 5;
+            this.comboLanguage.UseSelectable = true;
+            this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.comboLanguage_SelectedIndexChanged);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(574, 350);
+            this.ClientSize = new System.Drawing.Size(574, 403);
             this.Controls.Add(this.LoginPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -170,6 +200,7 @@
             this.Resizable = false;
             this.Text = "CarAgency";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.LoginPanel.ResumeLayout(false);
             this.LoginPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -183,6 +214,8 @@
         private MetroFramework.Controls.MetroTextBox tbUser;
         private MetroFramework.Controls.MetroTextBox tbPassword;
         private MetroFramework.Controls.MetroButton btnLogin;
+        private MetroFramework.Controls.MetroLabel lblLanguage;
+        private MetroFramework.Controls.MetroComboBox comboLanguage;
     }
 }
 

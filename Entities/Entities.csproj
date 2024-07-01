@@ -45,6 +45,9 @@
     <Compile Include="Billing\Payment.cs" />
     <Compile Include="Clients\Client.cs" />
     <Compile Include="CustomAttributes\TableColumnAttribute.cs" />
+    <Compile Include="Language\ILanguageObserver.cs" />
+    <Compile Include="Language\ILanguageSubject.cs" />
+    <Compile Include="Language\Languages.cs" />
     <Compile Include="Management\PaperworkFile.cs" />
     <Compile Include="Management\Paperwork.cs" />
     <Compile Include="Permissions\ComposedPermission.cs" />

@@ -8,17 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
+using CarAgency.Entities;
 using CarAgency.Utilities;
 using CarAgency.Utilities.Session;
+using Entities;
 using UI.Vehicles;
+using Utilities.Session;
 
 namespace CarAgency.UI
 {
-    public partial class MainForm : MetroFramework.Forms.MetroForm
+    public partial class MainForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         public MainForm()
         {
             InitializeComponent();
+            LanguageService.Attach(this); 
+            LanguageService.LoadLanguage("en");
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -30,7 +35,7 @@ namespace CarAgency.UI
         private void UpdateTitle()
         {
             if (SessionHandler.Logged())
-                lblTitle.Text = "Welcome " + SessionHandler.GetUsername();
+                lblTitle.Text = LanguageService.GetTagText("Welcome") + " " + SessionHandler.GetUsername();
             else
                 lblTitle.Text = "CarAgency";
             lblTitle.Refresh();
@@ -77,13 +82,33 @@ namespace CarAgency.UI
             userManagementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.UserManagementForm));
             vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm));
             vehicleManagementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleManagementForm));
-          
+
         }
 
+        public void UpdateLanguage(string language)
+        {
+            UpdateTitle();
+            UpdateMenuLanguage();
+        }
 
-#endregion
+        private void UpdateMenuLanguage()
+        {
+            foreach (ToolStripMenuItem control in menuStrip1.Items)
+            {
+                control.Text = LanguageService.GetTagText(control.Tag.ToString());
+                if (control.DropDownItems.Count > 1)
+                {
+                    foreach (ToolStripMenuItem innercontrol in control.DropDownItems)
+                    {
+                        innercontrol.Text = LanguageService.GetTagText(innercontrol.Tag.ToString());
+                    }
+                }
+            }
+        }
 
-#region  Form Behavior 
+        #endregion
+
+        #region  Form Behavior 
         private void Login()
         {
             if (!SessionHandler.Logged())
@@ -105,7 +130,7 @@ namespace CarAgency.UI
             }
             else
             {
-                MessageBox.Show("You are already logged in.");
+                MessageBox.Show(LanguageService.GetTagText("alreadyLogged"));
             }
         }
         private void Logout()
@@ -123,11 +148,11 @@ namespace CarAgency.UI
                     UpdateTitle();
 
                 UpdateAuthorizedMenus();
-                MessageBox.Show("Session closed correctly.");
+                MessageBox.Show(LanguageService.GetTagText("sessionClosed"));
             }
             else
             {
-                MessageBox.Show("You are not logged in.");
+                MessageBox.Show(LanguageService.GetTagText("notLogged"));
             }
         }
         #endregion
@@ -168,7 +193,7 @@ namespace CarAgency.UI
             }
             else
             {
-                MessageBox.Show("You are not logged in.");
+                MessageBox.Show(LanguageService.GetTagText("notLogged"));
             }
         }
 
