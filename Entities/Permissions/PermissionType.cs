@@ -8,8 +8,17 @@ namespace CarAgency.Entities
 {
     public enum PermissionType
     {
-        PuedeHacer1,
-        PuedeHacer2,
-        PuedeHacer3
+        AddPaymentForm,
+        GenerateInvoiceForm,
+        CreateClientForm,
+        ManagePaperworkForm,
+        PaperworkForm,
+        PermissionManagementForm,
+        GenerateQuotationForm,
+        GenerateReservationForm,
+        ChangePasswordForm,
+        UserManagementForm,
+        VehicleManagementForm,
+        VehicleModelConfigurationForm
     }
 }

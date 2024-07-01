@@ -22,17 +22,9 @@ namespace CarAgency.BLL
         {
             return _userrepository.GetFullUserById(id);
         }
-        public List<User> GetAll()
-        {
-            return _userrepository.GetAll();
-        }
         public List<User> GetAllByState(Boolean Active)
         {
             return _userrepository.GetAllByState(Active);
-        }
-        public void SavePermissions(User u)
-        {
-            _userrepository.SavePermissions(u);
         }
 
         public SQLUpdateResult AddUser(User user)

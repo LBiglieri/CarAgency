@@ -46,9 +46,11 @@ namespace CarAgency.UI
             {
                 family = _permissionBLL.GetAll(selection.Id);
 
-
-                foreach (var i in family)
-                    selection.AddPermission(i);
+                if (family != null)
+                {
+                    foreach (var i in family)
+                        selection.AddPermission(i);
+                }
             }
             else
             {
@@ -61,9 +63,12 @@ namespace CarAgency.UI
             root.Tag = selection;
             this.treeFamily.Nodes.Add(root);
 
-            foreach (var item in family)
-            {
-                ShowOnTreeView(root, item);
+            if (family != null) 
+            { 
+                foreach (var item in family)
+                {
+                    ShowOnTreeView(root, item);
+                }
             }
 
             treeFamily.ExpandAll();

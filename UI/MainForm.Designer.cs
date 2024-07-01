@@ -41,16 +41,14 @@
             this.newReservationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.masterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vehicleModelManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vehicleManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.permissionConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.userPermissionConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.userManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.managementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.managePaperworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.permissionConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.vehicleModelConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vehicleManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -73,7 +71,6 @@
             this.salesToolStripMenuItem,
             this.billingToolStripMenuItem,
             this.managementToolStripMenuItem,
-            this.masterToolStripMenuItem,
             this.configurationToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
@@ -158,69 +155,6 @@
             this.generateInvoiceToolStripMenuItem.Text = "Generate Invoice";
             this.generateInvoiceToolStripMenuItem.Click += new System.EventHandler(this.generateInvoiceToolStripMenuItem_Click);
             // 
-            // masterToolStripMenuItem
-            // 
-            this.masterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.vehicleModelManagementToolStripMenuItem,
-            this.vehicleManagementToolStripMenuItem});
-            this.masterToolStripMenuItem.Name = "masterToolStripMenuItem";
-            this.masterToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.masterToolStripMenuItem.Text = "Master";
-            // 
-            // vehicleModelManagementToolStripMenuItem
-            // 
-            this.vehicleModelManagementToolStripMenuItem.Name = "vehicleModelManagementToolStripMenuItem";
-            this.vehicleModelManagementToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.vehicleModelManagementToolStripMenuItem.Text = "Vehicle Model Configuration";
-            this.vehicleModelManagementToolStripMenuItem.Click += new System.EventHandler(this.vehicleModelManagementToolStripMenuItem_Click);
-            // 
-            // vehicleManagementToolStripMenuItem
-            // 
-            this.vehicleManagementToolStripMenuItem.Name = "vehicleManagementToolStripMenuItem";
-            this.vehicleManagementToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.vehicleManagementToolStripMenuItem.Text = "Vehicle Management";
-            this.vehicleManagementToolStripMenuItem.Click += new System.EventHandler(this.vehicleManagementToolStripMenuItem_Click);
-            // 
-            // configurationToolStripMenuItem
-            // 
-            this.configurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.permissionConfigurationToolStripMenuItem,
-            this.userPermissionConfigurationToolStripMenuItem,
-            this.userManagementToolStripMenuItem});
-            this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
-            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
-            this.configurationToolStripMenuItem.Text = "Configuration";
-            // 
-            // permissionConfigurationToolStripMenuItem
-            // 
-            this.permissionConfigurationToolStripMenuItem.Name = "permissionConfigurationToolStripMenuItem";
-            this.permissionConfigurationToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.permissionConfigurationToolStripMenuItem.Text = "Permission Configuration";
-            this.permissionConfigurationToolStripMenuItem.Click += new System.EventHandler(this.permissionConfigurationToolStripMenuItem_Click);
-            // 
-            // userPermissionConfigurationToolStripMenuItem
-            // 
-            this.userPermissionConfigurationToolStripMenuItem.Name = "userPermissionConfigurationToolStripMenuItem";
-            this.userPermissionConfigurationToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.userPermissionConfigurationToolStripMenuItem.Text = "User Permission Configuration";
-            this.userPermissionConfigurationToolStripMenuItem.Click += new System.EventHandler(this.userPermissionConfigurationToolStripMenuItem_Click);
-            // 
-            // userManagementToolStripMenuItem
-            // 
-            this.userManagementToolStripMenuItem.Name = "userManagementToolStripMenuItem";
-            this.userManagementToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.userManagementToolStripMenuItem.Text = "User Management";
-            this.userManagementToolStripMenuItem.Click += new System.EventHandler(this.userManagementToolStripMenuItem_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::UI.Properties.Resources.logo32px;
-            this.pictureBox1.Location = new System.Drawing.Point(23, 18);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(36, 39);
-            this.pictureBox1.TabIndex = 7;
-            this.pictureBox1.TabStop = false;
-            // 
             // managementToolStripMenuItem
             // 
             this.managementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -235,6 +169,54 @@
             this.managePaperworkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.managePaperworkToolStripMenuItem.Text = "Manage Paperwork";
             this.managePaperworkToolStripMenuItem.Click += new System.EventHandler(this.managePaperworkToolStripMenuItem_Click);
+            // 
+            // configurationToolStripMenuItem
+            // 
+            this.configurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.permissionConfigurationToolStripMenuItem,
+            this.userManagementToolStripMenuItem,
+            this.vehicleModelConfigurationToolStripMenuItem,
+            this.vehicleManagementToolStripMenuItem});
+            this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.configurationToolStripMenuItem.Text = "Configuration";
+            // 
+            // permissionConfigurationToolStripMenuItem
+            // 
+            this.permissionConfigurationToolStripMenuItem.Name = "permissionConfigurationToolStripMenuItem";
+            this.permissionConfigurationToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.permissionConfigurationToolStripMenuItem.Text = "Permission Configuration";
+            this.permissionConfigurationToolStripMenuItem.Click += new System.EventHandler(this.permissionConfigurationToolStripMenuItem_Click);
+            // 
+            // userManagementToolStripMenuItem
+            // 
+            this.userManagementToolStripMenuItem.Name = "userManagementToolStripMenuItem";
+            this.userManagementToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.userManagementToolStripMenuItem.Text = "User Management";
+            this.userManagementToolStripMenuItem.Click += new System.EventHandler(this.userManagementToolStripMenuItem_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::UI.Properties.Resources.logo32px;
+            this.pictureBox1.Location = new System.Drawing.Point(23, 18);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(36, 39);
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
+            // 
+            // vehicleModelConfigurationToolStripMenuItem
+            // 
+            this.vehicleModelConfigurationToolStripMenuItem.Name = "vehicleModelConfigurationToolStripMenuItem";
+            this.vehicleModelConfigurationToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.vehicleModelConfigurationToolStripMenuItem.Text = "Vehicle Model Configuration";
+            this.vehicleModelConfigurationToolStripMenuItem.Click += new System.EventHandler(this.vehicleModelConfigurationToolStripMenuItem_Click);
+            // 
+            // vehicleManagementToolStripMenuItem
+            // 
+            this.vehicleManagementToolStripMenuItem.Name = "vehicleManagementToolStripMenuItem";
+            this.vehicleManagementToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.vehicleManagementToolStripMenuItem.Text = "Vehicle Management";
+            this.vehicleManagementToolStripMenuItem.Click += new System.EventHandler(this.vehicleManagementToolStripMenuItem_Click_1);
             // 
             // MainForm
             // 
@@ -268,13 +250,9 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem permissionConfigurationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem userPermissionConfigurationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userManagementToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem masterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem vehicleModelManagementToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem vehicleManagementToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newQuotationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newReservationToolStripMenuItem;
@@ -282,6 +260,8 @@
         private System.Windows.Forms.ToolStripMenuItem generateInvoiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem managementToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem managePaperworkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vehicleModelConfigurationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vehicleManagementToolStripMenuItem;
     }
 }
 

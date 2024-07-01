@@ -26,6 +26,7 @@ namespace CarAgency.UI
         UserBLL _userBLL;
         List<User> users = new List<User>();
         User selected_user;
+        PermissionBLL _permissionBLL;
 
         UserManagementFormAction Form_Action;
 
@@ -33,20 +34,42 @@ namespace CarAgency.UI
         {
             InitializeComponent();
             _userBLL = new UserBLL();
+            _permissionBLL = new PermissionBLL();
 
+            PerformFillFamiliesCombo();
             btnCancelOpp_Click(null, null);
         }
 
         #region  Perform
         void PerformUpdateUsersView()
         {
-            users = _userBLL.GetAllByState(toggleActivos.Checked);
-            metroGrid1.DataSource = null;
-            metroGrid1.DataSource = users;
-            metroGrid1.Columns["Password"].Visible = false;
-            metroGrid1.Columns["Permissions"].Visible = false;
-            metroGrid1.Columns["Id"].Visible = false;
-            metroGrid1.Columns["Available_Login_Attempts"].Visible = false;
+            try
+            {
+                users = _userBLL.GetAllByState(toggleActivos.Checked);
+                metroGrid1.DataSource = null;
+                metroGrid1.DataSource = users;
+                metroGrid1.Columns["Password"].Visible = false;
+                metroGrid1.Columns["Role_Id"].Visible = false;
+                metroGrid1.Columns["Role"].Visible = false;
+                metroGrid1.Columns["Id"].Visible = false;
+                metroGrid1.Columns["Available_Login_Attempts"].Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        void PerformFillFamiliesCombo()
+        {
+            try
+            {
+                this.comboFamily.DataSource = _permissionBLL.GetAllFamilies();
+                this.comboFamily.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         void PerformEnableDisableTextBoxes(Boolean flag)
         {
@@ -54,7 +77,7 @@ namespace CarAgency.UI
             tbUsername.Enabled = flag;
             tbName.Enabled = flag;
             tbSurname.Enabled = flag;
-            tbRole.Enabled = flag;
+            comboFamily.Enabled = flag;
         }
         void PerformClearTextBoxData()
         {
@@ -62,7 +85,7 @@ namespace CarAgency.UI
             tbUsername.Text = "";
             tbName.Text = "";
             tbSurname.Text = "";
-            tbRole.Text = "";
+            comboFamily.SelectedIndex = -1;
             chkBlocked.Checked = false;
             chkActive.Checked = false;
         }
@@ -72,7 +95,13 @@ namespace CarAgency.UI
             tbUsername.Text = selected_user.Username;
             tbName.Text = selected_user.Name;
             tbSurname.Text = selected_user.Surname;
-            tbRole.Text = selected_user.Role; 
+            foreach (Family family in comboFamily.Items)
+            {
+                if (family.Id.Equals(selected_user.Role_Id))
+                {
+                    comboFamily.SelectedIndex = comboFamily.FindStringExact(family.Name); 
+                }
+            }
             chkBlocked.Checked = selected_user.Blocked;
             chkActive.Checked = selected_user.Active;
         }
@@ -87,7 +116,7 @@ namespace CarAgency.UI
         }
         Boolean PerformValidateTextBoxData()
         {
-            if (tbDniUser.Text == "" || tbUsername.Text == "" || tbName.Text == "" || tbSurname.Text == "" || tbRole.Text == "")
+            if (tbDniUser.Text == "" || tbUsername.Text == "" || tbName.Text == "" || tbSurname.Text == "" || comboFamily.SelectedIndex== -1)
             {
                 MessageBox.Show("Please fill all the fields in the form to perform the selected action.");
                 return false;
@@ -107,7 +136,7 @@ namespace CarAgency.UI
             selected_user.Username = tbUsername.Text;
             selected_user.Name = tbName.Text;
             selected_user.Surname = tbSurname.Text;
-            selected_user.Role = tbRole.Text;
+            selected_user.Role_Id = ((Family)comboFamily.SelectedItem).Id;
         }
 
         private void ToggleActionButtonsStates(bool state)

@@ -1,5 +1,5 @@
 ﻿CREATE or ALTER proc User_Update	@Id uniqueidentifier, @Dni int, @Username varchar(50), @Password varchar(max), @Name varchar(max), @Surname varchar(max), 
-											@Role varchar(50), @Blocked bit, @Active bit, @Available_Login_Attempts int as
+											@Role_Id uniqueidentifier, @Blocked bit, @Active bit, @Available_Login_Attempts int as
 
 update Users
 set Dni = @Dni,
@@ -7,7 +7,7 @@ set Dni = @Dni,
 	Password = @Password,
 	Name = @Name,
 	Surname = @Surname,
-	Role = @Role,
+	Role_Id = @Role_Id,
 	Blocked = @Blocked,
 	Active = @Active,
 	Available_Login_Attempts = @Available_Login_Attempts 

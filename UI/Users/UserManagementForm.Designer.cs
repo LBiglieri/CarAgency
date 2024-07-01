@@ -36,7 +36,6 @@
             this.tbDniUser = new MetroFramework.Controls.MetroTextBox();
             this.chkActive = new MetroFramework.Controls.MetroCheckBox();
             this.chkBlocked = new MetroFramework.Controls.MetroCheckBox();
-            this.tbRole = new MetroFramework.Controls.MetroTextBox();
             this.tbSurname = new MetroFramework.Controls.MetroTextBox();
             this.tbName = new MetroFramework.Controls.MetroTextBox();
             this.tbUsername = new MetroFramework.Controls.MetroTextBox();
@@ -50,6 +49,7 @@
             this.btnUpdateUser = new MetroFramework.Controls.MetroButton();
             this.metroGrid1 = new MetroFramework.Controls.MetroGrid();
             this.btnAddUser = new MetroFramework.Controls.MetroButton();
+            this.comboFamily = new MetroFramework.Controls.MetroComboBox();
             this.Users.SuspendLayout();
             this.metroPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).BeginInit();
@@ -58,10 +58,10 @@
             // Users
             // 
             this.Users.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Users.Controls.Add(this.comboFamily);
             this.Users.Controls.Add(this.tbDniUser);
             this.Users.Controls.Add(this.chkActive);
             this.Users.Controls.Add(this.chkBlocked);
-            this.Users.Controls.Add(this.tbRole);
             this.Users.Controls.Add(this.tbSurname);
             this.Users.Controls.Add(this.tbName);
             this.Users.Controls.Add(this.tbUsername);
@@ -101,10 +101,11 @@
             this.tbDniUser.CustomButton.Visible = false;
             this.tbDniUser.Icon = global::UI.Properties.Resources.user__1_;
             this.tbDniUser.Lines = new string[0];
-            this.tbDniUser.Location = new System.Drawing.Point(23, 436);
+            this.tbDniUser.Location = new System.Drawing.Point(23, 430);
             this.tbDniUser.MaxLength = 32767;
             this.tbDniUser.Name = "tbDniUser";
             this.tbDniUser.PasswordChar = '\0';
+            this.tbDniUser.PromptText = "DNI";
             this.tbDniUser.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbDniUser.SelectedText = "";
             this.tbDniUser.SelectionLength = 0;
@@ -139,38 +140,6 @@
             this.chkBlocked.Text = "Blocked";
             this.chkBlocked.UseSelectable = true;
             // 
-            // tbRole
-            // 
-            // 
-            // 
-            // 
-            this.tbRole.CustomButton.Image = null;
-            this.tbRole.CustomButton.Location = new System.Drawing.Point(272, 1);
-            this.tbRole.CustomButton.Name = "";
-            this.tbRole.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.tbRole.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.tbRole.CustomButton.TabIndex = 1;
-            this.tbRole.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.tbRole.CustomButton.UseSelectable = true;
-            this.tbRole.CustomButton.Visible = false;
-            this.tbRole.Icon = global::UI.Properties.Resources.user__1_;
-            this.tbRole.Lines = new string[0];
-            this.tbRole.Location = new System.Drawing.Point(23, 552);
-            this.tbRole.MaxLength = 32767;
-            this.tbRole.Name = "tbRole";
-            this.tbRole.PasswordChar = '\0';
-            this.tbRole.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.tbRole.SelectedText = "";
-            this.tbRole.SelectionLength = 0;
-            this.tbRole.SelectionStart = 0;
-            this.tbRole.ShortcutsEnabled = true;
-            this.tbRole.Size = new System.Drawing.Size(294, 23);
-            this.tbRole.TabIndex = 6;
-            this.tbRole.UseSelectable = true;
-            this.tbRole.WaterMark = "Role";
-            this.tbRole.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.tbRole.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
             // tbSurname
             // 
             // 
@@ -187,10 +156,11 @@
             this.tbSurname.CustomButton.Visible = false;
             this.tbSurname.Icon = global::UI.Properties.Resources.user__1_;
             this.tbSurname.Lines = new string[0];
-            this.tbSurname.Location = new System.Drawing.Point(23, 523);
+            this.tbSurname.Location = new System.Drawing.Point(23, 517);
             this.tbSurname.MaxLength = 32767;
             this.tbSurname.Name = "tbSurname";
             this.tbSurname.PasswordChar = '\0';
+            this.tbSurname.PromptText = "Surname";
             this.tbSurname.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbSurname.SelectedText = "";
             this.tbSurname.SelectionLength = 0;
@@ -219,10 +189,11 @@
             this.tbName.CustomButton.Visible = false;
             this.tbName.Icon = global::UI.Properties.Resources.user__1_;
             this.tbName.Lines = new string[0];
-            this.tbName.Location = new System.Drawing.Point(23, 494);
+            this.tbName.Location = new System.Drawing.Point(23, 488);
             this.tbName.MaxLength = 32767;
             this.tbName.Name = "tbName";
             this.tbName.PasswordChar = '\0';
+            this.tbName.PromptText = "Name";
             this.tbName.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbName.SelectedText = "";
             this.tbName.SelectionLength = 0;
@@ -251,10 +222,11 @@
             this.tbUsername.CustomButton.Visible = false;
             this.tbUsername.Icon = global::UI.Properties.Resources.user__1_;
             this.tbUsername.Lines = new string[0];
-            this.tbUsername.Location = new System.Drawing.Point(23, 465);
+            this.tbUsername.Location = new System.Drawing.Point(23, 459);
             this.tbUsername.MaxLength = 32767;
             this.tbUsername.Name = "tbUsername";
             this.tbUsername.PasswordChar = '\0';
+            this.tbUsername.PromptText = "Username";
             this.tbUsername.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tbUsername.SelectedText = "";
             this.tbUsername.SelectionLength = 0;
@@ -413,6 +385,16 @@
             this.btnAddUser.UseSelectable = true;
             this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
             // 
+            // comboFamily
+            // 
+            this.comboFamily.FormattingEnabled = true;
+            this.comboFamily.ItemHeight = 23;
+            this.comboFamily.Location = new System.Drawing.Point(23, 546);
+            this.comboFamily.Name = "comboFamily";
+            this.comboFamily.Size = new System.Drawing.Size(294, 29);
+            this.comboFamily.TabIndex = 15;
+            this.comboFamily.UseSelectable = true;
+            // 
             // UserManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -449,10 +431,10 @@
         private MetroFramework.Controls.MetroTextBox tbUsername;
         private MetroFramework.Controls.MetroCheckBox chkActive;
         private MetroFramework.Controls.MetroCheckBox chkBlocked;
-        private MetroFramework.Controls.MetroTextBox tbRole;
         private MetroFramework.Controls.MetroTextBox tbSurname;
         private MetroFramework.Controls.MetroTextBox tbName;
         private MetroFramework.Controls.MetroTextBox tbDniUser;
+        private MetroFramework.Controls.MetroComboBox comboFamily;
     }
 }
 

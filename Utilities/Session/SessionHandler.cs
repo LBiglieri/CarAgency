@@ -50,5 +50,31 @@ namespace CarAgency.Utilities.Session
                 return false;
             return true;
         }
+
+        public static bool IsAuthorized(PermissionType permission)
+        {
+            if (_user == null)
+                return false;
+            if (User.Role == null) 
+                return false;
+
+            return HasPermission(_user.Role, permission);
+        }
+
+        private static bool HasPermission(ComposedPermission c, PermissionType permission)
+        {
+            bool exists = false;
+
+            if (c.Type.Equals(permission))
+                exists = true;
+            else
+                foreach (var item in c.Children)
+                {
+                    exists = HasPermission(item, permission);
+                    if (exists) return true;
+                }
+
+            return exists;
+        }
     }
 }

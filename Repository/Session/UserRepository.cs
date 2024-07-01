@@ -31,7 +31,7 @@ namespace CarAgency.Repository
                 User user = MappingHandler.MapReaderToEntity<User>(reader);
                 
                 PermissionRepository permissionRepository = new PermissionRepository();
-                permissionRepository.FillUserComponents(user);
+                permissionRepository.FillUserRole(user);
                 return user;
             }
             catch (Exception e)
@@ -171,42 +171,6 @@ namespace CarAgency.Repository
                     sql.Close();
             }
         }
-        public void SavePermissions(User u)
-        {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_DeleteAllPermissions", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Id", u.Id));
-
-                sql.Open();
-
-                cmd.ExecuteNonQuery();
-
-                foreach (var item in u.Permissions)
-                {
-                    cmd = new SqlCommand("User_InsertPermission", sql);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.Add(new SqlParameter("User_Id", u.Id));
-                    cmd.Parameters.Add(new SqlParameter("Permission_Id", item.Id));
-
-                    cmd.ExecuteNonQuery();
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (sql != null)
-                    sql.Close();
-            }
-        }
 
         public SQLUpdateResult AddUser(User user)
         {
@@ -223,7 +187,7 @@ namespace CarAgency.Repository
                 cmd.Parameters.Add(new SqlParameter("Password", user.Password));
                 cmd.Parameters.Add(new SqlParameter("Name", user.Name));
                 cmd.Parameters.Add(new SqlParameter("Surname", user.Surname));
-                cmd.Parameters.Add(new SqlParameter("Role", user.Role));
+                cmd.Parameters.Add(new SqlParameter("Role_Id", user.Role_Id));
                 cmd.Parameters.Add(new SqlParameter("Blocked", user.Blocked));
                 cmd.Parameters.Add(new SqlParameter("Active", user.Active));
                 cmd.Parameters.Add(new SqlParameter("Available_Login_Attempts", user.Available_Login_Attempts));
@@ -271,7 +235,7 @@ namespace CarAgency.Repository
                 cmd.Parameters.Add(new SqlParameter("Password", user.Password));
                 cmd.Parameters.Add(new SqlParameter("Name", user.Name));
                 cmd.Parameters.Add(new SqlParameter("Surname", user.Surname));
-                cmd.Parameters.Add(new SqlParameter("Role", user.Role));
+                cmd.Parameters.Add(new SqlParameter("Role_Id", user.Role_Id));
                 cmd.Parameters.Add(new SqlParameter("Blocked", user.Blocked));
                 cmd.Parameters.Add(new SqlParameter("Active", user.Active));
                 cmd.Parameters.Add(new SqlParameter("Available_Login_Attempts", user.Available_Login_Attempts));

@@ -29,7 +29,7 @@ namespace CarAgency.Entities
         public string Surname { get; set; }
 
         [TableColumnAttribute]
-        public string Role { get; set; }
+        public Guid Role_Id { get; set; }
 
         [TableColumnAttribute]
         public Boolean Blocked { get; set; }
@@ -39,12 +39,7 @@ namespace CarAgency.Entities
 
         [TableColumnAttribute]
         public int Available_Login_Attempts { get; set; }
-        public IList<ComposedPermission> Permissions
-        {
-            get
-            {
-                return _permissions;
-            }
-        }
+
+        public ComposedPermission Role { get; set; }
     }
 }

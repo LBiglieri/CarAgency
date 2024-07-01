@@ -96,8 +96,6 @@
     <Content Include="Session\SQL\User_Update.sql" />
     <Content Include="Session\SQL\User_GetAllByState.sql" />
     <Content Include="Session\SQL\User_Add.sql" />
-    <Content Include="Session\SQL\User_InsertPermission.sql" />
-    <Content Include="Permissions\SQL\Permissions_GetAllByUser.sql" />
     <Content Include="Permissions\SQL\Permissions_GetAll.sql" />
     <Content Include="Permissions\SQL\Permissions_GetFamilies.sql" />
     <Content Include="Permissions\SQL\Permissions_GetPatents.sql" />
@@ -106,7 +104,6 @@
     <Content Include="Permissions\SQL\Permissions_InsertComponent.sql" />
     <Content Include="Session\SQL\User_GetAll.sql" />
     <Content Include="Session\SQL\User_GetUserById.sql" />
-    <Content Include="Session\SQL\User_DeleteAllPermissions.sql" />
     <Content Include="Session\SQL\User_GetUserByUsername.sql" />
     <Content Include="Vehicles\SQL\Colours_GetAll.sql" />
     <Content Include="Vehicles\SQL\Vehicles_Add.sql" />

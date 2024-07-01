@@ -22,6 +22,7 @@ namespace CarAgency.UI
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
+            UpdateAuthorizedMenus();
             Login();
         }
 
@@ -34,6 +35,51 @@ namespace CarAgency.UI
                 lblTitle.Text = "CarAgency";
             lblTitle.Refresh();
         }
+        
+        private void UpdateAuthorizedMenus()
+        {
+            if (!SessionHandler.Logged())
+            {
+                changePasswordToolStripMenuItem.Visible = false;
+
+                salesToolStripMenuItem.Visible = false;
+                newQuotationToolStripMenuItem.Visible = false;
+                newReservationToolStripMenuItem.Visible = false;
+
+                billingToolStripMenuItem.Visible = false;
+                generateInvoiceToolStripMenuItem.Visible = false;
+
+                managementToolStripMenuItem.Visible = false;
+                managePaperworkToolStripMenuItem.Visible = false;
+
+                configurationToolStripMenuItem.Visible = false;
+                permissionConfigurationToolStripMenuItem.Visible = false;
+                userManagementToolStripMenuItem.Visible = false;
+                vehicleModelConfigurationToolStripMenuItem.Visible = false;
+                vehicleManagementToolStripMenuItem.Visible = false;
+                return;
+            }
+
+            changePasswordToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.ChangePasswordForm));
+
+            salesToolStripMenuItem.Visible = ((SessionHandler.IsAuthorized(Entities.PermissionType.GenerateQuotationForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateReservationForm)));
+            newQuotationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateQuotationForm));
+            newReservationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateReservationForm));
+
+            billingToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateInvoiceForm));
+            generateInvoiceToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateInvoiceForm));
+
+            managementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
+            managePaperworkToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
+
+            configurationToolStripMenuItem.Visible = ((SessionHandler.IsAuthorized(Entities.PermissionType.PermissionManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.UserManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleManagementForm)));
+            permissionConfigurationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.PermissionManagementForm));
+            userManagementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.UserManagementForm));
+            vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm));
+            vehicleManagementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleManagementForm));
+          
+        }
+
 
 #endregion
 
@@ -55,6 +101,7 @@ namespace CarAgency.UI
                         frm.Focus();
                     }
                 }
+                UpdateAuthorizedMenus();
             }
             else
             {
@@ -75,6 +122,7 @@ namespace CarAgency.UI
                 if (!SessionHandler.Logged())
                     UpdateTitle();
 
+                UpdateAuthorizedMenus();
                 MessageBox.Show("Session closed correctly.");
             }
             else
@@ -103,12 +151,6 @@ namespace CarAgency.UI
             frm.MdiParent = this;
             frm.Show();
         }
-        private void userPermissionConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            UserPermissionManagementForm frm = new UserPermissionManagementForm();
-            frm.MdiParent = this;
-            frm.Show();
-        }
         private void userManagementToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserManagementForm frm = new UserManagementForm();
@@ -128,21 +170,6 @@ namespace CarAgency.UI
             {
                 MessageBox.Show("You are not logged in.");
             }
-        }
-        #endregion
-
-        private void vehicleModelManagementToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VehicleModelConfigurationForm frm = new VehicleModelConfigurationForm();
-            frm.MdiParent = this;
-            frm.Show();
-        }
-
-        private void vehicleManagementToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VehicleManagementForm frm = new VehicleManagementForm();
-            frm.MdiParent = this;
-            frm.Show();
         }
 
         private void newQuotationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -172,5 +199,20 @@ namespace CarAgency.UI
             frm.MdiParent = this;
             frm.Show();
         }
+
+        private void vehicleModelConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VehicleModelConfigurationForm frm = new VehicleModelConfigurationForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void vehicleManagementToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            VehicleManagementForm frm = new VehicleManagementForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+        #endregion
     }
 }

@@ -67,15 +67,5 @@ namespace CarAgency.BLL
             _permissionrepository.FillFamilyComponents(family);
         }
 
-        public void FillUserComponents(User u)
-        {
-            _permissionrepository.FillUserComponents(u);
-
-        }
-        public void AddNewFamilyToFamily(Family selection, Family family)
-        {
-
-        }
-
     }
 }

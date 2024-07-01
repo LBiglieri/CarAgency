@@ -7,6 +7,7 @@ using CarAgency.Entities;
 using CarAgency.Utilities.Persistence;
 using System.Data;
 using System.Data.SqlClient;
+using static System.Collections.Specialized.BitVector32;
 
 namespace CarAgency.Repository
 {
@@ -301,68 +302,27 @@ namespace CarAgency.Repository
                 family.AddPermission(item);
             }
         }
-        public void FillUserComponents(User u)
+        public void FillUserRole(User u)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
             try
             {
-                SqlCommand cmd = new SqlCommand("Permissions_GetAllByUser", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-                
-                cmd.Parameters.AddWithValue("User_Id", u.Id);
+                u.Role = new Family();
+                u.Role.Id = u.Role_Id;
 
-                sql.Open();
+                IList<ComposedPermission> family = null;
 
-                reader = cmd.ExecuteReader();
+                family = this.GetAll(u.Role.Id);
 
-                u.Permissions.Clear();
-
-                while (reader.Read())
+                if (family != null)
                 {
-
-                    var idp = reader.GetGuid(reader.GetOrdinal("Id"));
-                    var namep = reader.GetString(reader.GetOrdinal("Name"));
-
-                    var type = String.Empty;
-                    if (reader["Type"] != DBNull.Value)
-                        type = reader.GetString(reader.GetOrdinal("Type"));
-
-                    ComposedPermission c1;
-                    if (!String.IsNullOrEmpty(type))
-                    {
-                        c1 = new Patent();
-                        c1.Id = idp;
-                        c1.Name = namep;
-                        c1.Type = (PermissionType)Enum.Parse(typeof(PermissionType), type);
-                        u.Permissions.Add(c1);
-                    }
-                    else
-                    {
-                        c1 = new Family();
-                        c1.Id = idp;
-                        c1.Name = namep;
-
-                        var f = GetAll(idp);
-
-                        foreach (var family in f)
-                        {
-                            c1.AddPermission(family);
-                        }
-                        u.Permissions.Add(c1);
-                    }
+                    foreach (var i in family)
+                        u.Role.AddPermission(i);
                 }
+
             }
             catch (Exception e)
             {
                 throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
             }
         }
     }
