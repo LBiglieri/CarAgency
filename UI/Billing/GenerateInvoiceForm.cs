@@ -3,6 +3,7 @@ using CarAgency.BLL;
 using CarAgency.Entities;
 using CarAgency.UI;
 using CarAgency.Utilities.Persistence;
+using Entities;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
@@ -21,10 +22,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using UI.Clients.Controls;
+using Utilities.Session;
 
 namespace UI.Vehicles
 {
-    public partial class GenerateInvoiceForm : MetroFramework.Forms.MetroForm
+    public partial class GenerateInvoiceForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         public Client _client;
         Reservation _reservation;
@@ -47,8 +49,38 @@ namespace UI.Vehicles
 
 
             this.clientView1.ClientFound += new EventHandler(clientView1_ClientFound);
+
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+
+        private void GenerateInvoiceForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            clientView1.DetachLanguageObserver();
+            LanguageService.Detach(this);
         }
         #region "Performs"
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText("GenerateInvoiceForm");
+            this.Refresh();
+            tbCUIL_CUIT_Client.WaterMark = LanguageService.GetTagText(tbCUIL_CUIT_Client.Tag.ToString());
+            tbRazonSocial.WaterMark = LanguageService.GetTagText(tbRazonSocial.Tag.ToString());
+            btnAddPayment.Text = LanguageService.GetTagText(btnAddPayment.Tag.ToString());
+            btnDeletePayment.Text = LanguageService.GetTagText(btnDeletePayment.Tag.ToString());
+            btnGenerateInvoice.Text = LanguageService.GetTagText(btnGenerateInvoice.Tag.ToString());
+            if (_reservation != null)
+            {
+                metroLabel1.Text = LanguageService.GetTagText("PriceLeftToPay") + _price_left.ToString();
+                lblPriceToPay.Text = LanguageService.GetTagText("PriceToPay") + ((Reservation)comboReservations.SelectedItem).Price.ToString();
+            }
+            else 
+            {
+                metroLabel1.Text = LanguageService.GetTagText("PriceLeftToPay");
+                lblPriceToPay.Text = LanguageService.GetTagText("PriceToPay");
+            }
+            
+        }
         void PerformUpdatePaymentsView()
         {
             try
@@ -71,7 +103,7 @@ namespace UI.Vehicles
                     }
                 }
                 _price_left = price_left;
-                metroLabel1.Text = "Price Left to Pay: " + price_left.ToString();
+                metroLabel1.Text = LanguageService.GetTagText("PriceLeftToPay") + price_left.ToString();
             }
             catch (Exception ex)
             {
@@ -100,12 +132,12 @@ namespace UI.Vehicles
                 rect = new XRect(25, 65, page.Width.Point-20, page.Height.Point-20);
                 gfx.DrawRectangle(XBrushes.SeaShell, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString("Invoice for " + tbRazonSocial.Text, fontSubTitle, XBrushes.Black, rect, XStringFormats.TopLeft);
+                tf.DrawString(LanguageService.GetTagText("InvoiceFor") + tbRazonSocial.Text, fontSubTitle, XBrushes.Black, rect, XStringFormats.TopLeft);
 
                 rect = new XRect(25, 95, page.Width.Point-20, page.Height.Point-20);
                 gfx.DrawRectangle(XBrushes.SeaShell, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString("CUIL/CUIT " + tbCUIL_CUIT_Client.Text, fontSubTitle, XBrushes.Black, rect, XStringFormats.TopLeft);
+                tf.DrawString(LanguageService.GetTagText("CUILCUIT") + tbCUIL_CUIT_Client.Text, fontSubTitle, XBrushes.Black, rect, XStringFormats.TopLeft);
 
                 int rectplace = 175;
 
@@ -114,16 +146,16 @@ namespace UI.Vehicles
                 rect = new XRect(25, rectplace, page.Width.Point - 20, page.Height.Point - 20);
                 gfx.DrawRectangle(XBrushes.SeaShell, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString("Vehicle " + vehicle.Year + " " + vehicle.Make_Description + " " + vehicle.Model_Description + " " + vehicle.Version_Description + " . Colour:" + vehicle.Colour_Description, fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
-                
+                tf.DrawString(LanguageService.GetTagText("Vehicle") + vehicle.Year + " " + vehicle.Make_Description + " " + vehicle.Model_Description + " " + vehicle.Version_Description + " . " + LanguageService.GetTagText("lblColour") + vehicle.Colour_Description, fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
+
                 rectplace += 25;
 
                 rect = new XRect(0, rectplace, page.Width.Point - 20, page.Height.Point - 20);
                 gfx.DrawRectangle(XBrushes.SeaShell, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString("                       License plate: " + vehicle.License_Plate + ". KM's:" + vehicle.Kilometers.ToString() + ".", fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
+                tf.DrawString("                  " + LanguageService.GetTagText("LicensePlate") + vehicle.License_Plate + ". KM's:" + vehicle.Kilometers.ToString() + ". " , fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
                 tf.Alignment = XParagraphAlignment.Right;
-                tf.DrawString("PRICE: $" + _invoice.Amount.ToString(), fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
+                tf.DrawString(LanguageService.GetTagText("Price") + _invoice.Amount.ToString(), fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
 
                 rectplace += 425;
 
@@ -169,17 +201,17 @@ namespace UI.Vehicles
         {
             if (comboReservations.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a reservation to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseSelectReservation"), "¡ATENTION!");
                 return false;
             }
             if (tbCUIL_CUIT_Client.Text == "")
             {
-                MessageBox.Show("Please write the client's CUIL/CUIT to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteCuitCuil"), "¡ATENTION!");
                 return false;
             }
             if (tbRazonSocial.Text == "")
             {
-                MessageBox.Show("Please write the client's Name/RazonSocial to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteRazonSocial"), "¡ATENTION!");
                 return false;
             }
             return true;
@@ -230,7 +262,7 @@ namespace UI.Vehicles
 
             if (comboReservations.Items.Count < 1)
             {
-                MessageBox.Show("There are no valid pending reservations for this client.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("NoPendingReservations"), "¡ATENTION!");
                 this.Close();
             }
         }
@@ -261,7 +293,7 @@ namespace UI.Vehicles
                         _invoice = invoice;
                         comboReservations.Enabled = false;
                         btnGenerateInvoice.Enabled = true;
-                        metroLabel1.Text = "Price Left to Pay: " + (0-invoice.Amount).ToString();
+                        metroLabel1.Text = LanguageService.GetTagText("PriceLeftToPay") + (0-invoice.Amount).ToString();
                     }
                     else
                         return;
@@ -314,7 +346,7 @@ namespace UI.Vehicles
                 if (comboReservations.SelectedIndex != -1)
                 {
                     _reservation = (Reservation)comboReservations.SelectedItem;
-                    lblPriceToPay.Text = "Price to Pay: " + ((Reservation)comboReservations.SelectedItem).Price.ToString();
+                    lblPriceToPay.Text = LanguageService.GetTagText("PriceToPay") + ((Reservation)comboReservations.SelectedItem).Price.ToString();
                 }
             }
         }

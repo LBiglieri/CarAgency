@@ -42,7 +42,7 @@
             this.lblTransferDate = new MetroFramework.Controls.MetroLabel();
             this.dtTransfer_Date = new MetroFramework.Controls.MetroDateTime();
             this.comboInvoice = new MetroFramework.Controls.MetroComboBox();
-            this.lblMake = new MetroFramework.Controls.MetroLabel();
+            this.lblReservation = new MetroFramework.Controls.MetroLabel();
             this.tbObservations = new MetroFramework.Controls.MetroTextBox();
             this.tbPaperwork_Precharge_Code = new MetroFramework.Controls.MetroTextBox();
             this.clientView1 = new UI.Clients.Controls.ClientView();
@@ -145,20 +145,22 @@
             // 
             // btnDeleteFile
             // 
-            this.btnDeleteFile.Location = new System.Drawing.Point(200, 6);
+            this.btnDeleteFile.Location = new System.Drawing.Point(256, 6);
             this.btnDeleteFile.Name = "btnDeleteFile";
-            this.btnDeleteFile.Size = new System.Drawing.Size(90, 24);
+            this.btnDeleteFile.Size = new System.Drawing.Size(118, 24);
             this.btnDeleteFile.TabIndex = 2;
+            this.btnDeleteFile.Tag = "btnDeleteFile";
             this.btnDeleteFile.Text = "Delete File";
             this.btnDeleteFile.UseSelectable = true;
             this.btnDeleteFile.Click += new System.EventHandler(this.btnDeleteFile_Click);
             // 
             // btnOpenFile
             // 
-            this.btnOpenFile.Location = new System.Drawing.Point(104, 6);
+            this.btnOpenFile.Location = new System.Drawing.Point(132, 6);
             this.btnOpenFile.Name = "btnOpenFile";
-            this.btnOpenFile.Size = new System.Drawing.Size(90, 24);
+            this.btnOpenFile.Size = new System.Drawing.Size(118, 24);
             this.btnOpenFile.TabIndex = 1;
+            this.btnOpenFile.Tag = "btnOpenFile";
             this.btnOpenFile.Text = "Open File";
             this.btnOpenFile.UseSelectable = true;
             this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
@@ -167,8 +169,9 @@
             // 
             this.btnAddFile.Location = new System.Drawing.Point(8, 6);
             this.btnAddFile.Name = "btnAddFile";
-            this.btnAddFile.Size = new System.Drawing.Size(90, 24);
+            this.btnAddFile.Size = new System.Drawing.Size(118, 24);
             this.btnAddFile.TabIndex = 0;
+            this.btnAddFile.Tag = "btnAddFile";
             this.btnAddFile.Text = "Add File";
             this.btnAddFile.UseSelectable = true;
             this.btnAddFile.Click += new System.EventHandler(this.btnAddFile_Click);
@@ -179,7 +182,7 @@
             this.PaperworkDetailsPanel.Controls.Add(this.lblTransferDate);
             this.PaperworkDetailsPanel.Controls.Add(this.dtTransfer_Date);
             this.PaperworkDetailsPanel.Controls.Add(this.comboInvoice);
-            this.PaperworkDetailsPanel.Controls.Add(this.lblMake);
+            this.PaperworkDetailsPanel.Controls.Add(this.lblReservation);
             this.PaperworkDetailsPanel.Controls.Add(this.tbObservations);
             this.PaperworkDetailsPanel.Controls.Add(this.tbPaperwork_Precharge_Code);
             this.PaperworkDetailsPanel.Enabled = false;
@@ -201,16 +204,17 @@
             this.lblTransferDate.Name = "lblTransferDate";
             this.lblTransferDate.Size = new System.Drawing.Size(88, 19);
             this.lblTransferDate.TabIndex = 3;
+            this.lblTransferDate.Tag = "lblTransferDate";
             this.lblTransferDate.Text = "Transfer Date:";
             // 
             // dtTransfer_Date
             // 
             this.dtTransfer_Date.Checked = false;
-            this.dtTransfer_Date.Location = new System.Drawing.Point(100, 84);
+            this.dtTransfer_Date.Location = new System.Drawing.Point(177, 84);
             this.dtTransfer_Date.MinimumSize = new System.Drawing.Size(0, 29);
             this.dtTransfer_Date.Name = "dtTransfer_Date";
             this.dtTransfer_Date.ShowCheckBox = true;
-            this.dtTransfer_Date.Size = new System.Drawing.Size(268, 29);
+            this.dtTransfer_Date.Size = new System.Drawing.Size(191, 29);
             this.dtTransfer_Date.TabIndex = 4;
             // 
             // comboInvoice
@@ -218,21 +222,22 @@
             this.comboInvoice.Enabled = false;
             this.comboInvoice.FormattingEnabled = true;
             this.comboInvoice.ItemHeight = 23;
-            this.comboInvoice.Location = new System.Drawing.Point(97, 11);
+            this.comboInvoice.Location = new System.Drawing.Point(104, 11);
             this.comboInvoice.Name = "comboInvoice";
-            this.comboInvoice.Size = new System.Drawing.Size(271, 29);
+            this.comboInvoice.Size = new System.Drawing.Size(264, 29);
             this.comboInvoice.TabIndex = 1;
             this.comboInvoice.UseSelectable = true;
             // 
-            // lblMake
+            // lblReservation
             // 
-            this.lblMake.AutoSize = true;
-            this.lblMake.Location = new System.Drawing.Point(11, 16);
-            this.lblMake.Name = "lblMake";
-            this.lblMake.Size = new System.Drawing.Size(80, 19);
-            this.lblMake.TabIndex = 0;
-            this.lblMake.Text = "Reservation:";
-            this.lblMake.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.lblReservation.AutoSize = true;
+            this.lblReservation.Location = new System.Drawing.Point(11, 16);
+            this.lblReservation.Name = "lblReservation";
+            this.lblReservation.Size = new System.Drawing.Size(80, 19);
+            this.lblReservation.TabIndex = 0;
+            this.lblReservation.Tag = "lblReservation";
+            this.lblReservation.Text = "Reservation:";
+            this.lblReservation.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
             // tbObservations
             // 
@@ -265,6 +270,7 @@
             this.tbObservations.ShortcutsEnabled = true;
             this.tbObservations.Size = new System.Drawing.Size(357, 102);
             this.tbObservations.TabIndex = 5;
+            this.tbObservations.Tag = "tbObservations";
             this.tbObservations.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbObservations.UseSelectable = true;
             this.tbObservations.WaterMark = "Enter the Paperwork Observations";
@@ -301,6 +307,7 @@
             this.tbPaperwork_Precharge_Code.ShortcutsEnabled = true;
             this.tbPaperwork_Precharge_Code.Size = new System.Drawing.Size(357, 32);
             this.tbPaperwork_Precharge_Code.TabIndex = 2;
+            this.tbPaperwork_Precharge_Code.Tag = "tbPaperwork_Precharge_Code";
             this.tbPaperwork_Precharge_Code.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbPaperwork_Precharge_Code.UseSelectable = true;
             this.tbPaperwork_Precharge_Code.WaterMark = "Enter the Paperwork´s 08 Precharge Code";
@@ -321,6 +328,7 @@
             this.btnFinishPaperwork.Name = "btnFinishPaperwork";
             this.btnFinishPaperwork.Size = new System.Drawing.Size(169, 35);
             this.btnFinishPaperwork.TabIndex = 4;
+            this.btnFinishPaperwork.Tag = "btnFinishPaperwork";
             this.btnFinishPaperwork.Text = "Finish Paperwork";
             this.btnFinishPaperwork.UseSelectable = true;
             this.btnFinishPaperwork.Click += new System.EventHandler(this.btnFinishPaperwork_Click);
@@ -332,6 +340,7 @@
             this.btnSavePaperwork.Name = "btnSavePaperwork";
             this.btnSavePaperwork.Size = new System.Drawing.Size(169, 35);
             this.btnSavePaperwork.TabIndex = 5;
+            this.btnSavePaperwork.Tag = "btnSavePaperwork";
             this.btnSavePaperwork.Text = "Save Changes";
             this.btnSavePaperwork.UseSelectable = true;
             this.btnSavePaperwork.Click += new System.EventHandler(this.btnSavePaperwork_Click);
@@ -355,7 +364,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PaperworkForm";
             this.Resizable = false;
+            this.Tag = "PaperworkForm";
             this.Text = "Manage Paperwork";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PaperworkForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PaperworkForm_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).EndInit();
             this.panelPaperwokr.ResumeLayout(false);
             this.metroPanel1.ResumeLayout(false);
@@ -372,7 +384,7 @@
         private MetroFramework.Controls.MetroButton btnFinishPaperwork;
         private Clients.Controls.ClientView clientView1;
         private MetroFramework.Controls.MetroComboBox comboInvoice;
-        private MetroFramework.Controls.MetroLabel lblMake;
+        private MetroFramework.Controls.MetroLabel lblReservation;
         private MetroFramework.Controls.MetroPanel PaperworkDetailsPanel;
         private MetroFramework.Controls.MetroTextBox tbObservations;
         private MetroFramework.Controls.MetroTextBox tbPaperwork_Precharge_Code;

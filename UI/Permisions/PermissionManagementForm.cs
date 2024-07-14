@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
 using CarAgency.Entities;
+using Entities;
+using MetroFramework.Controls;
+using Utilities.Session;
 
 namespace CarAgency.UI
 {
-    public partial class PermissionManagementForm : MetroFramework.Forms.MetroForm
+    public partial class PermissionManagementForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         PermissionBLL _permissionBLL;
         Family selection;
@@ -22,6 +25,34 @@ namespace CarAgency.UI
             _permissionBLL = new PermissionBLL();
             this.comboNewPatent.DataSource = _permissionBLL.GetAllPermissionTypes();
             this.comboNewPatent.SelectedItem = -1;
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+        private void PermissionManagementForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LanguageService.Detach(this);
+        }
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText("PermissionManagementForm");
+            this.Refresh();
+            tbNewPatent.WaterMark = LanguageService.GetTagText(tbNewPatent.Tag.ToString());
+            tbNewFamily.WaterMark = LanguageService.GetTagText(tbNewFamily.Tag.ToString());
+            btnAddPatentToFamily.Text = LanguageService.GetTagText(btnAddPatentToFamily.Tag.ToString());
+            lblNewPatent.Text = LanguageService.GetTagText(lblNewPatent.Tag.ToString());
+            btnAddNewPatent.Text = LanguageService.GetTagText(btnAddNewPatent.Tag.ToString());
+            lblDeletePatent.Text = LanguageService.GetTagText(lblDeletePatent.Tag.ToString());
+            btnDeletePatent.Text = LanguageService.GetTagText(btnDeletePatent.Tag.ToString());
+            lblFamilies.Text = LanguageService.GetTagText(lblFamilies.Tag.ToString());
+            btnConfigureFamily.Text = LanguageService.GetTagText(btnConfigureFamily.Tag.ToString());
+            btnAddToFamilyToFamily.Text = LanguageService.GetTagText(btnAddToFamilyToFamily.Tag.ToString());
+            lblNewFamily.Text = LanguageService.GetTagText(lblNewFamily.Tag.ToString());
+            btnAddNewFamily.Text = LanguageService.GetTagText(btnAddNewFamily.Tag.ToString());
+            lblDeleteFamily.Text = LanguageService.GetTagText(lblDeleteFamily.Tag.ToString());
+            btnDeleteFamily.Text = LanguageService.GetTagText(btnDeleteFamily.Tag.ToString());
+            lblConfigureFamilies.Text = LanguageService.GetTagText(lblConfigureFamilies.Tag.ToString());
+            btnSaveFamily.Text = LanguageService.GetTagText(btnSaveFamily.Tag.ToString());
+            lblPatents.Text = LanguageService.GetTagText(lblPatents.Tag.ToString());
         }
         private void PermissionManagementForm_Load(object sender, EventArgs e)
         {
@@ -33,8 +64,12 @@ namespace CarAgency.UI
         {
             this.comboPatente.DataSource = _permissionBLL.GetAllPatents();
             this.comboPatente.SelectedIndex = -1;
+            this.comboDeletePatent.DataSource = _permissionBLL.GetAllPatents();
+            this.comboDeletePatent.SelectedIndex = -1;
             this.comboFamily.DataSource = _permissionBLL.GetAllFamilies();
             this.comboFamily.SelectedIndex = -1;
+            this.comboDeleteFamily.DataSource = _permissionBLL.GetAllFamilies();
+            this.comboDeleteFamily.SelectedIndex = -1;
         }
         void ShowFamily(bool init)
         {
@@ -108,7 +143,7 @@ namespace CarAgency.UI
                 FillPatentsFamilies();
                 this.tbNewPatent.Text = "";
                 this.comboNewPatent.SelectedItem = -1;
-                MessageBox.Show("Patent saved!");
+                MessageBox.Show(LanguageService.GetTagText("PatentSaved"));
             }
         }
 
@@ -125,7 +160,7 @@ namespace CarAgency.UI
                 _permissionBLL.InsertComposedPermission(p, true);
                 FillPatentsFamilies();
                 this.tbNewFamily.Text = "";
-                MessageBox.Show("Family saved!");
+                MessageBox.Show(LanguageService.GetTagText("FamilySaved"));
             }
         }
 
@@ -138,7 +173,7 @@ namespace CarAgency.UI
                 {
                     var esta = _permissionBLL.Exists(selection, patent.Id);
                     if (esta)
-                        MessageBox.Show("The selected patent already exists in the current Family!");
+                        MessageBox.Show(LanguageService.GetTagText("PatentAlreadyExistsInCurrentFamily"));
                     else
                     {
 
@@ -171,7 +206,7 @@ namespace CarAgency.UI
 
                     var esta = _permissionBLL.Exists(selection, familia.Id);
                     if (esta)
-                        MessageBox.Show("The selected Family already exists in the current Family!");
+                        MessageBox.Show(LanguageService.GetTagText("FamilyAlreadyExistsInCurrentFamily"));
                     else
                     {
 
@@ -190,15 +225,45 @@ namespace CarAgency.UI
             try
             {
                 _permissionBLL.SaveFamily(selection);
-                MessageBox.Show("Family saved!");
+                MessageBox.Show(LanguageService.GetTagText("FamilySaved"));
             }
             catch (Exception)
             {
 
-                MessageBox.Show("Error saving family");
+                MessageBox.Show(LanguageService.GetTagText("ErrorSavingFamily"));
             }
 
         }
+
+        private void btnDeletePatent_Click(object sender, EventArgs e)
+        {
+            if (this.comboDeletePatent.SelectedIndex != -1)
+            {
+                _permissionBLL.DeletePatent((Patent)this.comboDeletePatent.SelectedItem);
+                FillPatentsFamilies();
+                if (selection != null)
+                    ShowFamily(true);
+                MessageBox.Show(LanguageService.GetTagText("PatentDeleted"));
+            }
+        }
+
+        private void btnDeleteFamily_Click(object sender, EventArgs e)
+        {
+            if (this.comboDeleteFamily.SelectedIndex != -1)
+            {
+                if (((ComposedPermission)this.comboDeleteFamily.SelectedItem).Name == "Base User")
+                {
+                    MessageBox.Show(LanguageService.GetTagText("CantDeleteBaseUser"));
+                    return;
+                }
+                _permissionBLL.DeleteFamily((ComposedPermission)this.comboDeleteFamily.SelectedItem);
+                FillPatentsFamilies();
+                if (selection != null)
+                    ShowFamily(true);
+                MessageBox.Show(LanguageService.GetTagText("FamilyDeleted"));
+            }
+        }
         #endregion
+
     }
 }

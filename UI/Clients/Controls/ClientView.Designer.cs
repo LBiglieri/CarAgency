@@ -64,6 +64,7 @@
             this.tbDni.ShortcutsEnabled = true;
             this.tbDni.Size = new System.Drawing.Size(141, 23);
             this.tbDni.TabIndex = 0;
+            this.tbDni.Tag = "tbDni";
             this.tbDni.UseSelectable = true;
             this.tbDni.WaterMark = "DNI";
             this.tbDni.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -77,6 +78,7 @@
             this.lblDNI.Name = "lblDNI";
             this.lblDNI.Size = new System.Drawing.Size(98, 19);
             this.lblDNI.TabIndex = 1;
+            this.lblDNI.Tag = "lblDNI";
             this.lblDNI.Text = "DNI:  42432432";
             this.lblDNI.Visible = false;
             // 
@@ -88,6 +90,7 @@
             this.lblNameSurname.Name = "lblNameSurname";
             this.lblNameSurname.Size = new System.Drawing.Size(211, 25);
             this.lblNameSurname.TabIndex = 2;
+            this.lblNameSurname.Tag = "lblNameSurname";
             this.lblNameSurname.Text = "Full Name: Lautaro Biglieri";
             this.lblNameSurname.Visible = false;
             // 
@@ -98,6 +101,7 @@
             this.lblPhonePersonal.Name = "lblPhonePersonal";
             this.lblPhonePersonal.Size = new System.Drawing.Size(185, 19);
             this.lblPhonePersonal.TabIndex = 3;
+            this.lblPhonePersonal.Tag = "lblPhonePersonal";
             this.lblPhonePersonal.Text = "Personal Phone:  15442432432";
             this.lblPhonePersonal.Visible = false;
             // 
@@ -108,6 +112,7 @@
             this.lblPhoneHome.Name = "lblPhoneHome";
             this.lblPhoneHome.Size = new System.Drawing.Size(153, 19);
             this.lblPhoneHome.TabIndex = 4;
+            this.lblPhoneHome.Tag = "lblPhoneHome";
             this.lblPhoneHome.Text = "Home Phone:  42937796";
             this.lblPhoneHome.Visible = false;
             // 
@@ -118,6 +123,7 @@
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(200, 19);
             this.lblEmail.TabIndex = 5;
+            this.lblEmail.Tag = "lblEmail";
             this.lblEmail.Text = "Email:  lautarobiglieri@mail.com";
             this.lblEmail.Visible = false;
             // 
@@ -129,6 +135,7 @@
             this.lblPlease.Name = "lblPlease";
             this.lblPlease.Size = new System.Drawing.Size(325, 25);
             this.lblPlease.TabIndex = 6;
+            this.lblPlease.Tag = "lblPlease";
             this.lblPlease.Text = "Please write the DNI to identify the Client.";
             // 
             // ClientView

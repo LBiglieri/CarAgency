@@ -122,6 +122,7 @@
             this.btnAddPaperwork.Name = "btnAddPaperwork";
             this.btnAddPaperwork.Size = new System.Drawing.Size(169, 35);
             this.btnAddPaperwork.TabIndex = 4;
+            this.btnAddPaperwork.Tag = "btnAddPaperwork";
             this.btnAddPaperwork.Text = "Add Paperwork";
             this.btnAddPaperwork.UseSelectable = true;
             this.btnAddPaperwork.Click += new System.EventHandler(this.btnAddPaperwork_Click);
@@ -132,6 +133,7 @@
             this.btnEditPaperwork.Name = "btnEditPaperwork";
             this.btnEditPaperwork.Size = new System.Drawing.Size(169, 35);
             this.btnEditPaperwork.TabIndex = 3;
+            this.btnEditPaperwork.Tag = "btnEditPaperwork";
             this.btnEditPaperwork.Text = "Edit Paperwork";
             this.btnEditPaperwork.UseSelectable = true;
             this.btnEditPaperwork.Click += new System.EventHandler(this.btnEditPaperwork_Click);
@@ -144,7 +146,9 @@
             this.Controls.Add(this.panelPaperwokr);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ManagePaperworkForm";
+            this.Tag = "ManagePaperworkForm";
             this.Text = "Manage Paperwork";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ManagePaperworkForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).EndInit();
             this.panelPaperwokr.ResumeLayout(false);
             this.ResumeLayout(false);

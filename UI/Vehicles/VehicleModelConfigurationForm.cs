@@ -1,6 +1,8 @@
 ﻿using BLL;
 using CarAgency.BLL;
 using CarAgency.Entities;
+using Entities;
+using MetroFramework.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,10 +12,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Utilities.Session;
 
 namespace UI.Vehicles
 {
-    public partial class VehicleModelConfigurationForm : MetroFramework.Forms.MetroForm
+    public partial class VehicleModelConfigurationForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         VehicleBLL _VehicleBLL;
         public VehicleModelConfigurationForm()
@@ -21,8 +24,37 @@ namespace UI.Vehicles
             InitializeComponent();
             _VehicleBLL = new VehicleBLL();
             PerformUpdateMakeCombos();
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+        private void VehicleModelConfigurationForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LanguageService.Detach(this);
         }
         #region "Performs"
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText("VehicleModelConfigurationForm");
+            this.Refresh();
+            tbNewMake.WaterMark = LanguageService.GetTagText(tbNewMake.Tag.ToString());
+            tbNewModel.WaterMark = LanguageService.GetTagText(tbNewModel.Tag.ToString());
+            tbNewVersion.WaterMark = LanguageService.GetTagText(tbNewVersion.Tag.ToString());
+            lblMakes.Text = LanguageService.GetTagText(lblMakes.Tag.ToString());
+            lblNewMake.Text = LanguageService.GetTagText(lblNewMake.Tag.ToString());
+            btnAddNewMake.Text = LanguageService.GetTagText(btnAddNewMake.Tag.ToString());
+            lblDeleteMake.Text = LanguageService.GetTagText(lblDeleteMake.Tag.ToString());
+            btnDeleteMake.Text = LanguageService.GetTagText(btnDeleteMake.Tag.ToString());
+            lblModels.Text = LanguageService.GetTagText(lblModels.Tag.ToString());
+            lblNewModel.Text = LanguageService.GetTagText(lblNewModel.Tag.ToString());
+            btnAddNewModel.Text = LanguageService.GetTagText(btnAddNewModel.Tag.ToString());
+            lblDeleteModel.Text = LanguageService.GetTagText(lblDeleteModel.Tag.ToString());
+            btnDeleteModel.Text = LanguageService.GetTagText(btnDeleteModel.Tag.ToString());
+            comboDeleteVersion.Text = LanguageService.GetTagText(comboDeleteVersion.Tag.ToString());
+            lblNewVersion.Text = LanguageService.GetTagText(lblNewVersion.Tag.ToString());
+            btnAddNewVersion.Text = LanguageService.GetTagText(btnAddNewVersion.Tag.ToString());
+            lblDeleteVersion.Text = LanguageService.GetTagText(lblDeleteVersion.Tag.ToString());
+            btnDeleteVersion.Text = LanguageService.GetTagText(btnDeleteVersion.Tag.ToString());
+        }
         private void PerformUpdateMakeCombos()
         {
             List<Make> makes1 = _VehicleBLL.GetAllMakes();
@@ -177,5 +209,6 @@ namespace UI.Vehicles
         {
             PerformUpdateModelCombos();
         }
+
     }
 }

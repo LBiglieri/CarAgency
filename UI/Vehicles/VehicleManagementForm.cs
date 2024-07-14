@@ -3,6 +3,8 @@ using CarAgency.BLL;
 using CarAgency.Entities;
 using CarAgency.UI;
 using CarAgency.Utilities.Persistence;
+using Entities;
+using MetroFramework.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Utilities.Session;
 
 namespace UI.Vehicles
 {
@@ -23,7 +26,7 @@ namespace UI.Vehicles
         Update,
         Delete
     }
-    public partial class VehicleManagementForm : MetroFramework.Forms.MetroForm
+    public partial class VehicleManagementForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         VehicleBLL _VehicleBLL;
         List<Vehicle> vehicles = new List<Vehicle>();
@@ -37,8 +40,33 @@ namespace UI.Vehicles
 
             btnCancelOpp_Click(null, null);
             PerformUpdateMakeCombos();
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+        private void VehicleManagementForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LanguageService.Detach(this);
         }
         #region "Performs"
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText("VehicleManagementForm");
+            this.Refresh();
+            tbDoors.WaterMark = LanguageService.GetTagText(tbDoors.Tag.ToString());
+            tbLicense_Plate.WaterMark = LanguageService.GetTagText(tbLicense_Plate.Tag.ToString());
+            tbYear.WaterMark = LanguageService.GetTagText(tbYear.Tag.ToString());
+            tbKilometers.WaterMark = LanguageService.GetTagText(tbKilometers.Tag.ToString());
+            tbPrice.WaterMark = LanguageService.GetTagText(tbPrice.Tag.ToString());
+            tbImageLink.WaterMark = LanguageService.GetTagText(tbImageLink.Tag.ToString());
+            tbOpcionals.WaterMark = LanguageService.GetTagText(tbOpcionals.Tag.ToString());
+            tbObservations.WaterMark = LanguageService.GetTagText(tbObservations.Tag.ToString());
+            lblVehivle.Text = LanguageService.GetTagText(lblVehivle.Tag.ToString());
+            btnAddUser.Text = LanguageService.GetTagText(btnAddUser.Tag.ToString());
+            btnUpdateUser.Text = LanguageService.GetTagText(btnUpdateUser.Tag.ToString());
+            btnDeleteUser.Text = LanguageService.GetTagText(btnDeleteUser.Tag.ToString());
+            btnApplyOpp.Text = LanguageService.GetTagText(btnApplyOpp.Tag.ToString());
+            btnCancelOpp.Text = LanguageService.GetTagText(btnCancelOpp.Tag.ToString());
+        }
         void PerformUpdateVehiclesView()
         {
             vehicles = _VehicleBLL.GetAll();
@@ -241,7 +269,7 @@ namespace UI.Vehicles
             SQLUpdateResult result = null;
             if (Form_Action != VehicleManagementFormAction.Add && selected_vehicle == null)
             {
-                MessageBox.Show("Please select a vehicle to perform the action.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseSelectVehicle"));
                 ToggleActionButtonsStates(true);
                 PerformCleanFormAction();
                 return;
@@ -262,14 +290,14 @@ namespace UI.Vehicles
                         if (PerformValidateTextBoxData())
                         {
                             MapTextboxesToVehicle();
-                            if (MessageBox.Show("Are you sure you want to update the vehicle " + selected_vehicle.License_Plate + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            if (MessageBox.Show(LanguageService.GetTagText("AreYouSureUpdateVehicle") + selected_vehicle.License_Plate + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                             {
                                 result = _VehicleBLL.UpdateVehicle(selected_vehicle);
                             }
                         }
                         break;
                     case VehicleManagementFormAction.Delete:
-                        if (MessageBox.Show("Are you sure you want to delete the vehicle " + selected_vehicle.License_Plate + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show(LanguageService.GetTagText("AreYouSureDeleteVehicle") + selected_vehicle.License_Plate + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             result = _VehicleBLL.DeleteVehicle(selected_vehicle);
                         }
@@ -278,7 +306,7 @@ namespace UI.Vehicles
 
                 if (result != null)
                 {
-                    MessageBox.Show(result.message);
+                    MessageBox.Show(LanguageService.GetTagText("OperationSuccesfull"));
                 }
                 PerformCleanFormAction();
             }
@@ -292,5 +320,6 @@ namespace UI.Vehicles
                 PerformCleanFormAction();
             }
         }
+
     }
 }

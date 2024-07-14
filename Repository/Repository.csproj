@@ -83,6 +83,8 @@
     <Content Include="Management\SQL\PaperworkFile_GetByPaperWork.sql" />
     <Content Include="Management\SQL\Paperwork_GetById.sql" />
     <Content Include="Management\SQL\Paperwork_Update.sql" />
+    <Content Include="Permissions\SQL\Permissions_DeletePatent.sql" />
+    <Content Include="Permissions\SQL\Permissions_DeleteCompleteFamily.sql" />
     <Content Include="Sales\Quotations\SQL\Quotations_Add.sql" />
     <Content Include="Sales\Quotations\SQL\Quotations_GetAll.sql" />
     <Content Include="Sales\Quotations\SQL\Quotations_GetAllActiveByClient.sql" />

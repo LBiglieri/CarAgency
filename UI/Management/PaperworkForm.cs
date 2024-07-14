@@ -3,6 +3,7 @@ using CarAgency.BLL;
 using CarAgency.Entities;
 using CarAgency.UI;
 using CarAgency.Utilities.Persistence;
+using Entities;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
@@ -19,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using UI.Clients.Controls;
+using Utilities.Session;
 //using static System.Net.Mime.MediaTypeNames;
 
 namespace UI.Vehicles
@@ -28,7 +30,7 @@ namespace UI.Vehicles
         Add,
         Update
     }
-    public partial class PaperworkForm : MetroFramework.Forms.MetroForm
+    public partial class PaperworkForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         PaperworkBLL _PaperworkBLL;
         InvoiceBLL _InvoiceBLL;
@@ -50,11 +52,11 @@ namespace UI.Vehicles
 
             if (FormMode == PaperworkFormMode.Add)
             {
-                this.Text = "Add Paperwork";
+                this.Text = LanguageService.GetTagText("btnAddPaperwork");
                 comboInvoice.Enabled=true; 
             }
             if (FormMode == PaperworkFormMode.Update)
-                this.Text = "Edit Paperwork";
+                this.Text = LanguageService.GetTagText("btnEditPaperwork");
 
             clientView1.clientViewMode = ClientViewMode.WithNoRegistration;
             this.clientView1.ClientFound += new EventHandler(clientView1_ClientFound);
@@ -67,8 +69,33 @@ namespace UI.Vehicles
                 MapPaperworkToControls();
                 PerformUpdatePaperworkFilesView();
             }
+
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+        private void PaperworkForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            clientView1.DetachLanguageObserver();
+            LanguageService.Detach(this);
         }
         #region "Performs"
+        public void UpdateLanguage(string language)
+        {
+            if (FormMode == PaperworkFormMode.Add)
+                this.Text = LanguageService.GetTagText("btnAddPaperwork");
+            if (FormMode == PaperworkFormMode.Update)
+                this.Text = LanguageService.GetTagText("btnEditPaperwork");
+            this.Refresh();
+            tbPaperwork_Precharge_Code.WaterMark = LanguageService.GetTagText(tbPaperwork_Precharge_Code.Tag.ToString());
+            tbObservations.WaterMark = LanguageService.GetTagText(tbObservations.Tag.ToString());
+            lblReservation.Text = LanguageService.GetTagText(lblReservation.Tag.ToString());
+            lblTransferDate.Text = LanguageService.GetTagText(lblTransferDate.Tag.ToString());
+            btnAddFile.Text = LanguageService.GetTagText(btnAddFile.Tag.ToString());
+            btnOpenFile.Text = LanguageService.GetTagText(btnOpenFile.Tag.ToString());
+            btnDeleteFile.Text = LanguageService.GetTagText(btnDeleteFile.Tag.ToString());
+            btnSavePaperwork.Text = LanguageService.GetTagText(btnSavePaperwork.Tag.ToString());
+            btnFinishPaperwork.Text = LanguageService.GetTagText(btnFinishPaperwork.Tag.ToString());
+        }
         void PerformUpdatePaperworkFilesView()
         {
             try
@@ -120,12 +147,12 @@ namespace UI.Vehicles
         {
             if (comboInvoice.SelectedIndex == -1 && FormMode == PaperworkFormMode.Add)
             {
-                MessageBox.Show("Please select a reservation to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseSelectReservation"), "¡ATENTION!");
                 return false;
             }
             if (tbPaperwork_Precharge_Code.Text == "")
             {
-                MessageBox.Show("Please write the Paperwork's 08 Precharge Code to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWrite08"), "¡ATENTION!");
                 return false;
             }
             return true;
@@ -137,17 +164,17 @@ namespace UI.Vehicles
                 return false;
             if (metroGrid1.Rows.Count == 0)
             {
-                MessageBox.Show("You have to at least upload 1 file to finish the paperwork.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("AtLeast1FileToFinishPaperwork"), "¡ATENTION!");
                 return false;
             }
             if (!dtTransfer_Date.Checked)
             {
-                MessageBox.Show("You have to put the actual transfer date to finish the paperwork.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("WriteTransferDate"), "¡ATENTION!");
                 return false;
             }
             if (dtTransfer_Date.Value == (new DateTime(1754, 1, 1, 12, 0, 0).Date))
             {
-                MessageBox.Show("You have to put the actual transfer date to finish the paperwork.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("WriteTransferDate"), "¡ATENTION!");
                 return false;
             }
             return true;
@@ -264,7 +291,7 @@ namespace UI.Vehicles
                 if (!ValidateFinishPaperwork())
                     return;
 
-                if(MessageBox.Show("Are you sure you want to finish the Paperwork? ", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.No)
+                if(MessageBox.Show(LanguageService.GetTagText("AreYouSureYouWantToFinishPaperwork"), "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
 
                 paperwork.IsFinished = true;
@@ -384,5 +411,11 @@ namespace UI.Vehicles
         {
 
         }
+
+        private void PaperworkForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+        }
+
     }
 }

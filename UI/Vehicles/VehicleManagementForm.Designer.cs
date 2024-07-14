@@ -52,7 +52,7 @@
             this.comboVersions = new MetroFramework.Controls.MetroComboBox();
             this.comboModel = new MetroFramework.Controls.MetroComboBox();
             this.comboMake = new MetroFramework.Controls.MetroComboBox();
-            this.lblDeleteVersion = new MetroFramework.Controls.MetroLabel();
+            this.lblVehivle = new MetroFramework.Controls.MetroLabel();
             this.ConfigureFamilies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).BeginInit();
             this.metroPanel3.SuspendLayout();
@@ -84,6 +84,7 @@
             this.btnDeleteUser.Name = "btnDeleteUser";
             this.btnDeleteUser.Size = new System.Drawing.Size(153, 35);
             this.btnDeleteUser.TabIndex = 14;
+            this.btnDeleteUser.Tag = "btnDeleteUser";
             this.btnDeleteUser.Text = "Delete";
             this.btnDeleteUser.UseSelectable = true;
             this.btnDeleteUser.Click += new System.EventHandler(this.btnDeleteUser_Click);
@@ -94,6 +95,7 @@
             this.btnUpdateUser.Name = "btnUpdateUser";
             this.btnUpdateUser.Size = new System.Drawing.Size(153, 35);
             this.btnUpdateUser.TabIndex = 13;
+            this.btnUpdateUser.Tag = "btnUpdateUser";
             this.btnUpdateUser.Text = "Update";
             this.btnUpdateUser.UseSelectable = true;
             this.btnUpdateUser.Click += new System.EventHandler(this.btnUpdateUser_Click);
@@ -104,6 +106,7 @@
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(153, 35);
             this.btnAddUser.TabIndex = 12;
+            this.btnAddUser.Tag = "btnAddUser";
             this.btnAddUser.Text = "Add";
             this.btnAddUser.UseSelectable = true;
             this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
@@ -173,7 +176,7 @@
             this.metroPanel3.Controls.Add(this.comboVersions);
             this.metroPanel3.Controls.Add(this.comboModel);
             this.metroPanel3.Controls.Add(this.comboMake);
-            this.metroPanel3.Controls.Add(this.lblDeleteVersion);
+            this.metroPanel3.Controls.Add(this.lblVehivle);
             this.metroPanel3.HorizontalScrollbarBarColor = true;
             this.metroPanel3.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel3.HorizontalScrollbarSize = 10;
@@ -214,6 +217,7 @@
             this.tbDoors.ShortcutsEnabled = true;
             this.tbDoors.Size = new System.Drawing.Size(260, 23);
             this.tbDoors.TabIndex = 18;
+            this.tbDoors.Tag = "tbDoors";
             this.tbDoors.UseSelectable = true;
             this.tbDoors.WaterMark = "Doors";
             this.tbDoors.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -225,6 +229,7 @@
             this.btnCancelOpp.Name = "btnCancelOpp";
             this.btnCancelOpp.Size = new System.Drawing.Size(134, 35);
             this.btnCancelOpp.TabIndex = 17;
+            this.btnCancelOpp.Tag = "btnCancelOpp";
             this.btnCancelOpp.Text = "Cancel";
             this.btnCancelOpp.UseSelectable = true;
             this.btnCancelOpp.Click += new System.EventHandler(this.btnCancelOpp_Click);
@@ -235,6 +240,7 @@
             this.btnApplyOpp.Name = "btnApplyOpp";
             this.btnApplyOpp.Size = new System.Drawing.Size(134, 35);
             this.btnApplyOpp.TabIndex = 16;
+            this.btnApplyOpp.Tag = "btnApplyOpp";
             this.btnApplyOpp.Text = "Apply";
             this.btnApplyOpp.UseSelectable = true;
             this.btnApplyOpp.Click += new System.EventHandler(this.btnApplyOpp_Click);
@@ -268,6 +274,7 @@
             this.tbObservations.ShortcutsEnabled = true;
             this.tbObservations.Size = new System.Drawing.Size(352, 66);
             this.tbObservations.TabIndex = 15;
+            this.tbObservations.Tag = "tbObservations";
             this.tbObservations.UseSelectable = true;
             this.tbObservations.WaterMark = "Observations";
             this.tbObservations.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -302,6 +309,7 @@
             this.tbOpcionals.ShortcutsEnabled = true;
             this.tbOpcionals.Size = new System.Drawing.Size(352, 66);
             this.tbOpcionals.TabIndex = 14;
+            this.tbOpcionals.Tag = "tbOpcionals";
             this.tbOpcionals.UseSelectable = true;
             this.tbOpcionals.WaterMark = "Options";
             this.tbOpcionals.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -335,6 +343,7 @@
             this.tbLicense_Plate.ShortcutsEnabled = true;
             this.tbLicense_Plate.Size = new System.Drawing.Size(260, 23);
             this.tbLicense_Plate.TabIndex = 9;
+            this.tbLicense_Plate.Tag = "tbLicense_Plate";
             this.tbLicense_Plate.UseSelectable = true;
             this.tbLicense_Plate.WaterMark = "License Plate";
             this.tbLicense_Plate.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -368,6 +377,7 @@
             this.tbImageLink.ShortcutsEnabled = true;
             this.tbImageLink.Size = new System.Drawing.Size(260, 23);
             this.tbImageLink.TabIndex = 13;
+            this.tbImageLink.Tag = "tbImageLink";
             this.tbImageLink.UseSelectable = true;
             this.tbImageLink.WaterMark = "Image Link";
             this.tbImageLink.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -401,6 +411,7 @@
             this.tbKilometers.ShortcutsEnabled = true;
             this.tbKilometers.Size = new System.Drawing.Size(260, 23);
             this.tbKilometers.TabIndex = 12;
+            this.tbKilometers.Tag = "tbKilometers";
             this.tbKilometers.UseSelectable = true;
             this.tbKilometers.WaterMark = "Kilometers";
             this.tbKilometers.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -434,6 +445,7 @@
             this.tbYear.ShortcutsEnabled = true;
             this.tbYear.Size = new System.Drawing.Size(260, 23);
             this.tbYear.TabIndex = 11;
+            this.tbYear.Tag = "tbYear";
             this.tbYear.UseSelectable = true;
             this.tbYear.WaterMark = "Year";
             this.tbYear.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -467,6 +479,7 @@
             this.tbPrice.ShortcutsEnabled = true;
             this.tbPrice.Size = new System.Drawing.Size(260, 23);
             this.tbPrice.TabIndex = 10;
+            this.tbPrice.Tag = "tbPrice";
             this.tbPrice.UseSelectable = true;
             this.tbPrice.WaterMark = "Price";
             this.tbPrice.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -514,16 +527,17 @@
             this.comboMake.UseSelectable = true;
             this.comboMake.SelectedIndexChanged += new System.EventHandler(this.comboDeleteVersionMake_SelectedIndexChanged);
             // 
-            // lblDeleteVersion
+            // lblVehivle
             // 
-            this.lblDeleteVersion.AutoSize = true;
-            this.lblDeleteVersion.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblDeleteVersion.Location = new System.Drawing.Point(23, 14);
-            this.lblDeleteVersion.Name = "lblDeleteVersion";
-            this.lblDeleteVersion.Size = new System.Drawing.Size(65, 25);
-            this.lblDeleteVersion.TabIndex = 0;
-            this.lblDeleteVersion.Text = "Vehicle";
-            this.lblDeleteVersion.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.lblVehivle.AutoSize = true;
+            this.lblVehivle.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblVehivle.Location = new System.Drawing.Point(23, 14);
+            this.lblVehivle.Name = "lblVehivle";
+            this.lblVehivle.Size = new System.Drawing.Size(65, 25);
+            this.lblVehivle.TabIndex = 0;
+            this.lblVehivle.Tag = "lblVehivle";
+            this.lblVehivle.Text = "Vehicle";
+            this.lblVehivle.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
             // VehicleManagementForm
             // 
@@ -533,7 +547,9 @@
             this.Controls.Add(this.ConfigureFamilies);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VehicleManagementForm";
+            this.Tag = "VehicleManagementForm";
             this.Text = "Vehicle Management";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VehicleManagementForm_FormClosing);
             this.ConfigureFamilies.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).EndInit();
             this.metroPanel3.ResumeLayout(false);
@@ -548,7 +564,7 @@
         private MetroFramework.Controls.MetroPanel metroPanel3;
         private MetroFramework.Controls.MetroComboBox comboModel;
         private MetroFramework.Controls.MetroComboBox comboMake;
-        private MetroFramework.Controls.MetroLabel lblDeleteVersion;
+        private MetroFramework.Controls.MetroLabel lblVehivle;
         private MetroFramework.Controls.MetroComboBox comboVersions;
         private MetroFramework.Controls.MetroGrid metroGrid1;
         private MetroFramework.Controls.MetroButton btnDeleteUser;

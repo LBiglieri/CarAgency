@@ -188,6 +188,12 @@
     <Compile Include="Sales\GenerateQuotationForm.Designer.cs">
       <DependentUpon>GenerateQuotationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Session\ChangeLanguageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Session\ChangeLanguageForm.Designer.cs">
+      <DependentUpon>ChangeLanguageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Users\ChangePasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales\GenerateQuotationForm.resx">
       <DependentUpon>GenerateQuotationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Session\ChangeLanguageForm.resx">
+      <DependentUpon>ChangeLanguageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Users\ChangePasswordForm.resx">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>

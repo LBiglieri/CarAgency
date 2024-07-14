@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+	<translation tag="Welcome">Bem-vindo</translation>
+	<translation tag="SessionToolStripMenuItem">Sessão</translation>
+	<translation tag="loginToolStripMenuItem">Entrar</translation>
+	<translation tag="changePasswordToolStripMenuItem">Mudar Senha</translation>
+	<translation tag="logoutToolStripMenuItem">Sair</translation>
+	<translation tag="exitToolStripMenuItem">Sair</translation>
+
+	<translation tag="changeSystemsLanguageToolStripMenuItem">Alterar o Idioma do Sistema</translation>
+	<translation tag="lblChangeLanguage">Alterar o Idioma do Sistema</translation>
+
+	<translation tag="salesToolStripMenuItem">Vendas</translation>
+	<translation tag="newQuotationToolStripMenuItem">Nova Cotação</translation>
+	<translation tag="newReservationToolStripMenuItem">Nova Reserva</translation>
+
+	<translation tag="billingToolStripMenuItem">Faturamento</translation>
+	<translation tag="generateInvoiceToolStripMenuItem">Gerar Fatura</translation>
+
+	<translation tag="managementToolStripMenuItem">Gestão</translation>
+	<translation tag="managePaperworkToolStripMenuItem">Gerenciar Documentação</translation>
+
+	<translation tag="configurationToolStripMenuItem">Configuração</translation>
+	<translation tag="permissionConfigurationToolStripMenuItem">Configuração de Permissões</translation>
+	<translation tag="userManagementToolStripMenuItem">Gestão de Usuários</translation>
+	<translation tag="vehicleModelConfigurationToolStripMenuItem">Configuração do Modelo de Veículo</translation>
+	<translation tag="vehicleManagementToolStripMenuItem">Gestão de Veículos</translation>
+
+	<translation tag="successfullLogin">Login bem-sucedido!</translation>
+	<translation tag="alreadyLogged">Você já está logado.</translation>
+	<translation tag="sessionClosed">Sessão encerrada corretamente.</translation>
+	<translation tag="notLogged">Você não está logado.</translation>
+
+	<translation tag="tbUser">Digite seu Nome de Usuário</translation>
+	<translation tag="tbPassword">Digite sua Senha</translation>
+	<translation tag="btnLogin">Entrar</translation>
+	<translation tag="lblLanguage">Idioma:</translation>
+
+	<translation tag="ChangePasswordForm">Por favor, mude sua senha</translation>
+	<translation tag="tbOldPassword">Digite sua Senha Antiga</translation>
+	<translation tag="tbNewPassword">Digite sua Nova Senha</translation>
+	<translation tag="tbRepeatPassword">Repita sua Nova Senha</translation>
+	<translation tag="btnChangePassword">Mudar Senha</translation>
+	<translation tag="passwordChangedSuccessfully">Senha alterada com sucesso!</translation>
+	<translation tag="passwordWriteOld">Por favor, escreva sua senha antiga.</translation>
+	<translation tag="passwordWriteNew">Por favor, escreva sua nova senha.</translation>
+	<translation tag="passwordAtLeast8Chars">Sua nova senha deve ter pelo menos 8 caracteres.</translation>
+	<translation tag="passwordPleaseRepeat">Por favor, repita sua nova senha.</translation>
+	<translation tag="passwordPleaseRepeatCorrectly">Por favor, repita sua nova senha corretamente.</translation>
+
+	<translation tag="GenerateQuotationForm">Gerar Cotação</translation>
+	<translation tag="lblFilters">Filtros de Veículos</translation>
+	<translation tag="lblMake">Marca:</translation>
+	<translation tag="lblModel">Modelo:</translation>
+	<translation tag="lblVersion">Versão:</translation>
+	<translation tag="lblColour">Cor:</translation>
+	<translation tag="tbYearFrom">Ano De</translation>
+	<translation tag="tbYearTo">Ano Até</translation>
+	<translation tag="tbKilometersFrom">Quilômetros De</translation>
+	<translation tag="tbKilometersTo">Quilômetros Até</translation>
+	<translation tag="tbPriceFrom">Preço De</translation>
+	<translation tag="tbPriceTo">Preço Até</translation>
+	<translation tag="tbDoorsFrom">Portas De</translation>
+	<translation tag="tbDoorsTo">Portas Até</translation>
+	<translation tag="btnGoToReservations">Ir para Reservas</translation>
+	<translation tag="btnGenerateQuotation">Gerar Cotação</translation>
+	<translation tag="VehiclesQuotationfor">Cotação de Veículos para  </translation>
+	<translation tag="Vehicle">Veículo </translation>
+	<translation tag="LicensePlate">Placa: </translation>
+	<translation tag="Price">PREÇO: $</translation>
+	<translation tag="QuotationPricesValidMessage">Os preços da cotação são válidos apenas para compras/reservas em </translation>
+
+	<translation tag="lblPlease">Por favor, escreva o DNI para identificar o Cliente.</translation>
+	<translation tag="tbDni">DNI</translation>
+	<translation tag="lblDNI">DNI: </translation>
+	<translation tag="lblNameSurname">Nome Completo: </translation>
+	<translation tag="lblPhoneHome">Telefone Residencial:  </translation>
+	<translation tag="lblPhonePersonal">Telefone Pessoal:  </translation>
+	<translation tag="lblEmail">E-mail:  </translation>
+	<translation tag="AttentionDNINotFound">O DNI que você digitou não foi encontrado no banco de dados de clientes. Deseja registrar um novo cliente com este DNI?</translation>
+
+	<translation tag="CreateClientForm">Registrar Cliente</translation>
+	<translation tag="tbDni">Digite o DNI do cliente</translation>
+	<translation tag="tbName">Digite o Nome do cliente</translation>
+	<translation tag="tbSurname">Digite o Sobrenome do cliente</translation>
+	<translation tag="tbAddress">Digite o Endereço do cliente</translation>
+	<translation tag="tbPersonalPhone">Digite o Celular do cliente</translation>
+	<translation tag="tbPhoneHome">Digite o Telefone Residencial do cliente</translation>
+	<translation tag="tbMail">Digite o E-mail do cliente</translation>
+	<translation tag="lblDateBirth">Data de Nascimento:</translation>
+	<translation tag="btnRegisterClient">Registrar Cliente</translation>
+
+	<translation tag="GenerateReservationForm">Gerar Reserva</translation>
+	<translation tag="btnGenerateReservation">Gerar Reserva</translation>
+	<translation tag="VehiclesReservationfor">Reserva de Veículos para  </translation>
+	<translation tag="ReservationPricesValidMessage">Esta reserva é válida apenas até </translation>
+	<translation tag="ThereAreActiveReservations">Há cotações ativas para este cliente, deseja pré-carregá-las para gerar uma reserva?</translation>
+
+	<translation tag="GenerateInvoiceForm">Gerar Fatura</translation>
+	<translation tag="tbCUIL_CUIT_Client">Digite o CUIT/CUIL do cliente</translation>
+	<translation tag="tbRazonSocial">Digite o Nome Completo/Razão Social do cliente</translation>
+	<translation tag="btnAddPayment">Adicionar Pagamento</translation>
+	<translation tag="btnDeletePayment">Excluir Pagamento</translation>
+	<translation tag="btnGenerateInvoice">Gerar Fatura</translation>
+	<translation tag="PriceToPay">Preço a Pagar: </translation>
+	<translation tag="PriceLeftToPay">Valor Restante: </translation>
+	<translation tag="InvoiceFor">Fatura para </translation>
+	<translation tag="CUILCUIT">CUIL/CUIT </translation>
+	<translation tag="PleaseSelectReservation">Por favor, selecione uma reserva para continuar.</translation>
+	<translation tag="PleaseWriteCuitCuil">Por favor, escreva o CUIL/CUIT do cliente para continuar.</translation>
+	<translation tag="PleaseWriteRazonSocial">Por favor, escreva o Nome/Razão Social do cliente para continuar.</translation>
+	<translation tag="NoPendingReservations">Não há reservas pendentes válidas para este cliente.</translation>
+
+	<translation tag="AddPaymentForm">Adicionar Pagamento</translation>
+	<translation tag="tbAmount">Digite o valor do pagamento</translation>
+	<translation tag="tbDetails">Digite os Detalhes do pagamento</translation>
+	<translation tag="tbCardNumber">Digite o número do cartão</translation>
+	<translation tag="tbCardName">Digite o Nome do cartão</translation>
+	<translation tag="tbExpireDate">Digite a data de validade do cartão</translation>
+	<translation tag="tbCVV">Digite o CVV do cartão</translation>
+
+	<translation tag="ManagePaperworkForm">Gerenciar Documentação</translation>
+	<translation tag="btnAddPaperwork">Adicionar Documentação</translation>
+	<translation tag="btnEditPaperwork">Editar Documentação</translation>
+
+	<translation tag="lblReservation">Reserva:</translation>
+	<translation tag="tbPaperwork_Precharge_Code">Digite o Código de Pré-carga do Documento 08</translation>
+	<translation tag="lblTransferDate">Data de Transferência:</translation>
+	<translation tag="tbObservations">Digite as Observações do Documento</translation>
+	<translation tag="btnAddFile">Adicionar Arquivo</translation>
+	<translation tag="btnOpenFile">Abrir Arquivo</translation>
+	<translation tag="btnDeleteFile">Excluir Arquivo</translation>
+	<translation tag="btnSavePaperwork">Salvar Alterações</translation>
+	<translation tag="btnFinishPaperwork">Finalizar Documentação</translation>
+	<translation tag="PleaseSelectReservation">Por favor, selecione uma reserva para continuar.</translation>
+	<translation tag="PleaseWrite08">Por favor, escreva o Código de Pré-carga do Documento 08 para continuar.</translation>
+	<translation tag="AtLeast1FileToFinishPaperwork">Você deve carregar pelo menos 1 arquivo para finalizar a documentação.</translation>
+	<translation tag="WriteTransferDate">Você deve colocar a data de transferência atual para finalizar a documentação.</translation>
+	<translation tag="AreYouSureYouWantToFinishPaperwork">Tem certeza de que deseja finalizar a Documentação? </translation>
+
+	<translation tag="PermissionManagementForm">Configuração de Permissões</translation>
+	<translation tag="btnAddPatentToFamily">Adicionar à Família</translation>
+	<translation tag="lblPatents">Patentes</translation>
+	<translation tag="lblNewPatent">Criar nova Patente</translation>
+	<translation tag="tbNewPatent">Digite o Nome da nova Patente</translation>
+	<translation tag="btnAddNewPatent">Salvar</translation>
+	<translation tag="lblDeletePatent">Excluir Patente</translation>
+	<translation tag="btnDeletePatent">Excluir</translation>
+	<translation tag="lblFamilies">Famílias</translation>
+	<translation tag="btnConfigureFamily">Configurar</translation>
+	<translation tag="btnAddToFamilyToFamily">Adicionar à Família</translation>
+	<translation tag="lblNewFamily">Criar nova Família</translation>
+	<translation tag="tbNewFamily">Digite o Nome da nova Família</translation>
+	<translation tag="btnAddNewFamily">Salvar</translation>
+	<translation tag="lblDeleteFamily">Excluir Família</translation>
+	<translation tag="btnDeleteFamily">Excluir</translation>
+	<translation tag="lblConfigureFamilies">Configurar Família</translation>
+	<translation tag="btnSaveFamily">Salvar Família</translation>
+	<translation tag="PatentSaved">Patente salva!</translation>
+	<translation tag="PatentDeleted">Patente excluída!</translation>
+	<translation tag="FamilySaved">Família salva!</translation>
+	<translation tag="FamilyDeleted">Família excluída!</translation>
+	<translation tag="PatentAlreadyExistsInCurrentFamily">A patente selecionada já existe na Família atual!</translation>
+	<translation tag="FamilyAlreadyExistsInCurrentFamily">A Família selecionada já existe na Família atual!</translation>
+	<translation tag="ErrorSavingFamily">Erro ao salvar família</translation>
+	<translation tag="CantDeleteBaseUser">Você não pode excluir a Família do Usuário Base</translation>
+
+	<translation tag="UserManagementForm">Gestão de Usuários</translation>
+	<translation tag="lblActiveUSers">Apenas usuários ativos</translation>
+	<translation tag="btnAddUser">Adicionar</translation>
+	<translation tag="btnUpdateUser">Atualizar</translation>
+	<translation tag="btnDeleteUser">Excluir</translation>
+	<translation tag="btnUnblockUser">Desbloquear</translation>
+	<translation tag="btnApplyOpp">Aplicar</translation>
+	<translation tag="btnCancelOpp">Cancelar</translation>
+	<translation tag="tbDniUser">DNI</translation>
+	<translation tag="tbUsername">Nome de Usuário</translation>
+	<translation tag="tbNameU">Nome</translation>
+	<translation tag="tbSurnameU">Sobrenome</translation>
+	<translation tag="chkBlocked">Bloqueado</translation>
+	<translation tag="chkActive">Ativo</translation>
+	<translation tag="FillAllFieldsUser">Por favor, preencha todos os campos do formulário para realizar a ação selecionada.</translation>
+	<translation tag="PleaseOnlyDigitsUser">Por favor, use apenas dígitos numéricos no campo DNI.</translation>
+	<translation tag="PleaseSelectUser">Por favor, selecione um usuário para realizar a ação.</translation>
+	<translation tag="AreYouSureUpdate">Tem certeza de que deseja atualizar o usuário </translation>
+	<translation tag="AreYouSureDelete">Tem certeza de que deseja excluir o usuário </translation>
+	<translation tag="AreYouSureUnblock">Tem certeza de que deseja desbloquear o usuário </translation>
+	<translation tag="IsNotBlocked">O Usuário selecionado não está bloqueado.</translation>
+	<translation tag="OperationSuccesfull">Operação concluída com sucesso!</translation>
+
+	<translation tag="VehicleModelConfigurationForm">Gestão de Modelos de Veículos</translation>
+	<translation tag="lblMakes">Marcas</translation>
+	<translation tag="lblNewMake">Criar nova Marca</translation>
+	<translation tag="tbNewMake">Digite o Nome da nova Marca</translation>
+	<translation tag="btnAddNewMake">Salvar</translation>
+	<translation tag="lblDeleteMake">Excluir Marca</translation>
+	<translation tag="btnDeleteMake">Excluir</translation>
+	<translation tag="lblModels">Modelos</translation>
+	<translation tag="lblNewModel">Criar novo Modelo</translation>
+	<translation tag="tbNewModel">Digite o Nome do novo Modelo</translation>
+	<translation tag="btnAddNewModel">Salvar</translation>
+	<translation tag="lblDeleteModel">Excluir Modelo</translation>
+	<translation tag="btnDeleteModel">Excluir</translation>
+	<translation tag="comboDeleteVersion">Versões</translation>
+	<translation tag="lblNewVersion">Criar nova Versão</translation>
+	<translation tag="tbNewVersion">Digite o Nome da nova Versão</translation>
+	<translation tag="btnAddNewVersion">Salvar</translation>
+	<translation tag="lblDeleteVersion">Excluir Versão</translation>
+	<translation tag="btnDeleteVersion">Excluir</translation>
+
+	<translation tag="VehicleManagementForm">Gestão de Veículos</translation>
+	<translation tag="btnAddUser">Adicionar</translation>
+	<translation tag="btnUpdateUser">Atualizar</translation>
+	<translation tag="btnDeleteUser">Excluir</translation>
+	<translation tag="btnApplyOpp">Aplicar</translation>
+	<translation tag="btnCancelOpp">Cancelar</translation>
+	<translation tag="lblVehivle">Veículo</translation>
+	<translation tag="tbDoors">Portas</translation>
+	<translation tag="tbLicense_Plate">Placa</translation>
+	<translation tag="tbYear">Ano</translation>
+	<translation tag="tbKilometers">Quilômetros</translation>
+	<translation tag="tbPrice">Preço</translation>
+	<translation tag="tbImageLink">Link da Imagem</translation>
+	<translation tag="tbOpcionals">Opcionais</translation>
+	<translation tag="tbObservations">Observações</translation>
+	<translation tag="PleaseSelectVehicle">Por favor, selecione um veículo para realizar a ação.</translation>
+	<translation tag="AreYouSureUpdateVehicle">Tem certeza de que deseja atualizar o veículo </translation>
+	<translation tag="AreYouSureDeleteVehicle">Tem certeza de que deseja excluir o veículo </translation>
+</translations>

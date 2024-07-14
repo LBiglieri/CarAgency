@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using CarAgency.BLL;
 using CarAgency.Entities;
 using CarAgency.Utilities.Persistence;
+using Entities;
+using MetroFramework.Controls;
+using Utilities.Session;
 
 namespace CarAgency.UI
 {
@@ -21,7 +24,7 @@ namespace CarAgency.UI
         Delete,
         Unblock
     }
-    public partial class UserManagementForm : MetroFramework.Forms.MetroForm
+    public partial class UserManagementForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         UserBLL _userBLL;
         List<User> users = new List<User>();
@@ -38,9 +41,33 @@ namespace CarAgency.UI
 
             PerformFillFamiliesCombo();
             btnCancelOpp_Click(null, null);
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+        private void UserManagementForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LanguageService.Detach(this);
         }
 
         #region  Perform
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText("UserManagementForm");
+            this.Refresh();
+            tbDniUser.WaterMark = LanguageService.GetTagText(tbDniUser.Tag.ToString());
+            tbUsername.WaterMark = LanguageService.GetTagText(tbUsername.Tag.ToString());
+            tbNameU.WaterMark = LanguageService.GetTagText(tbNameU.Tag.ToString());
+            tbSurnameU.WaterMark = LanguageService.GetTagText(tbSurnameU.Tag.ToString());
+            lblActiveUSers.Text = LanguageService.GetTagText(lblActiveUSers.Tag.ToString());
+            btnAddUser.Text = LanguageService.GetTagText(btnAddUser.Tag.ToString());
+            btnUpdateUser.Text = LanguageService.GetTagText(btnUpdateUser.Tag.ToString());
+            btnDeleteUser.Text = LanguageService.GetTagText(btnDeleteUser.Tag.ToString());
+            btnUnblockUser.Text = LanguageService.GetTagText(btnUnblockUser.Tag.ToString());
+            btnApplyOpp.Text = LanguageService.GetTagText(btnApplyOpp.Tag.ToString());
+            btnCancelOpp.Text = LanguageService.GetTagText(btnCancelOpp.Tag.ToString());
+            chkBlocked.Text = LanguageService.GetTagText(chkBlocked.Tag.ToString());
+            chkActive.Text = LanguageService.GetTagText(chkActive.Tag.ToString());
+        }
         void PerformUpdateUsersView()
         {
             try
@@ -75,16 +102,16 @@ namespace CarAgency.UI
         {
             tbDniUser.Enabled = flag;
             tbUsername.Enabled = flag;
-            tbName.Enabled = flag;
-            tbSurname.Enabled = flag;
+            tbNameU.Enabled = flag;
+            tbSurnameU.Enabled = flag;
             comboFamily.Enabled = flag;
         }
         void PerformClearTextBoxData()
         {
             tbDniUser.Text = "";
             tbUsername.Text = "";
-            tbName.Text = "";
-            tbSurname.Text = "";
+            tbNameU.Text = "";
+            tbSurnameU.Text = "";
             comboFamily.SelectedIndex = -1;
             chkBlocked.Checked = false;
             chkActive.Checked = false;
@@ -93,8 +120,8 @@ namespace CarAgency.UI
         {
             tbDniUser.Text = selected_user.Dni.ToString();
             tbUsername.Text = selected_user.Username;
-            tbName.Text = selected_user.Name;
-            tbSurname.Text = selected_user.Surname;
+            tbNameU.Text = selected_user.Name;
+            tbSurnameU.Text = selected_user.Surname;
             foreach (Family family in comboFamily.Items)
             {
                 if (family.Id.Equals(selected_user.Role_Id))
@@ -116,14 +143,14 @@ namespace CarAgency.UI
         }
         Boolean PerformValidateTextBoxData()
         {
-            if (tbDniUser.Text == "" || tbUsername.Text == "" || tbName.Text == "" || tbSurname.Text == "" || comboFamily.SelectedIndex== -1)
+            if (tbDniUser.Text == "" || tbUsername.Text == "" || tbNameU.Text == "" || tbSurnameU.Text == "" || comboFamily.SelectedIndex== -1)
             {
-                MessageBox.Show("Please fill all the fields in the form to perform the selected action.");
+                MessageBox.Show(LanguageService.GetTagText("FillAllFieldsUser"));
                 return false;
             }
             if (!int.TryParse(tbDniUser.Text, out _))
             {
-                MessageBox.Show("Please only use numeric digits in the DNI field.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseOnlyDigitsUser"));
                 return false;
             }
 
@@ -134,8 +161,8 @@ namespace CarAgency.UI
         {
             selected_user.Dni = int.Parse(tbDniUser.Text);
             selected_user.Username = tbUsername.Text;
-            selected_user.Name = tbName.Text;
-            selected_user.Surname = tbSurname.Text;
+            selected_user.Name = tbNameU.Text;
+            selected_user.Surname = tbSurnameU.Text;
             selected_user.Role_Id = ((Family)comboFamily.SelectedItem).Id;
         }
 
@@ -204,7 +231,7 @@ namespace CarAgency.UI
             SQLUpdateResult result = null;
             if (Form_Action != UserManagementFormAction.Add && selected_user == null)
             {
-                MessageBox.Show("Please select a user to perform the action.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseSelectUser"));
                 ToggleActionButtonsStates(true);
                 PerformCleanFormAction();
                 return;
@@ -225,22 +252,22 @@ namespace CarAgency.UI
                         if (PerformValidateTextBoxData())
                         {
                             MapTextboxesToUser(); 
-                            if (MessageBox.Show("Are you sure you want to update the user " + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            if (MessageBox.Show(LanguageService.GetTagText("AreYouSureUpdate") + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                             {
                                 result = _userBLL.UpdateUser(selected_user);
                             }
                         }
                         break;
                     case UserManagementFormAction.Delete:
-                        if (MessageBox.Show("Are you sure you want to delete the user " + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show(LanguageService.GetTagText("AreYouSureDelete") + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             result = _userBLL.DeleteUser(selected_user);
                         }
                         break;
                     case UserManagementFormAction.Unblock:
                         if (!selected_user.Blocked)
-                            MessageBox.Show("The selected User is not blocked.");
-                        else if (MessageBox.Show("Are you sure you want to unblock the user " + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            MessageBox.Show(LanguageService.GetTagText("IsNotBlocked"));
+                        else if (MessageBox.Show(LanguageService.GetTagText("AreYouSureUnblock") + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             result = _userBLL.AlterBlockedState(selected_user,false);
                         }
@@ -249,7 +276,7 @@ namespace CarAgency.UI
 
                 if (result != null)
                 {
-                    MessageBox.Show(result.message);
+                    MessageBox.Show(LanguageService.GetTagText("OperationSuccesfull"));
                 }
                 PerformCleanFormAction();
             }

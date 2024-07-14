@@ -93,6 +93,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.metroGrid1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.metroGrid1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.metroGrid1.Size = new System.Drawing.Size(750, 246);
             this.metroGrid1.TabIndex = 5;
@@ -147,6 +148,7 @@
             this.btnDeletePayment.Name = "btnDeletePayment";
             this.btnDeletePayment.Size = new System.Drawing.Size(90, 24);
             this.btnDeletePayment.TabIndex = 4;
+            this.btnDeletePayment.Tag = "btnDeletePayment";
             this.btnDeletePayment.Text = "Delete Payment";
             this.btnDeletePayment.UseSelectable = true;
             this.btnDeletePayment.Click += new System.EventHandler(this.btnDeletePayment_Click);
@@ -158,6 +160,7 @@
             this.btnAddPayment.Name = "btnAddPayment";
             this.btnAddPayment.Size = new System.Drawing.Size(90, 24);
             this.btnAddPayment.TabIndex = 3;
+            this.btnAddPayment.Tag = "btnAddPayment";
             this.btnAddPayment.Text = "Add Payment";
             this.btnAddPayment.UseSelectable = true;
             this.btnAddPayment.Click += new System.EventHandler(this.btnAddPayment_Click);
@@ -221,6 +224,7 @@
             this.tbRazonSocial.ShortcutsEnabled = true;
             this.tbRazonSocial.Size = new System.Drawing.Size(357, 32);
             this.tbRazonSocial.TabIndex = 2;
+            this.tbRazonSocial.Tag = "tbRazonSocial";
             this.tbRazonSocial.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbRazonSocial.UseSelectable = true;
             this.tbRazonSocial.WaterMark = "Enter the client\'s Full Name/Razon Social";
@@ -257,6 +261,7 @@
             this.tbCUIL_CUIT_Client.ShortcutsEnabled = true;
             this.tbCUIL_CUIT_Client.Size = new System.Drawing.Size(357, 32);
             this.tbCUIL_CUIT_Client.TabIndex = 1;
+            this.tbCUIL_CUIT_Client.Tag = "tbCUIL_CUIT_Client";
             this.tbCUIL_CUIT_Client.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbCUIL_CUIT_Client.UseSelectable = true;
             this.tbCUIL_CUIT_Client.WaterMark = "Enter the client\'s CUIT/CUIL";
@@ -277,6 +282,7 @@
             this.btnGenerateInvoice.Name = "btnGenerateInvoice";
             this.btnGenerateInvoice.Size = new System.Drawing.Size(169, 35);
             this.btnGenerateInvoice.TabIndex = 8;
+            this.btnGenerateInvoice.Tag = "btnGenerateInvoice";
             this.btnGenerateInvoice.Text = "Generate Invoice";
             this.btnGenerateInvoice.UseSelectable = true;
             this.btnGenerateInvoice.Click += new System.EventHandler(this.btnGenerateInvoice_Click);
@@ -298,7 +304,9 @@
             this.Controls.Add(this.ConfigureFamilies);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GenerateInvoiceForm";
+            this.Tag = "GenerateInvoiceForm";
             this.Text = "Generate Invoice";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GenerateInvoiceForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).EndInit();
             this.ConfigureFamilies.ResumeLayout(false);
             this.ConfigureFamilies.PerformLayout();

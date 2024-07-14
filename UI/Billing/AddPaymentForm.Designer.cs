@@ -112,6 +112,7 @@
             this.tbCVV.ShortcutsEnabled = true;
             this.tbCVV.Size = new System.Drawing.Size(158, 32);
             this.tbCVV.TabIndex = 3;
+            this.tbCVV.Tag = "tbCVV";
             this.tbCVV.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbCVV.UseSelectable = true;
             this.tbCVV.WaterMark = "Enter the card\'s CVV";
@@ -148,6 +149,7 @@
             this.tbExpireDate.ShortcutsEnabled = true;
             this.tbExpireDate.Size = new System.Drawing.Size(193, 32);
             this.tbExpireDate.TabIndex = 2;
+            this.tbExpireDate.Tag = "tbExpireDate";
             this.tbExpireDate.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbExpireDate.UseSelectable = true;
             this.tbExpireDate.WaterMark = "Enter the card\'s Expiration date";
@@ -184,6 +186,7 @@
             this.tbCardName.ShortcutsEnabled = true;
             this.tbCardName.Size = new System.Drawing.Size(357, 32);
             this.tbCardName.TabIndex = 1;
+            this.tbCardName.Tag = "tbCardName";
             this.tbCardName.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbCardName.UseSelectable = true;
             this.tbCardName.WaterMark = "Enter the card\'s Name";
@@ -220,6 +223,7 @@
             this.tbCardNumber.ShortcutsEnabled = true;
             this.tbCardNumber.Size = new System.Drawing.Size(357, 32);
             this.tbCardNumber.TabIndex = 0;
+            this.tbCardNumber.Tag = "tbCardNumber";
             this.tbCardNumber.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbCardNumber.UseSelectable = true;
             this.tbCardNumber.WaterMark = "Enter the card\'s number";
@@ -284,6 +288,7 @@
             this.tbDetails.ShortcutsEnabled = true;
             this.tbDetails.Size = new System.Drawing.Size(357, 32);
             this.tbDetails.TabIndex = 2;
+            this.tbDetails.Tag = "tbDetails";
             this.tbDetails.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbDetails.UseSelectable = true;
             this.tbDetails.WaterMark = "Enter the payment Details";
@@ -320,6 +325,7 @@
             this.tbAmount.ShortcutsEnabled = true;
             this.tbAmount.Size = new System.Drawing.Size(357, 32);
             this.tbAmount.TabIndex = 1;
+            this.tbAmount.Tag = "tbAmount";
             this.tbAmount.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbAmount.UseSelectable = true;
             this.tbAmount.WaterMark = "Enter the payment amount";
@@ -332,6 +338,7 @@
             this.btnAddPayment.Name = "btnAddPayment";
             this.btnAddPayment.Size = new System.Drawing.Size(169, 35);
             this.btnAddPayment.TabIndex = 2;
+            this.btnAddPayment.Tag = "btnAddPayment";
             this.btnAddPayment.Text = "Add Payment";
             this.btnAddPayment.UseSelectable = true;
             this.btnAddPayment.Click += new System.EventHandler(this.btnAddPayment_Click);
@@ -344,7 +351,9 @@
             this.Controls.Add(this.ConfigureFamilies);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddPaymentForm";
+            this.Tag = "AddPaymentForm";
             this.Text = "Add Payment";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddPaymentForm_FormClosing);
             this.ConfigureFamilies.ResumeLayout(false);
             this.CardPanel.ResumeLayout(false);
             this.InvoiceDetailsPanel.ResumeLayout(false);

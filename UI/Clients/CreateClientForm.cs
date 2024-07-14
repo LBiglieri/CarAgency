@@ -14,12 +14,15 @@ using CarAgency.Entities;
 using CarAgency.Utilities.Persistence;
 using CarAgency.Utilities.Security;
 using CarAgency.Utilities.Session;
+using Entities;
 using Microsoft.Win32;
+using UI.Clients.Controls;
+using Utilities.Session;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace CarAgency.UI
 {
-    public partial class CreateClientForm : MetroFramework.Forms.MetroForm
+    public partial class CreateClientForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         ClientsBLL _ClientBLL;
         public Client _savedClient;
@@ -28,6 +31,27 @@ namespace CarAgency.UI
             InitializeComponent();
             tbDni.Text = dni.ToString();
             _ClientBLL = new ClientsBLL();
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+
+        private void CreateClientForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LanguageService.Detach(this);
+        }
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText("CreateClientForm");
+            this.Refresh();
+            tbDni.WaterMark = LanguageService.GetTagText(tbDni.Tag.ToString());
+            tbName.WaterMark = LanguageService.GetTagText(tbName.Tag.ToString());
+            tbSurname.WaterMark = LanguageService.GetTagText(tbSurname.Tag.ToString());
+            tbAddress.WaterMark = LanguageService.GetTagText(tbAddress.Tag.ToString());
+            tbPersonalPhone.WaterMark = LanguageService.GetTagText(tbPersonalPhone.Tag.ToString());
+            tbPhoneHome.WaterMark = LanguageService.GetTagText(tbPhoneHome.Tag.ToString());
+            tbMail.WaterMark = LanguageService.GetTagText(tbMail.Tag.ToString());
+            lblDateBirth.Text = LanguageService.GetTagText(lblDateBirth.Tag.ToString());
+            btnRegisterClient.Text = LanguageService.GetTagText(btnRegisterClient.Tag.ToString());
         }
 
         private void btnRegisterClient_Click(object sender, EventArgs e)
@@ -122,6 +146,5 @@ namespace CarAgency.UI
             }
             return true;
         }
-
     }
 }

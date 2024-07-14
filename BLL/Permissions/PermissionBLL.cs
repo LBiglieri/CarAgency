@@ -67,5 +67,14 @@ namespace CarAgency.BLL
             _permissionrepository.FillFamilyComponents(family);
         }
 
+        public bool DeletePatent(Patent selectedItem)
+        {
+            return _permissionrepository.DeletePatent(selectedItem);
+        }
+
+        public bool DeleteFamily(ComposedPermission selectedItem)
+        {
+            return _permissionrepository.DeleteCompleteFamily(selectedItem);
+        }
     }
 }

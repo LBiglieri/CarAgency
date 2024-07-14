@@ -152,6 +152,7 @@
             this.btnDeleteVersion.Name = "btnDeleteVersion";
             this.btnDeleteVersion.Size = new System.Drawing.Size(153, 23);
             this.btnDeleteVersion.TabIndex = 3;
+            this.btnDeleteVersion.Tag = "btnDeleteVersion";
             this.btnDeleteVersion.Text = "Delete";
             this.btnDeleteVersion.UseSelectable = true;
             this.btnDeleteVersion.Click += new System.EventHandler(this.btnDeleteVersion_Click);
@@ -164,6 +165,7 @@
             this.lblDeleteVersion.Name = "lblDeleteVersion";
             this.lblDeleteVersion.Size = new System.Drawing.Size(120, 25);
             this.lblDeleteVersion.TabIndex = 0;
+            this.lblDeleteVersion.Tag = "lblDeleteVersion";
             this.lblDeleteVersion.Text = "Delete Version";
             this.lblDeleteVersion.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
@@ -239,6 +241,7 @@
             this.tbNewVersion.ShortcutsEnabled = true;
             this.tbNewVersion.Size = new System.Drawing.Size(259, 32);
             this.tbNewVersion.TabIndex = 1;
+            this.tbNewVersion.Tag = "tbNewVersion";
             this.tbNewVersion.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbNewVersion.UseSelectable = true;
             this.tbNewVersion.WaterMark = "Enter the new Version Name";
@@ -251,6 +254,7 @@
             this.btnAddNewVersion.Name = "btnAddNewVersion";
             this.btnAddNewVersion.Size = new System.Drawing.Size(153, 23);
             this.btnAddNewVersion.TabIndex = 3;
+            this.btnAddNewVersion.Tag = "btnAddNewVersion";
             this.btnAddNewVersion.Text = "Save";
             this.btnAddNewVersion.UseSelectable = true;
             this.btnAddNewVersion.Click += new System.EventHandler(this.btnAddNewVersion_Click);
@@ -263,6 +267,7 @@
             this.lblNewVersion.Name = "lblNewVersion";
             this.lblNewVersion.Size = new System.Drawing.Size(157, 25);
             this.lblNewVersion.TabIndex = 0;
+            this.lblNewVersion.Tag = "lblNewVersion";
             this.lblNewVersion.Text = "Create new Version";
             this.lblNewVersion.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
@@ -274,6 +279,7 @@
             this.comboDeleteVersion.Name = "comboDeleteVersion";
             this.comboDeleteVersion.Size = new System.Drawing.Size(74, 25);
             this.comboDeleteVersion.TabIndex = 0;
+            this.comboDeleteVersion.Tag = "comboDeleteVersion";
             this.comboDeleteVersion.Text = "Versions";
             this.comboDeleteVersion.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
@@ -341,6 +347,7 @@
             this.btnDeleteModel.Name = "btnDeleteModel";
             this.btnDeleteModel.Size = new System.Drawing.Size(153, 23);
             this.btnDeleteModel.TabIndex = 3;
+            this.btnDeleteModel.Tag = "btnDeleteModel";
             this.btnDeleteModel.Text = "Delete";
             this.btnDeleteModel.UseSelectable = true;
             this.btnDeleteModel.Click += new System.EventHandler(this.btnDeleteModel_Click);
@@ -353,6 +360,7 @@
             this.lblDeleteModel.Name = "lblDeleteModel";
             this.lblDeleteModel.Size = new System.Drawing.Size(113, 25);
             this.lblDeleteModel.TabIndex = 0;
+            this.lblDeleteModel.Tag = "lblDeleteModel";
             this.lblDeleteModel.Text = "Delete Model";
             this.lblDeleteModel.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
@@ -415,6 +423,7 @@
             this.tbNewModel.ShortcutsEnabled = true;
             this.tbNewModel.Size = new System.Drawing.Size(259, 32);
             this.tbNewModel.TabIndex = 1;
+            this.tbNewModel.Tag = "tbNewModel";
             this.tbNewModel.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbNewModel.UseSelectable = true;
             this.tbNewModel.WaterMark = "Enter the new Model Name";
@@ -427,6 +436,7 @@
             this.btnAddNewModel.Name = "btnAddNewModel";
             this.btnAddNewModel.Size = new System.Drawing.Size(153, 23);
             this.btnAddNewModel.TabIndex = 3;
+            this.btnAddNewModel.Tag = "btnAddNewModel";
             this.btnAddNewModel.Text = "Save";
             this.btnAddNewModel.UseSelectable = true;
             this.btnAddNewModel.Click += new System.EventHandler(this.btnAddNewModel_Click);
@@ -439,6 +449,7 @@
             this.lblNewModel.Name = "lblNewModel";
             this.lblNewModel.Size = new System.Drawing.Size(150, 25);
             this.lblNewModel.TabIndex = 0;
+            this.lblNewModel.Tag = "lblNewModel";
             this.lblNewModel.Text = "Create new Model";
             this.lblNewModel.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
@@ -450,6 +461,7 @@
             this.lblModels.Name = "lblModels";
             this.lblModels.Size = new System.Drawing.Size(67, 25);
             this.lblModels.TabIndex = 0;
+            this.lblModels.Tag = "lblModels";
             this.lblModels.Text = "Models";
             this.lblModels.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
@@ -505,6 +517,7 @@
             this.btnDeleteMake.Name = "btnDeleteMake";
             this.btnDeleteMake.Size = new System.Drawing.Size(153, 23);
             this.btnDeleteMake.TabIndex = 3;
+            this.btnDeleteMake.Tag = "btnDeleteMake";
             this.btnDeleteMake.Text = "Delete";
             this.btnDeleteMake.UseSelectable = true;
             this.btnDeleteMake.Click += new System.EventHandler(this.btnDeleteMake_Click);
@@ -517,6 +530,7 @@
             this.lblDeleteMake.Name = "lblDeleteMake";
             this.lblDeleteMake.Size = new System.Drawing.Size(106, 25);
             this.lblDeleteMake.TabIndex = 0;
+            this.lblDeleteMake.Tag = "lblDeleteMake";
             this.lblDeleteMake.Text = "Delete Make";
             this.lblDeleteMake.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
@@ -568,6 +582,7 @@
             this.tbNewMake.ShortcutsEnabled = true;
             this.tbNewMake.Size = new System.Drawing.Size(259, 32);
             this.tbNewMake.TabIndex = 1;
+            this.tbNewMake.Tag = "tbNewMake";
             this.tbNewMake.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbNewMake.UseSelectable = true;
             this.tbNewMake.WaterMark = "Enter the new Make Name";
@@ -580,6 +595,7 @@
             this.btnAddNewMake.Name = "btnAddNewMake";
             this.btnAddNewMake.Size = new System.Drawing.Size(153, 23);
             this.btnAddNewMake.TabIndex = 3;
+            this.btnAddNewMake.Tag = "btnAddNewMake";
             this.btnAddNewMake.Text = "Save";
             this.btnAddNewMake.UseSelectable = true;
             this.btnAddNewMake.Click += new System.EventHandler(this.btnAddNewMake_Click);
@@ -592,6 +608,7 @@
             this.lblNewMake.Name = "lblNewMake";
             this.lblNewMake.Size = new System.Drawing.Size(143, 25);
             this.lblNewMake.TabIndex = 0;
+            this.lblNewMake.Tag = "lblNewMake";
             this.lblNewMake.Text = "Create new Make";
             this.lblNewMake.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
@@ -603,6 +620,7 @@
             this.lblMakes.Name = "lblMakes";
             this.lblMakes.Size = new System.Drawing.Size(60, 25);
             this.lblMakes.TabIndex = 0;
+            this.lblMakes.Tag = "lblMakes";
             this.lblMakes.Text = "Makes";
             this.lblMakes.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
@@ -616,7 +634,9 @@
             this.Controls.Add(this.Patents);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VehicleModelConfigurationForm";
+            this.Tag = "VehicleModelConfigurationForm";
             this.Text = "Vehicle Model Management";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VehicleModelConfigurationForm_FormClosing);
             this.ConfigureFamilies.ResumeLayout(false);
             this.ConfigureFamilies.PerformLayout();
             this.metroPanel3.ResumeLayout(false);

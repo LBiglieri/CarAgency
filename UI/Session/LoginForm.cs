@@ -19,10 +19,12 @@ namespace CarAgency.UI
     {
         UserBLL _userBLL;
         List<Languages> languages;
+        string initial_language;
         public LoginForm()
         {
             _userBLL = new UserBLL();
             InitializeComponent();
+            initial_language = LanguageService.GetCurrentLanguage();
             LanguageService.Attach(this);
             UpdateLanguageCombo();
         }
@@ -37,7 +39,6 @@ namespace CarAgency.UI
             try
             {
                 _userBLL.Login(this.tbUser.Text, this.tbPassword.Text);
-                LanguageService.LoadLanguage("en");
                 MessageBox.Show(LanguageService.GetTagText("successfullLogin"));
                 this.Close();
             }
@@ -48,18 +49,15 @@ namespace CarAgency.UI
         }
         private void UpdateLanguageCombo()
         {
-            languages = new List<Languages>
-            {
-                new Languages("en", "English"),
-                new Languages("es", "Español"),
-                new Languages("po", "Português")
-            };
+            languages = LanguageService.GetAvailableLanguages();
             comboLanguage.DataSource = languages;
             comboLanguage.ValueMember = "Language_Description";
             foreach (Languages language in languages)
             {
-                if (language.Language_Code == LanguageService.GetCurrentLanguage())
+                if (language.Language_Code == initial_language)
+                {
                     comboLanguage.SelectedIndex = comboLanguage.FindStringExact(language.Language_Description);
+                }
             }
         }
 #region  Form Events 
@@ -95,6 +93,26 @@ namespace CarAgency.UI
             {
                 LanguageService.LoadLanguage(((Languages)comboLanguage.SelectedItem).Language_Code);
             }
+        }
+
+        private void btnAdmin_Click(object sender, EventArgs e)
+        {
+            tbUser.Text = "Admin";
+        }
+
+        private void btnSales_Click(object sender, EventArgs e)
+        {
+            tbUser.Text = "GNigote";
+        }
+
+        private void btnCashier_Click(object sender, EventArgs e)
+        {
+            tbUser.Text = "EQuito";
+        }
+
+        private void btnAdministrative_Click(object sender, EventArgs e)
+        {
+            tbUser.Text = "RDMoniado";
         }
     }
 }

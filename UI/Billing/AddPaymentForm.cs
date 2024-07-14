@@ -3,6 +3,8 @@ using CarAgency.BLL;
 using CarAgency.Entities;
 using CarAgency.UI;
 using CarAgency.Utilities.Persistence;
+using Entities;
+using MetroFramework.Controls;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
@@ -21,10 +23,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using UI.Clients.Controls;
+using Utilities.Session;
 
 namespace UI.Vehicles
 {
-    public partial class AddPaymentForm : MetroFramework.Forms.MetroForm
+    public partial class AddPaymentForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         public Payment _payment;
         Invoice _invoice;
@@ -39,8 +42,26 @@ namespace UI.Vehicles
             _invoice = invoice;
 
             PerformUpdateReservationCombo();
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+        private void AddPaymentForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            LanguageService.Detach(this);
         }
         #region "Performs"
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText("AddPaymentForm");
+            this.Refresh();
+            tbAmount.WaterMark = LanguageService.GetTagText(tbAmount.Tag.ToString());
+            tbDetails.WaterMark = LanguageService.GetTagText(tbDetails.Tag.ToString());
+            tbCardNumber.WaterMark = LanguageService.GetTagText(tbCardNumber.Tag.ToString());
+            tbCardName.WaterMark = LanguageService.GetTagText(tbCardName.Tag.ToString());
+            tbExpireDate.WaterMark = LanguageService.GetTagText(tbExpireDate.Tag.ToString());
+            tbCVV.WaterMark = LanguageService.GetTagText(tbCVV.Tag.ToString());
+            btnAddPayment.Text = LanguageService.GetTagText(btnAddPayment.Tag.ToString());
+        }
         private void PerformUpdateReservationCombo()
         {
             try
@@ -228,5 +249,6 @@ namespace UI.Vehicles
                 }
             }
         }
+
     }
 }

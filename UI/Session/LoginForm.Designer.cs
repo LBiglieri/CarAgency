@@ -30,12 +30,16 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.LoginPanel = new MetroFramework.Controls.MetroPanel();
+            this.comboLanguage = new MetroFramework.Controls.MetroComboBox();
+            this.lblLanguage = new MetroFramework.Controls.MetroLabel();
             this.btnLogin = new MetroFramework.Controls.MetroButton();
             this.tbPassword = new MetroFramework.Controls.MetroTextBox();
             this.lblWelcome = new MetroFramework.Controls.MetroLabel();
             this.tbUser = new MetroFramework.Controls.MetroTextBox();
-            this.lblLanguage = new MetroFramework.Controls.MetroLabel();
-            this.comboLanguage = new MetroFramework.Controls.MetroComboBox();
+            this.btnSales = new MetroFramework.Controls.MetroButton();
+            this.btnAdmin = new MetroFramework.Controls.MetroButton();
+            this.btnCashier = new MetroFramework.Controls.MetroButton();
+            this.btnAdministrative = new MetroFramework.Controls.MetroButton();
             this.LoginPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,6 +48,10 @@
             this.LoginPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.LoginPanel.Controls.Add(this.btnAdministrative);
+            this.LoginPanel.Controls.Add(this.btnCashier);
+            this.LoginPanel.Controls.Add(this.btnAdmin);
+            this.LoginPanel.Controls.Add(this.btnSales);
             this.LoginPanel.Controls.Add(this.comboLanguage);
             this.LoginPanel.Controls.Add(this.lblLanguage);
             this.LoginPanel.Controls.Add(this.btnLogin);
@@ -61,6 +69,27 @@
             this.LoginPanel.VerticalScrollbarBarColor = true;
             this.LoginPanel.VerticalScrollbarHighlightOnWheel = false;
             this.LoginPanel.VerticalScrollbarSize = 10;
+            // 
+            // comboLanguage
+            // 
+            this.comboLanguage.FormattingEnabled = true;
+            this.comboLanguage.ItemHeight = 23;
+            this.comboLanguage.Location = new System.Drawing.Point(211, 180);
+            this.comboLanguage.Name = "comboLanguage";
+            this.comboLanguage.Size = new System.Drawing.Size(170, 29);
+            this.comboLanguage.TabIndex = 5;
+            this.comboLanguage.UseSelectable = true;
+            this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.comboLanguage_SelectedIndexChanged);
+            // 
+            // lblLanguage
+            // 
+            this.lblLanguage.AutoSize = true;
+            this.lblLanguage.Location = new System.Drawing.Point(138, 184);
+            this.lblLanguage.Name = "lblLanguage";
+            this.lblLanguage.Size = new System.Drawing.Size(69, 19);
+            this.lblLanguage.TabIndex = 4;
+            this.lblLanguage.Tag = "lblLanguage";
+            this.lblLanguage.Text = "Language:";
             // 
             // btnLogin
             // 
@@ -167,26 +196,45 @@
             this.tbUser.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.tbUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbUser_KeyDown);
             // 
-            // lblLanguage
+            // btnSales
             // 
-            this.lblLanguage.AutoSize = true;
-            this.lblLanguage.Location = new System.Drawing.Point(138, 184);
-            this.lblLanguage.Name = "lblLanguage";
-            this.lblLanguage.Size = new System.Drawing.Size(69, 19);
-            this.lblLanguage.TabIndex = 4;
-            this.lblLanguage.Tag = "lblLanguage";
-            this.lblLanguage.Text = "Language:";
+            this.btnSales.Location = new System.Drawing.Point(498, 228);
+            this.btnSales.Name = "btnSales";
+            this.btnSales.Size = new System.Drawing.Size(27, 23);
+            this.btnSales.TabIndex = 6;
+            this.btnSales.Text = "🤠";
+            this.btnSales.UseSelectable = true;
+            this.btnSales.Click += new System.EventHandler(this.btnSales_Click);
             // 
-            // comboLanguage
+            // btnAdmin
             // 
-            this.comboLanguage.FormattingEnabled = true;
-            this.comboLanguage.ItemHeight = 23;
-            this.comboLanguage.Location = new System.Drawing.Point(211, 180);
-            this.comboLanguage.Name = "comboLanguage";
-            this.comboLanguage.Size = new System.Drawing.Size(170, 29);
-            this.comboLanguage.TabIndex = 5;
-            this.comboLanguage.UseSelectable = true;
-            this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.comboLanguage_SelectedIndexChanged);
+            this.btnAdmin.Location = new System.Drawing.Point(498, 199);
+            this.btnAdmin.Name = "btnAdmin";
+            this.btnAdmin.Size = new System.Drawing.Size(27, 23);
+            this.btnAdmin.TabIndex = 7;
+            this.btnAdmin.Text = "🔐";
+            this.btnAdmin.UseSelectable = true;
+            this.btnAdmin.Click += new System.EventHandler(this.btnAdmin_Click);
+            // 
+            // btnCashier
+            // 
+            this.btnCashier.Location = new System.Drawing.Point(498, 257);
+            this.btnCashier.Name = "btnCashier";
+            this.btnCashier.Size = new System.Drawing.Size(27, 23);
+            this.btnCashier.TabIndex = 8;
+            this.btnCashier.Text = "💰";
+            this.btnCashier.UseSelectable = true;
+            this.btnCashier.Click += new System.EventHandler(this.btnCashier_Click);
+            // 
+            // btnAdministrative
+            // 
+            this.btnAdministrative.Location = new System.Drawing.Point(498, 286);
+            this.btnAdministrative.Name = "btnAdministrative";
+            this.btnAdministrative.Size = new System.Drawing.Size(27, 23);
+            this.btnAdministrative.TabIndex = 9;
+            this.btnAdministrative.Text = "📎";
+            this.btnAdministrative.UseSelectable = true;
+            this.btnAdministrative.Click += new System.EventHandler(this.btnAdministrative_Click);
             // 
             // LoginForm
             // 
@@ -216,6 +264,10 @@
         private MetroFramework.Controls.MetroButton btnLogin;
         private MetroFramework.Controls.MetroLabel lblLanguage;
         private MetroFramework.Controls.MetroComboBox comboLanguage;
+        private MetroFramework.Controls.MetroButton btnSales;
+        private MetroFramework.Controls.MetroButton btnAdmin;
+        private MetroFramework.Controls.MetroButton btnAdministrative;
+        private MetroFramework.Controls.MetroButton btnCashier;
     }
 }
 

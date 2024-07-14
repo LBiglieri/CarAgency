@@ -3,6 +3,7 @@ using CarAgency.BLL;
 using CarAgency.Entities;
 using CarAgency.UI;
 using CarAgency.Utilities.Persistence;
+using Entities;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
@@ -20,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using UI.Clients.Controls;
+using Utilities.Session;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace UI.Vehicles
@@ -29,7 +31,7 @@ namespace UI.Vehicles
         FromVehicle,
         FromQuotation
     }
-    public partial class GenerateReservationForm : MetroFramework.Forms.MetroForm
+    public partial class GenerateReservationForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         GenerateReservationFormMode FormMode = GenerateReservationFormMode.FromVehicle;
         public Client client;
@@ -72,6 +74,9 @@ namespace UI.Vehicles
 
             clientView1.clientViewMode = ClientViewMode.WithRegistration;
             this.clientView1.ClientFound += new EventHandler(clientView1_ClientFound);
+
+            LanguageService.Attach(this);
+            UpdateLanguage("");
         }
         public GenerateReservationForm(Client _client)
         {
@@ -92,8 +97,36 @@ namespace UI.Vehicles
                 
                 this.clientView1.InitWithClient(client);
             }
+
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+
+        private void GenerateReservationForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            clientView1.DetachLanguageObserver();
+            LanguageService.Detach(this);
         }
         #region "Performs"
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText("GenerateReservationForm");
+            this.Refresh();
+            lblFilters.Text = LanguageService.GetTagText(lblFilters.Tag.ToString());
+            lblMake.Text = LanguageService.GetTagText(lblMake.Tag.ToString());
+            lblModel.Text = LanguageService.GetTagText(lblModel.Tag.ToString());
+            lblVersion.Text = LanguageService.GetTagText(lblVersion.Tag.ToString());
+            lblColour.Text = LanguageService.GetTagText(lblColour.Tag.ToString());
+            tbYearFrom.WaterMark = LanguageService.GetTagText(tbYearFrom.Tag.ToString());
+            tbYearTo.WaterMark = LanguageService.GetTagText(tbYearTo.Tag.ToString());
+            tbKilometersFrom.WaterMark = LanguageService.GetTagText(tbKilometersFrom.Tag.ToString());
+            tbKilometersTo.WaterMark = LanguageService.GetTagText(tbKilometersTo.Tag.ToString());
+            tbPriceFrom.WaterMark = LanguageService.GetTagText(tbPriceFrom.Tag.ToString());
+            tbPriceTo.WaterMark = LanguageService.GetTagText(tbPriceTo.Tag.ToString());
+            tbDoorsFrom.WaterMark = LanguageService.GetTagText(tbDoorsFrom.Tag.ToString());
+            tbDoorsTo.WaterMark = LanguageService.GetTagText(tbDoorsTo.Tag.ToString());
+            btnGenerateReservation.Text = LanguageService.GetTagText(btnGenerateReservation.Tag.ToString());
+        }
         void PerformUpdateVehiclesView()
         {
             try
@@ -120,7 +153,7 @@ namespace UI.Vehicles
             try
             {
                 PdfDocument document = new PdfDocument();
-                document.Info.Title = "CarAgency®️ Vehicles Quotation for " + q_client.Name + " " + q_client.Surname;
+                document.Info.Title = LanguageService.GetTagText("VehiclesReservationfor") + q_client.Name + " " + q_client.Surname;
                 PdfPage page = document.AddPage();
                 XGraphics gfx = XGraphics.FromPdfPage(page);
                 XTextFormatter tf = new XTextFormatter(gfx);
@@ -137,7 +170,7 @@ namespace UI.Vehicles
                 rect = new XRect(25, 65, page.Width.Point-20, page.Height.Point-20);
                 gfx.DrawRectangle(XBrushes.SeaShell, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString("Vehicle Reservation for " + q_client.Name + " " + q_client.Surname, fontSubTitle, XBrushes.Black, rect, XStringFormats.TopLeft);
+                tf.DrawString(LanguageService.GetTagText("VehiclesReservationfor") + q_client.Name + " " + q_client.Surname, fontSubTitle, XBrushes.Black, rect, XStringFormats.TopLeft);
 
                 int rectplace = 120;
 
@@ -146,14 +179,14 @@ namespace UI.Vehicles
                 rect = new XRect(25, rectplace, page.Width.Point - 20, page.Height.Point - 20);
                 gfx.DrawRectangle(XBrushes.SeaShell, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString("Vehicle " + vehicle.Year + " " + vehicle.Make_Description + " " + vehicle.Model_Description + " " + vehicle.Version_Description + " . Colour:" + vehicle.Colour_Description, fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
+                tf.DrawString(LanguageService.GetTagText("Vehicle") + vehicle.Year + " " + vehicle.Make_Description + " " + vehicle.Model_Description + " " + vehicle.Version_Description + " . " + LanguageService.GetTagText("lblColour") + vehicle.Colour_Description, fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
                 
                 rectplace += 25;
 
                 rect = new XRect(25, rectplace, page.Width.Point - 20, page.Height.Point - 20);
                 gfx.DrawRectangle(XBrushes.SeaShell, rect);
                 tf.Alignment = XParagraphAlignment.Left;
-                tf.DrawString("                  License plate: " + vehicle.License_Plate + ". KM's:" + vehicle.Kilometers.ToString() + ". PRICE: $" + vehicle.Price.ToString(), fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
+                tf.DrawString("                  " + LanguageService.GetTagText("LicensePlate") + vehicle.License_Plate + ". KM's:" + vehicle.Kilometers.ToString() + ". " + LanguageService.GetTagText("Price") + vehicle.Price.ToString(), fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
 
                 rectplace += 75;
 
@@ -161,7 +194,7 @@ namespace UI.Vehicles
                 rect = new XRect(0, rectplace, page.Width.Point - 20, page.Height.Point - 20);
                 gfx.DrawRectangle(XBrushes.SeaShell, rect);
                 tf.Alignment = XParagraphAlignment.Right;
-                tf.DrawString("This reservation is only valid until " +reservation.Expiration_Date.ToString("dd/MM/yyyy"), fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
+                tf.DrawString(LanguageService.GetTagText("ReservationPricesValidMessage") + reservation.Expiration_Date.ToString("dd/MM/yyyy"), fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
             
                 rectplace += 25;
 
@@ -170,7 +203,7 @@ namespace UI.Vehicles
                 tf.Alignment = XParagraphAlignment.Right;
                 tf.DrawString("CarAgency " + DateTime.Now.ToString("yyyy") + "®️", fontBody, XBrushes.Black, rect, XStringFormats.TopLeft);
 
-                string filename = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CarAgency Quotation" + q_client.Surname+ " " + q_client.Name + ".pdf";
+                string filename = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CarAgency Reservation" + q_client.Surname+ " " + q_client.Name + ".pdf";
                 document.Close();
                 document.Save(filename);
 
@@ -441,7 +474,7 @@ namespace UI.Vehicles
                 if (_quotationbll == null)
                     _quotationbll = new QuotationBLL();
                 quotations = _quotationbll.GetAllActiveByClient(client.Id);
-                if (quotations!=null && quotations.Count > 0 && MessageBox.Show("There are active Quotations for this client, do you want to precharge them to generate a reservation?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (quotations!=null && quotations.Count > 0 && MessageBox.Show(LanguageService.GetTagText("ThereAreActiveReservations"), "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     FormMode = GenerateReservationFormMode.FromQuotation;
                     metroPanel1.Enabled = false;
@@ -459,6 +492,11 @@ namespace UI.Vehicles
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void lblVersion_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

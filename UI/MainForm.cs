@@ -23,7 +23,7 @@ namespace CarAgency.UI
         {
             InitializeComponent();
             LanguageService.Attach(this); 
-            LanguageService.LoadLanguage("en");
+            LanguageService.LoadLanguage("es");
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -96,7 +96,7 @@ namespace CarAgency.UI
             foreach (ToolStripMenuItem control in menuStrip1.Items)
             {
                 control.Text = LanguageService.GetTagText(control.Tag.ToString());
-                if (control.DropDownItems.Count > 1)
+                if (control.DropDownItems.Count > 0)
                 {
                     foreach (ToolStripMenuItem innercontrol in control.DropDownItems)
                     {
@@ -196,6 +196,12 @@ namespace CarAgency.UI
                 MessageBox.Show(LanguageService.GetTagText("notLogged"));
             }
         }
+        private void changeSystemsLanguageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeLanguageForm frm = new ChangeLanguageForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
 
         private void newQuotationToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -239,5 +245,6 @@ namespace CarAgency.UI
             frm.Show();
         }
         #endregion
+
     }
 }

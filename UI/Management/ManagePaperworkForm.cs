@@ -3,6 +3,7 @@ using CarAgency.BLL;
 using CarAgency.Entities;
 using CarAgency.UI;
 using CarAgency.Utilities.Persistence;
+using Entities;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
@@ -19,12 +20,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using UI.Clients.Controls;
+using Utilities.Session;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace UI.Vehicles
 {
 
-    public partial class ManagePaperworkForm : MetroFramework.Forms.MetroForm
+    public partial class ManagePaperworkForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         PaperworkBLL _PaperworkBLL;
         ClientsBLL _ClientsBLL;
@@ -41,8 +43,23 @@ namespace UI.Vehicles
             this.clientView1.ClientFound += new EventHandler(clientView1_ClientFound);
 
             PerformUpdatePaperworkView();
+            LanguageService.Attach(this);
+            UpdateLanguage("");
+        }
+
+        private void ManagePaperworkForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            clientView1.DetachLanguageObserver();
+            LanguageService.Detach(this);
         }
         #region "Performs"
+        public void UpdateLanguage(string language)
+        {
+            this.Text = LanguageService.GetTagText("ManagePaperworkForm");
+            this.Refresh();
+            btnAddPaperwork.Text = LanguageService.GetTagText(btnAddPaperwork.Tag.ToString());
+            btnEditPaperwork.Text = LanguageService.GetTagText(btnEditPaperwork.Tag.ToString());
+        }
         void PerformUpdatePaperworkView()
         {
             try

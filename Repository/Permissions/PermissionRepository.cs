@@ -18,7 +18,6 @@ namespace CarAgency.Repository
             return Enum.GetValues(typeof(PermissionType));
         }
 
-        //revisar si corresponde que el id sea generado en sql ( para poder identificar familias/patentes ya guardadas) entre otras cosas.
         public bool InsertComponent(ComposedPermission p, bool isfamily)
         {
             SqlConnection sql = new SqlConnection(base.GetConnectionString());
@@ -323,6 +322,60 @@ namespace CarAgency.Repository
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        public bool DeletePatent(Patent selectedItem)
+        {
+            SqlConnection sql = new SqlConnection(base.GetConnectionString());
+            try
+            {
+                SqlCommand cmd = new SqlCommand("Permissions_DeletePatent", sql);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("Id", selectedItem.Id);
+                sql.Open();
+
+                if (cmd.ExecuteNonQuery() > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (sql != null)
+                    sql.Close();
+            }
+        }
+
+        public bool DeleteCompleteFamily(ComposedPermission selectedItem)
+        {
+            SqlConnection sql = new SqlConnection(base.GetConnectionString());
+            try
+            {
+                SqlCommand cmd = new SqlCommand("Permissions_DeleteCompleteFamily", sql);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("Id", selectedItem.Id);
+                sql.Open();
+
+                if (cmd.ExecuteNonQuery() > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (sql != null)
+                    sql.Close();
             }
         }
     }

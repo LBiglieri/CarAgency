@@ -78,6 +78,7 @@
             this.lblDateBirth.Name = "lblDateBirth";
             this.lblDateBirth.Size = new System.Drawing.Size(74, 15);
             this.lblDateBirth.TabIndex = 7;
+            this.lblDateBirth.Tag = "lblDateBirth";
             this.lblDateBirth.Text = "Date of Birth:";
             // 
             // dtBirth
@@ -119,6 +120,7 @@
             this.tbMail.ShortcutsEnabled = true;
             this.tbMail.Size = new System.Drawing.Size(357, 32);
             this.tbMail.TabIndex = 6;
+            this.tbMail.Tag = "tbMail";
             this.tbMail.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbMail.UseSelectable = true;
             this.tbMail.WaterMark = "Enter the client\'s Email";
@@ -155,6 +157,7 @@
             this.tbPhoneHome.ShortcutsEnabled = true;
             this.tbPhoneHome.Size = new System.Drawing.Size(357, 32);
             this.tbPhoneHome.TabIndex = 5;
+            this.tbPhoneHome.Tag = "tbPhoneHome";
             this.tbPhoneHome.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbPhoneHome.UseSelectable = true;
             this.tbPhoneHome.WaterMark = "Enter the client\'s Home Phone";
@@ -191,6 +194,7 @@
             this.tbPersonalPhone.ShortcutsEnabled = true;
             this.tbPersonalPhone.Size = new System.Drawing.Size(357, 32);
             this.tbPersonalPhone.TabIndex = 4;
+            this.tbPersonalPhone.Tag = "tbPersonalPhone";
             this.tbPersonalPhone.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbPersonalPhone.UseSelectable = true;
             this.tbPersonalPhone.WaterMark = "Enter the client\'s Mobile Phone";
@@ -227,6 +231,7 @@
             this.tbAddress.ShortcutsEnabled = true;
             this.tbAddress.Size = new System.Drawing.Size(357, 32);
             this.tbAddress.TabIndex = 3;
+            this.tbAddress.Tag = "tbAddress";
             this.tbAddress.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbAddress.UseSelectable = true;
             this.tbAddress.WaterMark = "Enter the client\'s Address";
@@ -263,6 +268,7 @@
             this.tbDni.ShortcutsEnabled = true;
             this.tbDni.Size = new System.Drawing.Size(357, 32);
             this.tbDni.TabIndex = 0;
+            this.tbDni.Tag = "tbDni";
             this.tbDni.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbDni.UseSelectable = true;
             this.tbDni.WaterMark = "Enter the client\'s DNI";
@@ -299,6 +305,7 @@
             this.tbName.ShortcutsEnabled = true;
             this.tbName.Size = new System.Drawing.Size(357, 32);
             this.tbName.TabIndex = 1;
+            this.tbName.Tag = "tbName";
             this.tbName.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbName.UseSelectable = true;
             this.tbName.WaterMark = "Enter the client\'s Name";
@@ -311,6 +318,7 @@
             this.btnRegisterClient.Name = "btnRegisterClient";
             this.btnRegisterClient.Size = new System.Drawing.Size(166, 36);
             this.btnRegisterClient.TabIndex = 9;
+            this.btnRegisterClient.Tag = "btnRegisterClient";
             this.btnRegisterClient.Text = "Register Client";
             this.btnRegisterClient.UseSelectable = true;
             this.btnRegisterClient.Click += new System.EventHandler(this.btnRegisterClient_Click);
@@ -345,6 +353,7 @@
             this.tbSurname.ShortcutsEnabled = true;
             this.tbSurname.Size = new System.Drawing.Size(357, 32);
             this.tbSurname.TabIndex = 2;
+            this.tbSurname.Tag = "tbSurname";
             this.tbSurname.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tbSurname.UseSelectable = true;
             this.tbSurname.WaterMark = "Enter the client\'s Surname";
@@ -361,8 +370,10 @@
             this.MaximizeBox = false;
             this.Name = "CreateClientForm";
             this.Resizable = false;
+            this.Tag = "CreateClientForm";
             this.Text = "Register Client";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateClientForm_FormClosing);
             this.LoginPanel.ResumeLayout(false);
             this.LoginPanel.PerformLayout();
             this.ResumeLayout(false);

@@ -7,6 +7,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Xml;
 using System.Windows.Forms;
 using Entities;
+using CarAgency.Entities;
 
 namespace Utilities.Session
 {
@@ -46,6 +47,16 @@ namespace Utilities.Session
         public static string GetCurrentLanguage()
         {
             return languageManager.GetCurrentLanguage();
+        }
+
+        public static List<Languages> GetAvailableLanguages()
+        {
+            return new List<Languages>
+            {
+                new Languages("en", "English"),
+                new Languages("es", "Español"),
+                new Languages("po", "Português")
+            };
         }
 
     }
