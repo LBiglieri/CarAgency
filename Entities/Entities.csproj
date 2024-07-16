@@ -52,7 +52,6 @@
     <Compile Include="Management\Paperwork.cs" />
     <Compile Include="Permissions\ComposedPermission.cs" />
     <Compile Include="Permissions\Family.cs" />
-    <Compile Include="Permissions\IPermission.cs" />
     <Compile Include="Permissions\Patent.cs" />
     <Compile Include="Permissions\PermissionType.cs" />
     <Compile Include="Billing\Invoice.cs" />

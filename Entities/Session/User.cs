@@ -8,10 +8,8 @@ namespace CarAgency.Entities
 {
     public class User : Entity
     {
-        private IList<ComposedPermission> _permissions;
         public User()
         {
-            _permissions = new List<ComposedPermission>();
         }
         [TableColumnAttribute]
         public int Dni { get; set; }
