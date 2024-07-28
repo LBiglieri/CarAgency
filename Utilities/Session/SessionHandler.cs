@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities.Session;
 
 namespace CarAgency.Utilities.Session
 {
@@ -24,7 +25,11 @@ namespace CarAgency.Utilities.Session
         public static void Login(User user)
         {
             if (user != null)
+            {
                 _user = user;
+                LanguageService.LoadLanguage(_user.Language_Code);
+            }
+
         }
 
         public static void Logout()

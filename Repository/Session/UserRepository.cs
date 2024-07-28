@@ -191,6 +191,7 @@ namespace CarAgency.Repository
                 cmd.Parameters.Add(new SqlParameter("Blocked", user.Blocked));
                 cmd.Parameters.Add(new SqlParameter("Active", user.Active));
                 cmd.Parameters.Add(new SqlParameter("Available_Login_Attempts", user.Available_Login_Attempts));
+                cmd.Parameters.Add(new SqlParameter("Language_Code", user.Language_Code));
 
                 sql.Open();
                 reader = cmd.ExecuteReader();
@@ -239,6 +240,7 @@ namespace CarAgency.Repository
                 cmd.Parameters.Add(new SqlParameter("Blocked", user.Blocked));
                 cmd.Parameters.Add(new SqlParameter("Active", user.Active));
                 cmd.Parameters.Add(new SqlParameter("Available_Login_Attempts", user.Available_Login_Attempts));
+                cmd.Parameters.Add(new SqlParameter("Language_Code", user.Language_Code));
 
                 sql.Open();
                 reader = cmd.ExecuteReader();

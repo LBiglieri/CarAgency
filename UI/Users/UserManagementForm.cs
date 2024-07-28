@@ -80,6 +80,7 @@ namespace CarAgency.UI
                 metroGrid1.Columns["Role"].Visible = false;
                 metroGrid1.Columns["Id"].Visible = false;
                 metroGrid1.Columns["Available_Login_Attempts"].Visible = false;
+                metroGrid1.Columns["Language_Code"].Visible = false;
             }
             catch (Exception ex)
             {

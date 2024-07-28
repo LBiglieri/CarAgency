@@ -38,6 +38,9 @@ namespace CarAgency.Entities
         [TableColumnAttribute]
         public int Available_Login_Attempts { get; set; }
 
+        [TableColumnAttribute]
+        public string Language_Code { get; set; }
+
         public ComposedPermission Role { get; set; }
     }
 }

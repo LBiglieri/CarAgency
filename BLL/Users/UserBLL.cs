@@ -42,6 +42,7 @@ namespace CarAgency.BLL
             user.Blocked = false;
             user.Active = true;
             user.Password = CryptographyHandler.GenerateSHA512Hash(user.Dni.ToString());
+            user.Language_Code = "es";
             return _userrepository.AddUser(user);
         }
 
@@ -99,6 +100,23 @@ namespace CarAgency.BLL
                     SessionHandler.Logout();
                     SessionHandler.Login(user);
                 }
+            }
+
+            return result;
+        }
+
+        public SQLUpdateResult ChangeLanguage(Guid Id, string NewLanguage)
+        {
+            SQLUpdateResult result;
+
+            User user = GetFullUserById(Id);
+            user.Language_Code = NewLanguage;
+            result = _userrepository.UpdateUser(user);
+
+            if (result != null && result.sqlResult == SQLResultType.success)
+            {
+                SessionHandler.Logout();
+                SessionHandler.Login(user);
             }
 
             return result;

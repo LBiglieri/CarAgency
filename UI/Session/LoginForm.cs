@@ -26,7 +26,6 @@ namespace CarAgency.UI
             InitializeComponent();
             initial_language = LanguageService.GetCurrentLanguage();
             LanguageService.Attach(this);
-            UpdateLanguageCombo();
         }
 
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -45,19 +44,6 @@ namespace CarAgency.UI
             catch (Exception ee)
             {
                 MessageBox.Show(ee.Message);
-            }
-        }
-        private void UpdateLanguageCombo()
-        {
-            languages = LanguageService.GetAvailableLanguages();
-            comboLanguage.DataSource = languages;
-            comboLanguage.ValueMember = "Language_Description";
-            foreach (Languages language in languages)
-            {
-                if (language.Language_Code == initial_language)
-                {
-                    comboLanguage.SelectedIndex = comboLanguage.FindStringExact(language.Language_Description);
-                }
             }
         }
 #region  Form Events 
@@ -82,18 +68,10 @@ namespace CarAgency.UI
             tbUser.WaterMark = LanguageService.GetTagText(tbUser.Tag.ToString());
             tbPassword.WaterMark = LanguageService.GetTagText(tbPassword.Tag.ToString());
             btnLogin.Text = LanguageService.GetTagText(btnLogin.Tag.ToString());
-            lblLanguage.Text = LanguageService.GetTagText(lblLanguage.Tag.ToString());
         }
 
         #endregion
 
-        private void comboLanguage_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboLanguage.SelectedIndex != -1 && (Languages)comboLanguage.SelectedItem != null)
-            {
-                LanguageService.LoadLanguage(((Languages)comboLanguage.SelectedItem).Language_Code);
-            }
-        }
 
         private void btnAdmin_Click(object sender, EventArgs e)
         {

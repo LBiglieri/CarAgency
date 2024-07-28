@@ -23,6 +23,7 @@ namespace CarAgency.UI
         public ChangeLanguageForm()
         {
             InitializeComponent();
+            _userBLL = new UserBLL();
             initial_language = LanguageService.GetCurrentLanguage();
             LanguageService.Attach(this);
             UpdateLanguageCombo();
@@ -62,7 +63,10 @@ namespace CarAgency.UI
         {
             if (comboLanguage.SelectedIndex != -1 && (Languages)comboLanguage.SelectedItem != null)
             {
-                LanguageService.LoadLanguage(((Languages)comboLanguage.SelectedItem).Language_Code);
+                if (SessionHandler.Logged())
+                    _userBLL.ChangeLanguage(SessionHandler.GetId(), ((Languages)comboLanguage.SelectedItem).Language_Code);
+                else
+                    LanguageService.LoadLanguage(((Languages)comboLanguage.SelectedItem).Language_Code);
             }
         }
     }
