@@ -13,7 +13,7 @@ namespace CarAgency.Utilities.Persistence
         {
             var cs = new SqlConnectionStringBuilder();
             cs.InitialCatalog = "CarAgency";
-            cs.DataSource = "BIGLIE-NOTE\\BIGLIESQL";
+            cs.DataSource = ".";
             cs.IntegratedSecurity = true;
             return cs.ConnectionString;
         }

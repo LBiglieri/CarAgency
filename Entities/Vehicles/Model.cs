@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CarAgency.Entities
 {
-    public class Model : Entity
+    public class Model
     {
+        [TableColumnAttribute]
+        public Guid Id { get; set; }
 
         [TableColumnAttribute]
         public Guid Make_Id { get; set; }

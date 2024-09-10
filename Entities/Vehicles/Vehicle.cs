@@ -7,8 +7,11 @@ using System.Xml.Linq;
 
 namespace CarAgency.Entities
 {
-    public class Vehicle : Entity
+    public class Vehicle
     {
+        [TableColumnAttribute]
+        public Guid Id { get; set; }
+
         [TableColumnAttribute]
         public string License_Plate { get; set; }
 

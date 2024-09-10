@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CarAgency.Entities
 {
-    public abstract class ComposedPermission : Entity
+    public abstract class ComposedPermission
     {
+        [TableColumnAttribute]
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
         public PermissionType Type { get; set; }

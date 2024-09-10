@@ -8,8 +8,10 @@ using System.Xml.Linq;
 
 namespace CarAgency.Entities
 {
-    public class Payment : Entity
+    public class Payment
     {
+        [TableColumnAttribute]
+        public Guid Id { get; set; }
 
         [TableColumnAttribute]
         public Guid Invoice_Id { get; set; }

@@ -7,8 +7,10 @@ using System.Xml.Linq;
 
 namespace CarAgency.Entities
 {
-    public class Version : Entity
+    public class Version
     {
+        [TableColumnAttribute]
+        public Guid Id { get; set; }
 
         [TableColumnAttribute]
         public Guid Make_Id { get; set; }

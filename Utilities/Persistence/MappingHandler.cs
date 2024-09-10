@@ -32,7 +32,7 @@ namespace CarAgency.Utilities.Persistence
 			return obj;
 		}
 
-		public static List<T> MapReaderToEntities<T>(IDataReader reader) where T : Entity, new()
+		public static List<T> MapReaderToEntities<T>(IDataReader reader) where T : class, new()
 		{
 			List <T> list = new List<T>();
 
@@ -56,42 +56,5 @@ namespace CarAgency.Utilities.Persistence
             }
 			return list;
         }
-        public static T MapEntityToEntity<T>(Entity f) where T : Entity, new()
-        {
-            var key = (from: f.GetType(), to: typeof(T));
-
-            if (!_cache.ContainsKey(key))
-            {
-                PopulateCacheKey(key);
-            }
-
-            var result = new T();
-            var entry = _cache[key];
-            foreach (var e in entry)
-            {
-                var val = e.Get.Invoke(f, null);
-                e.Set.Invoke(result, new[] { val });
-            }
-
-            return result;
-        }
-
-        public static void PopulateCacheKey((Type from, Type to) key)
-		{
-			var fromProps = key.from.GetProperties();
-			var toProps = key.to.GetProperties();
-
-			List<(MethodInfo, MethodInfo)> entry = new List<(MethodInfo, MethodInfo)>();
-			foreach (var from in fromProps)
-			{
-				var to = toProps.FirstOrDefault(x => x.Name == from.Name);
-				if (to == null)
-				{
-					continue;
-				}
-				entry.Add((from.GetMethod, to.SetMethod));
-			}
-			_cache[key] = entry;
-		}
 	}
 }

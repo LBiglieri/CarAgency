@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CarAgency.Entities
 {
-    public class Colour : Entity
+    public class Colour
     {
+        [TableColumnAttribute]
+        public Guid Id { get; set; }
 
         [TableColumnAttribute]
         public string Description { get; set; }

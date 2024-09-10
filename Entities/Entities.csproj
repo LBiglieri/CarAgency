@@ -58,7 +58,6 @@
     <Compile Include="Sales\Reservation.cs" />
     <Compile Include="Sales\Quotation.cs" />
     <Compile Include="Session\User.cs" />
-    <Compile Include="Entity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vehicles\Colour.cs" />
     <Compile Include="Vehicles\Vehicle.cs" />

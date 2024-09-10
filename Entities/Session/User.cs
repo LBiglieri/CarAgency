@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace CarAgency.Entities
 {
-    public class User : Entity
+    public class User
     {
         public User()
         {
         }
+        [TableColumnAttribute]
+        public Guid Id { get; set; }
         [TableColumnAttribute]
         public int Dni { get; set; }
 
