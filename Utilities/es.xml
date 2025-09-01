@@ -226,4 +226,22 @@
 	<translation tag="PleaseSelectVehicle">Por favor, seleccione un vehículo para realizar la acción.</translation>
 	<translation tag="AreYouSureUpdateVehicle">¿Está seguro de que desea actualizar el vehículo </translation>
 	<translation tag="AreYouSureDeleteVehicle">¿Está seguro de que desea eliminar el vehículo </translation>
+
+  <translation tag="BackupRestoreForm">Respaldo / Restaurar Base de Datos</translation>
+  <translation tag="lblBackupDatabase">Respaldar Base de Datos:</translation>
+  <translation tag="tbBackupPath">Ingrese la ruta de respaldo</translation>
+  <translation tag="btnSelectBackupPath">Seleccionar Ruta</translation>
+  <translation tag="btnBackupDatabase">Respaldar Base de Datos</translation>
+  <translation tag="lblRestoreDatabase">Restaurar Base de Datos:</translation>
+  <translation tag="tbRestorePath">Ingrese la ruta de restauración</translation>
+  <translation tag="btnSelectRestorePath">Seleccionar Ruta</translation>
+  <translation tag="btnRestoreDatabase">Restaurar Base de Datos</translation>
+  <translation tag="PleaseSelectBackupPath">Por favor seleccione una ruta de respaldo válida para continuar.</translation>
+  <translation tag="PleaseSelectRestorePath">Por favor seleccione una ruta de restauración válida para continuar.</translation>
+  <translation tag="BackupCompletedSuccessfully">¡El respaldo de la base de datos se completó con éxito!</translation>
+  <translation tag="RestoreCompletedSuccessfully">¡La restauración de la base de datos se completó con éxito!</translation>
+  <translation tag="AreYouSureYouWantToRestore">¿Está seguro de que desea restaurar la base de datos? ¡Esta acción sobrescribirá la base de datos actual!</translation>
+  <translation tag="errorRestoringDatabase">Error al restaurar la base de datos:</translation>
+  <translation tag="errorBackupDatabase">Error al respaldar la base de datos:</translation>
+  
 </translations>

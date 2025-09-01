@@ -226,4 +226,22 @@
 	<translation tag="PleaseSelectVehicle">Por favor, selecione um veículo para realizar a ação.</translation>
 	<translation tag="AreYouSureUpdateVehicle">Tem certeza de que deseja atualizar o veículo </translation>
 	<translation tag="AreYouSureDeleteVehicle">Tem certeza de que deseja excluir o veículo </translation>
+
+  <translation tag="BackupRestoreForm">Backup / Restaurar Banco de Dados</translation>
+  <translation tag="lblBackupDatabase">Backup do Banco de Dados:</translation>
+  <translation tag="tbBackupPath">Insira o caminho do backup</translation>
+  <translation tag="btnSelectBackupPath">Selecionar Caminho</translation>
+  <translation tag="btnBackupDatabase">Fazer Backup do Banco de Dados</translation>
+  <translation tag="lblRestoreDatabase">Restaurar Banco de Dados:</translation>
+  <translation tag="tbRestorePath">Insira o caminho de restauração</translation>
+  <translation tag="btnSelectRestorePath">Selecionar Caminho</translation>
+  <translation tag="btnRestoreDatabase">Restaurar Banco de Dados</translation>
+  <translation tag="PleaseSelectBackupPath">Por favor, selecione um caminho de backup válido para continuar.</translation>
+  <translation tag="PleaseSelectRestorePath">Por favor, selecione um caminho de restauração válido para continuar.</translation>
+  <translation tag="BackupCompletedSuccessfully">Backup do banco de dados concluído com sucesso!</translation>
+  <translation tag="RestoreCompletedSuccessfully">Restauração do banco de dados concluída com sucesso!</translation>
+  <translation tag="AreYouSureYouWantToRestore">Tem certeza de que deseja restaurar o banco de dados? Esta ação substituirá o banco de dados atual!</translation>
+  <translation tag="errorRestoringDatabase">Erro ao restaurar o banco de dados:</translation>
+  <translation tag="errorBackupDatabase">Erro ao fazer backup do banco de dados:</translation>
+  
 </translations>

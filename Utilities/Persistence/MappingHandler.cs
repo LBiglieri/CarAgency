@@ -11,8 +11,6 @@ namespace CarAgency.Utilities.Persistence
 {
     public class MappingHandler
     {
-		static Dictionary<(Type from, Type to), List<(MethodInfo Get, MethodInfo Set)>> _cache = new Dictionary<(Type from, Type to), List<(MethodInfo Get, MethodInfo Set)>>();
-
 		public static T MapReaderToEntity<T>(IDataReader reader) where T : class, new()
 		{
 			var type = typeof(T);

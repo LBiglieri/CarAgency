@@ -227,4 +227,22 @@
 	<translation tag="AreYouSureUpdateVehicle">Are you sure you want to update the vehicle </translation>
 	<translation tag="AreYouSureDeleteVehicle">Are you sure you want to delete the vehicle </translation>
 
+
+  <translation tag="BackupRestoreForm">Backup / Restore Database</translation>
+  <translation tag="lblBackupDatabase">Backup Database:</translation>
+  <translation tag="tbBackupPath">Enter the backup path</translation>
+  <translation tag="btnSelectBackupPath">Select Path</translation>
+  <translation tag="btnBackupDatabase">Backup Database</translation>
+  <translation tag="lblRestoreDatabase">Restore Database:</translation>
+  <translation tag="tbRestorePath">Enter the restore path</translation>
+  <translation tag="btnSelectRestorePath">Select Path</translation>
+  <translation tag="btnRestoreDatabase">Restore Database</translation>
+  <translation tag="PleaseSelectBackupPath">Please select a valid backup path to continue.</translation>
+  <translation tag="PleaseSelectRestorePath">Please select a valid restore path to continue.</translation>
+  <translation tag="BackupCompletedSuccessfully">Database backup completed successfully!</translation>
+  <translation tag="RestoreCompletedSuccessfully">Database restore completed successfully!</translation>
+  <translation tag="AreYouSureYouWantToRestore">Are you sure you want to restore the database? This action will overwrite the current database!</translation>
+  <translation tag="errorRestoringDatabase">Error restoring the database:</translation>
+  <translation tag="errorBackupDatabase">Error backing up the database: </translation>
+  
 </translations>

@@ -48,6 +48,7 @@
     <Compile Include="Permissions\PermissionRepository.cs" />
     <Compile Include="Sales\Quotations\QuotationRepository.cs" />
     <Compile Include="Sales\Reservation\ReservationRepository.cs" />
+    <Compile Include="Security\SecurityRepository.cs" />
     <Compile Include="Session\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vehicles\VehicleRepository.cs" />

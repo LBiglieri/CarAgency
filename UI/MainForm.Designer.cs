@@ -34,6 +34,7 @@
             this.SessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeSystemsLanguageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +50,7 @@
             this.vehicleModelConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vehicleManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.changeSystemsLanguageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backupRestoreDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -107,6 +108,14 @@
             this.changePasswordToolStripMenuItem.Tag = "changePasswordToolStripMenuItem";
             this.changePasswordToolStripMenuItem.Text = "Change Password";
             this.changePasswordToolStripMenuItem.Click += new System.EventHandler(this.changePasswordToolStripMenuItem_Click);
+            // 
+            // changeSystemsLanguageToolStripMenuItem
+            // 
+            this.changeSystemsLanguageToolStripMenuItem.Name = "changeSystemsLanguageToolStripMenuItem";
+            this.changeSystemsLanguageToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.changeSystemsLanguageToolStripMenuItem.Tag = "changeSystemsLanguageToolStripMenuItem";
+            this.changeSystemsLanguageToolStripMenuItem.Text = "Change System\'s Language";
+            this.changeSystemsLanguageToolStripMenuItem.Click += new System.EventHandler(this.changeSystemsLanguageToolStripMenuItem_Click);
             // 
             // logoutToolStripMenuItem
             // 
@@ -190,7 +199,8 @@
             this.permissionConfigurationToolStripMenuItem,
             this.userManagementToolStripMenuItem,
             this.vehicleModelConfigurationToolStripMenuItem,
-            this.vehicleManagementToolStripMenuItem});
+            this.vehicleManagementToolStripMenuItem,
+            this.backupRestoreDatabaseToolStripMenuItem});
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
             this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.configurationToolStripMenuItem.Tag = "configurationToolStripMenuItem";
@@ -237,13 +247,13 @@
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
-            // changeSystemsLanguageToolStripMenuItem
+            // backupRestoreDatabaseToolStripMenuItem
             // 
-            this.changeSystemsLanguageToolStripMenuItem.Name = "changeSystemsLanguageToolStripMenuItem";
-            this.changeSystemsLanguageToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.changeSystemsLanguageToolStripMenuItem.Tag = "changeSystemsLanguageToolStripMenuItem";
-            this.changeSystemsLanguageToolStripMenuItem.Text = "Change System\'s Language";
-            this.changeSystemsLanguageToolStripMenuItem.Click += new System.EventHandler(this.changeSystemsLanguageToolStripMenuItem_Click);
+            this.backupRestoreDatabaseToolStripMenuItem.Name = "backupRestoreDatabaseToolStripMenuItem";
+            this.backupRestoreDatabaseToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.backupRestoreDatabaseToolStripMenuItem.Tag = "BackupRestoreForm";
+            this.backupRestoreDatabaseToolStripMenuItem.Text = "Backup / Restore Database";
+            this.backupRestoreDatabaseToolStripMenuItem.Click += new System.EventHandler(this.backupRestoreDatabaseToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -290,6 +300,7 @@
         private System.Windows.Forms.ToolStripMenuItem vehicleManagementToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeSystemsLanguageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backupRestoreDatabaseToolStripMenuItem;
     }
 }
 

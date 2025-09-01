@@ -77,11 +77,12 @@ namespace CarAgency.UI
             managementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
             managePaperworkToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
 
-            configurationToolStripMenuItem.Visible = ((SessionHandler.IsAuthorized(Entities.PermissionType.PermissionManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.UserManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleManagementForm)));
+            configurationToolStripMenuItem.Visible = ((SessionHandler.IsAuthorized(Entities.PermissionType.PermissionManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.UserManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.BackupRestoreForm)));
             permissionConfigurationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.PermissionManagementForm));
             userManagementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.UserManagementForm));
             vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm));
             vehicleManagementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleManagementForm));
+            backupRestoreDatabaseToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.BackupRestoreForm));
 
         }
 
@@ -244,7 +245,13 @@ namespace CarAgency.UI
             frm.MdiParent = this;
             frm.Show();
         }
-        #endregion
 
+        private void backupRestoreDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BackupRestoreForm frm = new BackupRestoreForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+        #endregion
     }
 }

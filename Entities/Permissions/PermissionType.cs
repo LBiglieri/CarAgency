@@ -19,6 +19,7 @@ namespace CarAgency.Entities
         ChangePasswordForm,
         UserManagementForm,
         VehicleManagementForm,
-        VehicleModelConfigurationForm
+        VehicleModelConfigurationForm,
+        BackupRestoreForm
     }
 }
