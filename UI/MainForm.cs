@@ -34,8 +34,8 @@ namespace CarAgency.UI
 #region  Form UI Changes
         private void UpdateTitle()
         {
-            if (SessionHandler.Logged())
-                lblTitle.Text = LanguageService.GetTagText("Welcome") + " " + SessionHandler.GetUsername();
+            if (SessionHandler.Instance.Logged())
+                lblTitle.Text = LanguageService.GetTagText("Welcome") + " " + SessionHandler.Instance.GetUsername();
             else
                 lblTitle.Text = "CarAgency";
             lblTitle.Refresh();
@@ -43,7 +43,7 @@ namespace CarAgency.UI
         
         private void UpdateAuthorizedMenus()
         {
-            if (!SessionHandler.Logged())
+            if (!SessionHandler.Instance.Logged())
             {
                 changePasswordToolStripMenuItem.Visible = false;
 
@@ -65,24 +65,24 @@ namespace CarAgency.UI
                 return;
             }
 
-            changePasswordToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.ChangePasswordForm));
+            changePasswordToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.ChangePasswordForm));
 
-            salesToolStripMenuItem.Visible = ((SessionHandler.IsAuthorized(Entities.PermissionType.GenerateQuotationForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateReservationForm)));
-            newQuotationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateQuotationForm));
-            newReservationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateReservationForm));
+            salesToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateQuotationForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateReservationForm)));
+            newQuotationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateQuotationForm));
+            newReservationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateReservationForm));
 
-            billingToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateInvoiceForm));
-            generateInvoiceToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.GenerateInvoiceForm));
+            billingToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateInvoiceForm));
+            generateInvoiceToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateInvoiceForm));
 
-            managementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
-            managePaperworkToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
+            managementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
+            managePaperworkToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
 
-            configurationToolStripMenuItem.Visible = ((SessionHandler.IsAuthorized(Entities.PermissionType.PermissionManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.UserManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleManagementForm)) || (SessionHandler.IsAuthorized(Entities.PermissionType.BackupRestoreForm)));
-            permissionConfigurationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.PermissionManagementForm));
-            userManagementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.UserManagementForm));
-            vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm));
-            vehicleManagementToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.VehicleManagementForm));
-            backupRestoreDatabaseToolStripMenuItem.Visible = (SessionHandler.IsAuthorized(Entities.PermissionType.BackupRestoreForm));
+            configurationToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(Entities.PermissionType.PermissionManagementForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.UserManagementForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.VehicleManagementForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.BackupRestoreForm)));
+            permissionConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.PermissionManagementForm));
+            userManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.UserManagementForm));
+            vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm));
+            vehicleManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.VehicleManagementForm));
+            backupRestoreDatabaseToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.BackupRestoreForm));
 
         }
 
@@ -112,15 +112,15 @@ namespace CarAgency.UI
         #region  Form Behavior 
         private void Login()
         {
-            if (!SessionHandler.Logged())
+            if (!SessionHandler.Instance.Logged())
             {
                 LoginForm form = new LoginForm();
                 form.ShowDialog();
-                if (SessionHandler.Logged())
+                if (SessionHandler.Instance.Logged())
                 {
                     UpdateTitle();
                     UserBLL _userBLL = new UserBLL();
-                    if (_userBLL.IsUsingDefaultPassword(SessionHandler.GetId()))
+                    if (_userBLL.IsUsingDefaultPassword(SessionHandler.Instance.GetId()))
                     {
                         ChangePasswordForm frm = new ChangePasswordForm();
                         frm.Show();
@@ -136,16 +136,16 @@ namespace CarAgency.UI
         }
         private void Logout()
         {
-            if (SessionHandler.Logged())
+            if (SessionHandler.Instance.Logged())
             {
-                SessionHandler.Logout();
+                SessionHandler.Instance.Logout();
                 
                 foreach (Form frmClose in MdiChildren.ToArray())
                 {
                     frmClose.Close();
                 }
 
-                if (!SessionHandler.Logged())
+                if (!SessionHandler.Instance.Logged())
                     UpdateTitle();
 
                 UpdateAuthorizedMenus();
@@ -186,7 +186,7 @@ namespace CarAgency.UI
 
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (SessionHandler.Logged())
+            if (SessionHandler.Instance.Logged())
             {
                 ChangePasswordForm frm = new ChangePasswordForm();
                 frm.MdiParent = this;

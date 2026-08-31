@@ -25,7 +25,7 @@ namespace CarAgency.UI
         {
             InitializeComponent();
             _userBLL = new UserBLL();
-            if (_userBLL.IsUsingDefaultPassword(SessionHandler.GetId()))
+            if (_userBLL.IsUsingDefaultPassword(SessionHandler.Instance.GetId()))
             {
                 tbOldPassword.Visible = false;  
                 tbOldPassword.Enabled = false;
@@ -47,7 +47,7 @@ namespace CarAgency.UI
             {
                 if(ValidatePassword())
                 {
-                    result = _userBLL.ChangePassword(SessionHandler.GetId(), tbNewPassword.Text);
+                    result = _userBLL.ChangePassword(SessionHandler.Instance.GetId(), tbNewPassword.Text);
 
                     if (result != null && result.sqlResult != SQLResultType.success)
                     {

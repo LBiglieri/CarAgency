@@ -63,8 +63,8 @@ namespace CarAgency.UI
         {
             if (comboLanguage.SelectedIndex != -1 && (Languages)comboLanguage.SelectedItem != null)
             {
-                if (SessionHandler.Logged())
-                    _userBLL.ChangeLanguage(SessionHandler.GetId(), ((Languages)comboLanguage.SelectedItem).Language_Code);
+                if (SessionHandler.Instance.Logged())
+                    _userBLL.ChangeLanguage(SessionHandler.Instance.GetId(), ((Languages)comboLanguage.SelectedItem).Language_Code);
                 else
                     LanguageService.LoadLanguage(((Languages)comboLanguage.SelectedItem).Language_Code);
             }

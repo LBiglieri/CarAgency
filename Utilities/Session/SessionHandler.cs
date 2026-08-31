@@ -8,21 +8,49 @@ using Utilities.Session;
 
 namespace CarAgency.Utilities.Session
 {
-    public static class SessionHandler
+    public sealed class SessionHandler
     {
-        static User _user;
+        // volatile impide que se reordene la escritura y que otro hilo
+        // llegue a ver la referencia antes de que el objeto este construido.
+        private static volatile SessionHandler _instance;
+        private static readonly object _lock = new object();
 
-        public static User User
+        // Constructor privado: nadie fuera de esta clase puede instanciarla.
+        private SessionHandler() { }
+
+        public static SessionHandler Instance
+        {
+            get
+            {
+                // Doble verificacion: el primer check evita tomar el cerrojo
+                // en cada acceso; el segundo es el que realmente decide.
+                if (_instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new SessionHandler();
+                        }
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        private User _user;
+
+        public User User
         {
             get { return _user; }
         }
 
-        public static Boolean Logged()
+        public Boolean Logged()
         {
             return _user != null;
         }
 
-        public static void Login(User user)
+        public void Login(User user)
         {
             if (user != null)
             {
@@ -32,22 +60,22 @@ namespace CarAgency.Utilities.Session
 
         }
 
-        public static void Logout()
+        public void Logout()
         {
             _user = null;
         }
 
-        public static string GetUsername()
+        public string GetUsername()
         {
             return _user.Username;
         }
 
-        public static Guid GetId()
+        public Guid GetId()
         {
             return _user.Id;
         }
 
-        public static bool ValidatePassword(string NewPassword)
+        public bool ValidatePassword(string NewPassword)
         {
             if(_user == null)
                 return false;
@@ -56,7 +84,7 @@ namespace CarAgency.Utilities.Session
             return true;
         }
 
-        public static bool IsAuthorized(PermissionType permission)
+        public bool IsAuthorized(PermissionType permission)
         {
             if (_user == null)
                 return false;
@@ -66,7 +94,7 @@ namespace CarAgency.Utilities.Session
             return HasPermission(_user.Role, permission);
         }
 
-        private static bool HasPermission(ComposedPermission c, PermissionType permission)
+        private bool HasPermission(ComposedPermission c, PermissionType permission)
         {
             bool exists = false;
 

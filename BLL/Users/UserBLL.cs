@@ -85,7 +85,7 @@ namespace CarAgency.BLL
             SQLUpdateResult result;
 
             NewPassword = CryptographyHandler.GenerateSHA512Hash(NewPassword);
-            if (!SessionHandler.ValidatePassword(NewPassword))
+            if (!SessionHandler.Instance.ValidatePassword(NewPassword))
             {
                 result = new SQLUpdateResult(SQLResultType.validation_error, "The new password you entered is the same as the one you had before.");
             }
@@ -97,8 +97,8 @@ namespace CarAgency.BLL
 
                 if (result != null && result.sqlResult == SQLResultType.success)
                 {
-                    SessionHandler.Logout();
-                    SessionHandler.Login(user);
+                    SessionHandler.Instance.Logout();
+                    SessionHandler.Instance.Login(user);
                 }
             }
 
@@ -115,8 +115,8 @@ namespace CarAgency.BLL
 
             if (result != null && result.sqlResult == SQLResultType.success)
             {
-                SessionHandler.Logout();
-                SessionHandler.Login(user);
+                SessionHandler.Instance.Logout();
+                SessionHandler.Instance.Login(user);
             }
 
             return result;
@@ -134,7 +134,7 @@ namespace CarAgency.BLL
 
         public SQLUpdateResult DeleteUser(User user)
         {
-            if (user.Username == SessionHandler.GetUsername())
+            if (user.Username == SessionHandler.Instance.GetUsername())
                 throw new Exception("You cant delete the User you are using.");
 
             return _userrepository.DeleteUser(user);
@@ -142,13 +142,13 @@ namespace CarAgency.BLL
 
         public void Logout()
         {
-            if (!SessionHandler.Logged())
+            if (!SessionHandler.Instance.Logged())
                 throw new Exception("You are not logged in.");
-            SessionHandler.Logout();
+            SessionHandler.Instance.Logout();
         }
         public void Login(string username, string password)
         {
-            if (SessionHandler.Logged())
+            if (SessionHandler.Instance.Logged())
                 throw new Exception("You are already logged in.");
 
             if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password)) throw new Exception("Please complete all fields.");
@@ -175,7 +175,7 @@ namespace CarAgency.BLL
 
                 user = _userrepository.GetFullUserById(user.Id);
 
-                SessionHandler.Login(user);
+                SessionHandler.Instance.Login(user);
 
             }
             catch (Exception e)
