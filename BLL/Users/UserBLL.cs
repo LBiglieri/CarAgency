@@ -41,7 +41,7 @@ namespace CarAgency.BLL
             user.Available_Login_Attempts = 3;
             user.Blocked = false;
             user.Active = true;
-            user.Password = CryptographyHandler.GenerateSHA512Hash(user.Dni.ToString());
+            user.Password = CryptographyHandler.HashPassword(user.Dni.ToString());
             user.Language_Code = "es";
             return _userrepository.AddUser(user);
         }
@@ -65,7 +65,7 @@ namespace CarAgency.BLL
             if (!state)
             {
                 user.Available_Login_Attempts = 3;
-                user.Password = CryptographyHandler.GenerateSHA512Hash(user.Dni.ToString());
+                user.Password = CryptographyHandler.HashPassword(user.Dni.ToString());
             }
 
             return _userrepository.UpdateUser(user);
@@ -84,7 +84,6 @@ namespace CarAgency.BLL
         {
             SQLUpdateResult result;
 
-            NewPassword = CryptographyHandler.GenerateSHA512Hash(NewPassword);
             if (!SessionHandler.Instance.ValidatePassword(NewPassword))
             {
                 result = new SQLUpdateResult(SQLResultType.validation_error, "The new password you entered is the same as the one you had before.");
@@ -92,7 +91,7 @@ namespace CarAgency.BLL
             else
             {
                 User user = GetFullUserById(Id);
-                user.Password = NewPassword;
+                user.Password = CryptographyHandler.HashPassword(NewPassword);
                 result = _userrepository.UpdateUser(user);
 
                 if (result != null && result.sqlResult == SQLResultType.success)
@@ -125,7 +124,7 @@ namespace CarAgency.BLL
         public bool IsUsingDefaultPassword(Guid Id)
         {
             User user = GetFullUserById(Id);
-            if(user.Password == CryptographyHandler.GenerateSHA512Hash(user.Dni.ToString()))
+            if(CryptographyHandler.VerifyPassword(user.Dni.ToString(), user.Password))
                 return true;
             else
                 return false;
@@ -160,7 +159,7 @@ namespace CarAgency.BLL
                     throw new Exception("User doesnt exist.");
                 if (user.Blocked)
                     throw new Exception("User is blocked. Please contact Tech Support to get it unblocked.");
-                if (!CryptographyHandler.GenerateSHA512Hash(password).Equals(user.Password))
+                if (!CryptographyHandler.VerifyPassword(password, user.Password))
                 {
                     AddFailedLoginAttempt(user);
                     if (user.Available_Login_Attempts == 0)

@@ -1,4 +1,5 @@
 ﻿using CarAgency.Entities;
+using CarAgency.Utilities.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,7 +80,7 @@ namespace CarAgency.Utilities.Session
         {
             if(_user == null)
                 return false;
-            if (_user.Password == NewPassword)
+            if (CryptographyHandler.VerifyPassword(NewPassword, _user.Password))
                 return false;
             return true;
         }

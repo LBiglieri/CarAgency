@@ -57,23 +57,65 @@ namespace CarAgency.Utilities.Security
         }
 
 
-        //Encriptado Irreversible
-        public static string GenerateSHA512Hash(string inputString)
+        // Hashing de contrasenas con PBKDF2 (irreversible, con sal por usuario).
+        // Formato persistido: "iteraciones.sal_base64.hash_base64". La sal viaja
+        // dentro del propio valor, por lo que dos usuarios con la misma clave
+        // producen hashes distintos y no sirve una rainbow table.
+        private const int Iterations = 100000;
+        private const int SaltSize = 16;
+        private const int HashSize = 32;
+        private const char Separator = '.';
+
+        public static string HashPassword(string password)
         {
-            SHA512 sha512 = SHA512Managed.Create();
-            byte[] bytes = Encoding.UTF8.GetBytes(inputString);
-            byte[] hash = sha512.ComputeHash(bytes);
-            return GetStringFromHash(hash);
+            byte[] salt = new byte[SaltSize];
+            using (var rng = RandomNumberGenerator.Create())
+                rng.GetBytes(salt);
+
+            byte[] hash = Pbkdf2(password, salt, Iterations);
+
+            return string.Join(Separator.ToString(),
+                Iterations.ToString(),
+                Convert.ToBase64String(salt),
+                Convert.ToBase64String(hash));
         }
 
-        private static string GetStringFromHash(byte[] hash)
+        public static bool VerifyPassword(string password, string stored)
         {
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
-            {
-                result.Append(hash[i].ToString("X2"));
-            }
-            return result.ToString();
+            if (string.IsNullOrEmpty(stored))
+                return false;
+
+            string[] parts = stored.Split(Separator);
+            if (parts.Length != 3)
+                return false;
+
+            int iterations = int.Parse(parts[0]);
+            byte[] salt = Convert.FromBase64String(parts[1]);
+            byte[] expected = Convert.FromBase64String(parts[2]);
+
+            byte[] actual = Pbkdf2(password, salt, iterations);
+
+            return FixedTimeEquals(expected, actual);
+        }
+
+        private static byte[] Pbkdf2(string password, byte[] salt, int iterations)
+        {
+            using (var derive = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256))
+                return derive.GetBytes(HashSize);
+        }
+
+        // Comparacion en tiempo constante: recorre siempre los mismos bytes para
+        // no filtrar por tiempo de respuesta cuantos coincidieron.
+        private static bool FixedTimeEquals(byte[] a, byte[] b)
+        {
+            if (a.Length != b.Length)
+                return false;
+
+            int diff = 0;
+            for (int i = 0; i < a.Length; i++)
+                diff |= a[i] ^ b[i];
+
+            return diff == 0;
         }
 
     }
