@@ -323,6 +323,10 @@
       <Project>{569fec50-9ba5-44c9-bf55-da53213c6031}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{31c7fc5b-df4a-458c-9114-bdba3b092d5b}</Project>
+      <Name>Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{7a8ac403-957d-4bba-bf1e-46b5e9123d46}</Project>
       <Name>Utilities</Name>

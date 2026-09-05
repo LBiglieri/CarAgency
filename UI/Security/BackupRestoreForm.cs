@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using BLL;
 using CarAgency.BLL;
 using CarAgency.Entities;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using CarAgency.Utilities.Security;
 using CarAgency.Utilities.Session;
 using Entities;

@@ -1,6 +1,6 @@
 ﻿using CarAgency.Entities;
 using CarAgency.Repository;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using CarAgency.Utilities.Security;
 using CarAgency.Utilities.Session;
 using System;
@@ -21,11 +21,26 @@ namespace BLL
         }
         public Client GetByDni(int dni)
         {
-            return _clientrepository.GetByDni(dni);
+            return Decrypt(_clientrepository.GetByDni(dni));
         }
         public Client GetById(Guid id)
         {
-            return _clientrepository.GetById(id);
+            return Decrypt(_clientrepository.GetById(id));
+        }
+
+        private Client Decrypt(Client client)
+        {
+            if (client == null)
+                return null;
+
+            client.Name = CryptographyHandler.Decrypt(client.Name);
+            client.Surname = CryptographyHandler.Decrypt(client.Surname);
+            client.Address = CryptographyHandler.Decrypt(client.Address);
+            client.Phone_Number_Personal = CryptographyHandler.Decrypt(client.Phone_Number_Personal);
+            client.Phone_Number_House = CryptographyHandler.Decrypt(client.Phone_Number_House);
+            client.Email = CryptographyHandler.Decrypt(client.Email);
+
+            return client;
         }
         public SQLUpdateResult AddClient(Client client)
         {

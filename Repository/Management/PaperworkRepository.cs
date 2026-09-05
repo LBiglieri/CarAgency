@@ -1,5 +1,5 @@
 ﻿using CarAgency.Entities;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -174,19 +174,7 @@ namespace CarAgency.Repository
 
                 if (!reader.HasRows) return null;
 
-                List<Paperwork> paperworks = MappingHandler.MapReaderToEntities<Paperwork>(reader);
-                List<Paperwork> paperworks_complete = new List<Paperwork>();
-
-                ClientRepository clientRepository = new ClientRepository();
-
-                foreach (Paperwork paperwork in paperworks)
-                {
-                    Client client = clientRepository.GetById(paperwork.Client_Id);
-                    paperwork.Client_Description = "DNI: " + client.Dni.ToString() + " Full Name: " + client.Name + client.Surname + " Email: " + client.Email;
-                    paperworks_complete.Add(paperwork);
-                }
-
-                return paperworks_complete;
+                return MappingHandler.MapReaderToEntities<Paperwork>(reader);
             }
             catch (Exception e)
             {

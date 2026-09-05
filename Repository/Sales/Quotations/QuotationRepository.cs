@@ -1,5 +1,5 @@
 ﻿using CarAgency.Entities;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

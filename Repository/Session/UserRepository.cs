@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CarAgency.Entities;
-using CarAgency.Utilities;
 using System.Data;
 using System.Data.SqlClient;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using System.Collections;
 
 namespace CarAgency.Repository

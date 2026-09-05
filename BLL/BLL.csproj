@@ -49,7 +49,6 @@
     <Compile Include="Sales\ReservationBLL.cs" />
     <Compile Include="Sales\QuotationBLL.cs" />
     <Compile Include="Security\SecurityBLL.cs" />
-    <Compile Include="Users\UserBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vehicles\VehicleBLL.cs" />
   </ItemGroup>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CarAgency.Entities;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using System.Data;
 using System.Data.SqlClient;
 using static System.Collections.Specialized.BitVector32;

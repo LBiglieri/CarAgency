@@ -1,6 +1,6 @@
 ﻿using CarAgency.Entities;
 using CarAgency.Repository;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using CarAgency.Utilities.Security;
 using CarAgency.Utilities.Session;
 using System;

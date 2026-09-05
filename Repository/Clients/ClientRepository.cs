@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CarAgency.Entities;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using System.Data;
 using System.Data.SqlClient;
-using CarAgency.Utilities.Security;
 using System.Collections;
 using System.Net;
 
@@ -56,13 +55,6 @@ namespace CarAgency.Repository
                     client.Email = Email;
                     client.Date_Of_Birth = Date_Of_Birth;
                 }
-
-                client.Name = CryptographyHandler.Decrypt(client.Name);
-                client.Surname = CryptographyHandler.Decrypt(client.Surname);
-                client.Address = CryptographyHandler.Decrypt(client.Address);
-                client.Phone_Number_Personal = CryptographyHandler.Decrypt(client.Phone_Number_Personal);
-                client.Phone_Number_House = CryptographyHandler.Decrypt(client.Phone_Number_House);
-                client.Email = CryptographyHandler.Decrypt(client.Email);
 
                 return client;
             }
@@ -119,13 +111,6 @@ namespace CarAgency.Repository
                     client.Email = Email;
                     client.Date_Of_Birth = Date_Of_Birth;
                 }
-
-                client.Name = CryptographyHandler.Decrypt(client.Name);
-                client.Surname = CryptographyHandler.Decrypt(client.Surname);
-                client.Address = CryptographyHandler.Decrypt(client.Address);
-                client.Phone_Number_Personal = CryptographyHandler.Decrypt(client.Phone_Number_Personal);
-                client.Phone_Number_House = CryptographyHandler.Decrypt(client.Phone_Number_House);
-                client.Email = CryptographyHandler.Decrypt(client.Email);
 
                 return client;
             }

@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using CarAgency.Repository;
 using CarAgency.Entities;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using CarAgency.Utilities.Security;
 using CarAgency.Utilities.Session;
+using BLL;
 
 namespace CarAgency.BLL
 {
@@ -24,7 +25,18 @@ namespace CarAgency.BLL
         }
         public List<Paperwork> GetAllActiveByClient(Guid Client_Id)
         {
-            return _paperworkrepository.GetAllActiveByClient(Client_Id);
+            List<Paperwork> paperworks = _paperworkrepository.GetAllActiveByClient(Client_Id);
+            if (paperworks == null)
+                return null;
+
+            ClientsBLL clientsBLL = new ClientsBLL();
+            foreach (Paperwork paperwork in paperworks)
+            {
+                Client client = clientsBLL.GetById(paperwork.Client_Id);
+                paperwork.Client_Description = "DNI: " + client.Dni.ToString() + " Full Name: " + client.Name + client.Surname + " Email: " + client.Email;
+            }
+
+            return paperworks;
         }
         public SQLUpdateResult AddPaperwork(Paperwork paperwork)
         {

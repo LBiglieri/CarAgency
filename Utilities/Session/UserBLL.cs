@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using CarAgency.Repository;
 using CarAgency.Entities;
-using CarAgency.Utilities.Persistence;
+using CarAgency.Repository.Persistence;
 using CarAgency.Utilities.Security;
 using CarAgency.Utilities.Session;
 
-namespace CarAgency.BLL
+namespace CarAgency.Utilities.Session
 {
     public class UserBLL
     {

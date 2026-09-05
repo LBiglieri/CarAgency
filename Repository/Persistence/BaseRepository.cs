@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarAgency.Utilities.Persistence
+namespace CarAgency.Repository.Persistence
 {
     public abstract class BaseRepository
     {
