@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using CarAgency.BLL;
-using CarAgency.Entities;
-using CarAgency.Repository.Persistence;
-using CarAgency.Utilities.Security;
-using CarAgency.Utilities.Session;
-using Entities;
+using CarAgency.BE;
+using CarAgency.DAL.Persistence;
+using CarAgency.Security.Security;
+using CarAgency.Security.Session;
+using BE;
 using Microsoft.Win32;
 using UI.Clients.Controls;
-using Utilities.Session;
+using Security.Session;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace CarAgency.UI

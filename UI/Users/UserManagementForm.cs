@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
-using CarAgency.Entities;
-using CarAgency.Repository.Persistence;
-using CarAgency.Utilities.Session;
-using Entities;
+using CarAgency.BE;
+using CarAgency.DAL.Persistence;
+using CarAgency.Security.Session;
+using BE;
 using MetroFramework.Controls;
-using Utilities.Session;
+using Security.Session;
 
 namespace CarAgency.UI
 {

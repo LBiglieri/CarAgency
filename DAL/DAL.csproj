@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{31C7FC5B-DF4A-458C-9114-BDBA3B092D5B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DAL</RootNamespace>
+    <AssemblyName>DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Billing\Invoices\InvoiceRepository.cs" />
+    <Compile Include="Billing\Payments\PaymentRepository.cs" />
+    <Compile Include="Clients\ClientRepository.cs" />
+    <Compile Include="Management\PaperworkRepository.cs" />
+    <Compile Include="Persistence\BaseRepository.cs" />
+    <Compile Include="Persistence\MappingHandler.cs" />
+    <Compile Include="Permissions\PermissionRepository.cs" />
+    <Compile Include="Sales\Quotations\QuotationRepository.cs" />
+    <Compile Include="Sales\Reservation\ReservationRepository.cs" />
+    <Compile Include="Security\SecurityRepository.cs" />
+    <Compile Include="Session\UserRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vehicles\VehicleRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BE\BE.csproj">
+      <Project>{569fec50-9ba5-44c9-bf55-da53213c6031}</Project>
+      <Name>BE</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Billing\Invoices\SQL\Invoice_Add.sql" />
+    <Content Include="Billing\Invoices\SQL\Invoice_Delete.sql" />
+    <Content Include="Billing\Invoices\SQL\Invoice_GetAllPendingOfPaperworkByClient.sql" />
+    <Content Include="Billing\Invoices\SQL\Invoice_GetById.sql" />
+    <Content Include="Billing\Invoices\SQL\Invoice_Update.sql" />
+    <Content Include="Billing\Payments\SQL\PaymentTypes_GetAll.sql" />
+    <Content Include="Billing\Payments\SQL\Payments_Add.sql" />
+    <Content Include="Billing\Payments\SQL\Payments_Delete.sql" />
+    <Content Include="Billing\Payments\SQL\Payments_GetAllByInvoice.sql" />
+    <Content Include="Clients\SQL\Clients_Add.sql" />
+    <Content Include="Clients\SQL\Clients_GetByDni.sql" />
+    <Content Include="Clients\SQL\Clients_GetById.sql" />
+    <Content Include="Management\SQL\PaperworkFile_Add.sql" />
+    <Content Include="Management\SQL\Paperwork_Add.sql" />
+    <Content Include="Management\SQL\PaperworkFile_Delete.sql" />
+    <Content Include="Management\SQL\Paperwork_Delete.sql" />
+    <Content Include="Management\SQL\Paperwork_GetAllActiveByClient.sql" />
+    <Content Include="Management\SQL\PaperworkFile_GetByPaperWork.sql" />
+    <Content Include="Management\SQL\Paperwork_GetById.sql" />
+    <Content Include="Management\SQL\Paperwork_Update.sql" />
+    <Content Include="Permissions\SQL\Permissions_DeletePatent.sql" />
+    <Content Include="Permissions\SQL\Permissions_DeleteCompleteFamily.sql" />
+    <Content Include="Sales\Quotations\SQL\Quotations_Add.sql" />
+    <Content Include="Sales\Quotations\SQL\Quotations_GetAll.sql" />
+    <Content Include="Sales\Quotations\SQL\Quotations_GetAllActiveByClient.sql" />
+    <Content Include="Sales\Quotations\SQL\Quotations_GetById.sql" />
+    <Content Include="Sales\Reservation\SQL\Reservation_Add.sql" />
+    <Content Include="Sales\Reservation\SQL\Reservation_GetAllActiveByClient.sql" />
+    <Content Include="Sales\Reservation\SQL\Reservation_GetAll.sql" />
+    <Content Include="Sales\Reservation\SQL\Reservation_GetById.sql" />
+    <Content Include="Session\SQL\User_Delete.sql" />
+    <Content Include="Session\SQL\User_GetUserByDni.sql" />
+    <Content Include="Session\SQL\User_Update.sql" />
+    <Content Include="Session\SQL\User_GetAllByState.sql" />
+    <Content Include="Session\SQL\User_Add.sql" />
+    <Content Include="Permissions\SQL\Permissions_GetAll.sql" />
+    <Content Include="Permissions\SQL\Permissions_GetFamilies.sql" />
+    <Content Include="Permissions\SQL\Permissions_GetPatents.sql" />
+    <Content Include="Permissions\SQL\Permissions_DeleteFamily.sql" />
+    <Content Include="Permissions\SQL\Permissions_Insert_Permission_Permission.sql" />
+    <Content Include="Permissions\SQL\Permissions_InsertComponent.sql" />
+    <Content Include="Session\SQL\User_GetAll.sql" />
+    <Content Include="Session\SQL\User_GetUserById.sql" />
+    <Content Include="Session\SQL\User_GetUserByUsername.sql" />
+    <Content Include="Vehicles\SQL\Colours_GetAll.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_Add.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_Delete.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_Update.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_GetAll.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_GetActiveVehiclesByFilters.sql" />
+    <Content Include="Vehicles\SQL\Versions_Delete.sql" />
+    <Content Include="Vehicles\SQL\Models_Delete.sql" />
+    <Content Include="Vehicles\SQL\Makes_Delete.sql" />
+    <Content Include="Vehicles\SQL\Versions_GetAllByMakeModel.sql" />
+    <Content Include="Vehicles\SQL\Models_GetAllByMake.sql" />
+    <Content Include="Vehicles\SQL\Makes_GetAll.sql" />
+    <Content Include="Vehicles\SQL\Vehicles_GetById.sql" />
+    <Content Include="Vehicles\SQL\Versions_Insert.sql" />
+    <Content Include="Vehicles\SQL\Models_Insert.sql" />
+    <Content Include="Vehicles\SQL\Makes_Insert.sql" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

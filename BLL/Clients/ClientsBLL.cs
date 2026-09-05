@@ -1,8 +1,8 @@
-﻿using CarAgency.Entities;
-using CarAgency.Repository;
-using CarAgency.Repository.Persistence;
-using CarAgency.Utilities.Security;
-using CarAgency.Utilities.Session;
+using CarAgency.BE;
+using CarAgency.DAL;
+using CarAgency.DAL.Persistence;
+using CarAgency.Security.Security;
+using CarAgency.Security.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;

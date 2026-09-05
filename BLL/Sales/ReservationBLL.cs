@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.Repository;
-using CarAgency.Entities;
-using CarAgency.Repository.Persistence;
-using CarAgency.Utilities.Security;
-using CarAgency.Utilities.Session;
+using CarAgency.DAL;
+using CarAgency.BE;
+using CarAgency.DAL.Persistence;
+using CarAgency.Security.Security;
+using CarAgency.Security.Session;
 
 namespace CarAgency.BLL
 {

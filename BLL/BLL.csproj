@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -53,17 +53,17 @@
     <Compile Include="Vehicles\VehicleBLL.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Entities\Entities.csproj">
+    <ProjectReference Include="..\BE\BE.csproj">
       <Project>{569fec50-9ba5-44c9-bf55-da53213c6031}</Project>
-      <Name>Entities</Name>
+      <Name>BE</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Repository\Repository.csproj">
+    <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{31c7fc5b-df4a-458c-9114-bdba3b092d5b}</Project>
-      <Name>Repository</Name>
+      <Name>DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
+    <ProjectReference Include="..\Security\Security.csproj">
       <Project>{7a8ac403-957d-4bba-bf1e-46b5e9123d46}</Project>
-      <Name>Utilities</Name>
+      <Name>Security</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

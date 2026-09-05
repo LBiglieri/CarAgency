@@ -1,9 +1,9 @@
-﻿using BLL;
+using BLL;
 using CarAgency.BLL;
-using CarAgency.Entities;
+using CarAgency.BE;
 using CarAgency.UI;
-using CarAgency.Repository.Persistence;
-using Entities;
+using CarAgency.DAL.Persistence;
+using BE;
 using MetroFramework.Controls;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using Utilities.Session;
+using Security.Session;
 
 namespace UI.Vehicles
 {
@@ -106,7 +106,7 @@ namespace UI.Vehicles
         {
             if (comboModel.SelectedIndex != -1 && comboMake.SelectedIndex != -1 && ((Make)comboMake.SelectedValue) != null && ((Model)comboModel.SelectedValue) != null) 
             {
-                List<CarAgency.Entities.Version> versions = _VehicleBLL.GetAllVersionsByMakeModel((Make)comboMake.SelectedValue,(Model)comboModel.SelectedValue);
+                List<CarAgency.BE.Version> versions = _VehicleBLL.GetAllVersionsByMakeModel((Make)comboMake.SelectedValue,(Model)comboModel.SelectedValue);
                 comboVersions.DataSource = versions;
                 comboVersions.DisplayMember = "Description";
                 comboVersions.SelectedIndex = -1;
@@ -184,7 +184,7 @@ namespace UI.Vehicles
             selected_vehicle.Colour_Id = ((Colour)comboColour.SelectedItem).Id;
             selected_vehicle.Make_Id = ((Make)comboMake.SelectedItem).Id;
             selected_vehicle.Model_Id = ((Model)comboModel.SelectedItem).Id;
-            selected_vehicle.Version_Id = ((CarAgency.Entities.Version)comboVersions.SelectedItem).Id;
+            selected_vehicle.Version_Id = ((CarAgency.BE.Version)comboVersions.SelectedItem).Id;
         }
 
         private void ToggleActionButtonsStates(bool state)

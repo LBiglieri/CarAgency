@@ -1,9 +1,9 @@
-﻿using BLL;
+using BLL;
 using CarAgency.BLL;
-using CarAgency.Entities;
+using CarAgency.BE;
 using CarAgency.UI;
-using CarAgency.Repository.Persistence;
-using Entities;
+using CarAgency.DAL.Persistence;
+using BE;
 using MetroFramework.Controls;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using UI.Clients.Controls;
-using Utilities.Session;
+using Security.Session;
 
 namespace UI.Vehicles
 {

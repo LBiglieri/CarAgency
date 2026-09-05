@@ -1,7 +1,7 @@
-﻿using BLL;
+using BLL;
 using CarAgency.BLL;
-using CarAgency.Entities;
-using Entities;
+using CarAgency.BE;
+using BE;
 using MetroFramework.Controls;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Utilities.Session;
+using Security.Session;
 
 namespace UI.Vehicles
 {
@@ -106,7 +106,7 @@ namespace UI.Vehicles
         {
             if (comboDeleteVersionModel.SelectedIndex != -1 && comboDeleteVersionMake.SelectedIndex != -1 && ((Make)comboDeleteVersionMake.SelectedValue) != null && ((Model)comboDeleteVersionModel.SelectedValue) != null) 
             {
-                List<CarAgency.Entities.Version> versions = _VehicleBLL.GetAllVersionsByMakeModel((Make)comboDeleteVersionMake.SelectedValue,(Model)comboDeleteVersionModel.SelectedValue);
+                List<CarAgency.BE.Version> versions = _VehicleBLL.GetAllVersionsByMakeModel((Make)comboDeleteVersionMake.SelectedValue,(Model)comboDeleteVersionModel.SelectedValue);
                 comboDeleteVersions.DataSource = versions;
                 comboDeleteVersions.DisplayMember = "Description";
                 comboDeleteVersions.SelectedIndex = -1;
@@ -163,7 +163,7 @@ namespace UI.Vehicles
         {
             if (comboNewVersionMake.SelectedIndex != -1 && comboNewVersionModel.SelectedIndex != -1  && tbNewVersion.Text != "")
             {
-                CarAgency.Entities.Version version = new CarAgency.Entities.Version();
+                CarAgency.BE.Version version = new CarAgency.BE.Version();
                 version.Make_Id = ((Make)comboNewVersionMake.SelectedValue).Id;
                 version.Model_Id = ((Model)comboNewVersionModel.SelectedValue).Id;
                 version.Description = tbNewVersion.Text;
@@ -178,7 +178,7 @@ namespace UI.Vehicles
         {
             if (comboDeleteVersionMake.SelectedIndex != -1 && comboDeleteVersionModel.SelectedIndex != -1 && comboDeleteVersions.SelectedIndex != -1)
             {
-                _VehicleBLL.DeleteVersion((CarAgency.Entities.Version)comboDeleteVersions.SelectedValue);
+                _VehicleBLL.DeleteVersion((CarAgency.BE.Version)comboDeleteVersions.SelectedValue);
                 comboDeleteVersionMake.SelectedIndex = -1;
                 comboDeleteVersionModel.SelectedIndex = -1;
                 comboDeleteVersions.SelectedIndex = -1;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
-using CarAgency.Entities;
-using CarAgency.Utilities;
-using CarAgency.Utilities.Session;
-using Entities;
+using CarAgency.BE;
+using CarAgency.Security;
+using CarAgency.Security.Session;
+using BE;
 using UI.Vehicles;
-using Utilities.Session;
+using Security.Session;
 
 namespace CarAgency.UI
 {
@@ -65,24 +65,24 @@ namespace CarAgency.UI
                 return;
             }
 
-            changePasswordToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.ChangePasswordForm));
+            changePasswordToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ChangePasswordForm));
 
-            salesToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateQuotationForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateReservationForm)));
-            newQuotationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateQuotationForm));
-            newReservationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateReservationForm));
+            salesToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateQuotationForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateReservationForm)));
+            newQuotationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateQuotationForm));
+            newReservationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateReservationForm));
 
-            billingToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateInvoiceForm));
-            generateInvoiceToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.GenerateInvoiceForm));
+            billingToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateInvoiceForm));
+            generateInvoiceToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateInvoiceForm));
 
-            managementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
-            managePaperworkToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.ManagePaperworkForm));
+            managementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManagePaperworkForm));
+            managePaperworkToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManagePaperworkForm));
 
-            configurationToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(Entities.PermissionType.PermissionManagementForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.UserManagementForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.VehicleManagementForm)) || (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.BackupRestoreForm)));
-            permissionConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.PermissionManagementForm));
-            userManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.UserManagementForm));
-            vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.VehicleModelConfigurationForm));
-            vehicleManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.VehicleManagementForm));
-            backupRestoreDatabaseToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(Entities.PermissionType.BackupRestoreForm));
+            configurationToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.PermissionManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.UserManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.BackupRestoreForm)));
+            permissionConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.PermissionManagementForm));
+            userManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.UserManagementForm));
+            vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleModelConfigurationForm));
+            vehicleManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleManagementForm));
+            backupRestoreDatabaseToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.BackupRestoreForm));
 
         }
 

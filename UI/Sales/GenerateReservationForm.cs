@@ -1,9 +1,9 @@
-﻿using BLL;
+using BLL;
 using CarAgency.BLL;
-using CarAgency.Entities;
+using CarAgency.BE;
 using CarAgency.UI;
-using CarAgency.Repository.Persistence;
-using Entities;
+using CarAgency.DAL.Persistence;
+using BE;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using UI.Clients.Controls;
-using Utilities.Session;
+using Security.Session;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace UI.Vehicles
@@ -266,7 +266,7 @@ namespace UI.Vehicles
             {
                 if (comboModel.SelectedIndex != -1 && comboMake.SelectedIndex != -1 && ((Make)comboMake.SelectedValue) != null && ((Model)comboModel.SelectedValue) != null) 
                 {
-                    List<CarAgency.Entities.Version> versions = _VehicleBLL.GetAllVersionsByMakeModel((Make)comboMake.SelectedValue,(Model)comboModel.SelectedValue);
+                    List<CarAgency.BE.Version> versions = _VehicleBLL.GetAllVersionsByMakeModel((Make)comboMake.SelectedValue,(Model)comboModel.SelectedValue);
                     comboVersions.DataSource = versions;
                     comboVersions.DisplayMember = "Description";
                     comboVersions.SelectedIndex = -1;
@@ -305,9 +305,9 @@ namespace UI.Vehicles
 
         private void comboVersions_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboVersions.SelectedIndex != -1 && ((CarAgency.Entities.Version)comboVersions.SelectedItem).Description != "")
+            if (comboVersions.SelectedIndex != -1 && ((CarAgency.BE.Version)comboVersions.SelectedItem).Description != "")
             {
-                FilterVersion = ((CarAgency.Entities.Version)comboVersions.SelectedItem).Id;
+                FilterVersion = ((CarAgency.BE.Version)comboVersions.SelectedItem).Id;
                 PerformUpdateVehiclesView();
             }
         }

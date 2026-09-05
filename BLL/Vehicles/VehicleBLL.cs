@@ -1,8 +1,8 @@
-﻿using CarAgency.Entities;
-using CarAgency.Repository;
-using CarAgency.Repository.Persistence;
-using CarAgency.Utilities.Security;
-using CarAgency.Utilities.Session;
+using CarAgency.BE;
+using CarAgency.DAL;
+using CarAgency.DAL.Persistence;
+using CarAgency.Security.Security;
+using CarAgency.Security.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,16 +48,16 @@ namespace BLL
         {
             return _vehiclerepository.DeleteModel(model);
         }
-        public List<CarAgency.Entities.Version> GetAllVersionsByMakeModel(Make make, Model model)
+        public List<CarAgency.BE.Version> GetAllVersionsByMakeModel(Make make, Model model)
         {
             return _vehiclerepository.GetAllVersionsByMakeModel(make.Id, model.Id);
         }
-        public SQLUpdateResult AddVersion(CarAgency.Entities.Version version)
+        public SQLUpdateResult AddVersion(CarAgency.BE.Version version)
         {
             version.Id = Guid.NewGuid();
             return _vehiclerepository.AddVersion(version);
         }
-        public SQLUpdateResult DeleteVersion(CarAgency.Entities.Version version)
+        public SQLUpdateResult DeleteVersion(CarAgency.BE.Version version)
         {
             return _vehiclerepository.DeleteVersion(version);
         }
