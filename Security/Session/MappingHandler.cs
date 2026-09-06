@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarAgency.DAL.Persistence
+namespace CarAgency.Security.Session
 {
     public class MappingHandler
     {

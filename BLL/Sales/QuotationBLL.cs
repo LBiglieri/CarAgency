@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.DAL;
+using CarAgency.Mappers;
 using CarAgency.BE;
-using CarAgency.DAL.Persistence;
+using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 
@@ -13,27 +13,27 @@ namespace CarAgency.BLL
 {
     public class QuotationBLL
     {
-        private QuotationRepository _quotationrepository;
+        private QuotationMapper _quotationmapper;
         public QuotationBLL()
         {
-            _quotationrepository = new QuotationRepository();
+            _quotationmapper = new QuotationMapper();
         }
         public Quotation GetById(Guid id)
         {
-            return _quotationrepository.GetById(id);
+            return _quotationmapper.GetById(id);
         }
         public List<Quotation> GetAll()
         {
-            return _quotationrepository.GetAll();
+            return _quotationmapper.GetAll();
         }
         public List<Quotation> GetAllActiveByClient(Guid client_Id)
         {
-            return _quotationrepository.GetAllActiveByClient(client_Id);
+            return _quotationmapper.GetAllActiveByClient(client_Id);
         }
 
         public SQLUpdateResult AddQuotation(Quotation quotation)
         {
-            return _quotationrepository.AddQuotation(quotation);
+            return _quotationmapper.AddQuotation(quotation);
         }
     }
 }

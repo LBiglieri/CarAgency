@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
 using CarAgency.BE;
-using CarAgency.DAL.Persistence;
+using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Session;
 using BE;
 using MetroFramework.Controls;
@@ -230,7 +230,7 @@ namespace CarAgency.UI
 
         private void btnApplyOpp_Click(object sender, EventArgs e)
         {
-            SQLUpdateResult result = null;
+            var result = default(CarAgency.Security.Persistence.SQLUpdateResult);
             if (Form_Action != UserManagementFormAction.Add && selected_user == null)
             {
                 MessageBox.Show(LanguageService.GetTagText("PleaseSelectUser"));

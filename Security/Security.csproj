@@ -44,11 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\CryptographyHandler.cs" />
+    <Compile Include="Cryptography\CryptographyHandler.cs" />
     <Compile Include="Session\LanguageManager.cs" />
     <Compile Include="Session\LanguageService.cs" />
     <Compile Include="Session\SessionHandler.cs" />
+    <Compile Include="Session\MappingHandler.cs" />
+    <Compile Include="Session\PermissionMapper.cs" />
+    <Compile Include="Session\SecurityMapperBase.cs" />
+    <Compile Include="Session\SQLUpdateResult.cs" />
     <Compile Include="Session\UserBLL.cs" />
+    <Compile Include="Session\UserDataMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">

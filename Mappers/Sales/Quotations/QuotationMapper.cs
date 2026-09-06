@@ -9,9 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 
-namespace CarAgency.DAL
+using CarAgency.Mappers.Persistence;
+
+namespace CarAgency.Mappers
 {
-    public class QuotationRepository : BaseRepository
+    public class QuotationMapper : MapperBase
     {
         public Quotation GetById(Guid id)
         {

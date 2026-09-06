@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.DAL;
+using CarAgency.Mappers;
 using CarAgency.BE;
 
 namespace CarAgency.BLL
 {
     public class PermissionBLL
     {
-        private PermissionRepository _permissionrepository;
+        private PermissionMapper _permissionmapper;
         public PermissionBLL()
         {
-            _permissionrepository = new PermissionRepository();
+            _permissionmapper = new PermissionMapper();
         }
         public Array GetAllPermissionTypes()
         {
-            return _permissionrepository.GetAllPermissionTypes();
+            return _permissionmapper.GetAllPermissionTypes();
         }
 
         public bool Exists(ComposedPermission c, Guid id)
@@ -39,42 +39,42 @@ namespace CarAgency.BLL
         }
         public bool InsertComposedPermission(ComposedPermission p, bool isfamily)
         {
-            return _permissionrepository.InsertComponent(p, isfamily);
+            return _permissionmapper.InsertComponent(p, isfamily);
         }
 
         public void SaveFamily(Family c)
         {
-            _permissionrepository.SaveFamily(c);
+            _permissionmapper.SaveFamily(c);
         }
 
         public IList<Patent> GetAllPatents()
         {
-            return _permissionrepository.GetPatents();
+            return _permissionmapper.GetPatents();
         }
 
         public IList<Family> GetAllFamilies()
         {
-            return _permissionrepository.GetFamilies();
+            return _permissionmapper.GetFamilies();
         }
 
         public IList<ComposedPermission> GetAll(Guid family)
         {
-            return _permissionrepository.GetAll(family);
+            return _permissionmapper.GetAll(family);
         }
 
         public void FillFamilyComponents(Family family)
         {
-            _permissionrepository.FillFamilyComponents(family);
+            _permissionmapper.FillFamilyComponents(family);
         }
 
         public bool DeletePatent(Patent selectedItem)
         {
-            return _permissionrepository.DeletePatent(selectedItem);
+            return _permissionmapper.DeletePatent(selectedItem);
         }
 
         public bool DeleteFamily(ComposedPermission selectedItem)
         {
-            return _permissionrepository.DeleteCompleteFamily(selectedItem);
+            return _permissionmapper.DeleteCompleteFamily(selectedItem);
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CarAgency.BLL;
 using CarAgency.BE;
-using CarAgency.DAL.Persistence;
+using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 using BE;
@@ -42,14 +42,14 @@ namespace CarAgency.UI
 
         private void btnChangePassword_Click(object sender, EventArgs e)
         {
-            SQLUpdateResult result = null;
+            var result = default(CarAgency.Security.Persistence.SQLUpdateResult);
             try
             {
                 if(ValidatePassword())
                 {
                     result = _userBLL.ChangePassword(SessionHandler.Instance.GetId(), tbNewPassword.Text);
 
-                    if (result != null && result.sqlResult != SQLResultType.success)
+                    if (result != null && result.sqlResult != CarAgency.Security.Persistence.SQLResultType.success)
                     {
                         MessageBox.Show(result.message);
                         return;

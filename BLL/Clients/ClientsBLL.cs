@@ -1,6 +1,6 @@
 using CarAgency.BE;
-using CarAgency.DAL;
-using CarAgency.DAL.Persistence;
+using CarAgency.Mappers;
+using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 using System;
@@ -14,18 +14,18 @@ namespace BLL
 {
     public class ClientsBLL
     {
-        private ClientRepository _clientrepository;
+        private ClientMapper _clientmapper;
         public ClientsBLL()
         {
-            _clientrepository = new ClientRepository();
+            _clientmapper = new ClientMapper();
         }
         public Client GetByDni(int dni)
         {
-            return Decrypt(_clientrepository.GetByDni(dni));
+            return Decrypt(_clientmapper.GetByDni(dni));
         }
         public Client GetById(Guid id)
         {
-            return Decrypt(_clientrepository.GetById(id));
+            return Decrypt(_clientmapper.GetById(id));
         }
 
         private Client Decrypt(Client client)
@@ -45,7 +45,7 @@ namespace BLL
         public SQLUpdateResult AddClient(Client client)
         {
             Client validationClient;
-            validationClient = _clientrepository.GetByDni(client.Dni);
+            validationClient = _clientmapper.GetByDni(client.Dni);
             if (validationClient != null)
                 throw new Exception("A Client with this Dni already exists.");
 
@@ -56,7 +56,7 @@ namespace BLL
             client.Phone_Number_Personal = CryptographyHandler.Encrypt(client.Phone_Number_Personal);
             client.Phone_Number_House = CryptographyHandler.Encrypt(client.Phone_Number_House);
             client.Email = CryptographyHandler.Encrypt(client.Email);
-            return _clientrepository.AddClient(client);
+            return _clientmapper.AddClient(client);
         }
     }
 }

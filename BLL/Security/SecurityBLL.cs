@@ -1,6 +1,6 @@
 using CarAgency.BE;
-using CarAgency.DAL;
-using CarAgency.DAL.Persistence;
+using CarAgency.Mappers;
+using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 using System;
@@ -14,20 +14,20 @@ namespace BLL
 {
     public class SecurityBLL
     {
-        private SecurityRepository _securityrepository;
+        private SecurityMapper _securitymapper;
         public SecurityBLL()
         {
-            _securityrepository = new SecurityRepository();
+            _securitymapper = new SecurityMapper();
         }
 
         public void RealizarBackup(string path)
         {
-            _securityrepository.RealizarBackup(path);
+            _securitymapper.RealizarBackup(path);
         }
 
         public void RealizarRestore(string path)
         {
-            _securityrepository.RealizarRestore(path);
+            _securitymapper.RealizarRestore(path);
         }
     }
 }

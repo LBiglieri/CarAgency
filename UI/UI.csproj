@@ -14,6 +14,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <AppConfig Condition="Exists('App.Development.config')">App.Development.config</AppConfig>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -323,9 +324,9 @@
       <Project>{569fec50-9ba5-44c9-bf55-da53213c6031}</Project>
       <Name>BE</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{31c7fc5b-df4a-458c-9114-bdba3b092d5b}</Project>
-      <Name>DAL</Name>
+    <ProjectReference Include="..\Mappers\Mappers.csproj">
+      <Project>{A12fc270-8d57-4b6a-af54-8a1b5277c004}</Project>
+      <Name>Mappers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Security\Security.csproj">
       <Project>{7a8ac403-957d-4bba-bf1e-46b5e9123d46}</Project>

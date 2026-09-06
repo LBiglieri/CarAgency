@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Collections;
 
-namespace CarAgency.DAL
+using CarAgency.Mappers.Persistence;
+
+namespace CarAgency.Mappers
 {
-    public class InvoiceRepository : BaseRepository
+    public class InvoiceMapper : MapperBase
     {
         public Invoice GetById(Guid id)
         {

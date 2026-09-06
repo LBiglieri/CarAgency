@@ -10,9 +10,11 @@ using System.Data.SqlClient;
 using System.Collections;
 using System.Net;
 
-namespace CarAgency.DAL
+using CarAgency.Mappers.Persistence;
+
+namespace CarAgency.Mappers
 {
-    public class ClientRepository : BaseRepository
+    public class ClientMapper : MapperBase
     {
         public Client GetByDni(int dni)
         {

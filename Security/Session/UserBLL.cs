@@ -3,37 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.DAL;
+
 using CarAgency.BE;
-using CarAgency.DAL.Persistence;
+
 using CarAgency.Security.Security;
+using CarAgency.Security.Persistence;
 using CarAgency.Security.Session;
 
 namespace CarAgency.Security.Session
 {
     public class UserBLL
     {
-        private UserRepository _userrepository;
+        private UserDataMapper _userDataMapper;
         public UserBLL()
         {
-            _userrepository = new UserRepository();
+            _userDataMapper = new UserDataMapper();
         }
         public User GetFullUserById(Guid id)
         {
-            return _userrepository.GetFullUserById(id);
+            return _userDataMapper.GetFullUserById(id);
         }
         public List<User> GetAllByState(Boolean Active)
         {
-            return _userrepository.GetAllByState(Active);
+            return _userDataMapper.GetAllByState(Active);
         }
 
         public SQLUpdateResult AddUser(User user)
         {
             User validationUser;
-            validationUser = _userrepository.GetUserByUsername(user.Username);
+            validationUser = _userDataMapper.GetUserByUsername(user.Username);
             if (validationUser != null)
                 throw new Exception("A User with this Username already exists.");
-            validationUser = _userrepository.GetUserByDni(user.Dni);
+            validationUser = _userDataMapper.GetUserByDni(user.Dni);
             if (validationUser != null)
                 throw new Exception("A User with this DNI already exists.");
 
@@ -43,20 +44,20 @@ namespace CarAgency.Security.Session
             user.Active = true;
             user.Password = CryptographyHandler.HashPassword(user.Dni.ToString());
             user.Language_Code = "es";
-            return _userrepository.AddUser(user);
+            return _userDataMapper.AddUser(user);
         }
 
         public SQLUpdateResult UpdateUser(User user)
         {
             User validationUser;
-            validationUser = _userrepository.GetUserByUsername(user.Username);
+            validationUser = _userDataMapper.GetUserByUsername(user.Username);
             if (validationUser != null && validationUser.Id != user.Id)
                 throw new Exception("A User with this Username already exists.");
-            validationUser = _userrepository.GetUserByDni(user.Dni);
+            validationUser = _userDataMapper.GetUserByDni(user.Dni);
             if (validationUser != null && validationUser.Id != user.Id)
                 throw new Exception("A User with this DNI already exists.");
 
-            return _userrepository.UpdateUser(user);
+            return _userDataMapper.UpdateUser(user);
         }
 
         public SQLUpdateResult AlterBlockedState(User user, Boolean state)
@@ -68,7 +69,7 @@ namespace CarAgency.Security.Session
                 user.Password = CryptographyHandler.HashPassword(user.Dni.ToString());
             }
 
-            return _userrepository.UpdateUser(user);
+            return _userDataMapper.UpdateUser(user);
         }
 
         public SQLUpdateResult AddFailedLoginAttempt(User user)
@@ -77,7 +78,7 @@ namespace CarAgency.Security.Session
             if (user.Available_Login_Attempts == 0)
                 return AlterBlockedState(user, true);
             else
-                return _userrepository.UpdateUser(user);
+                return _userDataMapper.UpdateUser(user);
         }
 
         public SQLUpdateResult ChangePassword(Guid Id, string NewPassword)
@@ -92,7 +93,7 @@ namespace CarAgency.Security.Session
             {
                 User user = GetFullUserById(Id);
                 user.Password = CryptographyHandler.HashPassword(NewPassword);
-                result = _userrepository.UpdateUser(user);
+                result = _userDataMapper.UpdateUser(user);
 
                 if (result != null && result.sqlResult == SQLResultType.success)
                 {
@@ -110,7 +111,7 @@ namespace CarAgency.Security.Session
 
             User user = GetFullUserById(Id);
             user.Language_Code = NewLanguage;
-            result = _userrepository.UpdateUser(user);
+            result = _userDataMapper.UpdateUser(user);
 
             if (result != null && result.sqlResult == SQLResultType.success)
             {
@@ -136,7 +137,7 @@ namespace CarAgency.Security.Session
             if (user.Username == SessionHandler.Instance.GetUsername())
                 throw new Exception("You cant delete the User you are using.");
 
-            return _userrepository.DeleteUser(user);
+            return _userDataMapper.DeleteUser(user);
         }
 
         public void Logout()
@@ -153,7 +154,7 @@ namespace CarAgency.Security.Session
             if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password)) throw new Exception("Please complete all fields.");
             try
             {
-                User user = _userrepository.GetUserByUsername(username);
+                User user = _userDataMapper.GetUserByUsername(username);
 
                 if (user == null)
                     throw new Exception("User doesnt exist.");
@@ -172,7 +173,7 @@ namespace CarAgency.Security.Session
 
                 UpdateUser(user);
 
-                user = _userrepository.GetFullUserById(user.Id);
+                user = _userDataMapper.GetFullUserById(user.Id);
 
                 SessionHandler.Instance.Login(user);
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.DAL;
+using CarAgency.Mappers;
 using CarAgency.BE;
-using CarAgency.DAL.Persistence;
+using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 using BLL;
@@ -14,18 +14,18 @@ namespace CarAgency.BLL
 {
     public class PaperworkBLL
     {
-        private PaperworkRepository _paperworkrepository;
+        private PaperworkMapper _paperworkmapper;
         public PaperworkBLL()
         {
-            _paperworkrepository = new PaperworkRepository();
+            _paperworkmapper = new PaperworkMapper();
         }
         public Paperwork GetById(Guid id)
         {
-            return _paperworkrepository.GetById(id);
+            return _paperworkmapper.GetById(id);
         }
         public List<Paperwork> GetAllActiveByClient(Guid Client_Id)
         {
-            List<Paperwork> paperworks = _paperworkrepository.GetAllActiveByClient(Client_Id);
+            List<Paperwork> paperworks = _paperworkmapper.GetAllActiveByClient(Client_Id);
             if (paperworks == null)
                 return null;
 
@@ -40,27 +40,27 @@ namespace CarAgency.BLL
         }
         public SQLUpdateResult AddPaperwork(Paperwork paperwork)
         {
-            return _paperworkrepository.AddPaperwork(paperwork);
+            return _paperworkmapper.AddPaperwork(paperwork);
         }
         public SQLUpdateResult UpdatePaperwork(Paperwork paperwork)
         {
-            return _paperworkrepository.UpdatePaperwork(paperwork);
+            return _paperworkmapper.UpdatePaperwork(paperwork);
         }
         public SQLUpdateResult DeletePaperwork(Paperwork paperwork)
         {
-            return _paperworkrepository.DeletePaperwork(paperwork);
+            return _paperworkmapper.DeletePaperwork(paperwork);
         }
         public List<PaperworkFile> GetFilesByPaperWork(Guid Paperwork_Id)
         {
-            return _paperworkrepository.GetFilesByPaperWork(Paperwork_Id);
+            return _paperworkmapper.GetFilesByPaperWork(Paperwork_Id);
         }
         public SQLUpdateResult AddPaperworkFile(PaperworkFile paperwork)
         {
-            return _paperworkrepository.AddPaperworkFile(paperwork);
+            return _paperworkmapper.AddPaperworkFile(paperwork);
         }
         public SQLUpdateResult DeletePaperworkFile(PaperworkFile paperwork)
         {
-            return _paperworkrepository.DeletePaperworkFile(paperwork);
+            return _paperworkmapper.DeletePaperworkFile(paperwork);
         }
     }
 }

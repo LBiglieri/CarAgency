@@ -9,9 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 
-namespace CarAgency.DAL
+using CarAgency.Mappers.Persistence;
+
+namespace CarAgency.Mappers
 {
-    public class ReservationRepository : BaseRepository
+    public class ReservationMapper : MapperBase
     {
         public Reservation GetById(Guid id)
         {

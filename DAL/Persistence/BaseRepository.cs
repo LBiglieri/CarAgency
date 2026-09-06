@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarAgency.DAL.Persistence
 {
-    public abstract class BaseRepository
+    public class DatabaseConnectionProvider
     {
         public string GetConnectionString()
         {
@@ -20,25 +20,5 @@ namespace CarAgency.DAL.Persistence
 
             return setting.ConnectionString;
         }
-    }
-    
-
-    public class SQLUpdateResult
-    {
-        public SQLResultType sqlResult;
-        public string message;
-        public SQLUpdateResult(SQLResultType _sqlResult, string _message)
-        {
-            sqlResult = _sqlResult;
-            message = _message;
-        }
-    }
-
-    public enum SQLResultType
-    {
-        success,
-        database_error,
-        validation_error,
-        registry_already_exists
     }
 }

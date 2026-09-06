@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.DAL;
+using CarAgency.Mappers;
 using CarAgency.BE;
-using CarAgency.DAL.Persistence;
+using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 
@@ -13,33 +13,33 @@ namespace CarAgency.BLL
 {
     public class InvoiceBLL
     {
-        private InvoiceRepository _invoicerepository;
+        private InvoiceMapper _invoicemapper;
         public InvoiceBLL()
         {
-            _invoicerepository = new InvoiceRepository();
+            _invoicemapper = new InvoiceMapper();
         }
         public Invoice GetById(Guid id)
         {
-            return _invoicerepository.GetById(id);
+            return _invoicemapper.GetById(id);
         }
         public List<Invoice> GetAllPendingOfPaperworkByClient(Guid Client_id)
         {
-            return _invoicerepository.GetAllPendingOfPaperworkByClient(Client_id);
+            return _invoicemapper.GetAllPendingOfPaperworkByClient(Client_id);
         }
 
         public SQLUpdateResult AddInvoice(Invoice invoice)
         {
-            return _invoicerepository.AddInvoice(invoice);
+            return _invoicemapper.AddInvoice(invoice);
         }
 
         public SQLUpdateResult UpdateInvoice(Invoice invoice)
         {
-            return _invoicerepository.UpdateInvoice(invoice);
+            return _invoicemapper.UpdateInvoice(invoice);
         }
 
         public SQLUpdateResult DeleteInvoice(Invoice invoice)
         {
-            return _invoicerepository.DeleteInvoice(invoice);
+            return _invoicemapper.DeleteInvoice(invoice);
         }
     }
 }

@@ -9,9 +9,11 @@ using System.Data;
 using System.Data.SqlClient;
 using static System.Collections.Specialized.BitVector32;
 
-namespace CarAgency.DAL
+using CarAgency.Mappers.Persistence;
+
+namespace CarAgency.Mappers
 {
-    public class PermissionRepository : BaseRepository
+    public class PermissionMapper : MapperBase
     {
         public Array GetAllPermissionTypes()
         {

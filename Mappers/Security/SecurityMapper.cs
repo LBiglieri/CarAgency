@@ -2,9 +2,11 @@ using CarAgency.DAL.Persistence;
 using System;
 using System.Data.SqlClient;
 
-namespace CarAgency.DAL
+using CarAgency.Mappers.Persistence;
+
+namespace CarAgency.Mappers
 {
-    public class SecurityRepository : BaseRepository
+    public class SecurityMapper : MapperBase
     {
         public void RealizarBackup(string path)
         {

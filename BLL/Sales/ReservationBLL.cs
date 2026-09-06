@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.DAL;
+using CarAgency.Mappers;
 using CarAgency.BE;
-using CarAgency.DAL.Persistence;
+using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 
@@ -13,27 +13,27 @@ namespace CarAgency.BLL
 {
     public class ReservationBLL
     {
-        private ReservationRepository _reservationrepository;
+        private ReservationMapper _reservationmapper;
         public ReservationBLL()
         {
-            _reservationrepository = new ReservationRepository();
+            _reservationmapper = new ReservationMapper();
         }
         public Reservation GetById(Guid id)
         {
-            return _reservationrepository.GetById(id);
+            return _reservationmapper.GetById(id);
         }
         public List<Reservation> GetAllActiveByClient(Guid id)
         {
-            return _reservationrepository.GetAllActiveByClient(id);
+            return _reservationmapper.GetAllActiveByClient(id);
         }
         public List<Reservation> GetAll()
         {
-            return _reservationrepository.GetAll();
+            return _reservationmapper.GetAll();
         }
 
         public SQLUpdateResult AddReservation(Reservation reservation)
         {
-            return _reservationrepository.AddReservation(reservation);
+            return _reservationmapper.AddReservation(reservation);
         }
     }
 }

@@ -1,6 +1,6 @@
 using CarAgency.BE;
-using CarAgency.DAL;
-using CarAgency.DAL.Persistence;
+using CarAgency.Mappers;
+using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 using System;
@@ -13,84 +13,84 @@ namespace BLL
 {
     public class VehicleBLL
     {
-        private VehicleRepository _vehiclerepository;
+        private VehicleMapper _vehiclemapper;
         public VehicleBLL()
         {
-            _vehiclerepository = new VehicleRepository();
+            _vehiclemapper = new VehicleMapper();
         }
         public List<Colour> GetAllColours()
         {
-            return _vehiclerepository.GetAllColours();
+            return _vehiclemapper.GetAllColours();
         }
         public List<Make> GetAllMakes()
         {
-            return _vehiclerepository.GetAllMakes();
+            return _vehiclemapper.GetAllMakes();
         }
         public SQLUpdateResult AddMake(Make make)
         {
             make.Id = Guid.NewGuid();
-            return _vehiclerepository.AddMake(make);
+            return _vehiclemapper.AddMake(make);
         }
         public SQLUpdateResult DeleteMake(Make make)
         {
-            return _vehiclerepository.DeleteMake(make);
+            return _vehiclemapper.DeleteMake(make);
         }
         public List<Model> GetAllModelsByMake(Make make)
         {
-            return _vehiclerepository.GetAllModelsByMake(make.Id);
+            return _vehiclemapper.GetAllModelsByMake(make.Id);
         }
         public SQLUpdateResult AddModel(Model model)
         {
             model.Id = Guid.NewGuid();
-            return _vehiclerepository.AddModel(model);
+            return _vehiclemapper.AddModel(model);
         }
         public SQLUpdateResult DeleteModel(Model model)
         {
-            return _vehiclerepository.DeleteModel(model);
+            return _vehiclemapper.DeleteModel(model);
         }
         public List<CarAgency.BE.Version> GetAllVersionsByMakeModel(Make make, Model model)
         {
-            return _vehiclerepository.GetAllVersionsByMakeModel(make.Id, model.Id);
+            return _vehiclemapper.GetAllVersionsByMakeModel(make.Id, model.Id);
         }
         public SQLUpdateResult AddVersion(CarAgency.BE.Version version)
         {
             version.Id = Guid.NewGuid();
-            return _vehiclerepository.AddVersion(version);
+            return _vehiclemapper.AddVersion(version);
         }
         public SQLUpdateResult DeleteVersion(CarAgency.BE.Version version)
         {
-            return _vehiclerepository.DeleteVersion(version);
+            return _vehiclemapper.DeleteVersion(version);
         }
 
         public List<Vehicle> GetAll()
         {
-            return _vehiclerepository.GetAll();
+            return _vehiclemapper.GetAll();
         }
         
         public Vehicle GetById(Guid id)
         {
-            return _vehiclerepository.GetById(id);
+            return _vehiclemapper.GetById(id);
         }
 
         public SQLUpdateResult AddVehicle(Vehicle vehicle)
         {
             vehicle.Id = Guid.NewGuid();
-            return _vehiclerepository.AddVehicle(vehicle);
+            return _vehiclemapper.AddVehicle(vehicle);
         }
 
         public SQLUpdateResult UpdateVehicle(Vehicle vehicle)
         {
-            return _vehiclerepository.UpdateVehicle(vehicle);
+            return _vehiclemapper.UpdateVehicle(vehicle);
         }
 
         public SQLUpdateResult DeleteVehicle(Vehicle vehicle)
         {
-            return _vehiclerepository.DeleteVehicle(vehicle);
+            return _vehiclemapper.DeleteVehicle(vehicle);
         }
 
         public List<Vehicle> GetActiveVehiclesByFilters(Guid Make_Id, Guid Model_Id, Guid Version_Id, Guid Colour_Id, double Price_From, double Price_To, int Year_From, int Year_To, int Doors_From, int Doors_To, int Kilometers_From, int Kilometers_To)
         {
-            return _vehiclerepository.GetActiveVehiclesByFilters(Make_Id, Model_Id, Version_Id, Colour_Id, Price_From, Price_To, Year_From, Year_To, Doors_From, Doors_To, Kilometers_From, Kilometers_To);
+            return _vehiclemapper.GetActiveVehiclesByFilters(Make_Id, Model_Id, Version_Id, Colour_Id, Price_From, Price_To, Year_From, Year_To, Doors_From, Doors_To, Kilometers_From, Kilometers_To);
         }
     }
 }
