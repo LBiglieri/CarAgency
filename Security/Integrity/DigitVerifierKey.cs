@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Configuration;
+using BE;
 
 namespace CarAgency.Security.Integrity
 {
@@ -16,9 +17,9 @@ namespace CarAgency.Security.Integrity
         {
             string configured = ReadConfiguration();
             if (string.IsNullOrWhiteSpace(configured))
-                throw new InvalidOperationException("Falta configurar " + SettingName
-                    + " en las variables de entorno o en appSettings de " + ConfigurationFilePath
-                    + ". Si la base ya tiene digitos, use la clave original.");
+                throw new TranslatableException("DVKeySettingMissing",
+                    "Falta configurar {0} en las variables de entorno o en appSettings de {1}. Si la base ya tiene digitos, use la clave original.",
+                    SettingName, ConfigurationFilePath);
 
             byte[] key;
             try
@@ -27,12 +28,12 @@ namespace CarAgency.Security.Integrity
             }
             catch (FormatException)
             {
-                throw new InvalidOperationException(SettingName + " debe contener una clave de 32 bytes codificada en Base64.");
+                throw new TranslatableException("DVKeySettingInvalid", "{0} debe contener una clave de 32 bytes codificada en Base64.", SettingName);
             }
             if (key.Length != 32)
             {
                 Array.Clear(key, 0, key.Length);
-                throw new InvalidOperationException(SettingName + " debe contener una clave de 32 bytes codificada en Base64.");
+                throw new TranslatableException("DVKeySettingInvalid", "{0} debe contener una clave de 32 bytes codificada en Base64.", SettingName);
             }
             return key;
         }

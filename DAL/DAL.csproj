@@ -110,6 +110,7 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="Integrity\DigitVerifierDataAccess.cs" />
+    <Compile Include="Integrity\IntegrityTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Integrity\SQL\DV_Save.sql" />

@@ -1,4 +1,4 @@
-using BLL;
+﻿using BLL;
 using CarAgency.BLL;
 using CarAgency.BE;
 using CarAgency.UI;
@@ -80,7 +80,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex) 
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -114,7 +114,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -128,7 +128,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         public void clientView1_ClientFound(object sender, EventArgs e)

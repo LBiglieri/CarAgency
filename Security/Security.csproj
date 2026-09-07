@@ -80,6 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Integrity\DigitVerifierBLL.cs" />
+    <Compile Include="Integrity\IntegrityInspection.cs" />
+    <Compile Include="Integrity\IntegrityService.cs" />
     <Compile Include="Integrity\DigitVerifierCalculator.cs" />
     <Compile Include="Integrity\DigitVerifierKey.cs" />
     <Compile Include="Integrity\DigitVerifierMapper.cs" />

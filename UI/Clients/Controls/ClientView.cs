@@ -1,4 +1,4 @@
-using BLL;
+﻿using BLL;
 using CarAgency.BLL;
 using CarAgency.BE;
 using CarAgency.UI;
@@ -83,7 +83,7 @@ namespace UI.Clients.Controls
                     }
                     else
                     {
-                        if (clientViewMode == ClientViewMode.WithRegistration && MessageBox.Show(LanguageService.GetTagText("AttentionDNINotFound"), "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (clientViewMode == ClientViewMode.WithRegistration && MessageBox.Show(LanguageService.GetTagText("AttentionDNINotFound"), LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             CreateClientForm frm = new CreateClientForm(dni);
                             frm.ShowDialog();
@@ -98,7 +98,7 @@ namespace UI.Clients.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 

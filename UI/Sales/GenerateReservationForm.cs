@@ -1,4 +1,4 @@
-using BLL;
+﻿using BLL;
 using CarAgency.BLL;
 using CarAgency.BE;
 using CarAgency.UI;
@@ -145,7 +145,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         void PerformGenerateReservationPDF(Client q_client, Reservation reservation)
@@ -212,7 +212,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private void PerformUpdateColourCombos()
@@ -226,7 +226,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private void PerformUpdateMakeCombos()
@@ -240,7 +240,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private void PerformUpdateModelCombos()
@@ -257,7 +257,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private void PerformUpdateVersionCombo()
@@ -274,7 +274,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -462,7 +462,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -474,7 +474,7 @@ namespace UI.Vehicles
                 if (_quotationbll == null)
                     _quotationbll = new QuotationBLL();
                 quotations = _quotationbll.GetAllActiveByClient(client.Id);
-                if (quotations!=null && quotations.Count > 0 && MessageBox.Show(LanguageService.GetTagText("ThereAreActiveReservations"), "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (quotations!=null && quotations.Count > 0 && MessageBox.Show(LanguageService.GetTagText("ThereAreActiveReservations"), LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     FormMode = GenerateReservationFormMode.FromQuotation;
                     metroPanel1.Enabled = false;
@@ -490,7 +490,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 

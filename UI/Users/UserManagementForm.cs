@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -85,7 +85,7 @@ namespace CarAgency.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         void PerformFillFamiliesCombo()
@@ -97,7 +97,7 @@ namespace CarAgency.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         void PerformEnableDisableTextBoxes(Boolean flag)
@@ -254,14 +254,14 @@ namespace CarAgency.UI
                         if (PerformValidateTextBoxData())
                         {
                             MapTextboxesToUser(); 
-                            if (MessageBox.Show(LanguageService.GetTagText("AreYouSureUpdate") + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            if (MessageBox.Show(LanguageService.GetTagText("AreYouSureUpdate") + selected_user.Username + "?", LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.Yes)
                             {
                                 result = _userBLL.UpdateUser(selected_user);
                             }
                         }
                         break;
                     case UserManagementFormAction.Delete:
-                        if (MessageBox.Show(LanguageService.GetTagText("AreYouSureDelete") + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show(LanguageService.GetTagText("AreYouSureDelete") + selected_user.Username + "?", LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             result = _userBLL.DeleteUser(selected_user);
                         }
@@ -269,7 +269,7 @@ namespace CarAgency.UI
                     case UserManagementFormAction.Unblock:
                         if (!selected_user.Blocked)
                             MessageBox.Show(LanguageService.GetTagText("IsNotBlocked"));
-                        else if (MessageBox.Show(LanguageService.GetTagText("AreYouSureUnblock") + selected_user.Username + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        else if (MessageBox.Show(LanguageService.GetTagText("AreYouSureUnblock") + selected_user.Username + "?", LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             result = _userBLL.AlterBlockedState(selected_user,false);
                         }
@@ -284,7 +284,7 @@ namespace CarAgency.UI
             }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ee));
             }
             finally
             {

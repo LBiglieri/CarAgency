@@ -1,4 +1,4 @@
-using BLL;
+﻿using BLL;
 using CarAgency.BLL;
 using CarAgency.BE;
 using CarAgency.UI;
@@ -73,30 +73,30 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private Boolean ValidatePaymentCreation()
         {
             if (comboPaymentType.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a Payment Type to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseSelectPaymentType"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             if (tbAmount.Text == "")
             {
-                MessageBox.Show("Please write the payment amount to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWritePaymentAmount"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             double amount = 0;
             if (!double.TryParse(tbAmount.Text, out amount))
             {
-                MessageBox.Show("Please write a valid payment amount to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteValidPaymentAmount"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             if (tbDetails.Text == "" && !cardPaymentTypes.Contains(((PaymentType)comboPaymentType.SelectedItem).Description))
             {
-                MessageBox.Show("Please write the payment details to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWritePaymentDetails"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             return true;
@@ -115,7 +115,7 @@ namespace UI.Vehicles
 
             if (!res)
             {
-                MessageBox.Show("Please write a valid card number to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteValidCardNumber"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
 
@@ -142,7 +142,7 @@ namespace UI.Vehicles
             res = (sum % 10 == 0);
 
             if (!res)
-                MessageBox.Show("Please write a valid card number to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteValidCardNumber"), LanguageService.GetTagText("AttentionTitle"));
 
             return res;
         }
@@ -153,7 +153,7 @@ namespace UI.Vehicles
             bool res = !string.IsNullOrWhiteSpace(cardName) && cardName.All(c => char.IsLetter(c) || c == ' ');
 
             if (!res)
-                MessageBox.Show("Please write a valid card holder's name to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteValidCardHolder"), LanguageService.GetTagText("AttentionTitle"));
 
             return res;
         }
@@ -165,7 +165,7 @@ namespace UI.Vehicles
 
             if (!res)
             {
-                MessageBox.Show("Please write a valid card valid expiration date to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteValidCardExpiration"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
 
@@ -177,7 +177,7 @@ namespace UI.Vehicles
             res = lastDateOfExpiryMonth >= now;
 
             if (!res)
-                MessageBox.Show("Please use a non expired card to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseUseNonExpiredCard"), LanguageService.GetTagText("AttentionTitle"));
 
             return res;
         }
@@ -188,7 +188,7 @@ namespace UI.Vehicles
             bool res = Regex.IsMatch(cvv, @"^\d{3,4}$");
 
             if (!res)
-                MessageBox.Show("Please write a valid card CVV to continue.", "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteValidCardCvv"), LanguageService.GetTagText("AttentionTitle"));
             return res;
         }
         #endregion
@@ -224,7 +224,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 

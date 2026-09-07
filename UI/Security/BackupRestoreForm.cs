@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +18,7 @@ using BE;
 using Microsoft.Win32;
 using UI.Clients.Controls;
 using Security.Session;
+using CarAgency.Security.Integrity;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace CarAgency.UI
@@ -25,16 +26,31 @@ namespace CarAgency.UI
     public partial class BackupRestoreForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         SecurityBLL _SecurityBLL;
-        public BackupRestoreForm()
+        private readonly RecoverySession recovery;
+        private bool restoring;
+        public BackupRestoreForm() : this(null) { }
+        public BackupRestoreForm(RecoverySession recovery)
         {
+            if (recovery != null) IntegrityService.Current.AuthorizeRecovery(recovery, true);
+            else if (!SessionHandler.Instance.IsAuthorized(PermissionType.BackupRestoreForm))
+                throw new TranslatableException("NoBackupRestorePermission", "No tiene la patente de backup/restore.");
+            this.recovery = recovery;
             InitializeComponent();
             _SecurityBLL = new SecurityBLL();
             LanguageService.Attach(this);
             UpdateLanguage("");
+            if (recovery != null)
+            {
+                lblBackupDatabase.Visible = false;
+                tbBackupPath.Visible = false;
+                btnSelectBackupPath.Visible = false;
+                btnBackupDatabase.Visible = false;
+            }
         }
 
         private void BackupRestoreForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (restoring) { e.Cancel = true; return; }
             LanguageService.Detach(this);
         }
         public void UpdateLanguage(string language)
@@ -60,7 +76,7 @@ namespace CarAgency.UI
             }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ee));
             }
         }
 
@@ -87,7 +103,7 @@ namespace CarAgency.UI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(LanguageService.GetTagText("errorBackupDatabase") + $"{ex.Message}");
+                    MessageBox.Show(LanguageService.GetTagText("errorBackupDatabase") + LanguageService.GetErrorText(ex));
                 }
             }
             else
@@ -109,30 +125,49 @@ namespace CarAgency.UI
             }
         }
 
-        private void btnRestoreDatabase_Click(object sender, EventArgs e)
+        private async void btnRestoreDatabase_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(tbRestorePath.Text))
             {
-                string mensaje = LanguageService.GetTagText("AreYouSureYouWantToRestore");
+                string mensaje = LanguageService.GetTagText("IntegrityConfirmRestore", "Se reemplazara la base con el backup seleccionado y se perderan los cambios posteriores. Se cerrara la sesion. ¿Desea continuar?")
+                    + Environment.NewLine + tbRestorePath.Text;
 
                 DialogResult resultado = MessageBox.Show(
                     mensaje,
-                    "Atención!",          
+                    LanguageService.GetTagText("AttentionTitle"),          
                     MessageBoxButtons.YesNo,      
-                    MessageBoxIcon.Warning      
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2
                 );
 
                 if (resultado == DialogResult.Yes)
                 {
                     try
                     {
-                        _SecurityBLL.RealizarRestore(tbRestorePath.Text);
-                        MessageBox.Show(LanguageService.GetTagText("RestoreCompletedSuccessfully"));
+                        restoring = true;
+                        UseWaitCursor = true;
+                        LoginPanel.Enabled = false;
+                        string path = tbRestorePath.Text;
+                        var report = await Task.Run(() => recovery == null
+                            ? _SecurityBLL.RealizarRestore(path) : _SecurityBLL.RealizarRestore(path, recovery));
+                        MessageBox.Show(report.IsConsistent
+                            ? LanguageService.GetTagText("IntegrityRepaired", "Operacion completada. Inicie sesion nuevamente.")
+                            : LanguageService.GetTagText("IntegrityRestoredInvalid", "El backup fue restaurado pero contiene inconsistencias o una configuracion DV incompatible. El acceso sigue bloqueado."));
                         tbRestorePath.Text = "";
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(LanguageService.GetTagText("errorRestoringDatabase") + $"{ex.Message}");
+                        MessageBox.Show(LanguageService.GetTagText("errorRestoringDatabase") + LanguageService.GetErrorText(ex));
+                    }
+                    finally
+                    {
+                        restoring = false;
+                        UseWaitCursor = false;
+                        LoginPanel.Enabled = true;
+                        SessionHandler.Instance.Logout();
+                        IntegrityService.Current.EndRecovery();
+                        DialogResult = DialogResult.Retry;
+                        Close();
                     }
                 }
             }

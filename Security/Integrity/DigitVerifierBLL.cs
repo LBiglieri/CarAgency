@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using CarAgency.BE;
 using CarAgency.BE.Integrity;
+using BE;
 
 namespace CarAgency.Security.Integrity
 {
@@ -23,9 +24,9 @@ namespace CarAgency.Security.Integrity
             foreach (string table in tables)
             {
                 DV digit = mapper.GetByTable(table);
-                if (digit == null) throw new InvalidOperationException("Falta el registro de digitos de dbo." + table + ". La base debe restaurarse desde un backup actualizado con los digitos incluidos.");
+                if (digit == null) throw new TranslatableException("DVMissingVerticalRecord", "Falta el registro de digitos de dbo.{0}. La base debe restaurarse desde un backup actualizado con los digitos incluidos.", table);
                 if (!string.Equals(digit.KeyId, calculator.KeyId, StringComparison.Ordinal))
-                    throw new InvalidOperationException("La clave de digitos no corresponde a esta base. No se modificaron los digitos.");
+                    throw new TranslatableException("DVKeyMismatch", "La clave de digitos no corresponde a esta base. No se modificaron los digitos.");
             }
         }
 
@@ -65,10 +66,10 @@ namespace CarAgency.Security.Integrity
             {
                 IReadOnlyList<Family> roles = mapper.GetBaseRoles();
                 if (roles.Count != 1)
-                    throw new InvalidOperationException("Debe existir una unica familia 'Base User' para reasignar usuarios.");
+                    throw new TranslatableException("DVBaseUserFamilyRequired", "Debe existir una unica familia 'Base User' para reasignar usuarios.");
                 baseRole = roles[0].Id;
                 if (baseRole == familyId)
-                    throw new InvalidOperationException("No se puede eliminar Base User mientras tenga usuarios asignados.");
+                    throw new TranslatableException("DVBaseUserHasAssignedUsers", "No se puede eliminar Base User mientras tenga usuarios asignados.");
             }
             var digests = new List<DVUserDigest>();
             IReadOnlyList<DVColumn> columns = mapper.GetColumns("Users");

@@ -9,6 +9,7 @@ using CarAgency.BE;
 using CarAgency.Security.Security;
 using CarAgency.Security.Persistence;
 using CarAgency.Security.Session;
+using CarAgency.Security.Integrity;
 
 namespace CarAgency.Security.Session
 {
@@ -146,18 +147,22 @@ namespace CarAgency.Security.Session
                 throw new Exception("You are not logged in.");
             SessionHandler.Instance.Logout();
         }
-        public void Login(string username, string password)
+        public RecoverySession Login(string username, string password)
         {
             if (SessionHandler.Instance.Logged())
                 throw new Exception("You are already logged in.");
 
             if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password)) throw new Exception("Please complete all fields.");
+            RecoverySession recovery = IntegrityService.Current.CheckLogin(username, password);
+            if (recovery != null) return recovery;
             try
             {
                 User user = _userDataMapper.GetUserByUsername(username);
 
                 if (user == null)
                     throw new Exception("User doesnt exist.");
+                if (!user.Active)
+                    throw new Exception("User is inactive.");
                 if (user.Blocked)
                     throw new Exception("User is blocked. Please contact Tech Support to get it unblocked.");
                 if (!CryptographyHandler.VerifyPassword(password, user.Password))
@@ -176,6 +181,7 @@ namespace CarAgency.Security.Session
                 user = _userDataMapper.GetFullUserById(user.Id);
 
                 SessionHandler.Instance.Login(user);
+                return null;
 
             }
             catch (Exception e)

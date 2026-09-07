@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using CarAgency.BE.Integrity;
+using BE;
 using System.Data.SqlTypes;
 using System.Globalization;
 using System.IO;
@@ -63,7 +64,7 @@ namespace CarAgency.Security.Integrity
             BigInteger sum = BigInteger.Zero;
             foreach (string digest in horizontalDigests)
             {
-                if (!IsDigest(digest)) throw new InvalidOperationException("DVH ausente o mal formado en dbo." + table);
+                if (!IsDigest(digest)) throw new TranslatableException("DVDigestMalformed", "DVH ausente o mal formado en dbo.{0}", table);
                 // El cero inicial evita que BigInteger interprete el bit mas alto como signo.
                 sum += BigInteger.Parse("0" + digest, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture);
             }

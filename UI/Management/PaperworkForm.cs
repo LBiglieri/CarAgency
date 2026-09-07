@@ -1,4 +1,4 @@
-using BLL;
+﻿using BLL;
 using CarAgency.BLL;
 using CarAgency.BE;
 using CarAgency.UI;
@@ -115,7 +115,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private void PerformUpdateInvoiceCombo()
@@ -140,19 +140,19 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private bool ValidateControls()
         {
             if (comboInvoice.SelectedIndex == -1 && FormMode == PaperworkFormMode.Add)
             {
-                MessageBox.Show(LanguageService.GetTagText("PleaseSelectReservation"), "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseSelectReservation"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             if (tbPaperwork_Precharge_Code.Text == "")
             {
-                MessageBox.Show(LanguageService.GetTagText("PleaseWrite08"), "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWrite08"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             return true;
@@ -164,17 +164,17 @@ namespace UI.Vehicles
                 return false;
             if (metroGrid1.Rows.Count == 0)
             {
-                MessageBox.Show(LanguageService.GetTagText("AtLeast1FileToFinishPaperwork"), "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("AtLeast1FileToFinishPaperwork"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             if (!dtTransfer_Date.Checked)
             {
-                MessageBox.Show(LanguageService.GetTagText("WriteTransferDate"), "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("WriteTransferDate"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             if (dtTransfer_Date.Value == (new DateTime(1754, 1, 1, 12, 0, 0).Date))
             {
-                MessageBox.Show(LanguageService.GetTagText("WriteTransferDate"), "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("WriteTransferDate"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             return true;
@@ -259,7 +259,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
                 return false;
             }
         }
@@ -280,7 +280,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -291,7 +291,7 @@ namespace UI.Vehicles
                 if (!ValidateFinishPaperwork())
                     return;
 
-                if(MessageBox.Show(LanguageService.GetTagText("AreYouSureYouWantToFinishPaperwork"), "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.No)
+                if(MessageBox.Show(LanguageService.GetTagText("AreYouSureYouWantToFinishPaperwork"), LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
 
                 paperwork.IsFinished = true;
@@ -301,7 +301,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -352,7 +352,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -377,7 +377,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -403,7 +403,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 

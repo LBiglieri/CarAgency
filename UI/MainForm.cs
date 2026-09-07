@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -114,8 +114,10 @@ namespace CarAgency.UI
         {
             if (!SessionHandler.Instance.Logged())
             {
-                LoginForm form = new LoginForm();
-                form.ShowDialog();
+                using (LoginForm form = new LoginForm())
+                {
+                    if (form.ShowDialog(this) == DialogResult.Abort) { Close(); return; }
+                }
                 if (SessionHandler.Instance.Logged())
                 {
                     UpdateTitle();
@@ -248,9 +250,18 @@ namespace CarAgency.UI
 
         private void backupRestoreDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BackupRestoreForm frm = new BackupRestoreForm();
-            frm.MdiParent = this;
-            frm.Show();
+            try
+            {
+                using (BackupRestoreForm frm = new BackupRestoreForm()) frm.ShowDialog(this);
+                if (!SessionHandler.Instance.Logged())
+                {
+                    foreach (Form child in MdiChildren.ToArray()) child.Close();
+                    UpdateTitle();
+                    UpdateAuthorizedMenus();
+                    Login();
+                }
+            }
+            catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
         }
         #endregion
     }

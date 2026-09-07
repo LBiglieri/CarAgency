@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -61,7 +61,7 @@ namespace CarAgency.UI
             }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ee));
             }
         }
 

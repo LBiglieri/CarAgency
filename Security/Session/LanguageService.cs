@@ -33,8 +33,35 @@ namespace Security.Session
         {
             if (translations.TryGetValue(tag, out string text))
                 return text;
-            else 
+            else
                 return "";
+        }
+        public static string GetTagText(string tag, string fallback)
+        {
+            string text = GetTagText(tag);
+            return string.IsNullOrEmpty(text) ? fallback : text;
+        }
+        /// <summary>
+        /// Traduce un error de negocio. Si la excepcion no declara clave de traduccion
+        /// o la clave no existe en el idioma actual, devuelve el Message original.
+        /// </summary>
+        public static string GetErrorText(Exception error)
+        {
+            if (error == null) return "";
+            ITranslatableError translatable = error as ITranslatableError;
+            if (translatable == null) return error.Message;
+            string text = GetTagText(translatable.TranslationKey);
+            if (string.IsNullOrEmpty(text)) return error.Message;
+            object[] arguments = translatable.TranslationArguments;
+            if (arguments == null || arguments.Length == 0) return text;
+            try
+            {
+                return string.Format(text, arguments);
+            }
+            catch (FormatException)
+            {
+                return error.Message;
+            }
         }
         public static void Attach(ILanguageObserver observer)
         {

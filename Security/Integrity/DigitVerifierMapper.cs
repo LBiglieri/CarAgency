@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
@@ -6,6 +6,7 @@ using System.Linq;
 using CarAgency.BE;
 using CarAgency.BE.Integrity;
 using CarAgency.DAL.Integrity;
+using BE;
 using CarAgency.Security.Session;
 
 namespace CarAgency.Security.Integrity
@@ -16,6 +17,8 @@ namespace CarAgency.Security.Integrity
         private readonly string connectionString;
         private static readonly ConcurrentDictionary<string, IReadOnlyList<DVColumn>> columnsCache =
             new ConcurrentDictionary<string, IReadOnlyList<DVColumn>>();
+
+        public static void ClearMetadataCache() { columnsCache.Clear(); }
 
         public DigitVerifierMapper(string connectionString)
         {
@@ -29,7 +32,7 @@ namespace CarAgency.Security.Integrity
             return columnsCache.GetOrAdd(connectionString + "|" + table, _ =>
             {
                 List<DVColumn> columns = Map<DVColumn>(data.GetColumns(table));
-                if (columns.Count == 0) throw new InvalidOperationException("No se encontro dbo." + table);
+                if (columns.Count == 0) throw new TranslatableException("DVTableNotFound", "No se encontro dbo.{0}", table);
                 return columns.AsReadOnly();
             });
         }
@@ -44,7 +47,7 @@ namespace CarAgency.Security.Integrity
         {
             DVTables.RequireProtected(digit.TableName);
             if (digit.SchemaName != "dbo" || digit.AlgorithmVersion != 1)
-                throw new ArgumentException("Esquema o version de digitos no soportados.", nameof(digit));
+                throw new TranslatableException("DVUnsupportedSchema", "Esquema o version de digitos no soportados.");
             data.SaveDvv(digit.TableName, digit.DVV, digit.KeyId);
         }
 

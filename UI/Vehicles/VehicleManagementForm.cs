@@ -1,4 +1,4 @@
-using BLL;
+﻿using BLL;
 using CarAgency.BLL;
 using CarAgency.BE;
 using CarAgency.UI;
@@ -290,14 +290,14 @@ namespace UI.Vehicles
                         if (PerformValidateTextBoxData())
                         {
                             MapTextboxesToVehicle();
-                            if (MessageBox.Show(LanguageService.GetTagText("AreYouSureUpdateVehicle") + selected_vehicle.License_Plate + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            if (MessageBox.Show(LanguageService.GetTagText("AreYouSureUpdateVehicle") + selected_vehicle.License_Plate + "?", LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.Yes)
                             {
                                 result = _VehicleBLL.UpdateVehicle(selected_vehicle);
                             }
                         }
                         break;
                     case VehicleManagementFormAction.Delete:
-                        if (MessageBox.Show(LanguageService.GetTagText("AreYouSureDeleteVehicle") + selected_vehicle.License_Plate + "?", "¡ATENTION!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show(LanguageService.GetTagText("AreYouSureDeleteVehicle") + selected_vehicle.License_Plate + "?", LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             result = _VehicleBLL.DeleteVehicle(selected_vehicle);
                         }
@@ -312,7 +312,7 @@ namespace UI.Vehicles
             }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ee));
             }
             finally
             {

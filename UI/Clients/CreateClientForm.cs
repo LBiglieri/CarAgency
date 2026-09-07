@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -81,13 +81,13 @@ namespace CarAgency.UI
 
                     _savedClient = client;
 
-                    MessageBox.Show("Client created successfully!");
+                    MessageBox.Show(LanguageService.GetTagText("ClientCreatedSuccessfully"));
                     Close();
                 }
             }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ee));
             }
         }
 
@@ -95,53 +95,53 @@ namespace CarAgency.UI
         {
             if (tbDni.Text == "")
             {
-                MessageBox.Show("Please write the clients Dni.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteClientDni"));
                 return false;
             }
             int dnitest;
             if (!int.TryParse(tbDni.Text, out dnitest))
             {
-                MessageBox.Show("Please write the clients Dni.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteClientDni"));
                 return false;
             }
             if (tbName.Text == "")
             {
-                MessageBox.Show("Please write the clients Name.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteClientName"));
                 return false;
             }
             if (tbSurname.Text == "")
             {
-                MessageBox.Show("Please write the clients Surname.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteClientSurname"));
                 return false;
             }
             if (tbAddress.Text == "")
             {
-                MessageBox.Show("Please write the clients Address.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteClientAddress"));
                 return false;
             }
             if (tbPersonalPhone.Text == "")
             {
-                MessageBox.Show("Please write the clients Personal Phone.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteClientPersonalPhone"));
                 return false;
             }
             if (tbPhoneHome.Text == "")
             {
-                MessageBox.Show("Please write the clients Home Phone.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteClientHomePhone"));
                 return false;
             }
             if (tbMail.Text == "")
             {
-                MessageBox.Show("Please write the clients email.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteClientEmail"));
                 return false;
             }
             if (!Regex.IsMatch(tbMail.Text, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
             {
-                MessageBox.Show("Please write a valid email.");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteValidEmail"));
                 return false;
             }
             if (dtBirth.Value > DateTime.Now.AddYears(-18))
             {
-                MessageBox.Show("The client cant be less than 18 years old to buy a car by himself.");
+                MessageBox.Show(LanguageService.GetTagText("ClientMustBeAdult"));
                 return false;
             }
             return true;

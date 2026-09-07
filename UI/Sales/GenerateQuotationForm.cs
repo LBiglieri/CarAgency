@@ -1,4 +1,4 @@
-using BLL;
+﻿using BLL;
 using CarAgency.BLL;
 using CarAgency.BE;
 using CarAgency.UI;
@@ -108,7 +108,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex) 
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         void PerformGenerateQuotationPDF(Client q_client, List<Quotation> q_quotations)
@@ -184,7 +184,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private void PerformUpdateMakeCombos()
@@ -198,7 +198,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private void PerformUpdateModelCombos()
@@ -215,7 +215,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
             if (comboMake.SelectedIndex != -1 && ((Make)comboMake.SelectedValue) != null) 
             {
@@ -235,7 +235,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -403,7 +403,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 

@@ -47,7 +47,9 @@
     <Compile Include="CustomAttributes\TableColumnAttribute.cs" />
     <Compile Include="Language\ILanguageObserver.cs" />
     <Compile Include="Language\ILanguageSubject.cs" />
+    <Compile Include="Language\ITranslatableError.cs" />
     <Compile Include="Language\Languages.cs" />
+    <Compile Include="Language\TranslatableException.cs" />
     <Compile Include="Management\PaperworkFile.cs" />
     <Compile Include="Management\Paperwork.cs" />
     <Compile Include="Permissions\ComposedPermission.cs" />
@@ -67,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Integrity\DV.cs" />
+    <Compile Include="Integrity\IntegrityReport.cs" />
     <Compile Include="Integrity\DVColumn.cs" />
     <Compile Include="Integrity\DVRow.cs" />
     <Compile Include="Integrity\DVTables.cs" />

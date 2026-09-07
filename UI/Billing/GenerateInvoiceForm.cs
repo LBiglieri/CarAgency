@@ -1,4 +1,4 @@
-using BLL;
+﻿using BLL;
 using CarAgency.BLL;
 using CarAgency.BE;
 using CarAgency.UI;
@@ -107,7 +107,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         void PerformGenerateInvoicePDF(Client q_client)
@@ -180,7 +180,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private void PerformUpdateReservationCombo()
@@ -194,24 +194,24 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
         private Boolean ValidateInvoiceCreation()
         {
             if (comboReservations.SelectedIndex == -1)
             {
-                MessageBox.Show(LanguageService.GetTagText("PleaseSelectReservation"), "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseSelectReservation"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             if (tbCUIL_CUIT_Client.Text == "")
             {
-                MessageBox.Show(LanguageService.GetTagText("PleaseWriteCuitCuil"), "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteCuitCuil"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             if (tbRazonSocial.Text == "")
             {
-                MessageBox.Show(LanguageService.GetTagText("PleaseWriteRazonSocial"), "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("PleaseWriteRazonSocial"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
             return true;
@@ -246,7 +246,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -262,7 +262,7 @@ namespace UI.Vehicles
 
             if (comboReservations.Items.Count < 1)
             {
-                MessageBox.Show(LanguageService.GetTagText("NoPendingReservations"), "¡ATENTION!");
+                MessageBox.Show(LanguageService.GetTagText("NoPendingReservations"), LanguageService.GetTagText("AttentionTitle"));
                 this.Close();
             }
         }
@@ -308,7 +308,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
 
@@ -334,7 +334,7 @@ namespace UI.Vehicles
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ex));
             }
             
         }

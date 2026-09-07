@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +12,7 @@ using CarAgency.BE;
 using CarAgency.Security.Session;
 using BE;
 using Security.Session;
+using CarAgency.Security.Integrity;
 
 namespace CarAgency.UI
 {
@@ -35,15 +36,47 @@ namespace CarAgency.UI
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            btnLogin.Enabled = false;
+            UseWaitCursor = true;
             try
             {
-                _userBLL.Login(this.tbUser.Text, this.tbPassword.Text);
+                RecoverySession recovery = _userBLL.Login(this.tbUser.Text, this.tbPassword.Text);
+                if (recovery != null)
+                {
+                    tbPassword.Clear();
+                    UseWaitCursor = false;
+                    using (var repair = new IntegrityRepairForm(recovery))
+                    {
+                        if (repair.ShowDialog(this) != DialogResult.Retry)
+                        {
+                            DialogResult = DialogResult.Abort;
+                            Close();
+                            return;
+                        }
+                    }
+                    tbUser.Clear();
+                    tbPassword.Clear();
+                    tbUser.Focus();
+                    return;
+                }
                 MessageBox.Show(LanguageService.GetTagText("successfullLogin"));
                 this.Close();
             }
+            catch (IntegrityAccessDeniedException)
+            {
+                MessageBox.Show(LanguageService.GetTagText("IntegrityAccessDenied", "Se detectaron inconsistencias. Acceso bloqueado. Contacte al administrador con patente de recalculo DV."));
+                tbPassword.Clear();
+                DialogResult = DialogResult.Abort;
+                Close();
+            }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.Message);
+                MessageBox.Show(LanguageService.GetErrorText(ee));
+            }
+            finally
+            {
+                UseWaitCursor = false;
+                btnLogin.Enabled = true;
             }
         }
 #region  Form Events 

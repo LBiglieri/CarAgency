@@ -97,18 +97,14 @@ namespace CarAgency.Security.Session
 
         private bool HasPermission(ComposedPermission c, PermissionType permission)
         {
-            bool exists = false;
+            return HasPermission(c, permission, new HashSet<Guid>());
+        }
 
-            if (c.Type.Equals(permission))
-                exists = true;
-            else
-                foreach (var item in c.Children)
-                {
-                    exists = HasPermission(item, permission);
-                    if (exists) return true;
-                }
-
-            return exists;
+        private bool HasPermission(ComposedPermission component, PermissionType permission, HashSet<Guid> visited)
+        {
+            if (component == null || !visited.Add(component.Id)) return false;
+            if (component is Patent) return component.Type == permission;
+            return component.Children.Any(child => HasPermission(child, permission, visited));
         }
     }
 }
