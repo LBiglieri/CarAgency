@@ -1,3 +1,4 @@
+﻿using CarAgency.Security.Integrity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -195,6 +196,8 @@ namespace CarAgency.Security.Session
                 cmd.Parameters.Add(new SqlParameter("Available_Login_Attempts", user.Available_Login_Attempts));
                 cmd.Parameters.Add(new SqlParameter("Language_Code", user.Language_Code));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareDvh(cmd, "Users");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -208,6 +211,9 @@ namespace CarAgency.Security.Session
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Users");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -244,6 +250,8 @@ namespace CarAgency.Security.Session
                 cmd.Parameters.Add(new SqlParameter("Available_Login_Attempts", user.Available_Login_Attempts));
                 cmd.Parameters.Add(new SqlParameter("Language_Code", user.Language_Code));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareDvh(cmd, "Users");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -257,6 +265,9 @@ namespace CarAgency.Security.Session
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Users");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -283,6 +294,8 @@ namespace CarAgency.Security.Session
 
                 cmd.Parameters.Add(new SqlParameter("Id", user.Id));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.EnsureConfigured("Users");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -296,6 +309,9 @@ namespace CarAgency.Security.Session
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Users");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)

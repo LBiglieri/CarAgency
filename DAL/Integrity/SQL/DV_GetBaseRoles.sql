@@ -1,0 +1,7 @@
+CREATE OR ALTER PROCEDURE dbo.DV_GetBaseRoles
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT Id,Name FROM dbo.Permissions WHERE Name='Base User' AND Type IS NULL;
+END
+GO

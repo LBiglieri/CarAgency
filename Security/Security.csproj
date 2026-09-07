@@ -32,6 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -75,6 +77,15 @@
     <Content Include="en.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Integrity\DigitVerifierBLL.cs" />
+    <Compile Include="Integrity\DigitVerifierCalculator.cs" />
+    <Compile Include="Integrity\DigitVerifierKey.cs" />
+    <Compile Include="Integrity\DigitVerifierMapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Integrity\DigitVerifierWriteMapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

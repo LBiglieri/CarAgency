@@ -1,3 +1,4 @@
+﻿using CarAgency.Security.Integrity;
 using CarAgency.BE;
 using CarAgency.DAL.Persistence;
 using System;
@@ -84,6 +85,8 @@ namespace CarAgency.Mappers
                 cmd.Parameters.Add(new SqlParameter("Id", make.Id));
                 cmd.Parameters.Add(new SqlParameter("Description", make.Description));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareDvh(cmd, "Makes");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -97,6 +100,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Makes");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -122,6 +128,8 @@ namespace CarAgency.Mappers
 
                 cmd.Parameters.Add(new SqlParameter("Id", make.Id));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.EnsureConfigured("Makes");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -135,6 +143,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Makes");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -191,6 +202,8 @@ namespace CarAgency.Mappers
                 cmd.Parameters.Add(new SqlParameter("Make_Id", model.Make_Id));
                 cmd.Parameters.Add(new SqlParameter("Description", model.Description));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareDvh(cmd, "Models");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -204,6 +217,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Models");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -229,6 +245,8 @@ namespace CarAgency.Mappers
 
                 cmd.Parameters.Add(new SqlParameter("Id", model.Id));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.EnsureConfigured("Models");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -242,6 +260,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Models");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -300,6 +321,8 @@ namespace CarAgency.Mappers
                 cmd.Parameters.Add(new SqlParameter("Model_Id", version.Model_Id));
                 cmd.Parameters.Add(new SqlParameter("Description", version.Description));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareDvh(cmd, "Versions");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -313,6 +336,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Versions");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -338,6 +364,8 @@ namespace CarAgency.Mappers
 
                 cmd.Parameters.Add(new SqlParameter("Id", version.Id));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.EnsureConfigured("Versions");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -351,6 +379,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Versions");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -494,6 +525,8 @@ namespace CarAgency.Mappers
                 cmd.Parameters.Add(new SqlParameter("Opcionals", vehicle.Opcionals));
                 cmd.Parameters.Add(new SqlParameter("ImageLink", vehicle.ImageLink));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareDvh(cmd, "Vehicles");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -507,6 +540,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Vehicles");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -545,6 +581,8 @@ namespace CarAgency.Mappers
                 cmd.Parameters.Add(new SqlParameter("Opcionals", vehicle.Opcionals));
                 cmd.Parameters.Add(new SqlParameter("ImageLink", vehicle.ImageLink));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareDvh(cmd, "Vehicles");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -558,6 +596,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Vehicles");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
@@ -584,6 +625,8 @@ namespace CarAgency.Mappers
 
                 cmd.Parameters.Add(new SqlParameter("Id", vehicle.Id));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.EnsureConfigured("Vehicles");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -597,6 +640,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Vehicles");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)

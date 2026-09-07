@@ -1,3 +1,4 @@
+﻿using CarAgency.Security.Integrity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,13 @@ namespace CarAgency.Security.Session
                     cmd.Parameters.Add(new SqlParameter("Type", DBNull.Value));
                 else
                     cmd.Parameters.Add(new SqlParameter("Type", p.Type.ToString()));
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareDvh(cmd, "Permissions");
                 sql.Open();
 
-                if(cmd.ExecuteNonQuery() > 0)
+                int affected = cmd.ExecuteNonQuery();
+                digitVerifier.UpdateDvv("Permissions");
+                if (affected > 0)
                     return true;
                 else
                     return false;
@@ -61,9 +66,13 @@ namespace CarAgency.Security.Session
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("Id", p.Id);
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.EnsureConfigured("Permission_Permission");
                 sql.Open();
 
-                if(cmd.ExecuteNonQuery() > 0)
+                int affected = cmd.ExecuteNonQuery();
+                digitVerifier.UpdateDvv("Permission_Permission");
+                if (affected > 0)
                     return true;
                 else
                     return false;
@@ -85,6 +94,8 @@ namespace CarAgency.Security.Session
             try
             {
                 DeleteFamily(c);
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.EnsureConfigured("Permission_Permission");
                 sql.Open();
                 foreach (var item in c.Children)
                 {
@@ -94,7 +105,9 @@ namespace CarAgency.Security.Session
                     cmd.Parameters.AddWithValue("Father_Id", c.Id);
                     cmd.Parameters.AddWithValue("Child_Id", item.Id);
 
+                    digitVerifier.PrepareDvh(cmd, "Permission_Permission");
                     cmd.ExecuteNonQuery();
+                    digitVerifier.UpdateDvv("Permission_Permission");
                 }
             }
             catch (Exception e)
@@ -336,9 +349,13 @@ namespace CarAgency.Security.Session
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("Id", selectedItem.Id);
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.EnsureConfigured("Permission_Permission", "Permissions");
                 sql.Open();
 
-                if (cmd.ExecuteNonQuery() > 0)
+                int affected = cmd.ExecuteNonQuery();
+                digitVerifier.UpdateDvv("Permission_Permission", "Permissions");
+                if (affected > 0)
                     return true;
                 else
                     return false;
@@ -363,9 +380,13 @@ namespace CarAgency.Security.Session
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("Id", selectedItem.Id);
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareFamilyDeletion(cmd, selectedItem.Id);
                 sql.Open();
 
-                if (cmd.ExecuteNonQuery() > 0)
+                int affected = cmd.ExecuteNonQuery();
+                digitVerifier.UpdateDvv("Users", "Permission_Permission", "Permissions");
+                if (affected > 0)
                     return true;
                 else
                     return false;

@@ -1,8 +1,9 @@
-﻿CREATE or ALTER proc Paperwork_Update	@Id uniqueidentifier, @Vehicle_Id uniqueidentifier, @Client_Id uniqueidentifier, @Invoice_Id uniqueidentifier, @Paperwork_Precharge_Code varchar(50), 
-									@Transfer_Date datetime, @Observations varchar(max), @IsFinished bit as
+﻿CREATE or ALTER proc Paperwork_Update	@Id uniqueidentifier, @Vehicle_Id uniqueidentifier, @Client_Id uniqueidentifier, @Invoice_Id uniqueidentifier, @Paperwork_Precharge_Code varchar(50),
+									@Transfer_Date datetime, @Observations varchar(max), @IsFinished bit , @DVH char(64) as
 
 update Paperwork
-set Vehicle_Id = @Vehicle_Id,
+set DVH = @DVH,
+	Vehicle_Id = @Vehicle_Id,
 	Client_Id = @Client_Id,
 	Invoice_Id = @Invoice_Id,
 	Paperwork_Precharge_Code = @Paperwork_Precharge_Code,

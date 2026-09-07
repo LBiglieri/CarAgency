@@ -1,8 +1,9 @@
-﻿CREATE or ALTER proc Vehicles_Update	@Id uniqueidentifier, @License_Plate varchar(max), @Make_Id uniqueidentifier, @Model_Id uniqueidentifier, @Version_Id uniqueidentifier, @Colour_Id uniqueidentifier, 
-									@Price float, @Opcionals varchar(255), @Observations varchar(max), @Doors tinyint, @Year smallint, @Kilometers int, @ImageLink varchar(max) as
+﻿CREATE or ALTER proc Vehicles_Update	@Id uniqueidentifier, @License_Plate varchar(255), @Make_Id uniqueidentifier, @Model_Id uniqueidentifier, @Version_Id uniqueidentifier, @Colour_Id uniqueidentifier,
+									@Price float, @Opcionals varchar(255), @Observations varchar(max), @Doors int, @Year int, @Kilometers int, @ImageLink nvarchar(max) , @DVH char(64) as
 
 update Vehicles
-set License_Plate = @License_Plate,
+set DVH = @DVH,
+	License_Plate = @License_Plate,
 	Make_Id = @Make_Id,
 	Model_Id = @Model_Id,
 	Version_Id = @Version_Id,
@@ -13,7 +14,7 @@ set License_Plate = @License_Plate,
 	Doors = @Doors,
 	Year = @Year,
 	Kilometers = @Kilometers,
-	ImageLink = @ImageLink 
+	ImageLink = @ImageLink
 where Id = @Id
 
 select 'success' as SQLResultType,'Vehicle updated succesfully!' as message

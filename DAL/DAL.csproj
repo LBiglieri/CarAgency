@@ -108,5 +108,19 @@
     <Content Include="Vehicles\SQL\Makes_Insert.sql" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Integrity\DigitVerifierDataAccess.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Integrity\SQL\DV_Save.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Integrity\SQL\DV_GetBaseRoles.sql" />
+    <Content Include="Integrity\SQL\DV_GetByTable.sql" />
+    <Content Include="Integrity\SQL\DV_GetColumns.sql" />
+    <Content Include="Integrity\SQL\DV_GetHorizontal.sql" />
+    <Content Include="Integrity\SQL\DV_GetUsersByRole.sql" />
+    <Content Include="Integrity\SQL\DV_ValidateTable.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

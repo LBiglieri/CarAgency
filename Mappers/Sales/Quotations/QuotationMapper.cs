@@ -1,3 +1,4 @@
+﻿using CarAgency.Security.Integrity;
 using CarAgency.BE;
 using CarAgency.DAL.Persistence;
 using System;
@@ -118,6 +119,8 @@ namespace CarAgency.Mappers
                 cmd.Parameters.Add(new SqlParameter("Price", quotation.Price));
                 cmd.Parameters.Add(new SqlParameter("Creation_Date", quotation.Creation_Date));
 
+                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
+                digitVerifier.PrepareDvh(cmd, "Quotations");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -131,6 +134,9 @@ namespace CarAgency.Mappers
                     Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
                     sqlResultType = _SQLResultType;
                 }
+                reader.Close();
+                if (sqlResultType == SQLResultType.success)
+                    digitVerifier.UpdateDvv("Quotations");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)
