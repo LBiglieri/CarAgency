@@ -294,7 +294,9 @@ namespace CarAgency.Mappers
                 cmd.Parameters.Add(new SqlParameter("Id", user.Id));
 
                 var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.EnsureConfigured("Users");
+                // El borrado arrastra en cascada los eventos del usuario: cambia el conjunto
+                // de DVH de Events y hay que rehacer su DVV junto con el de Users.
+                digitVerifier.EnsureConfigured("Users", "Events");
                 sql.Open();
                 reader = cmd.ExecuteReader();
 
@@ -310,7 +312,7 @@ namespace CarAgency.Mappers
                 }
                 reader.Close();
                 if (sqlResultType == SQLResultType.success)
-                    digitVerifier.UpdateDvv("Users");
+                    digitVerifier.UpdateDvv("Users", "Events");
                 return new SQLUpdateResult(sqlResultType, message);
             }
             catch (Exception e)

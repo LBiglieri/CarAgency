@@ -1,3 +1,5 @@
+using CarAgency.Security.Audit;
+using CarAgency.BE.Audit;
 using CarAgency.BE;
 using CarAgency.Security.Security;
 using System;
@@ -55,15 +57,27 @@ namespace CarAgency.Security.Session
         {
             if (user != null)
             {
-                _user = user;
-                LanguageService.LoadLanguage(_user.Language_Code);
+                try
+                {
+                    RefreshUser(user);
+                    AuditBLL.Record(AuditEventType.Login);
+                }
+                catch { _user = null; throw; }
             }
 
         }
 
         public void Logout()
         {
-            _user = null;
+            if (_user == null) return;
+            try { AuditBLL.Record(AuditEventType.Logout); }
+            finally { _user = null; }
+        }
+
+        internal void RefreshUser(User user)
+        {
+            _user = user;
+            LanguageService.LoadLanguage(user.Language_Code);
         }
 
         public string GetUsername()

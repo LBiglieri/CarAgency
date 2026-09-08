@@ -74,5 +74,8 @@
     <Compile Include="Integrity\DVRow.cs" />
     <Compile Include="Integrity\DVTables.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audit\AuditEvent.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,3 +1,5 @@
+using CarAgency.Security.Audit;
+using CarAgency.BE.Audit;
 using CarAgency.BE;
 using CarAgency.Mappers;
 using CarAgency.Mappers.Persistence;
@@ -56,7 +58,10 @@ namespace BLL
             client.Phone_Number_Personal = CryptographyHandler.Encrypt(client.Phone_Number_Personal);
             client.Phone_Number_House = CryptographyHandler.Encrypt(client.Phone_Number_House);
             client.Email = CryptographyHandler.Encrypt(client.Email);
-            return _clientmapper.AddClient(client);
+            SQLUpdateResult result = _clientmapper.AddClient(client);
+            if (result != null && result.sqlResult == SQLResultType.success)
+                AuditBLL.Record(AuditEventType.ClientCreated, client.Id);
+            return result;
         }
     }
 }

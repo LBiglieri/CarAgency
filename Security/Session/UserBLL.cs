@@ -1,3 +1,6 @@
+using BE;
+using CarAgency.Security.Audit;
+using CarAgency.BE.Audit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +48,7 @@ namespace CarAgency.Security.Session
             user.Active = true;
             user.Password = CryptographyHandler.HashPassword(user.Dni.ToString());
             user.Language_Code = "es";
-            return _userDataMapper.AddUser(user);
+            return RecordResult(_userDataMapper.AddUser(user), AuditEventType.UserCreated, user);
         }
 
         public SQLUpdateResult UpdateUser(User user)
@@ -58,7 +61,7 @@ namespace CarAgency.Security.Session
             if (validationUser != null && validationUser.Id != user.Id)
                 throw new Exception("A User with this DNI already exists.");
 
-            return _userDataMapper.UpdateUser(user);
+            return RecordResult(_userDataMapper.UpdateUser(user), AuditEventType.UserUpdated, user);
         }
 
         public SQLUpdateResult AlterBlockedState(User user, Boolean state)
@@ -70,7 +73,7 @@ namespace CarAgency.Security.Session
                 user.Password = CryptographyHandler.HashPassword(user.Dni.ToString());
             }
 
-            return _userDataMapper.UpdateUser(user);
+            return RecordResult(_userDataMapper.UpdateUser(user), state ? AuditEventType.UserBlocked : AuditEventType.UserUnblocked, user, SessionHandler.Instance.User ?? user);
         }
 
         public SQLUpdateResult AddFailedLoginAttempt(User user)
@@ -98,8 +101,8 @@ namespace CarAgency.Security.Session
 
                 if (result != null && result.sqlResult == SQLResultType.success)
                 {
-                    SessionHandler.Instance.Logout();
-                    SessionHandler.Instance.Login(user);
+                    SessionHandler.Instance.RefreshUser(user);
+                    AuditBLL.Record(AuditEventType.PasswordChanged, user.Id);
                 }
             }
 
@@ -116,8 +119,8 @@ namespace CarAgency.Security.Session
 
             if (result != null && result.sqlResult == SQLResultType.success)
             {
-                SessionHandler.Instance.Logout();
-                SessionHandler.Instance.Login(user);
+                SessionHandler.Instance.RefreshUser(user);
+                AuditBLL.Record(AuditEventType.LanguageChanged, user.Id);
             }
 
             return result;
@@ -138,7 +141,14 @@ namespace CarAgency.Security.Session
             if (user.Username == SessionHandler.Instance.GetUsername())
                 throw new Exception("You cant delete the User you are using.");
 
-            return _userDataMapper.DeleteUser(user);
+            return RecordResult(_userDataMapper.DeleteUser(user), AuditEventType.UserDeleted, user);
+        }
+
+        private static SQLUpdateResult RecordResult(SQLUpdateResult result, AuditEventType type, User target, User actor = null)
+        {
+            if (result != null && result.sqlResult == SQLResultType.success)
+                AuditBLL.Record(type, target.Id, actor);
+            return result;
         }
 
         public void Logout()
@@ -160,14 +170,26 @@ namespace CarAgency.Security.Session
                 User user = _userDataMapper.GetUserByUsername(username);
 
                 if (user == null)
+                {
+                    AuditBLL.Record(AuditEventType.LoginFailed, attemptedLogin: username.Length > 256 ? username.Substring(0, 256) : username);
                     throw new Exception("User doesnt exist.");
+                }
                 if (!user.Active)
+                {
+                    AuditBLL.Record(AuditEventType.LoginFailed, user.Id, user);
                     throw new Exception("User is inactive.");
+                }
                 if (user.Blocked)
+                {
+                    AuditBLL.Record(AuditEventType.LoginFailed, user.Id, user);
                     throw new Exception("User is blocked. Please contact Tech Support to get it unblocked.");
+                }
                 if (!CryptographyHandler.VerifyPassword(password, user.Password))
                 {
-                    AddFailedLoginAttempt(user);
+                    var failedResult = AddFailedLoginAttempt(user);
+                    if (failedResult == null || failedResult.sqlResult != SQLResultType.success)
+                        throw new TranslatableException("AuditLoginUpdateFailed", "No se pudo actualizar el estado de acceso del usuario.");
+                    AuditBLL.Record(AuditEventType.LoginFailed, user.Id, user);
                     if (user.Available_Login_Attempts == 0)
                         throw new Exception("Incorrect password. You have no more available login attempts, your user was blocked. Please contact Tech Support to get it unblocked.");
                     else
@@ -176,7 +198,9 @@ namespace CarAgency.Security.Session
 
                 user.Available_Login_Attempts = 3;
 
-                UpdateUser(user);
+                var resetResult = _userDataMapper.UpdateUser(user);
+                if (resetResult == null || resetResult.sqlResult != SQLResultType.success)
+                    throw new TranslatableException("AuditLoginUpdateFailed", "No se pudo actualizar el estado de acceso del usuario.");
 
                 user = _userDataMapper.GetFullUserById(user.Id);
 
@@ -184,6 +208,7 @@ namespace CarAgency.Security.Session
                 return null;
 
             }
+            catch (TranslatableException) { throw; }
             catch (Exception e)
             {
                 if (e.Message != "")

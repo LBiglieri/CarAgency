@@ -51,6 +51,7 @@
             this.vehicleManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.backupRestoreDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eventLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -200,7 +201,8 @@
             this.userManagementToolStripMenuItem,
             this.vehicleModelConfigurationToolStripMenuItem,
             this.vehicleManagementToolStripMenuItem,
-            this.backupRestoreDatabaseToolStripMenuItem});
+            this.backupRestoreDatabaseToolStripMenuItem,
+            this.eventLogToolStripMenuItem});
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
             this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.configurationToolStripMenuItem.Tag = "configurationToolStripMenuItem";
@@ -255,6 +257,14 @@
             this.backupRestoreDatabaseToolStripMenuItem.Text = "Backup / Restore Database";
             this.backupRestoreDatabaseToolStripMenuItem.Click += new System.EventHandler(this.backupRestoreDatabaseToolStripMenuItem_Click);
             // 
+            // eventLogToolStripMenuItem
+            // 
+            this.eventLogToolStripMenuItem.Name = "eventLogToolStripMenuItem";
+            this.eventLogToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.eventLogToolStripMenuItem.Tag = "EventLogForm";
+            this.eventLogToolStripMenuItem.Text = "Event Log";
+            this.eventLogToolStripMenuItem.Click += new System.EventHandler(this.eventLogToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,6 +279,7 @@
             this.Name = "MainForm";
             this.TransparencyKey = System.Drawing.Color.Empty;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -301,6 +312,7 @@
         private System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeSystemsLanguageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backupRestoreDatabaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eventLogToolStripMenuItem;
     }
 }
 

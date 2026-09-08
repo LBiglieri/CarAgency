@@ -89,5 +89,10 @@
   <ItemGroup>
     <Compile Include="Integrity\DigitVerifierWriteMapper.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audit\AuditCatalog.cs" />
+    <Compile Include="Audit\AuditMapper.cs" />
+    <Compile Include="Audit\AuditBLL.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

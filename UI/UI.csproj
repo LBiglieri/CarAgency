@@ -201,6 +201,12 @@
     <Compile Include="Security\IntegrityRepairForm.Designer.cs">
       <DependentUpon>IntegrityRepairForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Security\EventLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Security\EventLogForm.Designer.cs">
+      <DependentUpon>EventLogForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Session\ChangeLanguageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -288,6 +294,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Security\IntegrityRepairForm.resx">
       <DependentUpon>IntegrityRepairForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Security\EventLogForm.resx">
+      <DependentUpon>EventLogForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Session\ChangeLanguageForm.resx">
       <DependentUpon>ChangeLanguageForm.cs</DependentUpon>

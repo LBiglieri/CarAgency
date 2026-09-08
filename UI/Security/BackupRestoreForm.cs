@@ -67,19 +67,6 @@ namespace CarAgency.UI
             btnRestoreDatabase.Text = LanguageService.GetTagText(btnRestoreDatabase.Tag.ToString());
         }
 
-        private void btnRegisterClient_Click(object sender, EventArgs e)
-        {
-            SQLUpdateResult result = null;
-            try
-            {
-
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show(LanguageService.GetErrorText(ee));
-            }
-        }
-
         private void btnSelectBackupPath_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())

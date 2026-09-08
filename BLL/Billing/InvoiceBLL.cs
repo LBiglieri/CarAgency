@@ -1,3 +1,5 @@
+using CarAgency.Security.Audit;
+using CarAgency.BE.Audit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,17 +31,24 @@ namespace CarAgency.BLL
 
         public SQLUpdateResult AddInvoice(Invoice invoice)
         {
-            return _invoicemapper.AddInvoice(invoice);
+            return RecordResult(_invoicemapper.AddInvoice(invoice), AuditEventType.InvoiceCreated, invoice.Id);
         }
 
         public SQLUpdateResult UpdateInvoice(Invoice invoice)
         {
-            return _invoicemapper.UpdateInvoice(invoice);
+            return RecordResult(_invoicemapper.UpdateInvoice(invoice), AuditEventType.InvoiceUpdated, invoice.Id);
         }
 
         public SQLUpdateResult DeleteInvoice(Invoice invoice)
         {
-            return _invoicemapper.DeleteInvoice(invoice);
+            return RecordResult(_invoicemapper.DeleteInvoice(invoice), AuditEventType.InvoiceDeleted, invoice.Id);
+        }
+
+        private static SQLUpdateResult RecordResult(SQLUpdateResult result, AuditEventType type, Guid targetId)
+        {
+            if (result != null && result.sqlResult == SQLResultType.success)
+                AuditBLL.Record(type, targetId);
+            return result;
         }
     }
 }

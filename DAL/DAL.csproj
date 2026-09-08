@@ -123,5 +123,14 @@
     <Content Include="Integrity\SQL\DV_GetUsersByRole.sql" />
     <Content Include="Integrity\SQL\DV_ValidateTable.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audit\AuditDataAccess.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Audit\SQL\Events_ActorExists.sql" />
+    <Content Include="Audit\SQL\Events_GetLogins.sql" />
+    <Content Include="Audit\SQL\Events_Insert.sql" />
+    <Content Include="Audit\SQL\Events_Query.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

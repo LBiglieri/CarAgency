@@ -30,6 +30,12 @@ namespace CarAgency.UI
             UpdateAuthorizedMenus();
             Login();
         }
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try { SessionHandler.Instance.Logout(); }
+            catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
+            finally { LanguageService.Detach(this); }
+        }
 
 #region  Form UI Changes
         private void UpdateTitle()
@@ -62,6 +68,8 @@ namespace CarAgency.UI
                 userManagementToolStripMenuItem.Visible = false;
                 vehicleModelConfigurationToolStripMenuItem.Visible = false;
                 vehicleManagementToolStripMenuItem.Visible = false;
+                backupRestoreDatabaseToolStripMenuItem.Visible = false;
+                eventLogToolStripMenuItem.Visible = false;
                 return;
             }
 
@@ -77,12 +85,13 @@ namespace CarAgency.UI
             managementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManagePaperworkForm));
             managePaperworkToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManagePaperworkForm));
 
-            configurationToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.PermissionManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.UserManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.BackupRestoreForm)));
+            configurationToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.PermissionManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.UserManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.BackupRestoreForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.EventLogForm)));
             permissionConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.PermissionManagementForm));
             userManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.UserManagementForm));
             vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleModelConfigurationForm));
             vehicleManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleManagementForm));
             backupRestoreDatabaseToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.BackupRestoreForm));
+            eventLogToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.EventLogForm));
 
         }
 
@@ -140,7 +149,8 @@ namespace CarAgency.UI
         {
             if (SessionHandler.Instance.Logged())
             {
-                SessionHandler.Instance.Logout();
+                try { SessionHandler.Instance.Logout(); }
+                catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
                 
                 foreach (Form frmClose in MdiChildren.ToArray())
                 {
@@ -260,6 +270,17 @@ namespace CarAgency.UI
                     UpdateAuthorizedMenus();
                     Login();
                 }
+            }
+            catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
+        }
+
+        private void eventLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                EventLogForm frm = new EventLogForm();
+                frm.MdiParent = this;
+                frm.Show();
             }
             catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
         }

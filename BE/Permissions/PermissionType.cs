@@ -21,6 +21,7 @@ namespace CarAgency.BE
         VehicleManagementForm,
         VehicleModelConfigurationForm,
         BackupRestoreForm,
-        RecalculateDV
+        RecalculateDV,
+        EventLogForm
     }
 }

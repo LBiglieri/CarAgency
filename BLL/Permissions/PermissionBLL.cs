@@ -1,3 +1,5 @@
+using CarAgency.Security.Audit;
+using CarAgency.BE.Audit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,12 +41,15 @@ namespace CarAgency.BLL
         }
         public bool InsertComposedPermission(ComposedPermission p, bool isfamily)
         {
-            return _permissionmapper.InsertComponent(p, isfamily);
+            bool result = _permissionmapper.InsertComponent(p, isfamily);
+            if (result) AuditBLL.Record(isfamily ? AuditEventType.FamilyCreated : AuditEventType.PermissionCreated, p.Id);
+            return result;
         }
 
         public void SaveFamily(Family c)
         {
             _permissionmapper.SaveFamily(c);
+            AuditBLL.Record(AuditEventType.FamilyUpdated, c.Id);
         }
 
         public IList<Patent> GetAllPatents()
@@ -69,12 +74,16 @@ namespace CarAgency.BLL
 
         public bool DeletePatent(Patent selectedItem)
         {
-            return _permissionmapper.DeletePatent(selectedItem);
+            bool result = _permissionmapper.DeletePatent(selectedItem);
+            if (result) AuditBLL.Record(AuditEventType.PermissionDeleted, selectedItem.Id);
+            return result;
         }
 
         public bool DeleteFamily(ComposedPermission selectedItem)
         {
-            return _permissionmapper.DeleteCompleteFamily(selectedItem);
+            bool result = _permissionmapper.DeleteCompleteFamily(selectedItem);
+            if (result) AuditBLL.Record(AuditEventType.FamilyDeleted, selectedItem.Id);
+            return result;
         }
     }
 }

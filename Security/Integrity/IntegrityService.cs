@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CarAgency.Security.Audit;
+using CarAgency.BE.Audit;
+using System;
 using CarAgency.BE;
 using CarAgency.BE.Integrity;
 using CarAgency.DAL.Persistence;
@@ -23,9 +25,11 @@ namespace CarAgency.Security.Integrity
         internal bool Revoked;
         public IntegrityReport Report { get; private set; }
         public bool CanRestore { get; private set; }
+        internal User AuditUser { get; private set; }
 
         internal RecoverySession(IntegrityService owner, DVRow user, IntegrityReport report, bool canRestore)
         {
+            AuditUser = new User { Id = (Guid)user.GetValue("Id"), Username = (string)user.GetValue("Username"), Name = (string)user.GetValue("Name"), Surname = (string)user.GetValue("Surname") };
             Owner = owner;
             UserId = (Guid)user.GetValue("Id");
             PasswordHash = (string)user.GetValue("Password");
@@ -113,6 +117,12 @@ namespace CarAgency.Security.Integrity
             using (var inspection = Inspect()) Authorize(inspection, session, restore);
         }
 
+        public User GetRecoveryAuditUser(RecoverySession session)
+        {
+            AuthorizeRecovery(session, true);
+            return session.AuditUser;
+        }
+
         public void Recalculate(RecoverySession session)
         {
             lock (gate)
@@ -124,6 +134,7 @@ namespace CarAgency.Security.Integrity
                 }
                 EndRecoveryCore();
                 DigitVerifierMapper.ClearMetadataCache();
+                new AuditBLL(connectionString).Write(AuditEventType.IntegrityRecalculated, null, session.AuditUser);
             }
         }
 

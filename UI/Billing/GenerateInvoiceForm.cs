@@ -174,6 +174,7 @@ namespace UI.Vehicles
                 string filename = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CarAgency Invoice" + q_client.Surname+ " " + q_client.Name + ".pdf";
                 document.Close();
                 document.Save(filename);
+                CarAgency.Security.Audit.AuditBLL.Record(CarAgency.BE.Audit.AuditEventType.InvoiceExported, _invoice.Id);
 
 
                 Process.Start(filename);

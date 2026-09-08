@@ -1,3 +1,5 @@
+using CarAgency.Security.Audit;
+using CarAgency.BE.Audit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +35,10 @@ namespace CarAgency.BLL
 
         public SQLUpdateResult AddQuotation(Quotation quotation)
         {
-            return _quotationmapper.AddQuotation(quotation);
+            SQLUpdateResult result = _quotationmapper.AddQuotation(quotation);
+            if (result != null && result.sqlResult == SQLResultType.success)
+                AuditBLL.Record(AuditEventType.QuotationCreated, quotation.Id);
+            return result;
         }
     }
 }

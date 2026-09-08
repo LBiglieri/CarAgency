@@ -7,7 +7,7 @@ namespace CarAgency.BE.Integrity
     public static class DVTables
     {
         private static readonly string[] tables = {
-            "Clients", "Colours", "Invoice", "Makes", "Models", "Paperwork", "Payments",
+            "Clients", "Colours", "Events", "Invoice", "Makes", "Models", "Paperwork", "Payments",
             "PaymentTypes", "Permission_Permission", "Permissions", "Quotations", "Reservation",
             "Users", "Vehicles", "Versions"
         };

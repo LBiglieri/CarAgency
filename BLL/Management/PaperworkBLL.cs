@@ -1,3 +1,5 @@
+using CarAgency.Security.Audit;
+using CarAgency.BE.Audit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,15 +42,15 @@ namespace CarAgency.BLL
         }
         public SQLUpdateResult AddPaperwork(Paperwork paperwork)
         {
-            return _paperworkmapper.AddPaperwork(paperwork);
+            return RecordResult(_paperworkmapper.AddPaperwork(paperwork), AuditEventType.PaperworkCreated, paperwork.Id);
         }
         public SQLUpdateResult UpdatePaperwork(Paperwork paperwork)
         {
-            return _paperworkmapper.UpdatePaperwork(paperwork);
+            return RecordResult(_paperworkmapper.UpdatePaperwork(paperwork), AuditEventType.PaperworkUpdated, paperwork.Id);
         }
         public SQLUpdateResult DeletePaperwork(Paperwork paperwork)
         {
-            return _paperworkmapper.DeletePaperwork(paperwork);
+            return RecordResult(_paperworkmapper.DeletePaperwork(paperwork), AuditEventType.PaperworkDeleted, paperwork.Id);
         }
         public List<PaperworkFile> GetFilesByPaperWork(Guid Paperwork_Id)
         {
@@ -56,11 +58,18 @@ namespace CarAgency.BLL
         }
         public SQLUpdateResult AddPaperworkFile(PaperworkFile paperwork)
         {
-            return _paperworkmapper.AddPaperworkFile(paperwork);
+            return RecordResult(_paperworkmapper.AddPaperworkFile(paperwork), AuditEventType.PaperworkFileCreated, paperwork.Id);
         }
         public SQLUpdateResult DeletePaperworkFile(PaperworkFile paperwork)
         {
-            return _paperworkmapper.DeletePaperworkFile(paperwork);
+            return RecordResult(_paperworkmapper.DeletePaperworkFile(paperwork), AuditEventType.PaperworkFileDeleted, paperwork.Id);
+        }
+
+        private static SQLUpdateResult RecordResult(SQLUpdateResult result, AuditEventType type, Guid targetId)
+        {
+            if (result != null && result.sqlResult == SQLResultType.success)
+                AuditBLL.Record(type, targetId);
+            return result;
         }
     }
 }

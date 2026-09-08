@@ -1,3 +1,5 @@
+using CarAgency.Security.Audit;
+using CarAgency.BE.Audit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +35,10 @@ namespace CarAgency.BLL
 
         public SQLUpdateResult AddReservation(Reservation reservation)
         {
-            return _reservationmapper.AddReservation(reservation);
+            SQLUpdateResult result = _reservationmapper.AddReservation(reservation);
+            if (result != null && result.sqlResult == SQLResultType.success)
+                AuditBLL.Record(AuditEventType.ReservationCreated, reservation.Id);
+            return result;
         }
     }
 }

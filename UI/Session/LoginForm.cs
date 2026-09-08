@@ -19,7 +19,6 @@ namespace CarAgency.UI
     public partial class LoginForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         UserBLL _userBLL;
-        List<Languages> languages;
         string initial_language;
         public LoginForm()
         {
