@@ -35,6 +35,7 @@ namespace CarAgency.UI
             this.btnRecalculate = new MetroFramework.Controls.MetroButton();
             this.btnRestore = new MetroFramework.Controls.MetroButton();
             this.btnExit = new MetroFramework.Controls.MetroButton();
+            this.btnVerify = new MetroFramework.Controls.MetroButton();
             this.IntegrityPanel.SuspendLayout();
             this.SuspendLayout();
             //
@@ -48,6 +49,7 @@ namespace CarAgency.UI
             this.IntegrityPanel.Controls.Add(this.btnRecalculate);
             this.IntegrityPanel.Controls.Add(this.btnRestore);
             this.IntegrityPanel.Controls.Add(this.btnExit);
+            this.IntegrityPanel.Controls.Add(this.btnVerify);
             this.IntegrityPanel.HorizontalScrollbarBarColor = true;
             this.IntegrityPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.IntegrityPanel.HorizontalScrollbarSize = 10;
@@ -150,6 +152,18 @@ namespace CarAgency.UI
             this.btnExit.UseSelectable = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             //
+            // btnVerify
+            //
+            this.btnVerify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnVerify.Location = new System.Drawing.Point(550, 322);
+            this.btnVerify.Name = "btnVerify";
+            this.btnVerify.Size = new System.Drawing.Size(170, 36);
+            this.btnVerify.TabIndex = 5;
+            this.btnVerify.Tag = "IntegrityVerify";
+            this.btnVerify.Text = "Verificar integridad";
+            this.btnVerify.UseSelectable = true;
+            this.btnVerify.Click += new System.EventHandler(this.btnVerify_Click);
+            //
             // IntegrityRepairForm
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -179,5 +193,6 @@ namespace CarAgency.UI
         private MetroFramework.Controls.MetroButton btnRecalculate;
         private MetroFramework.Controls.MetroButton btnRestore;
         private MetroFramework.Controls.MetroButton btnExit;
+        private MetroFramework.Controls.MetroButton btnVerify;
     }
 }

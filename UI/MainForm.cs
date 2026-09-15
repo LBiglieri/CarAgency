@@ -70,6 +70,7 @@ namespace CarAgency.UI
                 vehicleManagementToolStripMenuItem.Visible = false;
                 backupRestoreDatabaseToolStripMenuItem.Visible = false;
                 eventLogToolStripMenuItem.Visible = false;
+                integrityRepairToolStripMenuItem.Visible = false;
                 return;
             }
 
@@ -92,6 +93,8 @@ namespace CarAgency.UI
             vehicleManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleManagementForm));
             backupRestoreDatabaseToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.BackupRestoreForm));
             eventLogToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.EventLogForm));
+            integrityRepairToolStripMenuItem.Visible = SessionHandler.Instance.IsAuthorized(BE.PermissionType.RecalculateDV);
+            configurationToolStripMenuItem.Visible |= integrityRepairToolStripMenuItem.Visible;
 
         }
 
@@ -283,6 +286,43 @@ namespace CarAgency.UI
                 frm.Show();
             }
             catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
+        }
+
+        private void integrityRepairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var frm = MdiChildren.OfType<IntegrityRepairForm>().FirstOrDefault();
+                if (frm != null)
+                {
+                    frm.Activate();
+                    return;
+                }
+                frm = new IntegrityRepairForm();
+                frm.MdiParent = this;
+                frm.FormClosed += IntegrityRepairForm_FormClosed;
+                frm.Show();
+            }
+            catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
+        }
+
+        private void IntegrityRepairForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            var frm = (IntegrityRepairForm)sender;
+            frm.FormClosed -= IntegrityRepairForm_FormClosed;
+            if (frm.DialogResult != DialogResult.Retry || e.CloseReason == CloseReason.MdiFormClosing
+                || IsDisposed || Disposing) return;
+
+            BeginInvoke(new Action(() =>
+            {
+                if (!IsDisposed && !Disposing && !SessionHandler.Instance.Logged())
+                {
+                    foreach (Form child in MdiChildren.ToArray()) child.Close();
+                    UpdateTitle();
+                    UpdateAuthorizedMenus();
+                    Login();
+                }
+            }));
         }
         #endregion
     }

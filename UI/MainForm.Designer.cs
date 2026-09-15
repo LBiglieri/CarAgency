@@ -52,6 +52,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.backupRestoreDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.integrityRepairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -202,7 +203,8 @@
             this.vehicleModelConfigurationToolStripMenuItem,
             this.vehicleManagementToolStripMenuItem,
             this.backupRestoreDatabaseToolStripMenuItem,
-            this.eventLogToolStripMenuItem});
+            this.eventLogToolStripMenuItem,
+            this.integrityRepairToolStripMenuItem});
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
             this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.configurationToolStripMenuItem.Tag = "configurationToolStripMenuItem";
@@ -264,6 +266,14 @@
             this.eventLogToolStripMenuItem.Tag = "EventLogForm";
             this.eventLogToolStripMenuItem.Text = "Event Log";
             this.eventLogToolStripMenuItem.Click += new System.EventHandler(this.eventLogToolStripMenuItem_Click);
+            //
+            // integrityRepairToolStripMenuItem
+            //
+            this.integrityRepairToolStripMenuItem.Name = "integrityRepairToolStripMenuItem";
+            this.integrityRepairToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.integrityRepairToolStripMenuItem.Tag = "IntegrityMaintenanceTitle";
+            this.integrityRepairToolStripMenuItem.Text = "Digitos verificadores";
+            this.integrityRepairToolStripMenuItem.Click += new System.EventHandler(this.integrityRepairToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -313,6 +323,7 @@
         private System.Windows.Forms.ToolStripMenuItem changeSystemsLanguageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backupRestoreDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eventLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem integrityRepairToolStripMenuItem;
     }
 }
 

@@ -69,6 +69,39 @@ namespace CarAgency.Security.Integrity
             using (var inspection = Inspect()) return inspection.Report;
         }
 
+        public IntegrityReport VerifyForCurrentUser()
+        {
+            RequireRecalculatePermission();
+            return Verify();
+        }
+
+        private static User RequireRecalculatePermission()
+        {
+            if (!SessionHandler.Instance.IsAuthorized(PermissionType.RecalculateDV))
+                throw new TranslatableException("IntegrityPermissionDenied", "No tiene permiso para verificar o recalcular digitos verificadores.");
+            return SessionHandler.Instance.User;
+        }
+
+        public void Recalculate()
+        {
+            lock (gate)
+            {
+                User actor = RequireRecalculatePermission();
+                using (var inspection = Inspect())
+                {
+                    DVRow user = inspection.FindUser(actor.Id);
+                    if (!inspection.HasPermission(user, PermissionType.RecalculateDV)
+                        || !string.Equals(user.GetValue("Password") as string, actor.Password, StringComparison.Ordinal))
+                        throw new TranslatableException("IntegrityPermissionDenied", "No tiene permiso para verificar o recalcular digitos verificadores.");
+                    inspection.Recalculate();
+                }
+                EndRecoveryCore();
+                DigitVerifierMapper.ClearMetadataCache();
+                try { new AuditBLL(connectionString).Write(AuditEventType.IntegrityRecalculated, null, actor); }
+                finally { SessionHandler.Instance.Logout(); }
+            }
+        }
+
         // Null significa base consistente: el caller puede seguir el login normal.
         public RecoverySession CheckLogin(string username, string password)
         {

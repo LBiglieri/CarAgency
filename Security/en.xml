@@ -375,4 +375,9 @@
   <translation tag="AuditEvent_AuditPrintRequested">Request event log printing</translation>
   <translation tag="AuditBackupFailed">The backup could not be created.</translation>
   <translation tag="AuditRestoreFailed">The database could not be restored.</translation>
+  <translation tag="IntegrityMaintenanceTitle">Check digits</translation>
+  <translation tag="IntegrityVerify">Verify integrity</translation>
+  <translation tag="IntegrityConsistent">Verification complete: no inconsistencies were found.</translation>
+  <translation tag="IntegrityIssuesFound">Database inconsistencies were found.</translation>
+  <translation tag="IntegrityPermissionDenied">You do not have permission to verify or recalculate check digits.</translation>
 </translations>

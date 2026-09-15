@@ -374,4 +374,9 @@
   <translation tag="AuditEvent_AuditPrintRequested">Solicitar impresión de bitácora</translation>
   <translation tag="AuditBackupFailed">No se pudo crear el backup.</translation>
   <translation tag="AuditRestoreFailed">No se pudo restaurar la base de datos.</translation>
+  <translation tag="IntegrityMaintenanceTitle">Dígitos verificadores</translation>
+  <translation tag="IntegrityVerify">Verificar integridad</translation>
+  <translation tag="IntegrityConsistent">Verificación completada: no se detectaron inconsistencias.</translation>
+  <translation tag="IntegrityIssuesFound">Se detectaron inconsistencias en la base de datos.</translation>
+  <translation tag="IntegrityPermissionDenied">No tiene permiso para verificar o recalcular dígitos verificadores.</translation>
 </translations>

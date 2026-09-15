@@ -2,7 +2,10 @@
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BE;
+using CarAgency.BE;
+using CarAgency.BE.Integrity;
 using CarAgency.Security.Integrity;
+using CarAgency.Security.Session;
 using Security.Session;
 
 namespace CarAgency.UI
@@ -11,23 +14,34 @@ namespace CarAgency.UI
     {
         private readonly RecoverySession recovery;
         private bool busy;
+        private IntegrityReport report;
+
+        public IntegrityRepairForm() : this(null) { }
 
         public IntegrityRepairForm(RecoverySession recovery)
         {
-            IntegrityService.Current.AuthorizeRecovery(recovery);
+            if (recovery != null) IntegrityService.Current.AuthorizeRecovery(recovery);
+            else report = IntegrityService.Current.VerifyForCurrentUser();
             this.recovery = recovery;
+            if (recovery != null) report = recovery.Report;
             InitializeComponent();
+            if (recovery == null) Tag = "IntegrityMaintenanceTitle";
+            btnVerify.Visible = recovery == null;
             LanguageService.Attach(this);
             UpdateLanguage("");
-            tbIssues.Text = string.Join(Environment.NewLine, recovery.Report.Issues);
-            btnRestore.Enabled = recovery.CanRestore;
+            SetBusy(false);
         }
 
         public void UpdateLanguage(string language)
         {
             this.Text = LanguageService.GetTagText(this.Tag.ToString());
             this.Refresh();
-            lblIntegrityDetected.Text = LanguageService.GetTagText(lblIntegrityDetected.Tag.ToString());
+            lblIntegrityDetected.Text = LanguageService.GetTagText(report.IsConsistent
+                ? "IntegrityConsistent" : recovery == null ? "IntegrityIssuesFound" : "IntegrityDetected");
+            lblIntegrityDetected.ForeColor = report.IsConsistent ? System.Drawing.Color.DarkGreen : System.Drawing.Color.DarkRed;
+            tbIssues.Text = report.IsConsistent ? LanguageService.GetTagText("IntegrityConsistent")
+                : string.Join(Environment.NewLine, report.Issues);
+            btnVerify.Text = LanguageService.GetTagText(btnVerify.Tag.ToString());
             btnRecalculate.Text = LanguageService.GetTagText(btnRecalculate.Tag.ToString());
             btnRestore.Text = LanguageService.GetTagText(btnRestore.Tag.ToString());
             btnExit.Text = LanguageService.GetTagText(btnExit.Tag.ToString());
@@ -37,9 +51,23 @@ namespace CarAgency.UI
         {
             busy = value;
             UseWaitCursor = value;
-            btnRecalculate.Enabled = !value;
-            btnRestore.Enabled = !value && recovery.CanRestore;
+            btnVerify.Enabled = !value;
+            btnRecalculate.Enabled = !value && report.CanRecalculate;
+            btnRestore.Enabled = !value && (recovery != null ? recovery.CanRestore
+                : SessionHandler.Instance.IsAuthorized(PermissionType.BackupRestoreForm));
             btnExit.Enabled = !value;
+        }
+
+        private async void btnVerify_Click(object sender, EventArgs e)
+        {
+            SetBusy(true);
+            try
+            {
+                report = await Task.Run(() => IntegrityService.Current.VerifyForCurrentUser());
+                UpdateLanguage("");
+            }
+            catch (Exception error) { MessageBox.Show(this, LanguageService.GetErrorText(error), Text, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            finally { if (!IsDisposed) SetBusy(false); }
         }
 
         private async void btnRecalculate_Click(object sender, EventArgs e)
@@ -49,13 +77,26 @@ namespace CarAgency.UI
             SetBusy(true);
             try
             {
-                await Task.Run(() => IntegrityService.Current.Recalculate(recovery));
+                await Task.Run(() =>
+                {
+                    if (recovery == null) IntegrityService.Current.Recalculate();
+                    else IntegrityService.Current.Recalculate(recovery);
+                });
                 MessageBox.Show(this, LanguageService.GetTagText("IntegrityRepaired", "Operacion completada. Inicie sesion nuevamente."));
                 SetBusy(false);
                 DialogResult = DialogResult.Retry;
                 Close();
             }
-            catch (Exception error) { MessageBox.Show(this, LanguageService.GetErrorText(error), Text, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch (Exception error)
+            {
+                MessageBox.Show(this, LanguageService.GetErrorText(error), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (recovery == null && !SessionHandler.Instance.Logged())
+                {
+                    SetBusy(false);
+                    DialogResult = DialogResult.Retry;
+                    Close();
+                }
+            }
             finally { if (!IsDisposed) SetBusy(false); }
         }
 
@@ -82,8 +123,11 @@ namespace CarAgency.UI
         {
             if (busy) { e.Cancel = true; return; }
             LanguageService.Detach(this);
-            IntegrityService.Current.EndRecovery();
-            if (DialogResult != DialogResult.Retry) DialogResult = DialogResult.Abort;
+            if (recovery != null)
+            {
+                IntegrityService.Current.EndRecovery();
+                if (DialogResult != DialogResult.Retry) DialogResult = DialogResult.Abort;
+            }
         }
     }
 }
