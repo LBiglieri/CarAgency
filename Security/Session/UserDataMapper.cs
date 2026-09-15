@@ -229,8 +229,50 @@ namespace CarAgency.Security.Session
             }
         }
 
+        private string GetStoredPassword(Guid Id)
+        {
+            SqlConnection sql = new SqlConnection(base.GetConnectionString());
+            IDataReader reader = null;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("User_GetUserById", sql);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("Id", Id);
+                sql.Open();
+                reader = cmd.ExecuteReader();
+
+                if (!reader.Read()) return null;
+                int ordinal = reader.GetOrdinal("Password");
+                return reader.IsDBNull(ordinal) ? null : reader.GetString(ordinal);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+                if (sql != null)
+                    sql.Close();
+            }
+        }
+
         public SQLUpdateResult UpdateUser(User user)
         {
+            // Contrato: Password vacio significa "conservar el hash actual". Las
+            // proyecciones parciales (User_GetAllByState) lo enmascaran con '', y ese
+            // mismo objeto vuelve desde la UI para el update; sin esto, el UPDATE de
+            // fila completa pisaria la contrasena real.
+            string password = user.Password;
+            if (string.IsNullOrEmpty(password))
+            {
+                password = GetStoredPassword(user.Id);
+                if (password == null)
+                    throw new Exception("Cannot update the User: the User no longer exists.");
+            }
+
             SqlConnection sql = new SqlConnection(base.GetConnectionString());
             IDataReader reader = null;
             try
@@ -241,7 +283,7 @@ namespace CarAgency.Security.Session
                 cmd.Parameters.Add(new SqlParameter("Id", user.Id));
                 cmd.Parameters.Add(new SqlParameter("Dni", user.Dni));
                 cmd.Parameters.Add(new SqlParameter("Username", user.Username));
-                cmd.Parameters.Add(new SqlParameter("Password", user.Password));
+                cmd.Parameters.Add(new SqlParameter("Password", password));
                 cmd.Parameters.Add(new SqlParameter("Name", user.Name));
                 cmd.Parameters.Add(new SqlParameter("Surname", user.Surname));
                 cmd.Parameters.Add(new SqlParameter("Role_Id", user.Role_Id));
