@@ -28,7 +28,7 @@ namespace CarAgency.Security.Audit
             var digitVerifier = new DigitVerifierWriteMapper(connectionString);
             data.Insert(entry.Id, entry.UserId, entry.AttemptedLogin, entry.OccurredAt, entry.Module.ToString(),
                 entry.EventType.ToString(), entry.Criticality, entry.TargetId,
-                command => digitVerifier.PrepareDvh(command, Table));
+                digitVerifier.Dvh(Table));
             digitVerifier.UpdateDvv(Table);
         }
 

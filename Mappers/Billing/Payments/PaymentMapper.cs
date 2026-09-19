@@ -1,174 +1,40 @@
-﻿using CarAgency.Security.Integrity;
-using CarAgency.BE;
-using CarAgency.DAL.Persistence;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Collections;
-
-using CarAgency.Mappers.Persistence;
+using CarAgency.BE;
+using CarAgency.DAL.Billing;
+using CarAgency.Security.Integrity;
+using CarAgency.Security;
 
 namespace CarAgency.Mappers
 {
-    public class PaymentMapper : MapperBase
+    public class PaymentMapper
     {
+        private const string Table = "Payments";
+        private readonly PaymentDataAccess data = new PaymentDataAccess();
+
+        // Sin filas devuelve null.
         public List<PaymentType> GetAllPaymentTypes()
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("PaymentTypes_GetAll", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                return MappingHandler.MapReaderToEntities<PaymentType>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            List<PaymentType> types = MappingHandler.MapTableToEntities<PaymentType>(data.GetAllPaymentTypes());
+            return types.Count == 0 ? null : types;
         }
 
+        // Sin filas devuelve null.
         public List<Payment> GetAllByInvoice(Guid Invoice_Id)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Payments_GetAllByInvoice", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Invoice_Id", Invoice_Id));
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                var lista = new List<User>();
-
-                return MappingHandler.MapReaderToEntities<Payment>(reader); 
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            List<Payment> payments = MappingHandler.MapTableToEntities<Payment>(data.GetAllByInvoice(Invoice_Id));
+            return payments.Count == 0 ? null : payments;
         }
 
         public SQLUpdateResult AddPayment(Payment payment)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Payments_Add", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Id", payment.Id));
-                cmd.Parameters.Add(new SqlParameter("Invoice_Id", payment.Invoice_Id));
-                cmd.Parameters.Add(new SqlParameter("PaymentType_Id", payment.PaymentType_Id));
-                cmd.Parameters.Add(new SqlParameter("Amount", payment.Amount));
-                cmd.Parameters.Add(new SqlParameter("Detail", payment.Detail));
-
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.PrepareDvh(cmd, "Payments");
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                string message = "";
-                SQLResultType sqlResultType = SQLResultType.database_error;
-                while (reader.Read())
-                {
-                    message = reader.GetString(reader.GetOrdinal("message"));
-                    Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
-                    sqlResultType = _SQLResultType;
-                }
-                reader.Close();
-                if (sqlResultType == SQLResultType.success)
-                    digitVerifier.UpdateDvv("Payments");
-                return new SQLUpdateResult(sqlResultType, message);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return DigitVerifierWriteMapper.Save(Table, dvh => data.Add(payment.Id, payment.Invoice_Id,
+                payment.PaymentType_Id, payment.Amount, payment.Detail, dvh));
         }
 
         public SQLUpdateResult DeletePayment(Payment payment)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Payments_Delete", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Id", payment.Id));
-
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.EnsureConfigured("Payments");
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                string message = "";
-                SQLResultType sqlResultType = SQLResultType.database_error;
-                while (reader.Read())
-                {
-                    message = reader.GetString(reader.GetOrdinal("message"));
-                    Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
-                    sqlResultType = _SQLResultType;
-                }
-                reader.Close();
-                if (sqlResultType == SQLResultType.success)
-                    digitVerifier.UpdateDvv("Payments");
-                return new SQLUpdateResult(sqlResultType, message);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return DigitVerifierWriteMapper.Remove(() => data.Delete(payment.Id), Table);
         }
     }
 }

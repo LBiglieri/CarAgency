@@ -1,154 +1,56 @@
-﻿using CarAgency.Security.Integrity;
-using CarAgency.BE;
-using CarAgency.DAL.Persistence;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-
-using CarAgency.Mappers.Persistence;
+using CarAgency.BE;
+using CarAgency.DAL.Sales;
+using CarAgency.Security.Integrity;
+using CarAgency.Security;
 
 namespace CarAgency.Mappers
 {
-    public class QuotationMapper : MapperBase
+    public class QuotationMapper
     {
+        private const string Table = "Quotations";
+        private readonly QuotationDataAccess data = new QuotationDataAccess();
+
         public Quotation GetById(Guid id)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Quotations_GetById", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Id", id));
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                return MappingHandler.MapReaderToEntity<Quotation>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            List<Quotation> quotations = Load(data.GetById(id));
+            return quotations == null ? null : quotations[0];
         }
+
         public List<Quotation> GetAll()
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Quotations_GetAll", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                return MappingHandler.MapReaderToEntities<Quotation>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return Load(data.GetAll());
         }
+
         public List<Quotation> GetAllActiveByClient(Guid client_Id)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Quotations_GetAllActiveByClient", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Client_Id", client_Id));
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                return MappingHandler.MapReaderToEntities<Quotation>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return Load(data.GetAllActiveByClient(client_Id));
         }
+
         public SQLUpdateResult AddQuotation(Quotation quotation)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
+            return DigitVerifierWriteMapper.Save(Table, dvh => data.Add(quotation.Id, quotation.Vehicle_Id,
+                quotation.Client_Id, quotation.Price, quotation.Creation_Date, dvh));
+        }
+
+        // Sin filas devuelve null. El SP trae Client_Name/Client_Surname encriptados y Client_Dni para
+        // armar Client_Description; las entidades salen en el mismo orden que las filas.
+        private static List<Quotation> Load(DataTable table)
+        {
+            using (table)
+            using (DataTableReader reader = table.CreateDataReader())
             {
-                SqlCommand cmd = new SqlCommand("Quotations_Add", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-                
-                cmd.Parameters.Add(new SqlParameter("Id", quotation.Id));
-                cmd.Parameters.Add(new SqlParameter("Vehicle_Id", quotation.Vehicle_Id));
-                cmd.Parameters.Add(new SqlParameter("Client_Id", quotation.Client_Id));
-                cmd.Parameters.Add(new SqlParameter("Price", quotation.Price));
-                cmd.Parameters.Add(new SqlParameter("Creation_Date", quotation.Creation_Date));
-
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.PrepareDvh(cmd, "Quotations");
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                string message = "";
-                SQLResultType sqlResultType = SQLResultType.database_error;
-                while (reader.Read())
+                List<Quotation> quotations = MappingHandler.MapReaderToEntities<Quotation>(reader);
+                if (quotations.Count == 0) return null;
+                for (int i = 0; i < quotations.Count; i++)
                 {
-                    message = reader.GetString(reader.GetOrdinal("message"));
-                    Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
-                    sqlResultType = _SQLResultType;
+                    DataRow row = table.Rows[i];
+                    quotations[i].Client_Description = ClientMapper.Describe(
+                        (string)row["Client_Name"], (string)row["Client_Surname"], (int)row["Client_Dni"]);
                 }
-                reader.Close();
-                if (sqlResultType == SQLResultType.success)
-                    digitVerifier.UpdateDvv("Quotations");
-                return new SQLUpdateResult(sqlResultType, message);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
+                return quotations;
             }
         }
     }

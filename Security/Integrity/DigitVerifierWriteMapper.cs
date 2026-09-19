@@ -1,8 +1,10 @@
 using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
+using CarAgency.BE;
 using CarAgency.BE.Integrity;
+using CarAgency.DAL.Integrity;
+using CarAgency.DAL.Persistence;
 
 namespace CarAgency.Security.Integrity
 {
@@ -10,46 +12,47 @@ namespace CarAgency.Security.Integrity
     {
         private readonly DigitVerifierBLL bll;
 
+        public DigitVerifierWriteMapper() : this(new DatabaseConnectionProvider().GetConnectionString()) { }
         public DigitVerifierWriteMapper(string connectionString) { bll = new DigitVerifierBLL(connectionString); }
 
         public void EnsureConfigured(params string[] tables) { bll.EnsureConfigured(tables); }
         public void UpdateDvv(params string[] tables) { bll.UpdateDvv(tables); }
 
-        public void PrepareDvh(SqlCommand command, string table)
+        // La DAL entrega los valores de los parametros del comando y recibe los valores normalizados,
+        // el tipo de cada columna protegida y el DVH resultante.
+        public DvhCalculator Dvh(string table)
         {
-            var values = command.Parameters.Cast<SqlParameter>().ToDictionary(
-                p => p.ParameterName.TrimStart('@'), p => p.Value == DBNull.Value ? null : p.Value, StringComparer.OrdinalIgnoreCase);
-            DVPreparedRow prepared = bll.PrepareDvh(table, new DVRow(values));
-            foreach (DVColumn column in prepared.Columns)
+            return values =>
             {
-                SqlParameter parameter = command.Parameters.Cast<SqlParameter>().Single(p =>
-                    string.Equals(p.ParameterName.TrimStart('@'), column.Name, StringComparison.OrdinalIgnoreCase));
-                parameter.Value = prepared.Row.GetValue(column.Name) ?? DBNull.Value;
-                switch (column.SqlType)
-                {
-                    case "varchar": parameter.SqlDbType = SqlDbType.VarChar; parameter.Size = column.MaxLength; break;
-                    case "nvarchar": parameter.SqlDbType = SqlDbType.NVarChar; parameter.Size = column.MaxLength < 0 ? -1 : column.MaxLength / 2; break;
-                    case "uniqueidentifier": parameter.SqlDbType = SqlDbType.UniqueIdentifier; break;
-                    case "int": parameter.SqlDbType = SqlDbType.Int; break;
-                    case "float": parameter.SqlDbType = SqlDbType.Float; break;
-                    case "bit": parameter.SqlDbType = SqlDbType.Bit; break;
-                    case "datetime": parameter.SqlDbType = SqlDbType.DateTime; break;
-                }
-            }
-            command.Parameters.Add("@DVH", SqlDbType.Char, 64).Value = prepared.Row.DVH;
+                DVPreparedRow prepared = bll.PrepareDvh(table, new DVRow(values));
+                return new DvhResult(prepared.Row.DVH, prepared.Columns
+                    .Select(c => new DvhColumn(c.Name, c.SqlType, c.MaxLength, prepared.Row.GetValue(c.Name)))
+                    .ToList());
+            };
         }
 
-        public void PrepareFamilyDeletion(SqlCommand command, Guid familyId)
+        public DVFamilyDeletion PrepareFamilyDeletion(Guid familyId) { return bll.PrepareFamilyDeletion(familyId); }
+
+        // Alta o modificacion de una fila protegida: el SP recibe el DVH y, si sale bien, se rehace el DVV.
+        public static SQLUpdateResult Save(string table, Func<DvhCalculator, DataTable> write)
         {
-            DVFamilyDeletion deletion = bll.PrepareFamilyDeletion(familyId);
-            var digests = new DataTable();
-            digests.Columns.Add("Id", typeof(Guid));
-            digests.Columns.Add("DVH", typeof(string));
-            foreach (DVUserDigest digest in deletion.UserDigests) digests.Rows.Add(digest.Id, digest.DVH);
-            command.Parameters.Add("@BaseRoleId", SqlDbType.UniqueIdentifier).Value = (object)deletion.BaseRoleId ?? DBNull.Value;
-            SqlParameter parameter = command.Parameters.Add("@UserDigests", SqlDbType.Structured);
-            parameter.TypeName = "dbo.UserDvhUpdates";
-            parameter.Value = digests;
+            var digitVerifier = new DigitVerifierWriteMapper();
+            SQLUpdateResult result = MappingHandler.MapUpdateResult(write(digitVerifier.Dvh(table)));
+            if (result.sqlResult == SQLResultType.success)
+                digitVerifier.UpdateDvv(table);
+            return result;
+        }
+
+        // Baja: no hay DVH que calcular, pero cambia el DVV de cada tabla que pierde filas (la del
+        // registro y las que se borran en cascada).
+        public static SQLUpdateResult Remove(Func<DataTable> delete, params string[] tables)
+        {
+            var digitVerifier = new DigitVerifierWriteMapper();
+            digitVerifier.EnsureConfigured(tables);
+            SQLUpdateResult result = MappingHandler.MapUpdateResult(delete());
+            if (result.sqlResult == SQLResultType.success)
+                digitVerifier.UpdateDvv(tables);
+            return result;
         }
     }
 }

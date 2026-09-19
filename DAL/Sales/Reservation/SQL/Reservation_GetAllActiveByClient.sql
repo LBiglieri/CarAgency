@@ -2,7 +2,7 @@
 
 select	a.Id,
         a.Vehicle_Id, (cast(b.Year as varchar) + ' ' + e.Description + ' ' + f.Description + ' ' + c.Description + ' ' + d.Description + ' ' + b.License_Plate) as Vehicle_Description,
-        a.Client_Id, (g.Name + ' ' + g.Surname + ' DNI: ' + cast(g.Dni as varchar)) as Client_Description, 
+        a.Client_Id, g.Name as Client_Name, g.Surname as Client_Surname, g.Dni as Client_Dni, 
         a.Price,
         a.Creation_Date,
         a.Expiration_Date

@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarAgency.Security.Session
+namespace CarAgency.Security
 {
     public class MappingHandler
     {
@@ -54,5 +54,29 @@ namespace CarAgency.Security.Session
             }
 			return list;
         }
+
+		// Entrada desde la DAL: los data access devuelven DataTable.
+		public static List<T> MapTableToEntities<T>(DataTable table) where T : class, new()
+		{
+			using (table)
+			using (IDataReader reader = table.CreateDataReader())
+				return MapReaderToEntities<T>(reader);
+		}
+
+		// Los SP de escritura devuelven una fila con SQLResultType y message.
+		public static SQLUpdateResult MapUpdateResult(DataTable table)
+		{
+			using (table)
+			{
+				string message = "";
+				SQLResultType sqlResultType = SQLResultType.database_error;
+				foreach (DataRow row in table.Rows)
+				{
+					message = (string)row["message"];
+					Enum.TryParse((string)row["SQLResultType"], out sqlResultType);
+				}
+				return new SQLUpdateResult(sqlResultType, message);
+			}
+		}
 	}
 }

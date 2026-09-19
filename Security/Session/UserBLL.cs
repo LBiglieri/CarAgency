@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using CarAgency.BE;
 
 using CarAgency.Security.Security;
-using CarAgency.Security.Persistence;
 using CarAgency.Security.Session;
 using CarAgency.Security.Integrity;
 

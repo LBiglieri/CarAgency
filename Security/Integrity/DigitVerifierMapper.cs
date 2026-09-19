@@ -7,7 +7,6 @@ using CarAgency.BE;
 using CarAgency.BE.Integrity;
 using CarAgency.DAL.Integrity;
 using BE;
-using CarAgency.Security.Session;
 
 namespace CarAgency.Security.Integrity
 {

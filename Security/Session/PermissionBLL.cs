@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAgency.Mappers;
 using CarAgency.BE;
 
-namespace CarAgency.BLL
+namespace CarAgency.Security.Session
 {
     public class PermissionBLL
     {

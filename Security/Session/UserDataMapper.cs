@@ -1,262 +1,45 @@
-﻿using CarAgency.Security.Integrity;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CarAgency.BE;
 using System.Data;
-using System.Data.SqlClient;
-using CarAgency.DAL.Persistence;
-using System.Collections;
-using CarAgency.Security.Persistence;
-
-
+using System.Linq;
+using CarAgency.BE;
+using CarAgency.DAL.Session;
+using CarAgency.Security.Integrity;
 
 namespace CarAgency.Security.Session
 {
-    public class UserDataMapper : SecurityMapperBase
+    public class UserDataMapper
     {
+        private const string Table = "Users";
+        private readonly UserDataAccess data = new UserDataAccess();
+
         public User GetFullUserById(Guid Id)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_GetUserById", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("Id", Id);
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.Read()) return null;
-                User user = MappingHandler.MapReaderToEntity<User>(reader);
-                
-                PermissionMapper permissionMapper = new PermissionMapper();
-                permissionMapper.FillUserRole(user);
-                return user;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            User user = MappingHandler.MapTableToEntities<User>(data.GetById(Id)).FirstOrDefault();
+            if (user == null) return null;
+            new PermissionMapper().FillUserRole(user);
+            return user;
         }
+
         public User GetUserByUsername(string Username)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_GetUserByUsername", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("Username", Username);
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.Read()) return null;
-                return MappingHandler.MapReaderToEntity<User>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return MappingHandler.MapTableToEntities<User>(data.GetByUsername(Username)).FirstOrDefault();
         }
+
         public User GetUserByDni(int Dni)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_GetUserByDni", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("Dni", Dni);
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.Read()) return null;
-                return MappingHandler.MapReaderToEntity<User>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
-        }
-        public List<User> GetAll()
-        {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_GetAll", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (reader == null) return null;
-
-                var lista = new List<User>();
-
-                while (reader.Read())
-                {
-                    User c = new User();
-                    c.Id = reader.GetGuid(reader.GetOrdinal("Id"));
-                    c.Username = reader.GetString(reader.GetOrdinal("Username"));
-                    lista.Add(c);
-                }
-                return lista;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return MappingHandler.MapTableToEntities<User>(data.GetByDni(Dni)).FirstOrDefault();
         }
 
         public List<User> GetAllByState(Boolean Active)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_GetAllByState", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Active", Active));
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (reader == null) return null;
-
-
-                return MappingHandler.MapReaderToEntities<User>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return MappingHandler.MapTableToEntities<User>(data.GetAllByState(Active));
         }
 
         public SQLUpdateResult AddUser(User user)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_Add", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Id", user.Id));
-                cmd.Parameters.Add(new SqlParameter("Dni", user.Dni));
-                cmd.Parameters.Add(new SqlParameter("Username", user.Username));
-                cmd.Parameters.Add(new SqlParameter("Password", user.Password));
-                cmd.Parameters.Add(new SqlParameter("Name", user.Name));
-                cmd.Parameters.Add(new SqlParameter("Surname", user.Surname));
-                cmd.Parameters.Add(new SqlParameter("Role_Id", user.Role_Id));
-                cmd.Parameters.Add(new SqlParameter("Blocked", user.Blocked));
-                cmd.Parameters.Add(new SqlParameter("Active", user.Active));
-                cmd.Parameters.Add(new SqlParameter("Available_Login_Attempts", user.Available_Login_Attempts));
-                cmd.Parameters.Add(new SqlParameter("Language_Code", user.Language_Code));
-
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.PrepareDvh(cmd, "Users");
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (reader == null) return null;
-
-                string message = "";
-                SQLResultType sqlResultType = SQLResultType.database_error;
-                while (reader.Read())
-                {
-                    message = reader.GetString(reader.GetOrdinal("message"));
-                    Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
-                    sqlResultType = _SQLResultType;
-                }
-                reader.Close();
-                if (sqlResultType == SQLResultType.success)
-                    digitVerifier.UpdateDvv("Users");
-                return new SQLUpdateResult(sqlResultType, message);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
-        }
-
-        private string GetStoredPassword(Guid Id)
-        {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_GetUserById", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("Id", Id);
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.Read()) return null;
-                int ordinal = reader.GetOrdinal("Password");
-                return reader.IsDBNull(ordinal) ? null : reader.GetString(ordinal);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return DigitVerifierWriteMapper.Save(Table, dvh => data.Add(user.Id, user.Dni, user.Username, user.Password, user.Name,
+                user.Surname, user.Role_Id, user.Blocked, user.Active, user.Available_Login_Attempts, user.Language_Code, dvh));
         }
 
         public SQLUpdateResult UpdateUser(User user)
@@ -273,99 +56,23 @@ namespace CarAgency.Security.Session
                     throw new Exception("Cannot update the User: the User no longer exists.");
             }
 
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("User_Update", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Id", user.Id));
-                cmd.Parameters.Add(new SqlParameter("Dni", user.Dni));
-                cmd.Parameters.Add(new SqlParameter("Username", user.Username));
-                cmd.Parameters.Add(new SqlParameter("Password", password));
-                cmd.Parameters.Add(new SqlParameter("Name", user.Name));
-                cmd.Parameters.Add(new SqlParameter("Surname", user.Surname));
-                cmd.Parameters.Add(new SqlParameter("Role_Id", user.Role_Id));
-                cmd.Parameters.Add(new SqlParameter("Blocked", user.Blocked));
-                cmd.Parameters.Add(new SqlParameter("Active", user.Active));
-                cmd.Parameters.Add(new SqlParameter("Available_Login_Attempts", user.Available_Login_Attempts));
-                cmd.Parameters.Add(new SqlParameter("Language_Code", user.Language_Code));
-
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.PrepareDvh(cmd, "Users");
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (reader == null) return null;
-
-                string message = "";
-                SQLResultType sqlResultType = SQLResultType.database_error;
-                while (reader.Read())
-                {
-                    message = reader.GetString(reader.GetOrdinal("message"));
-                    Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
-                    sqlResultType = _SQLResultType;
-                }
-                reader.Close();
-                if (sqlResultType == SQLResultType.success)
-                    digitVerifier.UpdateDvv("Users");
-                return new SQLUpdateResult(sqlResultType, message);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return DigitVerifierWriteMapper.Save(Table, dvh => data.Update(user.Id, user.Dni, user.Username, password, user.Name,
+                user.Surname, user.Role_Id, user.Blocked, user.Active, user.Available_Login_Attempts, user.Language_Code, dvh));
         }
 
         public SQLUpdateResult DeleteUser(User user)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
+            // El borrado arrastra en cascada los eventos del usuario (FK Events -> Users ON DELETE
+            // CASCADE): cambia el conjunto de DVH de Events y hay que rehacer su DVV junto con el de Users.
+            return DigitVerifierWriteMapper.Remove(() => data.Delete(user.Id), Table, "Events");
+        }
+
+        private string GetStoredPassword(Guid Id)
+        {
+            using (DataTable table = data.GetById(Id))
             {
-                SqlCommand cmd = new SqlCommand("User_Delete", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Id", user.Id));
-
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.EnsureConfigured("Users");
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (reader == null) return null;
-
-                string message = "";
-                SQLResultType sqlResultType = SQLResultType.database_error;
-                while (reader.Read())
-                {
-                    message = reader.GetString(reader.GetOrdinal("message"));
-                    Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
-                    sqlResultType = _SQLResultType;
-                }
-                reader.Close();
-                if (sqlResultType == SQLResultType.success)
-                    digitVerifier.UpdateDvv("Users");
-                return new SQLUpdateResult(sqlResultType, message);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
+                if (table.Rows.Count == 0 || table.Rows[0].IsNull("Password")) return null;
+                return (string)table.Rows[0]["Password"];
             }
         }
     }

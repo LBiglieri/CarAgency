@@ -1,5 +1,6 @@
-namespace CarAgency.Mappers.Persistence
+namespace CarAgency.BE
 {
+    // Resultado que devuelven los SP de escritura (columnas SQLResultType y message).
     public class SQLUpdateResult
     {
         public SQLResultType sqlResult;

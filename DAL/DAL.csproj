@@ -42,7 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Persistence\BaseRepository.cs" />
+    <Compile Include="Persistence\DatabaseConnectionProvider.cs" />
+    <Compile Include="Persistence\DataAccessBase.cs" />
+    <Compile Include="Session\UserDataAccess.cs" />
+    <Compile Include="Permissions\PermissionDataAccess.cs" />
+    <Compile Include="Integrity\DvhCommand.cs" />
+    <Compile Include="Security\BackupDataAccess.cs" />
+    <Compile Include="Clients\ClientDataAccess.cs" />
+    <Compile Include="Sales\Quotations\QuotationDataAccess.cs" />
+    <Compile Include="Sales\Reservation\ReservationDataAccess.cs" />
+    <Compile Include="Vehicles\VehicleDataAccess.cs" />
+    <Compile Include="Billing\Invoices\InvoiceDataAccess.cs" />
+    <Compile Include="Billing\Payments\PaymentDataAccess.cs" />
+    <Compile Include="Management\PaperworkDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

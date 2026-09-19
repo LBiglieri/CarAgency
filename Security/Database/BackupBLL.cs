@@ -1,34 +1,22 @@
-﻿using CarAgency.Security.Audit;
-using CarAgency.BE.Audit;
-using CarAgency.BE;
-using CarAgency.Mappers;
-using CarAgency.Mappers.Persistence;
-using CarAgency.Security.Security;
-using CarAgency.Security.Session;
-using CarAgency.Security.Integrity;
-using CarAgency.BE.Integrity;
+﻿using System;
 using BE;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
+using CarAgency.BE;
+using CarAgency.BE.Audit;
+using CarAgency.BE.Integrity;
+using CarAgency.Security.Audit;
+using CarAgency.Security.Integrity;
+using CarAgency.Security.Session;
 
-namespace BLL
+namespace CarAgency.Security.Database
 {
-    public class SecurityBLL
+    public class BackupBLL
     {
-        private SecurityMapper _securitymapper;
-        public SecurityBLL()
-        {
-            _securitymapper = new SecurityMapper();
-        }
+        private readonly BackupMapper _backupMapper = new BackupMapper();
 
         public void RealizarBackup(string path)
         {
             RequireNormalAccess();
-            try { _securitymapper.RealizarBackup(path); }
+            try { _backupMapper.RealizarBackup(path); }
             catch (TranslatableException) { throw; }
             catch (Exception error) { throw new TranslatableException("AuditBackupFailed", "No se pudo crear el backup.", error); }
             AuditBLL.Record(AuditEventType.BackupCreated);
@@ -59,7 +47,7 @@ namespace BLL
             AuditBLL.Record(AuditEventType.RestoreStarted, actor: actor);
             try
             {
-                try { _securitymapper.RealizarRestore(path); }
+                try { _backupMapper.RealizarRestore(path); }
                 catch (Exception error)
                 {
                     AuditBLL.Record(AuditEventType.RestoreFailed, actor: actor);

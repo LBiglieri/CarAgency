@@ -1,155 +1,56 @@
-﻿using CarAgency.Security.Integrity;
-using CarAgency.BE;
-using CarAgency.DAL.Persistence;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-
-using CarAgency.Mappers.Persistence;
+using CarAgency.BE;
+using CarAgency.DAL.Sales;
+using CarAgency.Security.Integrity;
+using CarAgency.Security;
 
 namespace CarAgency.Mappers
 {
-    public class ReservationMapper : MapperBase
+    public class ReservationMapper
     {
+        private const string Table = "Reservation";
+        private readonly ReservationDataAccess data = new ReservationDataAccess();
+
         public Reservation GetById(Guid id)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Reservation_GetById", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Id", id));
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                return MappingHandler.MapReaderToEntity<Reservation>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            List<Reservation> reservations = Load(data.GetById(id));
+            return reservations == null ? null : reservations[0];
         }
+
         public List<Reservation> GetAllActiveByClient(Guid Client_Id)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Reservation_GetAllActiveByClient", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(new SqlParameter("Client_Id", Client_Id));
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                return MappingHandler.MapReaderToEntities<Reservation>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return Load(data.GetAllActiveByClient(Client_Id));
         }
+
         public List<Reservation> GetAll()
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Reservation_GetAll", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                return MappingHandler.MapReaderToEntities<Reservation>(reader);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
-            }
+            return Load(data.GetAll());
         }
+
         public SQLUpdateResult AddReservation(Reservation reservation)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            IDataReader reader = null;
-            try
+            return DigitVerifierWriteMapper.Save(Table, dvh => data.Add(reservation.Id, reservation.Vehicle_Id,
+                reservation.Client_Id, reservation.Price, reservation.Creation_Date, reservation.Expiration_Date, dvh));
+        }
+
+        // Sin filas devuelve null. El SP trae Client_Name/Client_Surname encriptados y Client_Dni para
+        // armar Client_Description; las entidades salen en el mismo orden que las filas.
+        private static List<Reservation> Load(DataTable table)
+        {
+            using (table)
+            using (DataTableReader reader = table.CreateDataReader())
             {
-                SqlCommand cmd = new SqlCommand("Reservation_Add", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-                
-                cmd.Parameters.Add(new SqlParameter("Id", reservation.Id));
-                cmd.Parameters.Add(new SqlParameter("Vehicle_Id", reservation.Vehicle_Id));
-                cmd.Parameters.Add(new SqlParameter("Client_Id", reservation.Client_Id));
-                cmd.Parameters.Add(new SqlParameter("Price", reservation.Price));
-                cmd.Parameters.Add(new SqlParameter("Creation_Date", reservation.Creation_Date));
-                cmd.Parameters.Add(new SqlParameter("Expiration_Date", reservation.Expiration_Date));
-
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.PrepareDvh(cmd, "Reservation");
-                sql.Open();
-                reader = cmd.ExecuteReader();
-
-                if (reader == null) return null;
-
-                string message = "";
-                SQLResultType sqlResultType = SQLResultType.database_error;
-                while (reader.Read())
+                List<Reservation> reservations = MappingHandler.MapReaderToEntities<Reservation>(reader);
+                if (reservations.Count == 0) return null;
+                for (int i = 0; i < reservations.Count; i++)
                 {
-                    message = reader.GetString(reader.GetOrdinal("message"));
-                    Enum.TryParse(reader.GetString(reader.GetOrdinal("SQLResultType")), out SQLResultType _SQLResultType);
-                    sqlResultType = _SQLResultType;
+                    DataRow row = table.Rows[i];
+                    reservations[i].Client_Description = ClientMapper.Describe(
+                        (string)row["Client_Name"], (string)row["Client_Surname"], (int)row["Client_Dni"]);
                 }
-                reader.Close();
-                if (sqlResultType == SQLResultType.success)
-                    digitVerifier.UpdateDvv("Reservation");
-                return new SQLUpdateResult(sqlResultType, message);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
+                return reservations;
             }
         }
     }

@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using BLL;
 using CarAgency.BLL;
 using CarAgency.BE;
-using CarAgency.Mappers.Persistence;
 using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 using BE;
@@ -19,13 +18,14 @@ using Microsoft.Win32;
 using UI.Clients.Controls;
 using Security.Session;
 using CarAgency.Security.Integrity;
+using CarAgency.Security.Database;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace CarAgency.UI
 {
     public partial class BackupRestoreForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
-        SecurityBLL _SecurityBLL;
+        BackupBLL _backupBLL;
         private readonly RecoverySession recovery;
         private bool restoring;
         public BackupRestoreForm() : this(null) { }
@@ -36,7 +36,7 @@ namespace CarAgency.UI
                 throw new TranslatableException("NoBackupRestorePermission", "No tiene la patente de backup/restore.");
             this.recovery = recovery;
             InitializeComponent();
-            _SecurityBLL = new SecurityBLL();
+            _backupBLL = new BackupBLL();
             LanguageService.Attach(this);
             UpdateLanguage("");
             if (recovery != null)
@@ -84,7 +84,7 @@ namespace CarAgency.UI
             {
                 try
                 {
-                    _SecurityBLL.RealizarBackup(tbBackupPath.Text);
+                    _backupBLL.RealizarBackup(tbBackupPath.Text);
                     MessageBox.Show(LanguageService.GetTagText("BackupCompletedSuccessfully"));
                     tbBackupPath.Text = "";
                 }
@@ -136,7 +136,7 @@ namespace CarAgency.UI
                         LoginPanel.Enabled = false;
                         string path = tbRestorePath.Text;
                         var report = await Task.Run(() => recovery == null
-                            ? _SecurityBLL.RealizarRestore(path) : _SecurityBLL.RealizarRestore(path, recovery));
+                            ? _backupBLL.RealizarRestore(path) : _backupBLL.RealizarRestore(path, recovery));
                         MessageBox.Show(report.IsConsistent
                             ? LanguageService.GetTagText("IntegrityRepaired", "Operacion completada. Inicie sesion nuevamente.")
                             : LanguageService.GetTagText("IntegrityRestoredInvalid", "El backup fue restaurado pero contiene inconsistencias o una configuracion DV incompatible. El acceso sigue bloqueado."));

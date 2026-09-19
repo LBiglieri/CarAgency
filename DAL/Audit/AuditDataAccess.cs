@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using CarAgency.DAL.Integrity;
 using CarAgency.DAL.Persistence;
 
 namespace CarAgency.DAL.Audit
@@ -11,10 +12,9 @@ namespace CarAgency.DAL.Audit
         public AuditDataAccess() : this(new DatabaseConnectionProvider().GetConnectionString()) { }
         public AuditDataAccess(string connectionString) { this.connectionString = connectionString; }
 
-        // prepareDigit recibe el comando con un parametro por columna de Events y agrega @DVH.
-        // El calculo vive en la capa de seguridad; aca solo se arma el comando parametrizado.
+        // El calculo del DVH vive en la capa de seguridad; aca solo se arma el comando parametrizado.
         public void Insert(Guid id, Guid? userId, string attemptedLogin, DateTime occurredAt,
-            string module, string eventType, int criticality, Guid? targetId, Action<SqlCommand> prepareDigit)
+            string module, string eventType, int criticality, Guid? targetId, DvhCalculator dvh)
         {
             using (var connection = new SqlConnection(connectionString))
             using (var command = new SqlCommand("dbo.Events_Insert", connection))
@@ -28,7 +28,7 @@ namespace CarAgency.DAL.Audit
                 command.Parameters.Add("@EventType", SqlDbType.VarChar, 64).Value = eventType;
                 command.Parameters.Add("@Criticality", SqlDbType.Int).Value = criticality;
                 command.Parameters.Add("@TargetId", SqlDbType.UniqueIdentifier).Value = (object)targetId ?? DBNull.Value;
-                prepareDigit(command);
+                DvhCommand.Apply(command, dvh);
                 connection.Open();
                 command.ExecuteNonQuery();
             }

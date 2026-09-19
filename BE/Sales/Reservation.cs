@@ -22,7 +22,7 @@ namespace CarAgency.BE
         [TableColumnAttribute]
         public Guid Client_Id { get; set; }
 
-        [TableColumnAttribute]
+        // No es columna: la arma el mapper con los datos desencriptados del cliente.
         public string Client_Description { get; set; }
 
         [TableColumnAttribute]

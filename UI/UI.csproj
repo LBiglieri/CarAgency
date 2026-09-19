@@ -342,10 +342,6 @@
       <Project>{569fec50-9ba5-44c9-bf55-da53213c6031}</Project>
       <Name>BE</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mappers\Mappers.csproj">
-      <Project>{A12fc270-8d57-4b6a-af54-8a1b5277c004}</Project>
-      <Name>Mappers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Security\Security.csproj">
       <Project>{7a8ac403-957d-4bba-bf1e-46b5e9123d46}</Project>
       <Name>Security</Name>

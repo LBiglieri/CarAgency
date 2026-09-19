@@ -1,21 +1,18 @@
-﻿using CarAgency.Security.Integrity;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CarAgency.BE;
-using CarAgency.DAL.Persistence;
 using System.Data;
-using System.Data.SqlClient;
-using static System.Collections.Specialized.BitVector32;
-
-
+using System.Linq;
+using CarAgency.BE;
+using CarAgency.BE.Integrity;
+using CarAgency.DAL.Permissions;
+using CarAgency.Security.Integrity;
 
 namespace CarAgency.Security.Session
 {
-    public class PermissionMapper : SecurityMapperBase
+    public class PermissionMapper
     {
+        private readonly PermissionDataAccess data = new PermissionDataAccess();
+
         public Array GetAllPermissionTypes()
         {
             return Enum.GetValues(typeof(PermissionType));
@@ -23,267 +20,88 @@ namespace CarAgency.Security.Session
 
         public bool InsertComponent(ComposedPermission p, bool isfamily)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Permissions_InsertComponent", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("Id", p.Id);
-                cmd.Parameters.AddWithValue("Name", p.Name);
-                if (isfamily)
-                    cmd.Parameters.Add(new SqlParameter("Type", DBNull.Value));
-                else
-                    cmd.Parameters.Add(new SqlParameter("Type", p.Type.ToString()));
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.PrepareDvh(cmd, "Permissions");
-                sql.Open();
-
-                int affected = cmd.ExecuteNonQuery();
-                digitVerifier.UpdateDvv("Permissions");
-                if (affected > 0)
-                    return true;
-                else
-                    return false;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (sql != null)
-                    sql.Close();
-            }
+            var digitVerifier = new DigitVerifierWriteMapper();
+            int affected = data.InsertComponent(p.Id, p.Name, isfamily ? null : p.Type.ToString(),
+                digitVerifier.Dvh("Permissions"));
+            digitVerifier.UpdateDvv("Permissions");
+            return affected > 0;
         }
 
         public bool DeleteFamily(ComposedPermission p)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Permissions_DeleteFamily", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("Id", p.Id);
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.EnsureConfigured("Permission_Permission");
-                sql.Open();
-
-                int affected = cmd.ExecuteNonQuery();
-                digitVerifier.UpdateDvv("Permission_Permission");
-                if (affected > 0)
-                    return true;
-                else
-                    return false;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (sql != null)
-                    sql.Close();
-            }
+            var digitVerifier = new DigitVerifierWriteMapper();
+            digitVerifier.EnsureConfigured("Permission_Permission");
+            int affected = data.DeleteFamily(p.Id);
+            digitVerifier.UpdateDvv("Permission_Permission");
+            return affected > 0;
         }
 
+        // Deuda conocida: borra y reinserta los hijos sin transaccion; si falla un insert
+        // la familia queda a medias.
         public void SaveFamily(Family c)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            try
+            DeleteFamily(c);
+            var digitVerifier = new DigitVerifierWriteMapper();
+            digitVerifier.EnsureConfigured("Permission_Permission");
+            foreach (var item in c.Children)
             {
-                DeleteFamily(c);
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.EnsureConfigured("Permission_Permission");
-                sql.Open();
-                foreach (var item in c.Children)
-                {
-                    SqlCommand cmd = new SqlCommand("Permissions_Insert_Permission_Permission", sql);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("Father_Id", c.Id);
-                    cmd.Parameters.AddWithValue("Child_Id", item.Id);
-
-                    digitVerifier.PrepareDvh(cmd, "Permission_Permission");
-                    cmd.ExecuteNonQuery();
-                    digitVerifier.UpdateDvv("Permission_Permission");
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (sql != null)
-                    sql.Close();
+                data.InsertChild(c.Id, item.Id, digitVerifier.Dvh("Permission_Permission"));
+                digitVerifier.UpdateDvv("Permission_Permission");
             }
         }
 
         public IList<Patent> GetPatents()
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
+            using (DataTable table = data.GetPatents())
             {
-                SqlCommand cmd = new SqlCommand("Permissions_GetPatents", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                sql.Open();
-
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                var list = new List<Patent>();
-
-                while (reader.Read())
+                if (table.Rows.Count == 0) return null;
+                return table.Rows.Cast<DataRow>().Select(row => new Patent
                 {
-                    var Id = reader.GetGuid(reader.GetOrdinal("Id"));
-                    var Name = reader.GetString(reader.GetOrdinal("Name"));
-                    var Type = reader.GetString(reader.GetOrdinal("Type"));
-
-                    Patent c = new Patent();
-
-                    c.Id = Id;
-                    c.Name = Name;
-                    c.Type = (PermissionType)Enum.Parse(typeof(PermissionType), Type);
-                    list.Add(c);
-                }
-
-                return list;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
+                    Id = (Guid)row["Id"],
+                    Name = (string)row["Name"],
+                    Type = (PermissionType)Enum.Parse(typeof(PermissionType), (string)row["Type"])
+                }).ToList();
             }
         }
 
         public IList<Family> GetFamilies()
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
+            using (DataTable table = data.GetFamilies())
             {
-                SqlCommand cmd = new SqlCommand("Permissions_GetFamilies", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                sql.Open();
-
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
-
-                var list = new List<Family>();
-
-                while (reader.Read())
+                if (table.Rows.Count == 0) return null;
+                return table.Rows.Cast<DataRow>().Select(row => new Family
                 {
-                    var Id = reader.GetGuid(reader.GetOrdinal("Id"));
-                    var Name = reader.GetString(reader.GetOrdinal("Name"));
-
-                    Family c = new Family();
-
-                    c.Id = Id;
-                    c.Name = Name;
-                    list.Add(c);
-
-                }
-                return list;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
+                    Id = (Guid)row["Id"],
+                    Name = (string)row["Name"]
+                }).ToList();
             }
         }
+
+        // Las filas llegan ordenadas padre antes que hijo: cada una se cuelga del componente
+        // ya leido cuyo Id coincide con su Father_Id, o va a la raiz si no lo tiene.
         public IList<ComposedPermission> GetAll(Guid family)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            SqlDataReader reader = null;
-            try
+            using (DataTable table = data.GetAll(family))
             {
-                SqlCommand cmd = new SqlCommand("Permissions_GetAll", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-                if (family != null)
-                    cmd.Parameters.AddWithValue("Family", family);
-                else
-                    cmd.Parameters.AddWithValue("Family", DBNull.Value);
-
-                sql.Open();
-
-                reader = cmd.ExecuteReader();
-
-                if (!reader.HasRows) return null;
+                if (table.Rows.Count == 0) return null;
 
                 var list = new List<ComposedPermission>();
-
-                while (reader.Read())
+                foreach (DataRow row in table.Rows)
                 {
-                    Guid Father_Id = Guid.Empty;
-                    if (reader["Father_Id"] != DBNull.Value)
-                    {
-                        Father_Id = reader.GetGuid(reader.GetOrdinal("Father_Id"));
-                    }
+                    Guid fatherId = row.IsNull("Father_Id") ? Guid.Empty : (Guid)row["Father_Id"];
+                    string type = row.IsNull("Type") ? string.Empty : (string)row["Type"];
 
-                    var Id = reader.GetGuid(reader.GetOrdinal("Id"));
-                    var Name = reader.GetString(reader.GetOrdinal("Name"));
+                    ComposedPermission c = string.IsNullOrEmpty(type) ? (ComposedPermission)new Family() : new Patent();
+                    c.Id = (Guid)row["Id"];
+                    c.Name = (string)row["Name"];
+                    if (!string.IsNullOrEmpty(type))
+                        c.Type = (PermissionType)Enum.Parse(typeof(PermissionType), type);
 
-                    var Type = string.Empty;
-                    if (reader["Type"] != DBNull.Value)
-                        Type = reader.GetString(reader.GetOrdinal("Type"));
-
-
-                    ComposedPermission c;
-
-                    if (string.IsNullOrEmpty(Type))
-                        c = new Family();
-
-                    else
-                        c = new Patent();
-
-                    c.Id = Id;
-                    c.Name = Name;
-                    if (!string.IsNullOrEmpty(Type))
-                        c.Type = (PermissionType)Enum.Parse(typeof(PermissionType), Type);
-
-                    var Father = GetComponent(Father_Id, list);
-
-                    if (Father == null)
-                    {
-                        list.Add(c);
-                    }
-                    else
-                    {
-                        Father.AddPermission(c);
-                    }
-
+                    var father = GetComponent(fatherId, list);
+                    if (father == null) list.Add(c);
+                    else father.AddPermission(c);
                 }
                 return list;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (sql != null)
-                    sql.Close();
             }
         }
 
@@ -308,6 +126,7 @@ namespace CarAgency.Security.Session
 
             return composedPermission;
         }
+
         public void FillFamilyComponents(Family family)
         {
             family.DeleteChildren();
@@ -316,90 +135,37 @@ namespace CarAgency.Security.Session
                 family.AddPermission(item);
             }
         }
+
         public void FillUserRole(User u)
         {
-            try
+            u.Role = new Family();
+            u.Role.Id = u.Role_Id;
+
+            IList<ComposedPermission> family = GetAll(u.Role.Id);
+            if (family != null)
             {
-                u.Role = new Family();
-                u.Role.Id = u.Role_Id;
-
-                IList<ComposedPermission> family = null;
-
-                family = this.GetAll(u.Role.Id);
-
-                if (family != null)
-                {
-                    foreach (var i in family)
-                        u.Role.AddPermission(i);
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
+                foreach (var i in family)
+                    u.Role.AddPermission(i);
             }
         }
 
         public bool DeletePatent(Patent selectedItem)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Permissions_DeletePatent", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("Id", selectedItem.Id);
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.EnsureConfigured("Permission_Permission", "Permissions");
-                sql.Open();
-
-                int affected = cmd.ExecuteNonQuery();
-                digitVerifier.UpdateDvv("Permission_Permission", "Permissions");
-                if (affected > 0)
-                    return true;
-                else
-                    return false;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (sql != null)
-                    sql.Close();
-            }
+            var digitVerifier = new DigitVerifierWriteMapper();
+            digitVerifier.EnsureConfigured("Permission_Permission", "Permissions");
+            int affected = data.DeletePatent(selectedItem.Id);
+            digitVerifier.UpdateDvv("Permission_Permission", "Permissions");
+            return affected > 0;
         }
 
         public bool DeleteCompleteFamily(ComposedPermission selectedItem)
         {
-            SqlConnection sql = new SqlConnection(base.GetConnectionString());
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Permissions_DeleteCompleteFamily", sql);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("Id", selectedItem.Id);
-                var digitVerifier = new DigitVerifierWriteMapper(sql.ConnectionString);
-                digitVerifier.PrepareFamilyDeletion(cmd, selectedItem.Id);
-                sql.Open();
-
-                int affected = cmd.ExecuteNonQuery();
-                digitVerifier.UpdateDvv("Users", "Permission_Permission", "Permissions");
-                if (affected > 0)
-                    return true;
-                else
-                    return false;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (sql != null)
-                    sql.Close();
-            }
+            var digitVerifier = new DigitVerifierWriteMapper();
+            DVFamilyDeletion deletion = digitVerifier.PrepareFamilyDeletion(selectedItem.Id);
+            int affected = data.DeleteCompleteFamily(selectedItem.Id, deletion.BaseRoleId,
+                deletion.UserDigests.ToDictionary(d => d.Id, d => d.DVH));
+            digitVerifier.UpdateDvv("Users", "Permission_Permission", "Permissions");
+            return affected > 0;
         }
     }
 }

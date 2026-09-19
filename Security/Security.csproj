@@ -50,10 +50,11 @@
     <Compile Include="Session\LanguageManager.cs" />
     <Compile Include="Session\LanguageService.cs" />
     <Compile Include="Session\SessionHandler.cs" />
-    <Compile Include="Session\MappingHandler.cs" />
+    <Compile Include="MappingHandler.cs" />
+    <Compile Include="Session\PermissionBLL.cs" />
     <Compile Include="Session\PermissionMapper.cs" />
-    <Compile Include="Session\SecurityMapperBase.cs" />
-    <Compile Include="Session\SQLUpdateResult.cs" />
+    <Compile Include="Database\BackupBLL.cs" />
+    <Compile Include="Database\BackupMapper.cs" />
     <Compile Include="Session\UserBLL.cs" />
     <Compile Include="Session\UserDataMapper.cs" />
   </ItemGroup>
