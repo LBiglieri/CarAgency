@@ -103,7 +103,6 @@ namespace UI.Vehicles
 
         private void GenerateReservationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            clientView1.DetachLanguageObserver();
             LanguageService.Detach(this);
         }
         #region "Performs"

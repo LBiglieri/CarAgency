@@ -255,14 +255,13 @@
   <translation tag="IntegrityRestoredInvalid">El backup fue restaurado pero contiene inconsistencias o una configuración DV incompatible. El acceso sigue bloqueado.</translation>
   <translation tag="IntegrityAccessDenied">Se detectaron inconsistencias. Acceso bloqueado. Contacte al administrador con patente de recálculo DV.</translation>
   <translation tag="AttentionTitle">¡Atención!</translation>
-  <translation tag="IntegrityIncompatibleConfig">La configuración de dígitos es incompatible. Recupere la clave/versión original; no se permite iniciar sesión ni recalcular.</translation>
+  <translation tag="IntegrityIncompatibleConfig">La configuración de dígitos es incompatible. Recupere la versión original; no se permite iniciar sesión ni recalcular.</translation>
   <translation tag="IntegrityRecoveryInvalid">El acceso de recuperación no es válido. Inicie sesión nuevamente.</translation>
   <translation tag="IntegrityRecoveryRevoked">Las credenciales o patentes de recuperación ya no son válidas.</translation>
   <translation tag="IntegrityCannotRecalculate">La configuración DV no permite recalcular con seguridad.</translation>
   <translation tag="IntegrityRecalculateVerifyFailed">La verificación posterior falló; se revierte el recálculo.</translation>
   <translation tag="DVTableNotFound">No se encontró dbo.{0}</translation>
   <translation tag="DVMissingVerticalRecord">Falta el registro de dígitos de dbo.{0}. La base debe restaurarse desde un backup actualizado con los dígitos incluidos.</translation>
-  <translation tag="DVKeyMismatch">La clave de dígitos no corresponde a esta base. No se modificaron los dígitos.</translation>
   <translation tag="DVBaseUserFamilyRequired">Debe existir una única familia 'Base User' para reasignar usuarios.</translation>
   <translation tag="DVBaseUserHasAssignedUsers">No se puede eliminar Base User mientras tenga usuarios asignados.</translation>
   <translation tag="DVUnsupportedSchema">Esquema o versión de dígitos no soportados.</translation>

@@ -35,12 +35,7 @@ namespace UI.Clients.Controls
         {
             InitializeComponent();
             _clientbll = new ClientsBLL();
-            LanguageService.Attach(this);
             UpdateLanguage("");
-        }
-        public void DetachLanguageObserver()
-        {
-            LanguageService.Detach(this);
         }
 
         public void InitWithClient(Client _client)

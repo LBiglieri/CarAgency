@@ -48,7 +48,6 @@ namespace UI.Vehicles
 
         private void ManagePaperworkForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            clientView1.DetachLanguageObserver();
             LanguageService.Detach(this);
         }
         #region "Performs"

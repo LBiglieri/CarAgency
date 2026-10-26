@@ -65,7 +65,6 @@ namespace UI.Vehicles
 
         private void GenerateQuotationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            clientView1.DetachLanguageObserver();
             LanguageService.Detach(this);
         }
         #region "Performs"

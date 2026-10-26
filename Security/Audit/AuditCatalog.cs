@@ -27,27 +27,29 @@ namespace CarAgency.Security.Audit
         private static Dictionary<AuditEventType, AuditDefinition> Build()
         {
             var result = new Dictionary<AuditEventType, AuditDefinition>();
-            Add(result, AuditModule.Users, 1, AuditEventType.Login, AuditEventType.Logout, AuditEventType.LoginFailed,
-                AuditEventType.UserBlocked, AuditEventType.UserUnblocked, AuditEventType.UserCreated,
+            // 1 compromete la seguridad o integridad del sistema; 5 es trazabilidad sin riesgo.
+            Add(result, AuditModule.Users, 1, AuditEventType.UserBlocked, AuditEventType.UserUnblocked);
+            Add(result, AuditModule.Users, 2, AuditEventType.LoginFailed, AuditEventType.UserCreated,
                 AuditEventType.UserUpdated, AuditEventType.UserDeleted, AuditEventType.PasswordChanged);
-            Add(result, AuditModule.Users, 5, AuditEventType.LanguageChanged);
+            Add(result, AuditModule.Users, 5, AuditEventType.Login, AuditEventType.Logout, AuditEventType.LanguageChanged);
             Add(result, AuditModule.Permissions, 1, AuditEventType.PermissionCreated, AuditEventType.PermissionDeleted,
                 AuditEventType.FamilyCreated, AuditEventType.FamilyUpdated, AuditEventType.FamilyDeleted);
-            Add(result, AuditModule.Clients, 3, AuditEventType.ClientCreated);
-            Add(result, AuditModule.Vehicles, 3, AuditEventType.VehicleCreated, AuditEventType.VehicleUpdated,
+            Add(result, AuditModule.Clients, 4, AuditEventType.ClientCreated);
+            Add(result, AuditModule.Vehicles, 4, AuditEventType.VehicleCreated, AuditEventType.VehicleUpdated,
                 AuditEventType.MakeCreated, AuditEventType.ModelCreated, AuditEventType.VersionCreated);
-            Add(result, AuditModule.Vehicles, 2, AuditEventType.VehicleDeleted, AuditEventType.MakeDeleted,
+            Add(result, AuditModule.Vehicles, 3, AuditEventType.VehicleDeleted, AuditEventType.MakeDeleted,
                 AuditEventType.ModelDeleted, AuditEventType.VersionDeleted);
-            Add(result, AuditModule.Sales, 3, AuditEventType.QuotationCreated, AuditEventType.ReservationCreated);
-            Add(result, AuditModule.Billing, 3, AuditEventType.InvoiceCreated, AuditEventType.InvoiceUpdated, AuditEventType.PaymentCreated);
-            Add(result, AuditModule.Billing, 2, AuditEventType.InvoiceDeleted, AuditEventType.PaymentDeleted);
-            Add(result, AuditModule.Billing, 4, AuditEventType.InvoiceExported);
-            Add(result, AuditModule.Management, 3, AuditEventType.PaperworkCreated, AuditEventType.PaperworkUpdated, AuditEventType.PaperworkFileCreated);
-            Add(result, AuditModule.Management, 2, AuditEventType.PaperworkDeleted, AuditEventType.PaperworkFileDeleted);
-            Add(result, AuditModule.Security, 1, AuditEventType.BackupCreated, AuditEventType.RestoreStarted,
-                AuditEventType.RestoreCompleted, AuditEventType.RestoreFailed, AuditEventType.IntegrityRecalculated);
+            Add(result, AuditModule.Sales, 4, AuditEventType.QuotationCreated, AuditEventType.ReservationCreated);
+            Add(result, AuditModule.Billing, 4, AuditEventType.InvoiceCreated, AuditEventType.PaymentCreated);
+            Add(result, AuditModule.Billing, 2, AuditEventType.InvoiceUpdated, AuditEventType.InvoiceDeleted, AuditEventType.PaymentDeleted);
+            Add(result, AuditModule.Billing, 3, AuditEventType.InvoiceExported);
+            Add(result, AuditModule.Management, 4, AuditEventType.PaperworkCreated, AuditEventType.PaperworkUpdated, AuditEventType.PaperworkFileCreated);
+            Add(result, AuditModule.Management, 3, AuditEventType.PaperworkDeleted, AuditEventType.PaperworkFileDeleted);
+            Add(result, AuditModule.Security, 1, AuditEventType.RestoreCompleted, AuditEventType.RestoreFailed,
+                AuditEventType.IntegrityRecalculated);
+            Add(result, AuditModule.Security, 2, AuditEventType.BackupCreated, AuditEventType.RestoreStarted);
             Add(result, AuditModule.Audit, 5, AuditEventType.AuditViewed);
-            Add(result, AuditModule.Audit, 4, AuditEventType.AuditPrintRequested);
+            Add(result, AuditModule.Audit, 3, AuditEventType.AuditPrintRequested);
             return result;
         }
         private static void Add(Dictionary<AuditEventType, AuditDefinition> result, AuditModule module, int criticality, params AuditEventType[] types)

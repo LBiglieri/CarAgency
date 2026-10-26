@@ -66,10 +66,26 @@ namespace Security.Session
         public static void Attach(ILanguageObserver observer)
         {
             languageManager.Attach(observer);
+            foreach (ILanguageObserver child in GetChildObservers(observer as Control))
+                languageManager.Attach(child);
         }
         public static void Detach(ILanguageObserver observer)
         {
             languageManager.Detach(observer);
+            foreach (ILanguageObserver child in GetChildObservers(observer as Control))
+                languageManager.Detach(child);
+        }
+        private static List<ILanguageObserver> GetChildObservers(Control parent)
+        {
+            List<ILanguageObserver> result = new List<ILanguageObserver>();
+            if (parent == null) return result;
+            foreach (Control child in parent.Controls)
+            {
+                if (child is ILanguageObserver childObserver)
+                    result.Add(childObserver);
+                result.AddRange(GetChildObservers(child));
+            }
+            return result;
         }
         public static string GetCurrentLanguage()
         {
