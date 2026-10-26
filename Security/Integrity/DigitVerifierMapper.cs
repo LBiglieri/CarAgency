@@ -47,7 +47,7 @@ namespace CarAgency.Security.Integrity
             DVTables.RequireProtected(digit.TableName);
             if (digit.SchemaName != "dbo" || digit.AlgorithmVersion != 1)
                 throw new TranslatableException("DVUnsupportedSchema", "Esquema o version de digitos no soportados.");
-            data.SaveDvv(digit.TableName, digit.DVV, digit.KeyId);
+            data.SaveDvv(digit.TableName, digit.DVV);
         }
 
         public IEnumerable<DVHorizontal> GetHorizontalDigits(string table)

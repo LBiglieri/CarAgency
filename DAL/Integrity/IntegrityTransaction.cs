@@ -80,14 +80,13 @@ namespace CarAgency.DAL.Integrity
             }
         }
 
-        public void SaveVertical(string table, string dvv, string keyId)
+        public void SaveVertical(string table, string dvv)
         {
             using (var command = Command("dbo.DV_Save"))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@TableName", SqlDbType.NVarChar, 128).Value = table;
                 command.Parameters.Add("@DVV", SqlDbType.Char, 64).Value = dvv;
-                command.Parameters.Add("@KeyId", SqlDbType.Char, 64).Value = keyId;
                 command.ExecuteNonQuery();
             }
         }

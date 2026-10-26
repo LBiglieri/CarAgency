@@ -3,7 +3,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
     EXEC dbo.DV_ValidateTable @TableName;
-    SELECT SchemaName,TableName,DVV,AlgorithmVersion,KeyId
+    SELECT SchemaName,TableName,DVV,AlgorithmVersion
     FROM dbo.DV WHERE SchemaName='dbo' AND TableName=@TableName;
 END
 GO

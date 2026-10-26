@@ -15,13 +15,11 @@ namespace CarAgency.Security.Integrity
     {
         private readonly byte[] key;
         private static readonly Encoding utf8 = new UTF8Encoding(false, true);
-        public string KeyId { get; private set; }
 
         public DigitVerifierCalculator(byte[] key)
         {
             if (key == null || key.Length != 32) throw new ArgumentException("Se requiere una clave de 32 bytes.", nameof(key));
             this.key = (byte[])key.Clone();
-            using (var sha = SHA256.Create()) KeyId = Hex(sha.ComputeHash(key));
         }
 
         public string CalculateDvh(string table, IReadOnlyList<DVColumn> columns, Func<string, object> getValue)

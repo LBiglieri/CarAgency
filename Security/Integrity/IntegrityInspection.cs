@@ -31,7 +31,7 @@ namespace CarAgency.Security.Integrity
         {
             var issues = new List<string>();
             bool compatible = true;
-            int keyReferences = 0;
+            int verticalRecords = 0;
             foreach (string table in DVTables.All)
             {
                 using (DataTable metadata = data.GetColumns(table))
@@ -72,18 +72,17 @@ namespace CarAgency.Security.Integrity
                         continue;
                     }
                     DataRow dv = digit.Rows[0];
-                    if ((string)dv["SchemaName"] != "dbo" || Convert.ToInt32(dv["AlgorithmVersion"]) != 1
-                        || !string.Equals(dv["KeyId"] as string, calculator.KeyId, StringComparison.Ordinal))
+                    if ((string)dv["SchemaName"] != "dbo" || Convert.ToInt32(dv["AlgorithmVersion"]) != 1)
                     {
                         compatible = false;
-                        issues.Add(table + ": clave, esquema o version DV incompatible. Recuperar la configuracion original.");
+                        issues.Add(table + ": esquema o version DV incompatible. Recuperar la configuracion original.");
                     }
-                    else keyReferences++;
+                    else verticalRecords++;
                     if (!string.Equals(dv["DVV"] as string, calculator.CalculateDvv(table, calculated), StringComparison.Ordinal))
                         issues.Add(table + ": DVV incorrecto.");
                 }
             }
-            Report = new IntegrityReport(issues, compatible && keyReferences > 0);
+            Report = new IntegrityReport(issues, compatible && verticalRecords > 0);
         }
 
         public DVRow FindUser(string username)
@@ -127,7 +126,7 @@ namespace CarAgency.Security.Integrity
                     data.SaveRow(table, columns[table].Where(c => c.IsKey).ToDictionary(c => c.Name, c => row.GetValue(c.Name)), digest);
                     horizontal.Add(digest);
                 }
-                data.SaveVertical(table, calculator.CalculateDvv(table, horizontal), calculator.KeyId);
+                data.SaveVertical(table, calculator.CalculateDvv(table, horizontal));
             }
             columns.Clear(); rows.Clear(); trusted.Clear();
             Inspect();

@@ -112,7 +112,7 @@ namespace CarAgency.Security.Integrity
                 {
                     if (inspection.Report.IsConsistent) return null;
                     if (!inspection.Report.CanRecalculate)
-                        throw new TranslatableException("IntegrityIncompatibleConfig", "La configuracion de digitos es incompatible. Recupere la clave/version original; no se permite iniciar sesion ni recalcular.");
+                        throw new TranslatableException("IntegrityIncompatibleConfig", "La configuracion de digitos es incompatible. Recupere la version original; no se permite iniciar sesion ni recalcular.");
                     if (DateTime.UtcNow < retryAfter) throw new IntegrityAccessDeniedException();
                     DVRow user = inspection.FindUser(username);
                     if (!inspection.HasPermission(user, PermissionType.RecalculateDV)

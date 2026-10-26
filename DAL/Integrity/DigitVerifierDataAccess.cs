@@ -31,11 +31,10 @@ namespace CarAgency.DAL.Integrity
             }
         }
 
-        public void SaveDvv(string table, string dvv, string keyId)
+        public void SaveDvv(string table, string dvv)
         {
             Execute("dbo.DV_Save", TableParameter(table),
-                new SqlParameter("@DVV", SqlDbType.Char, 64) { Value = dvv },
-                new SqlParameter("@KeyId", SqlDbType.Char, 64) { Value = keyId });
+                new SqlParameter("@DVV", SqlDbType.Char, 64) { Value = dvv });
         }
 
         private static SqlParameter TableParameter(string table)

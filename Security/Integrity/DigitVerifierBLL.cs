@@ -25,8 +25,6 @@ namespace CarAgency.Security.Integrity
             {
                 DV digit = mapper.GetByTable(table);
                 if (digit == null) throw new TranslatableException("DVMissingVerticalRecord", "Falta el registro de digitos de dbo.{0}. La base debe restaurarse desde un backup actualizado con los digitos incluidos.", table);
-                if (!string.Equals(digit.KeyId, calculator.KeyId, StringComparison.Ordinal))
-                    throw new TranslatableException("DVKeyMismatch", "La clave de digitos no corresponde a esta base. No se modificaron los digitos.");
             }
         }
 
@@ -52,7 +50,7 @@ namespace CarAgency.Security.Integrity
         private DV CreateVertical(string table)
         {
             return new DV {
-                SchemaName = "dbo", TableName = table, AlgorithmVersion = 1, KeyId = calculator.KeyId,
+                SchemaName = "dbo", TableName = table, AlgorithmVersion = 1,
                 DVV = calculator.CalculateDvv(table, mapper.GetHorizontalDigits(table).Select(d => d.DVH))
             };
         }
