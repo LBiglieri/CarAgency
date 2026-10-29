@@ -28,10 +28,19 @@ namespace CarAgency.BLL
         // Vigencia de la tasacion en dias corridos (CUF09 paso 6). Vencida, se puede volver a tasar.
         public const int AppraisalValidityDays = 7;
 
+        // Medios con los que la agencia le paga al cliente (CUF10 paso 5). Se filtran por Description,
+        // como las tarjetas en AddPaymentForm.
+        public static readonly string[] AcquisitionPaymentTypes = { "Bank Transfer", "Check", "Cash" };
+
+        // Documentos escaneados (CUF10 paso 12): solo pdf, como los archivos de los tramites.
+        private static readonly string[] DocumentExtensions = { ".pdf" };
+
         private AcquisitionMapper _acquisitionmapper;
+        private PaymentMapper _paymentmapper;
         public AcquisitionBLL()
         {
             _acquisitionmapper = new AcquisitionMapper();
+            _paymentmapper = new PaymentMapper();
         }
         public List<User> GetMechanics()
         {
@@ -229,6 +238,301 @@ namespace CarAgency.BLL
                     return acquisition;
             }
             throw new TranslatableException("AppraisalNotPending", "La adquisicion tiene una tasacion vigente o no esta en estado Inspeccionado.");
+        }
+
+        // CUF10: de Tasada a Transferida. La matricula se guarda en mayusculas; el DNI se compara tal cual.
+        public List<PendingAcquisition> GetPendingAcquisitions(string filter)
+        {
+            return _acquisitionmapper.GetPendingManagement(filter == null ? null : filter.Trim().ToUpperInvariant());
+        }
+        public Acquisition GetAcquisition(Guid Acquisition_Id)
+        {
+            return _acquisitionmapper.GetById(Acquisition_Id);
+        }
+        // CUF10 3.1: vencida la tasacion no se puede seguir, hay que volver a tasar con CUF09.
+        public bool IsAppraisalExpired(Appraisal appraisal)
+        {
+            return appraisal == null || appraisal.Expiration_Date < DateTime.Now;
+        }
+        // El acuerdo es valido solo si se hizo sobre la ultima tasacion: si se re-taso, hay que volver a pactarlo.
+        public bool HasAgreement(Acquisition acquisition)
+        {
+            Appraisal last = GetLastAppraisal(acquisition.Id);
+            return acquisition.Agreed_Price != null && last != null && acquisition.Accepted_Appraisal_Id == last.Id;
+        }
+        public List<PaymentType> GetAcquisitionPaymentTypes()
+        {
+            List<PaymentType> types = _paymentmapper.GetAllPaymentTypes();
+            return types == null ? new List<PaymentType>() : types.Where(t => AcquisitionPaymentTypes.Contains(t.Description)).ToList();
+        }
+        public List<AcquisitionPaymentTerm> GetPaymentTerms(Guid Acquisition_Id)
+        {
+            return _acquisitionmapper.GetPaymentTerms(Acquisition_Id);
+        }
+        // CUF10 paso 6: la suma se compara redondeada a centavos. Positiva, falta asignar; negativa, sobra.
+        public decimal GetPaymentTermsDifference(double price, List<AcquisitionPaymentTerm> terms)
+        {
+            double total = terms == null ? 0 : terms.Sum(t => t.Amount);
+            return (decimal)Math.Round(price, 2) - (decimal)Math.Round(total, 2);
+        }
+
+        // CUF10 pasos 5 a 7: el acuerdo se registra al generar el contrato y la adquisicion sigue Tasada hasta la firma.
+        // Mientras no se firme se puede volver a generar: la forma de pago se reemplaza completa.
+        public SQLUpdateResult RegisterAgreement(Acquisition agreement, List<AcquisitionPaymentTerm> terms)
+        {
+            if (agreement.Agreed_Price == null || agreement.Agreed_Price <= 0)
+                throw new TranslatableException("PleaseWriteValidAgreedPrice", "Escriba un precio acordado mayor a cero para continuar.");
+            if (string.IsNullOrWhiteSpace(agreement.Owner_CUIL_CUIT))
+                throw new TranslatableException("PleaseWriteOwnerCuilCuit", "Escriba el CUIL/CUIT del titular del vehiculo para continuar.");
+            ValidatePaymentTerms(agreement.Agreed_Price.Value, terms);
+
+            Acquisition acquisition = GetAppraisedAcquisition(agreement.Id);
+            acquisition.Accepted_Appraisal_Id = GetLastAppraisal(acquisition.Id).Id;
+            acquisition.Agreed_Price = agreement.Agreed_Price;
+            acquisition.Owner_CUIL_CUIT = agreement.Owner_CUIL_CUIT.Trim();
+
+            SQLUpdateResult result = _acquisitionmapper.UpdateAcquisition(acquisition);
+            if (result != null && result.sqlResult == SQLResultType.success && GetPaymentTerms(acquisition.Id) != null)
+                result = _acquisitionmapper.DeletePaymentTerms(acquisition.Id);
+            foreach (AcquisitionPaymentTerm term in terms)
+            {
+                term.Acquisition_Id = acquisition.Id;
+                if (result != null && result.sqlResult == SQLResultType.success)
+                    result = _acquisitionmapper.AddPaymentTerm(term);
+            }
+            // Sin evento: la formalizacion se registra con la firma del contrato.
+            return result;
+        }
+
+        // CUF10 pasos 8 y 9: con el contrato firmado el precio queda bloqueado.
+        public SQLUpdateResult RegisterContractSigned(Guid Acquisition_Id)
+        {
+            Acquisition acquisition = GetAppraisedAcquisition(Acquisition_Id);
+            if (!HasAgreement(acquisition))
+                throw new TranslatableException("ContractNotGenerated", "Genere el contrato de compraventa antes de registrar la firma.");
+            ValidatePaymentTerms(acquisition.Agreed_Price.Value, GetPaymentTerms(Acquisition_Id));
+
+            acquisition.Contract_Signed_Date = DateTime.Now;
+            acquisition.Status = AcquisitionStatus.PurchaseFormalized;
+            return RecordResult(_acquisitionmapper.UpdateAcquisition(acquisition), AuditEventType.AcquisitionFormalized, acquisition.Id);
+        }
+
+        // CUF10 3.3: el cliente rechaza la tasacion.
+        public SQLUpdateResult RejectAppraisal(Guid Acquisition_Id)
+        {
+            Acquisition acquisition = GetAppraisedAcquisition(Acquisition_Id);
+            acquisition.Status = AcquisitionStatus.Rejected;
+            acquisition.Rejection_Reason = RejectionReason.AppraisalRejected;
+            return RecordResult(_acquisitionmapper.UpdateAcquisition(acquisition), AuditEventType.AcquisitionRejected, acquisition.Id);
+        }
+
+        // CUF10 8.1: el cliente no firma el contrato generado.
+        public SQLUpdateResult RegisterContractNotSigned(Guid Acquisition_Id)
+        {
+            Acquisition acquisition = GetAppraisedAcquisition(Acquisition_Id);
+            if (!HasAgreement(acquisition))
+                throw new TranslatableException("ContractNotGenerated", "Genere el contrato de compraventa antes de registrar la firma.");
+            acquisition.Status = AcquisitionStatus.Rejected;
+            acquisition.Rejection_Reason = RejectionReason.ContractNotSigned;
+            return RecordResult(_acquisitionmapper.UpdateAcquisition(acquisition), AuditEventType.AcquisitionRejected, acquisition.Id);
+        }
+
+        public List<AcquisitionDocumentType> GetDocumentTypes(AcquisitionDocumentStage stage)
+        {
+            return _acquisitionmapper.GetDocumentTypes(stage);
+        }
+        public List<AcquisitionDocument> GetDocuments(Guid Acquisition_Id)
+        {
+            return _acquisitionmapper.GetDocuments(Acquisition_Id);
+        }
+        public AcquisitionDocumentFile GetDocumentFile(Guid Document_Id)
+        {
+            return _acquisitionmapper.GetDocumentFile(Document_Id);
+        }
+
+        // CUF10 pasos 11 a 13 y 18: el documento y su escaneo se graban uno detras del otro, como los archivos de los tramites.
+        // Para reemplazar uno cargado u observado (11.2) primero se elimina.
+        public SQLUpdateResult AddDocument(AcquisitionDocument document)
+        {
+            AcquisitionDocumentType type = GetDocumentTypes(document.Stage).FirstOrDefault(t => t.Id == document.DocumentType_Id);
+            if (type == null)
+                throw new TranslatableException("PleaseSelectDocument", "Seleccione un documento de la lista para continuar.");
+            ValidateDocumentFile(document.File);
+            ValidateDocumentValidity(type, document.Issue_Date);
+
+            Acquisition acquisition = GetAcquisitionInStage(document.Acquisition_Id, type.Stage);
+            if (GetDocuments(acquisition.Id).Any(d => d.DocumentType_Id == type.Id))
+                throw new TranslatableException("DocumentAlreadyUploaded", "El documento ya esta cargado. Eliminelo para reemplazarlo.");
+
+            document.Id = Guid.NewGuid();
+            document.Status = AcquisitionDocumentStatus.Uploaded;
+            document.Issue_Date = document.Issue_Date.Date;
+            document.Observation = null;
+            document.User_Id = SessionHandler.Instance.GetId();
+            document.Uploaded_Date = DateTime.Now;
+            document.File.Document_Id = document.Id;
+
+            SQLUpdateResult result = _acquisitionmapper.AddDocument(document);
+            if (result != null && result.sqlResult == SQLResultType.success)
+                result = _acquisitionmapper.AddDocumentFile(document.File);
+            result = RecordResult(result, AuditEventType.AcquisitionDocumentCreated, acquisition.Id);
+
+            // Paso 15: con el ultimo documento cargado la compra queda lista para el pago (CUF11).
+            if (result != null && result.sqlResult == SQLResultType.success && type.Stage == AcquisitionDocumentStage.Document
+                && IsStageComplete(acquisition.Id, AcquisitionDocumentStage.Document))
+            {
+                acquisition.Status = AcquisitionStatus.DocumentationComplete;
+                result = _acquisitionmapper.UpdateAcquisition(acquisition);
+            }
+            return result;
+        }
+
+        // CUF10 11.1: el titular no es el cliente o el dominio informa un gravamen. La compra no avanza hasta reemplazarlo.
+        public SQLUpdateResult ObserveDocument(AcquisitionDocument document, string observation)
+        {
+            if (string.IsNullOrWhiteSpace(observation))
+                throw new TranslatableException("PleaseWriteDocumentObservation", "Escriba el motivo de la observacion del documento para continuar.");
+            Acquisition acquisition = GetAcquisitionInStage(document.Acquisition_Id, document.Stage);
+            document.Status = AcquisitionDocumentStatus.Observed;
+            document.Observation = observation.Trim();
+            return RecordResult(_acquisitionmapper.ObserveDocument(document), AuditEventType.AcquisitionDocumentObserved, acquisition.Id);
+        }
+
+        // CUF10 11.2: el escaneo se borra con el documento.
+        public SQLUpdateResult DeleteDocument(AcquisitionDocument document)
+        {
+            Acquisition acquisition = GetAcquisitionInStage(document.Acquisition_Id, document.Stage);
+            return RecordResult(_acquisitionmapper.DeleteDocument(document), AuditEventType.AcquisitionDocumentDeleted, acquisition.Id);
+        }
+
+        // Todos los documentos de la etapa cargados y sin observaciones.
+        public bool IsStageComplete(Guid Acquisition_Id, AcquisitionDocumentStage stage)
+        {
+            List<AcquisitionDocument> documents = GetDocuments(Acquisition_Id);
+            return GetDocumentTypes(stage).All(t => documents.Any(d => d.DocumentType_Id == t.Id && d.Status == AcquisitionDocumentStatus.Uploaded));
+        }
+
+        // CUF10 paso 17 y 18.1: la cita queda agendada y la adquisicion sigue Pagada.
+        public SQLUpdateResult ScheduleTransfer(Acquisition transfer)
+        {
+            if (string.IsNullOrWhiteSpace(transfer.Precharge_Code_08))
+                throw new TranslatableException("PleaseWrite08", "Escriba el codigo de precarga del formulario 08 para continuar.");
+            if (transfer.Transfer_Appointment_Date == null)
+                throw new TranslatableException("PleaseSelectTransferAppointment", "Seleccione la fecha de la cita en el registro automotor para continuar.");
+
+            Acquisition acquisition = GetAcquisitionInStatus(transfer.Id, AcquisitionStatus.Paid);
+            acquisition.Precharge_Code_08 = transfer.Precharge_Code_08.Trim();
+            acquisition.Transfer_Appointment_Date = transfer.Transfer_Appointment_Date.Value.Date;
+            return RecordResult(_acquisitionmapper.UpdateAcquisition(acquisition), AuditEventType.AcquisitionTransferScheduled, acquisition.Id);
+        }
+
+        // CUF10 paso 19: despues de la cita, con el 08 firmado y la baja municipal cargados.
+        public SQLUpdateResult RegisterTransfer(Guid Acquisition_Id)
+        {
+            Acquisition acquisition = GetAcquisitionInStatus(Acquisition_Id, AcquisitionStatus.Paid);
+            if (acquisition.Precharge_Code_08 == null || acquisition.Transfer_Appointment_Date == null)
+                throw new TranslatableException("TransferNotScheduled", "Guarde el codigo de precarga y la fecha de la cita para continuar.");
+            if (acquisition.Transfer_Appointment_Date.Value.Date > DateTime.Today)
+                throw new TranslatableException("TransferAppointmentPending", "La cita en el registro automotor todavia no ocurrio.");
+            if (!IsStageComplete(Acquisition_Id, AcquisitionDocumentStage.Transfer))
+                throw new TranslatableException("TransferDocumentsMissing", "Adjunte el formulario 08 firmado y el comprobante de baja municipal para continuar.");
+
+            acquisition.Status = AcquisitionStatus.Transferred;
+            return RecordResult(_acquisitionmapper.UpdateAcquisition(acquisition), AuditEventType.AcquisitionTransferred, acquisition.Id);
+        }
+
+        public AcquisitionSummary GetSummary(Guid Acquisition_Id)
+        {
+            return _acquisitionmapper.GetSummary(Acquisition_Id);
+        }
+
+        // CUF10 pasos 21 a 24: el vehiculo entra al inventario disponible para CUF01 con lo verificado en la
+        // inspeccion. Es el unico paso en una transaccion: si quedara solo el vehiculo, se venderia con la compra abierta.
+        public SQLUpdateResult FinishAcquisition(Guid Acquisition_Id, Vehicle sale)
+        {
+            if (sale.Price <= 0)
+                throw new TranslatableException("PleaseWriteValidSalePrice", "Escriba un precio de venta mayor a cero para continuar.");
+
+            Acquisition acquisition = GetAcquisitionInStatus(Acquisition_Id, AcquisitionStatus.Transferred);
+            AcquisitionSummary summary = GetSummary(Acquisition_Id);
+            Vehicle vehicle = new Vehicle();
+            vehicle.Id = Guid.NewGuid();
+            vehicle.License_Plate = summary.License_Plate;
+            vehicle.Make_Id = summary.Make_Id;
+            vehicle.Model_Id = summary.Model_Id;
+            vehicle.Version_Id = summary.Version_Id;
+            vehicle.Colour_Id = summary.Colour_Id;
+            vehicle.Price = sale.Price;
+            vehicle.Opcionals = sale.Opcionals == null ? null : sale.Opcionals.Trim();
+            vehicle.Observations = sale.Observations == null ? null : sale.Observations.Trim();
+            vehicle.Doors = summary.Doors;
+            vehicle.Year = summary.Year;
+            vehicle.Kilometers = summary.Verified_Kilometers ?? summary.Declared_Kilometers;
+            vehicle.ImageLink = null;
+            acquisition.Status = AcquisitionStatus.Finished;
+            acquisition.Vehicle_Id = vehicle.Id;
+            acquisition.Closing_Date = DateTime.Now;
+
+            SQLUpdateResult result = RecordResult(_acquisitionmapper.FinishAcquisition(vehicle, acquisition), AuditEventType.VehicleCreated, vehicle.Id);
+            return RecordResult(result, AuditEventType.AcquisitionFinished, acquisition.Id);
+        }
+
+        // Etapa A: Tasada y con la tasacion vigente (3.1).
+        private Acquisition GetAppraisedAcquisition(Guid Acquisition_Id)
+        {
+            Acquisition acquisition = GetAcquisitionInStatus(Acquisition_Id, AcquisitionStatus.Appraised);
+            if (IsAppraisalExpired(GetLastAppraisal(Acquisition_Id)))
+                throw new TranslatableException("AppraisalExpired", "La tasacion vencio. Vuelva a tasar el vehiculo desde Compras > Tasar vehiculo.");
+            return acquisition;
+        }
+
+        // Los documentos de la etapa B se cargan con la compra formalizada y los de la etapa C con la compra pagada.
+        private Acquisition GetAcquisitionInStage(Guid Acquisition_Id, AcquisitionDocumentStage stage)
+        {
+            return GetAcquisitionInStatus(Acquisition_Id,
+                stage == AcquisitionDocumentStage.Document ? AcquisitionStatus.PurchaseFormalized : AcquisitionStatus.Paid);
+        }
+
+        private Acquisition GetAcquisitionInStatus(Guid Acquisition_Id, AcquisitionStatus status)
+        {
+            Acquisition acquisition = _acquisitionmapper.GetById(Acquisition_Id);
+            if (acquisition == null || acquisition.Status != status)
+                throw new TranslatableException("AcquisitionNotInStage", "La adquisicion ya no esta en esta etapa. Vuelva a buscarla.");
+            return acquisition;
+        }
+
+        // CUF10 pasos 5 y 6: medios permitidos, una vez cada uno, con monto, y la suma igual al precio (6.1).
+        private void ValidatePaymentTerms(double price, List<AcquisitionPaymentTerm> terms)
+        {
+            if (terms == null || terms.Count == 0)
+                throw new TranslatableException("PleaseAddPaymentTerm", "Agregue al menos un medio de pago para continuar.");
+            List<Guid> allowed = GetAcquisitionPaymentTypes().Select(t => t.Id).ToList();
+            if (terms.Any(t => !allowed.Contains(t.PaymentType_Id)))
+                throw new TranslatableException("InvalidAcquisitionPaymentType", "La compra solo se paga con transferencia, cheque o efectivo.");
+            if (terms.GroupBy(t => t.PaymentType_Id).Any(g => g.Count() > 1))
+                throw new TranslatableException("PaymentTypeAlreadyAdded", "El medio de pago ya esta en la forma de pago. Quitelo para cambiar el monto.");
+            if (terms.Any(t => t.Amount <= 0))
+                throw new TranslatableException("PleaseWriteValidPaymentAmount", "Escriba un importe de pago valido para continuar.");
+            decimal difference = GetPaymentTermsDifference(price, terms);
+            if (difference != 0)
+                throw new TranslatableException("PaymentTermsDifference", "La forma de pago no coincide con el precio acordado. Diferencia: $ {0}.", difference.ToString("N2"));
+        }
+
+        private static void ValidateDocumentFile(AcquisitionDocumentFile file)
+        {
+            if (file == null || file.FileContent == null || file.FileContent.Length == 0)
+                throw new TranslatableException("PleaseSelectDocumentFile", "Adjunte el archivo escaneado del documento para continuar.");
+            if (!DocumentExtensions.Contains(Path.GetExtension(file.FileName).ToLowerInvariant()))
+                throw new TranslatableException("InvalidDocumentFormat", "Los documentos tienen que ser archivos pdf.");
+        }
+
+        // CUF10 paso 12: emision no futura y, si el tipo vence, dentro de su vigencia.
+        private static void ValidateDocumentValidity(AcquisitionDocumentType type, DateTime Issue_Date)
+        {
+            if (Issue_Date.Date > DateTime.Today)
+                throw new TranslatableException("DocumentIssueDateInFuture", "La fecha de emision del documento no puede ser futura.");
+            if (type.Validity_Days != null && Issue_Date.Date.AddDays(type.Validity_Days.Value) < DateTime.Today)
+                throw new TranslatableException("DocumentExpired", "El documento esta vencido: tiene una vigencia de {0} dias desde su emision.", type.Validity_Days.Value);
         }
 
         private static void ValidatePhoto(InspectionPhoto photo)

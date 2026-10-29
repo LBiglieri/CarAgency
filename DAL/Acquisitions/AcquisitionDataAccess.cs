@@ -8,7 +8,8 @@ using CarAgency.DAL.Persistence;
 
 namespace CarAgency.DAL.Acquisitions
 {
-    // Compra de vehiculos a clientes (PN2): vehiculo ofrecido, adquisicion, inspeccion mecanica y tasacion.
+    // Compra de vehiculos a clientes (PN2): vehiculo ofrecido, adquisicion, inspeccion mecanica, tasacion,
+    // forma de pago pactada, documentos y cierre. AcquisitionDocumentFiles no esta protegida con digitos verificadores.
     public sealed class AcquisitionDataAccess : DataAccessBase
     {
         public DataTable GetNextNumber() { return Read("Acquisitions_GetNextNumber"); }
@@ -208,6 +209,111 @@ namespace CarAgency.DAL.Acquisitions
                 new SqlParameter("@Transfer_Appointment_Date", (object)transferAppointmentDate ?? DBNull.Value),
                 new SqlParameter("@Vehicle_Id", (object)vehicleId ?? DBNull.Value),
                 new SqlParameter("@Closing_Date", (object)closingDate ?? DBNull.Value));
+        }
+
+        public DataTable GetPendingManagement(string filter)
+        {
+            return Read("Acquisitions_GetPendingManagement", new SqlParameter("@Filter", (object)filter ?? DBNull.Value));
+        }
+
+        public DataTable GetPaymentTerms(Guid acquisitionId)
+        {
+            return Read("AcquisitionPaymentTerms_GetByAcquisition", new SqlParameter("@Acquisition_Id", acquisitionId));
+        }
+
+        public DataTable AddPaymentTerm(Guid acquisitionId, Guid paymentTypeId, double amount, DvhCalculator dvh)
+        {
+            return Read("AcquisitionPaymentTerms_Add", dvh,
+                new SqlParameter("@Acquisition_Id", acquisitionId),
+                new SqlParameter("@PaymentType_Id", paymentTypeId),
+                new SqlParameter("@Amount", amount));
+        }
+
+        public DataTable DeletePaymentTerms(Guid acquisitionId)
+        {
+            return Read("AcquisitionPaymentTerms_DeleteByAcquisition", new SqlParameter("@Acquisition_Id", acquisitionId));
+        }
+
+        public DataTable GetDocumentTypes(int stage) { return Read("AcquisitionDocumentTypes_GetByStage", new SqlParameter("@Stage", stage)); }
+
+        public DataTable GetDocuments(Guid acquisitionId)
+        {
+            return Read("AcquisitionDocuments_GetByAcquisition", new SqlParameter("@Acquisition_Id", acquisitionId));
+        }
+
+        public DataTable AddDocument(Guid id, Guid acquisitionId, Guid documentTypeId, int status, DateTime issueDate, string observation,
+            Guid userId, DateTime uploadedDate, DvhCalculator dvh)
+        {
+            return Read("AcquisitionDocuments_Add", dvh, DocumentParameters(id, acquisitionId, documentTypeId, status, issueDate, observation,
+                userId, uploadedDate));
+        }
+
+        public DataTable ObserveDocument(Guid id, Guid acquisitionId, Guid documentTypeId, int status, DateTime issueDate, string observation,
+            Guid userId, DateTime uploadedDate, DvhCalculator dvh)
+        {
+            return Read("AcquisitionDocuments_Observe", dvh, DocumentParameters(id, acquisitionId, documentTypeId, status, issueDate, observation,
+                userId, uploadedDate));
+        }
+
+        public DataTable DeleteDocument(Guid id) { return Read("AcquisitionDocuments_Delete", new SqlParameter("@Id", id)); }
+
+        public DataTable GetDocumentFile(Guid documentId)
+        {
+            return Read("AcquisitionDocumentFiles_GetByDocument", new SqlParameter("@Document_Id", documentId));
+        }
+
+        public DataTable AddDocumentFile(Guid documentId, string fileName, byte[] fileContent)
+        {
+            return Read("AcquisitionDocumentFiles_Add",
+                new SqlParameter("@Document_Id", documentId),
+                new SqlParameter("@FileName", fileName),
+                new SqlParameter("@FileContent", fileContent));
+        }
+
+        public DataTable GetSummary(Guid id) { return Read("Acquisitions_GetSummary", new SqlParameter("@Id", id)); }
+
+        // Alta en inventario y cierre de la compra en un solo SP, dentro de una transaccion. Igual que en la
+        // inspeccion, las filas llegan completas para el DVH y al SP solo viaja lo que cambia de la adquisicion.
+        public DataTable Finish(IDictionary<string, object> vehicle, IDictionary<string, object> acquisition, DvhCalculator vehicleDvh,
+            DvhCalculator acquisitionDvh)
+        {
+            DvhResult vehicleRow = vehicleDvh(vehicle);
+            DvhResult acquisitionRow = acquisitionDvh(acquisition);
+            return Read("Acquisitions_Finish",
+                new SqlParameter("@Vehicle_Id", Value(vehicleRow, "Id")),
+                new SqlParameter("@License_Plate", SqlDbType.VarChar, 255) { Value = Value(vehicleRow, "License_Plate") },
+                new SqlParameter("@Make_Id", Value(vehicleRow, "Make_Id")),
+                new SqlParameter("@Model_Id", Value(vehicleRow, "Model_Id")),
+                new SqlParameter("@Version_Id", Value(vehicleRow, "Version_Id")),
+                new SqlParameter("@Colour_Id", Value(vehicleRow, "Colour_Id")),
+                new SqlParameter("@Price", SqlDbType.Float) { Value = Value(vehicleRow, "Price") },
+                new SqlParameter("@Opcionals", SqlDbType.VarChar, 255) { Value = Value(vehicleRow, "Opcionals") },
+                new SqlParameter("@Observations", SqlDbType.VarChar, -1) { Value = Value(vehicleRow, "Observations") },
+                new SqlParameter("@Doors", SqlDbType.Int) { Value = Value(vehicleRow, "Doors") },
+                new SqlParameter("@Year", SqlDbType.Int) { Value = Value(vehicleRow, "Year") },
+                new SqlParameter("@Kilometers", SqlDbType.Int) { Value = Value(vehicleRow, "Kilometers") },
+                new SqlParameter("@ImageLink", SqlDbType.NVarChar, -1) { Value = Value(vehicleRow, "ImageLink") },
+                new SqlParameter("@DVH", SqlDbType.Char, 64) { Value = vehicleRow.Dvh },
+                new SqlParameter("@Acquisition_Id", Value(acquisitionRow, "Id")),
+                new SqlParameter("@Status", SqlDbType.Int) { Value = Value(acquisitionRow, "Status") },
+                new SqlParameter("@Closing_Date", SqlDbType.DateTime) { Value = Value(acquisitionRow, "Closing_Date") },
+                new SqlParameter("@Acquisition_DVH", SqlDbType.Char, 64) { Value = acquisitionRow.Dvh });
+        }
+
+        private static SqlParameter[] DocumentParameters(Guid id, Guid acquisitionId, Guid documentTypeId, int status, DateTime issueDate,
+            string observation, Guid userId, DateTime uploadedDate)
+        {
+            return new[]
+            {
+                new SqlParameter("@Id", id),
+                new SqlParameter("@Acquisition_Id", acquisitionId),
+                new SqlParameter("@DocumentType_Id", documentTypeId),
+                new SqlParameter("@Status", status),
+                new SqlParameter("@Issue_Date", issueDate),
+                new SqlParameter("@Observation", (object)observation ?? DBNull.Value),
+                new SqlParameter("@User_Id", userId),
+                new SqlParameter("@Uploaded_Date", uploadedDate)
+            };
         }
 
         // Valor normalizado con el que se calculo el DVH: es el que tiene que quedar guardado.

@@ -59,11 +59,24 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Acquisitions\SQL\AcquisitionDocumentFiles_Add.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionDocumentFiles_GetByDocument.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionDocuments_Add.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionDocuments_Delete.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionDocuments_GetByAcquisition.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionDocuments_Observe.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionDocumentTypes_GetByStage.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionPaymentTerms_Add.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionPaymentTerms_DeleteByAcquisition.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionPaymentTerms_GetByAcquisition.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_Add.sql" />
+    <Content Include="Acquisitions\SQL\Acquisitions_Finish.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_GetById.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_GetDuplicates.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_GetNextNumber.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_GetPendingAppraisal.sql" />
+    <Content Include="Acquisitions\SQL\Acquisitions_GetPendingManagement.sql" />
+    <Content Include="Acquisitions\SQL\Acquisitions_GetSummary.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_Update.sql" />
     <Content Include="Acquisitions\SQL\Appraisals_Add.sql" />
     <Content Include="Acquisitions\SQL\Appraisals_GetLastByAcquisition.sql" />

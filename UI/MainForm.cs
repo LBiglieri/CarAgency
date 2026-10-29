@@ -61,6 +61,7 @@ namespace CarAgency.UI
                 registerAcquisitionToolStripMenuItem.Visible = false;
                 registerInspectionToolStripMenuItem.Visible = false;
                 appraiseVehicleToolStripMenuItem.Visible = false;
+                manageAcquisitionToolStripMenuItem.Visible = false;
 
                 billingToolStripMenuItem.Visible = false;
                 generateInvoiceToolStripMenuItem.Visible = false;
@@ -85,10 +86,11 @@ namespace CarAgency.UI
             newQuotationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateQuotationForm));
             newReservationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateReservationForm));
 
-            acquisitionsToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterAcquisitionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterInspectionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.AppraiseVehicleForm)));
+            acquisitionsToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterAcquisitionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterInspectionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.AppraiseVehicleForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManageAcquisitionForm)));
             registerAcquisitionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterAcquisitionForm));
             registerInspectionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterInspectionForm));
             appraiseVehicleToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.AppraiseVehicleForm));
+            manageAcquisitionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManageAcquisitionForm));
 
             billingToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateInvoiceForm));
             generateInvoiceToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateInvoiceForm));
@@ -260,6 +262,13 @@ namespace CarAgency.UI
         private void appraiseVehicleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AppraiseVehicleForm frm = new AppraiseVehicleForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void manageAcquisitionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ManageAcquisitionForm frm = new ManageAcquisitionForm();
             frm.MdiParent = this;
             frm.Show();
         }

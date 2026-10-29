@@ -212,6 +212,169 @@ namespace CarAgency.Mappers
                 acquisition.Vehicle_Id, acquisition.Closing_Date, dvh));
         }
 
+        // Sin compras en gestion devuelve null.
+        public List<PendingAcquisition> GetPendingManagement(string filter)
+        {
+            List<PendingAcquisition> acquisitions = new List<PendingAcquisition>();
+            using (DataTable table = data.GetPendingManagement(filter))
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    PendingAcquisition acquisition = new PendingAcquisition();
+                    acquisition.Id = (Guid)row["Id"];
+                    acquisition.Number = (int)row["Number"];
+                    acquisition.Inspection_Id = (Guid)row["Inspection_Id"];
+                    acquisition.Client_Id = (Guid)row["Client_Id"];
+                    acquisition.Dni = (int)row["Dni"];
+                    acquisition.License_Plate = (string)row["License_Plate"];
+                    acquisition.Vehicle_Description = (string)row["Vehicle_Description"];
+                    acquisition.Status = (AcquisitionStatus)(int)row["Status"];
+                    acquisitions.Add(acquisition);
+                }
+            }
+            return acquisitions.Count == 0 ? null : acquisitions;
+        }
+
+        // Sin forma de pago pactada devuelve null.
+        public List<AcquisitionPaymentTerm> GetPaymentTerms(Guid Acquisition_Id)
+        {
+            List<AcquisitionPaymentTerm> terms = MappingHandler.MapTableToEntities<AcquisitionPaymentTerm>(data.GetPaymentTerms(Acquisition_Id));
+            return terms.Count == 0 ? null : terms;
+        }
+
+        public SQLUpdateResult AddPaymentTerm(AcquisitionPaymentTerm term)
+        {
+            return DigitVerifierWriteMapper.Save("AcquisitionPaymentTerms", dvh => data.AddPaymentTerm(term.Acquisition_Id, term.PaymentType_Id,
+                term.Amount, dvh));
+        }
+
+        public SQLUpdateResult DeletePaymentTerms(Guid Acquisition_Id)
+        {
+            return DigitVerifierWriteMapper.Remove(() => data.DeletePaymentTerms(Acquisition_Id), "AcquisitionPaymentTerms");
+        }
+
+        // Validity_Days puede ser NULL: los tipos se arman a mano.
+        public List<AcquisitionDocumentType> GetDocumentTypes(AcquisitionDocumentStage stage)
+        {
+            List<AcquisitionDocumentType> types = new List<AcquisitionDocumentType>();
+            using (DataTable table = data.GetDocumentTypes((int)stage))
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    AcquisitionDocumentType type = new AcquisitionDocumentType();
+                    type.Id = (Guid)row["Id"];
+                    type.Description = (string)row["Description"];
+                    type.Stage = (AcquisitionDocumentStage)(int)row["Stage"];
+                    type.Validity_Days = row["Validity_Days"] as int?;
+                    type.Display_Order = (int)row["Display_Order"];
+                    types.Add(type);
+                }
+            }
+            return types;
+        }
+
+        public List<AcquisitionDocument> GetDocuments(Guid Acquisition_Id)
+        {
+            List<AcquisitionDocument> documents = new List<AcquisitionDocument>();
+            using (DataTable table = data.GetDocuments(Acquisition_Id))
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    AcquisitionDocument document = new AcquisitionDocument();
+                    document.Id = (Guid)row["Id"];
+                    document.Acquisition_Id = (Guid)row["Acquisition_Id"];
+                    document.DocumentType_Id = (Guid)row["DocumentType_Id"];
+                    document.Status = (AcquisitionDocumentStatus)(int)row["Status"];
+                    document.Issue_Date = (DateTime)row["Issue_Date"];
+                    document.Observation = row["Observation"] as string;
+                    document.User_Id = (Guid)row["User_Id"];
+                    document.Uploaded_Date = (DateTime)row["Uploaded_Date"];
+                    document.Description = (string)row["Description"];
+                    document.Stage = (AcquisitionDocumentStage)(int)row["Stage"];
+                    document.FileName = row["FileName"] as string;
+                    documents.Add(document);
+                }
+            }
+            return documents;
+        }
+
+        public SQLUpdateResult AddDocument(AcquisitionDocument document)
+        {
+            return DigitVerifierWriteMapper.Save("AcquisitionDocuments", dvh => data.AddDocument(document.Id, document.Acquisition_Id,
+                document.DocumentType_Id, (int)document.Status, document.Issue_Date, document.Observation, document.User_Id,
+                document.Uploaded_Date, dvh));
+        }
+
+        public SQLUpdateResult ObserveDocument(AcquisitionDocument document)
+        {
+            return DigitVerifierWriteMapper.Save("AcquisitionDocuments", dvh => data.ObserveDocument(document.Id, document.Acquisition_Id,
+                document.DocumentType_Id, (int)document.Status, document.Issue_Date, document.Observation, document.User_Id,
+                document.Uploaded_Date, dvh));
+        }
+
+        // El archivo se borra en cascada y no esta protegido: solo cambia el DVV de AcquisitionDocuments.
+        public SQLUpdateResult DeleteDocument(AcquisitionDocument document)
+        {
+            return DigitVerifierWriteMapper.Remove(() => data.DeleteDocument(document.Id), "AcquisitionDocuments");
+        }
+
+        // AcquisitionDocumentFiles no esta protegida con digitos verificadores.
+        public SQLUpdateResult AddDocumentFile(AcquisitionDocumentFile file)
+        {
+            return MappingHandler.MapUpdateResult(data.AddDocumentFile(file.Document_Id, file.FileName, file.FileContent));
+        }
+
+        public AcquisitionDocumentFile GetDocumentFile(Guid Document_Id)
+        {
+            return MappingHandler.MapTableToEntities<AcquisitionDocumentFile>(data.GetDocumentFile(Document_Id)).FirstOrDefault();
+        }
+
+        // Como la adquisicion, el resumen tiene NULL segun la etapa: se arma a mano.
+        public AcquisitionSummary GetSummary(Guid id)
+        {
+            using (DataTable table = data.GetSummary(id))
+            {
+                if (table.Rows.Count == 0) return null;
+                DataRow row = table.Rows[0];
+                AcquisitionSummary summary = new AcquisitionSummary();
+                summary.Id = (Guid)row["Id"];
+                summary.Number = (int)row["Number"];
+                summary.Client_Id = (Guid)row["Client_Id"];
+                summary.Dni = (int)row["Dni"];
+                summary.License_Plate = (string)row["License_Plate"];
+                summary.Chassis_Number = (string)row["Chassis_Number"];
+                summary.Engine_Number = (string)row["Engine_Number"];
+                summary.Vehicle_Description = (string)row["Vehicle_Description"];
+                summary.Make_Id = (Guid)row["Make_Id"];
+                summary.Model_Id = (Guid)row["Model_Id"];
+                summary.Version_Id = (Guid)row["Version_Id"];
+                summary.Colour_Id = (Guid)row["Colour_Id"];
+                summary.Year = (int)row["Year"];
+                summary.Doors = (int)row["Doors"];
+                summary.Declared_Kilometers = (int)row["Declared_Kilometers"];
+                summary.Inspection_Id = (Guid)row["Inspection_Id"];
+                summary.Performed_Date = row["Performed_Date"] as DateTime?;
+                summary.Verified_Kilometers = row["Verified_Kilometers"] as int?;
+                summary.Appraisal_Amount = row["Appraisal_Amount"] as double?;
+                summary.Appraisal_Date = row["Appraisal_Date"] as DateTime?;
+                summary.Agreed_Price = row["Agreed_Price"] as double?;
+                summary.Owner_CUIL_CUIT = row["Owner_CUIL_CUIT"] as string;
+                summary.Contract_Signed_Date = row["Contract_Signed_Date"] as DateTime?;
+                summary.Paid_Amount = (double)row["Paid_Amount"];
+                summary.Precharge_Code_08 = row["Precharge_Code_08"] as string;
+                summary.Transfer_Appointment_Date = row["Transfer_Appointment_Date"] as DateTime?;
+                summary.Closing_Date = row["Closing_Date"] as DateTime?;
+                return summary;
+            }
+        }
+
+        // Vehiculo y adquisicion se graban en una sola transaccion y despues se rehacen sus DVV.
+        public SQLUpdateResult FinishAcquisition(Vehicle vehicle, Acquisition acquisition)
+        {
+            return DigitVerifierWriteMapper.Save(digitVerifier => data.Finish(VehicleRow(vehicle), AcquisitionRow(acquisition),
+                digitVerifier.Dvh("Vehicles"), digitVerifier.Dvh("Acquisitions")), "Vehicles", "Acquisitions");
+        }
+
         // Filas completas de cada tabla, con el nombre de columna como clave.
         private static IDictionary<string, object> InspectionRow(Inspection inspection)
         {
@@ -259,6 +422,26 @@ namespace CarAgency.Mappers
                 { "Transfer_Appointment_Date", acquisition.Transfer_Appointment_Date },
                 { "Vehicle_Id", acquisition.Vehicle_Id },
                 { "Closing_Date", acquisition.Closing_Date }
+            };
+        }
+
+        private static IDictionary<string, object> VehicleRow(Vehicle vehicle)
+        {
+            return new Dictionary<string, object>
+            {
+                { "Id", vehicle.Id },
+                { "License_Plate", vehicle.License_Plate },
+                { "Make_Id", vehicle.Make_Id },
+                { "Model_Id", vehicle.Model_Id },
+                { "Version_Id", vehicle.Version_Id },
+                { "Colour_Id", vehicle.Colour_Id },
+                { "Price", vehicle.Price },
+                { "Opcionals", vehicle.Opcionals },
+                { "Observations", vehicle.Observations },
+                { "Doors", vehicle.Doors },
+                { "Year", vehicle.Year },
+                { "Kilometers", vehicle.Kilometers },
+                { "ImageLink", vehicle.ImageLink }
             };
         }
     }

@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Acquisitions.Controls;
+using Security.Session;
 
 namespace UI.Vehicles
 {
