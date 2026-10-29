@@ -42,6 +42,7 @@
             this.newReservationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acquisitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registerAcquisitionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.registerInspectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.managementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -167,7 +168,8 @@
             // acquisitionsToolStripMenuItem
             //
             this.acquisitionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.registerAcquisitionToolStripMenuItem});
+            this.registerAcquisitionToolStripMenuItem,
+            this.registerInspectionToolStripMenuItem});
             this.acquisitionsToolStripMenuItem.Name = "acquisitionsToolStripMenuItem";
             this.acquisitionsToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.acquisitionsToolStripMenuItem.Tag = "acquisitionsToolStripMenuItem";
@@ -180,6 +182,14 @@
             this.registerAcquisitionToolStripMenuItem.Tag = "registerAcquisitionToolStripMenuItem";
             this.registerAcquisitionToolStripMenuItem.Text = "Register Vehicle for Appraisal";
             this.registerAcquisitionToolStripMenuItem.Click += new System.EventHandler(this.registerAcquisitionToolStripMenuItem_Click);
+            //
+            // registerInspectionToolStripMenuItem
+            //
+            this.registerInspectionToolStripMenuItem.Name = "registerInspectionToolStripMenuItem";
+            this.registerInspectionToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.registerInspectionToolStripMenuItem.Tag = "registerInspectionToolStripMenuItem";
+            this.registerInspectionToolStripMenuItem.Text = "Register Mechanical Inspection";
+            this.registerInspectionToolStripMenuItem.Click += new System.EventHandler(this.registerInspectionToolStripMenuItem_Click);
             //
             // billingToolStripMenuItem
             // 
@@ -335,6 +345,7 @@
         private System.Windows.Forms.ToolStripMenuItem newReservationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acquisitionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem registerAcquisitionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem registerInspectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem billingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateInvoiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem managementToolStripMenuItem;

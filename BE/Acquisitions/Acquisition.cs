@@ -31,7 +31,7 @@ namespace CarAgency.BE
         public AcquisitionStatus Status { get; set; }
 
         // Se completan en las etapas siguientes (CUF08 a CUF11).
-        public int? Rejection_Reason { get; set; }
+        public RejectionReason? Rejection_Reason { get; set; }
         public Guid? Accepted_Appraisal_Id { get; set; }
         public double? Agreed_Price { get; set; }
         public string Owner_CUIL_CUIT { get; set; }

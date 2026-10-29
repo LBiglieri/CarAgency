@@ -59,6 +59,7 @@ namespace CarAgency.UI
 
                 acquisitionsToolStripMenuItem.Visible = false;
                 registerAcquisitionToolStripMenuItem.Visible = false;
+                registerInspectionToolStripMenuItem.Visible = false;
 
                 billingToolStripMenuItem.Visible = false;
                 generateInvoiceToolStripMenuItem.Visible = false;
@@ -83,8 +84,9 @@ namespace CarAgency.UI
             newQuotationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateQuotationForm));
             newReservationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateReservationForm));
 
-            acquisitionsToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterAcquisitionForm));
+            acquisitionsToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterAcquisitionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterInspectionForm)));
             registerAcquisitionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterAcquisitionForm));
+            registerInspectionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterInspectionForm));
 
             billingToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateInvoiceForm));
             generateInvoiceToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateInvoiceForm));
@@ -242,6 +244,13 @@ namespace CarAgency.UI
         private void registerAcquisitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RegisterAcquisitionForm frm = new RegisterAcquisitionForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void registerInspectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegisterInspectionForm frm = new RegisterInspectionForm();
             frm.MdiParent = this;
             frm.Show();
         }

@@ -133,6 +133,12 @@
     <Compile Include="Acquisitions\RegisterAcquisitionForm.Designer.cs">
       <DependentUpon>RegisterAcquisitionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Acquisitions\RegisterInspectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acquisitions\RegisterInspectionForm.Designer.cs">
+      <DependentUpon>RegisterInspectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Billing\AddPaymentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,6 +263,9 @@
     </Compile>
     <EmbeddedResource Include="Acquisitions\RegisterAcquisitionForm.resx">
       <DependentUpon>RegisterAcquisitionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acquisitions\RegisterInspectionForm.resx">
+      <DependentUpon>RegisterInspectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Billing\AddPaymentForm.resx">
       <DependentUpon>AddPaymentForm.cs</DependentUpon>

@@ -45,7 +45,15 @@
     <Compile Include="Acquisitions\AcquisitionStatus.cs" />
     <Compile Include="Acquisitions\DuplicateVehicle.cs" />
     <Compile Include="Acquisitions\Inspection.cs" />
+    <Compile Include="Acquisitions\InspectionDetail.cs" />
+    <Compile Include="Acquisitions\InspectionItem.cs" />
+    <Compile Include="Acquisitions\InspectionPhoto.cs" />
+    <Compile Include="Acquisitions\InspectionRating.cs" />
+    <Compile Include="Acquisitions\InspectionResult.cs" />
+    <Compile Include="Acquisitions\InspectionScore.cs" />
     <Compile Include="Acquisitions\ProspectVehicle.cs" />
+    <Compile Include="Acquisitions\RejectionReason.cs" />
+    <Compile Include="Acquisitions\ScheduledInspection.cs" />
     <Compile Include="Billing\PaymentType.cs" />
     <Compile Include="Billing\Payment.cs" />
     <Compile Include="Clients\Client.cs" />

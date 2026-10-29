@@ -43,6 +43,18 @@ namespace CarAgency.Security.Integrity
             return result;
         }
 
+        // Varias tablas protegidas en un mismo SP (una sola transaccion): la DAL pide el calculador de
+        // cada tabla con Dvh(tabla) y, si sale bien, se rehacen los DVV de todas.
+        public static SQLUpdateResult Save(Func<DigitVerifierWriteMapper, DataTable> write, params string[] tables)
+        {
+            var digitVerifier = new DigitVerifierWriteMapper();
+            digitVerifier.EnsureConfigured(tables);
+            SQLUpdateResult result = MappingHandler.MapUpdateResult(write(digitVerifier));
+            if (result.sqlResult == SQLResultType.success)
+                digitVerifier.UpdateDvv(tables);
+            return result;
+        }
+
         // Baja: no hay DVH que calcular, pero cambia el DVV de cada tabla que pierde filas (la del
         // registro y las que se borran en cascada).
         public static SQLUpdateResult Remove(Func<DataTable> delete, params string[] tables)

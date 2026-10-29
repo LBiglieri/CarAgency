@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using CarAgency.DAL.Integrity;
 using CarAgency.DAL.Persistence;
 
@@ -93,6 +95,68 @@ namespace CarAgency.DAL.Acquisitions
                 new SqlParameter("@Verified_Kilometers", (object)verifiedKilometers ?? DBNull.Value),
                 new SqlParameter("@Result", (object)result ?? DBNull.Value),
                 new SqlParameter("@Observations", (object)observations ?? DBNull.Value));
+        }
+
+        public DataTable GetById(Guid id) { return Read("Acquisitions_GetById", new SqlParameter("@Id", id)); }
+        public DataTable GetScheduledInspections(Guid mechanicId) { return Read("Inspections_GetScheduledByMechanic", new SqlParameter("@Mechanic_Id", mechanicId)); }
+        public DataTable GetInspectionDetail(Guid id) { return Read("Inspections_GetDetail", new SqlParameter("@Id", id)); }
+        public DataTable GetInspectionItems() { return Read("InspectionItems_GetAll"); }
+
+        public DataTable GetInspectionPhotos(Guid inspectionId)
+        {
+            return Read("InspectionPhotos_GetByInspection", new SqlParameter("@Inspection_Id", inspectionId));
+        }
+
+        public DataTable AddInspectionPhoto(Guid id, Guid inspectionId, string fileName, byte[] fileContent, DateTime uploadedDate)
+        {
+            return Read("InspectionPhotos_Add",
+                new SqlParameter("@Id", id),
+                new SqlParameter("@Inspection_Id", inspectionId),
+                new SqlParameter("@FileName", fileName),
+                new SqlParameter("@FileContent", fileContent),
+                new SqlParameter("@UploadedDate", uploadedDate));
+        }
+
+        public DataTable DeleteInspectionPhoto(Guid id) { return Read("InspectionPhotos_Delete", new SqlParameter("@Id", id)); }
+
+        // Inspeccion, calificaciones y adquisicion van en un solo SP, dentro de una transaccion. Cada fila llega
+        // completa (columna -> valor) porque el DVH se calcula con todas; al SP solo viaja lo que cambia.
+        public DataTable RecordInspection(IDictionary<string, object> inspection, IList<IDictionary<string, object>> scores,
+            IDictionary<string, object> acquisition, DvhCalculator inspectionDvh, DvhCalculator scoreDvh, DvhCalculator acquisitionDvh)
+        {
+            DvhResult inspectionRow = inspectionDvh(inspection);
+            DvhResult acquisitionRow = acquisitionDvh(acquisition);
+            using (var scoreRows = new DataTable())
+            {
+                scoreRows.Columns.Add("InspectionItem_Id", typeof(Guid));
+                scoreRows.Columns.Add("Score", typeof(int));
+                scoreRows.Columns.Add("Observations", typeof(string));
+                scoreRows.Columns.Add("DVH", typeof(string));
+                foreach (IDictionary<string, object> score in scores)
+                {
+                    DvhResult scoreRow = scoreDvh(score);
+                    scoreRows.Rows.Add(Value(scoreRow, "InspectionItem_Id"), Value(scoreRow, "Score"), Value(scoreRow, "Observations"), scoreRow.Dvh);
+                }
+
+                return Read("Inspections_Record",
+                    new SqlParameter("@Id", Value(inspectionRow, "Id")),
+                    new SqlParameter("@Acquisition_Id", Value(inspectionRow, "Acquisition_Id")),
+                    new SqlParameter("@Performed_Date", SqlDbType.DateTime) { Value = Value(inspectionRow, "Performed_Date") },
+                    new SqlParameter("@Verified_Kilometers", SqlDbType.Int) { Value = Value(inspectionRow, "Verified_Kilometers") },
+                    new SqlParameter("@Result", SqlDbType.Int) { Value = Value(inspectionRow, "Result") },
+                    new SqlParameter("@Observations", SqlDbType.VarChar, -1) { Value = Value(inspectionRow, "Observations") },
+                    new SqlParameter("@DVH", SqlDbType.Char, 64) { Value = inspectionRow.Dvh },
+                    new SqlParameter("@Scores", SqlDbType.Structured) { TypeName = "dbo.InspectionScoreRows", Value = scoreRows },
+                    new SqlParameter("@Status", SqlDbType.Int) { Value = Value(acquisitionRow, "Status") },
+                    new SqlParameter("@Rejection_Reason", SqlDbType.Int) { Value = Value(acquisitionRow, "Rejection_Reason") },
+                    new SqlParameter("@Acquisition_DVH", SqlDbType.Char, 64) { Value = acquisitionRow.Dvh });
+            }
+        }
+
+        // Valor normalizado con el que se calculo el DVH: es el que tiene que quedar guardado.
+        private static object Value(DvhResult row, string column)
+        {
+            return row.Columns.Single(c => string.Equals(c.Name, column, StringComparison.OrdinalIgnoreCase)).Value ?? DBNull.Value;
         }
     }
 }

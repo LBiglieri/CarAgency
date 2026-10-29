@@ -2,6 +2,7 @@ using CarAgency.Security.Audit;
 using CarAgency.BE.Audit;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,10 @@ namespace CarAgency.BLL
         public const int WorkdayStartHour = 9;
         public const int WorkdayEndHour = 18;
         private const int NextFreeSlotSearchDays = 30;
+
+        // Fotografias de la inspeccion (CUF08 paso 5).
+        public const int MaxPhotoMegabytes = 5;
+        private static readonly string[] PhotoExtensions = { ".jpg", ".jpeg", ".png" };
 
         private AcquisitionMapper _acquisitionmapper;
         public AcquisitionBLL()
@@ -83,6 +88,96 @@ namespace CarAgency.BLL
             if (result != null && result.sqlResult == SQLResultType.success)
                 result = _acquisitionmapper.AddInspection(inspection);
             return RecordResult(result, AuditEventType.AcquisitionCreated, acquisition.Id);
+        }
+
+        // La fecha programada es orientativa: el mecanico ve todas sus inspecciones pendientes.
+        public List<ScheduledInspection> GetScheduledInspections()
+        {
+            return _acquisitionmapper.GetScheduledInspections(SessionHandler.Instance.GetId());
+        }
+        public InspectionDetail GetInspectionDetail(Guid Inspection_Id)
+        {
+            return _acquisitionmapper.GetInspectionDetail(Inspection_Id);
+        }
+        public List<InspectionItem> GetInspectionItems()
+        {
+            return _acquisitionmapper.GetInspectionItems();
+        }
+        public List<InspectionPhoto> GetInspectionPhotos(Guid Inspection_Id)
+        {
+            return _acquisitionmapper.GetInspectionPhotos(Inspection_Id);
+        }
+        // Las fotos se guardan a medida que se adjuntan: quedan con la inspeccion aunque no se confirme.
+        public SQLUpdateResult AddInspectionPhoto(InspectionPhoto photo)
+        {
+            ValidatePhoto(photo);
+            photo.Id = Guid.NewGuid();
+            photo.UploadedDate = DateTime.Now;
+            return _acquisitionmapper.AddInspectionPhoto(photo);
+        }
+        public SQLUpdateResult DeleteInspectionPhoto(InspectionPhoto photo)
+        {
+            return _acquisitionmapper.DeleteInspectionPhoto(photo);
+        }
+
+        // CUF08: Apto pasa la adquisicion a Inspeccionado y No apto a Rechazada (6.2).
+        public SQLUpdateResult RecordInspection(Inspection inspection)
+        {
+            if (inspection.Result != InspectionResult.Fit && inspection.Result != InspectionResult.Unfit)
+                throw new TranslatableException("PleaseSelectInspectionResult", "Seleccione el resultado de la inspeccion para continuar.");
+            if (inspection.Verified_Kilometers == null || inspection.Verified_Kilometers < 0)
+                throw new TranslatableException("PleaseWriteValidKilometers", "Escriba un kilometraje valido para continuar.");
+            if (GetInspectionItems().Any(item => inspection.Scores == null || !inspection.Scores.Any(s => s.InspectionItem_Id == item.Id)))
+                throw new TranslatableException("InspectionItemsNotScored", "Califique todos los items de la inspeccion para continuar.");
+            if (GetInspectionPhotos(inspection.Id) == null)
+                throw new TranslatableException("InspectionPhotoRequired", "Adjunte al menos una fotografia del vehiculo para continuar.");
+
+            Acquisition acquisition = GetScheduledAcquisition(inspection);
+            inspection.Performed_Date = DateTime.Now;
+            foreach (InspectionScore score in inspection.Scores)
+                score.Inspection_Id = inspection.Id;
+            if (inspection.Result == InspectionResult.Fit)
+                acquisition.Status = AcquisitionStatus.Inspected;
+            else
+            {
+                acquisition.Status = AcquisitionStatus.Rejected;
+                acquisition.Rejection_Reason = RejectionReason.InspectionUnfit;
+            }
+
+            SQLUpdateResult result = RecordResult(_acquisitionmapper.RecordInspection(inspection, acquisition), AuditEventType.InspectionRecorded, acquisition.Id);
+            if (acquisition.Status == AcquisitionStatus.Rejected)
+                result = RecordResult(result, AuditEventType.AcquisitionRejected, acquisition.Id);
+            return result;
+        }
+
+        // CUF08 2.1: el vehiculo no se presento. La inspeccion queda como ausencia, sin calificaciones,
+        // y la adquisicion se cancela: el vendedor tiene que iniciar otra con CUF07.
+        public SQLUpdateResult RegisterNoShow(Inspection inspection)
+        {
+            Acquisition acquisition = GetScheduledAcquisition(inspection);
+            inspection.Performed_Date = DateTime.Now;
+            inspection.Verified_Kilometers = null;
+            inspection.Result = InspectionResult.NoShow;
+            inspection.Scores = new List<InspectionScore>();
+            acquisition.Status = AcquisitionStatus.Cancelled;
+            return RecordResult(_acquisitionmapper.RecordInspection(inspection, acquisition), AuditEventType.AcquisitionCancelled, acquisition.Id);
+        }
+
+        // Solo el mecanico asignado registra la inspeccion, y una sola vez.
+        private Acquisition GetScheduledAcquisition(Inspection inspection)
+        {
+            Acquisition acquisition = _acquisitionmapper.GetById(inspection.Acquisition_Id);
+            if (acquisition == null || acquisition.Status != AcquisitionStatus.InspectionScheduled || inspection.Mechanic_Id != SessionHandler.Instance.GetId())
+                throw new TranslatableException("InspectionNotPending", "La inspeccion ya fue registrada o no esta asignada a este mecanico.");
+            return acquisition;
+        }
+
+        private static void ValidatePhoto(InspectionPhoto photo)
+        {
+            if (!PhotoExtensions.Contains(Path.GetExtension(photo.FileName).ToLowerInvariant()))
+                throw new TranslatableException("InvalidPhotoFormat", "Las fotografias tienen que ser archivos jpg o png.");
+            if (photo.FileContent.Length > MaxPhotoMegabytes * 1024 * 1024)
+                throw new TranslatableException("PhotoTooLarge", "Las fotografias no pueden superar los {0} MB.", MaxPhotoMegabytes);
         }
 
         private void ValidateInspectionSlot(DateTime Scheduled_Date)
