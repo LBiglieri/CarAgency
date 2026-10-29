@@ -43,6 +43,9 @@
             // 
             // metroGrid1
             // 
+            this.metroGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.metroGrid1.AllowUserToAddRows = false;
             this.metroGrid1.AllowUserToDeleteRows = false;
             this.metroGrid1.AllowUserToResizeRows = false;
@@ -86,12 +89,13 @@
             this.metroGrid1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.metroGrid1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.metroGrid1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.metroGrid1.Size = new System.Drawing.Size(1153, 528);
+            this.metroGrid1.Size = new System.Drawing.Size(1144, 263);
             this.metroGrid1.TabIndex = 2;
             this.metroGrid1.SelectionChanged += new System.EventHandler(this.metroGrid1_SelectionChanged);
             // 
             // panelPaperwokr
             // 
+            this.panelPaperwokr.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPaperwokr.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelPaperwokr.Controls.Add(this.clientView1);
             this.panelPaperwokr.Controls.Add(this.btnAddPaperwork);
@@ -100,9 +104,9 @@
             this.panelPaperwokr.HorizontalScrollbarBarColor = true;
             this.panelPaperwokr.HorizontalScrollbarHighlightOnWheel = false;
             this.panelPaperwokr.HorizontalScrollbarSize = 10;
-            this.panelPaperwokr.Location = new System.Drawing.Point(23, 63);
+            this.panelPaperwokr.Location = new System.Drawing.Point(20, 60);
             this.panelPaperwokr.Name = "panelPaperwokr";
-            this.panelPaperwokr.Size = new System.Drawing.Size(1192, 750);
+            this.panelPaperwokr.Size = new System.Drawing.Size(1180, 480);
             this.panelPaperwokr.TabIndex = 0;
             this.panelPaperwokr.Theme = MetroFramework.MetroThemeStyle.Light;
             this.panelPaperwokr.VerticalScrollbarBarColor = true;
@@ -142,7 +146,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1235, 837);
+            this.ClientSize = new System.Drawing.Size(1220, 560);
+            this.MinimumSize = new System.Drawing.Size(1220, 560);
             this.Controls.Add(this.panelPaperwokr);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ManagePaperworkForm";

@@ -44,7 +44,6 @@
             this.tbCUIL_CUIT_Client = new MetroFramework.Controls.MetroTextBox();
             this.clientView1 = new UI.Clients.Controls.ClientView();
             this.btnGenerateInvoice = new MetroFramework.Controls.MetroButton();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).BeginInit();
             this.ConfigureFamilies.SuspendLayout();
             this.InvoiceDetailsPanel.SuspendLayout();
@@ -52,6 +51,9 @@
             // 
             // metroGrid1
             // 
+            this.metroGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.metroGrid1.AllowUserToAddRows = false;
             this.metroGrid1.AllowUserToDeleteRows = false;
             this.metroGrid1.AllowUserToResizeRows = false;
@@ -95,12 +97,13 @@
             this.metroGrid1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.metroGrid1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.metroGrid1.Size = new System.Drawing.Size(750, 246);
+            this.metroGrid1.Size = new System.Drawing.Size(757, 208);
             this.metroGrid1.TabIndex = 5;
             this.metroGrid1.SelectionChanged += new System.EventHandler(this.metroGrid1_SelectionChanged);
             // 
             // ConfigureFamilies
             // 
+            this.ConfigureFamilies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ConfigureFamilies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ConfigureFamilies.Controls.Add(this.metroLabel1);
             this.ConfigureFamilies.Controls.Add(this.lblPriceToPay);
@@ -110,13 +113,12 @@
             this.ConfigureFamilies.Controls.Add(this.clientView1);
             this.ConfigureFamilies.Controls.Add(this.btnGenerateInvoice);
             this.ConfigureFamilies.Controls.Add(this.metroGrid1);
-            this.ConfigureFamilies.Controls.Add(this.metroButton1);
             this.ConfigureFamilies.HorizontalScrollbarBarColor = true;
             this.ConfigureFamilies.HorizontalScrollbarHighlightOnWheel = false;
             this.ConfigureFamilies.HorizontalScrollbarSize = 10;
-            this.ConfigureFamilies.Location = new System.Drawing.Point(23, 63);
+            this.ConfigureFamilies.Location = new System.Drawing.Point(20, 60);
             this.ConfigureFamilies.Name = "ConfigureFamilies";
-            this.ConfigureFamilies.Size = new System.Drawing.Size(789, 516);
+            this.ConfigureFamilies.Size = new System.Drawing.Size(796, 480);
             this.ConfigureFamilies.TabIndex = 0;
             this.ConfigureFamilies.Theme = MetroFramework.MetroThemeStyle.Light;
             this.ConfigureFamilies.VerticalScrollbarBarColor = true;
@@ -125,8 +127,9 @@
             // 
             // metroLabel1
             // 
+            this.metroLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(18, 479);
+            this.metroLabel1.Location = new System.Drawing.Point(18, 441);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(106, 19);
             this.metroLabel1.TabIndex = 7;
@@ -134,8 +137,9 @@
             // 
             // lblPriceToPay
             // 
+            this.lblPriceToPay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblPriceToPay.AutoSize = true;
-            this.lblPriceToPay.Location = new System.Drawing.Point(18, 455);
+            this.lblPriceToPay.Location = new System.Drawing.Point(18, 417);
             this.lblPriceToPay.Name = "lblPriceToPay";
             this.lblPriceToPay.Size = new System.Drawing.Size(81, 19);
             this.lblPriceToPay.TabIndex = 6;
@@ -277,8 +281,9 @@
             // 
             // btnGenerateInvoice
             // 
+            this.btnGenerateInvoice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGenerateInvoice.Enabled = false;
-            this.btnGenerateInvoice.Location = new System.Drawing.Point(599, 463);
+            this.btnGenerateInvoice.Location = new System.Drawing.Point(606, 425);
             this.btnGenerateInvoice.Name = "btnGenerateInvoice";
             this.btnGenerateInvoice.Size = new System.Drawing.Size(169, 35);
             this.btnGenerateInvoice.TabIndex = 8;
@@ -287,20 +292,12 @@
             this.btnGenerateInvoice.UseSelectable = true;
             this.btnGenerateInvoice.Click += new System.EventHandler(this.btnGenerateInvoice_Click);
             // 
-            // metroButton1
-            // 
-            this.metroButton1.Location = new System.Drawing.Point(762, 128);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(10, 24);
-            this.metroButton1.TabIndex = 2;
-            this.metroButton1.Text = "Delete Payment";
-            this.metroButton1.UseSelectable = true;
-            // 
             // GenerateInvoiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(836, 600);
+            this.ClientSize = new System.Drawing.Size(836, 560);
+            this.MinimumSize = new System.Drawing.Size(836, 560);
             this.Controls.Add(this.ConfigureFamilies);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GenerateInvoiceForm";
@@ -328,6 +325,5 @@
         private MetroFramework.Controls.MetroButton btnDeletePayment;
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private MetroFramework.Controls.MetroLabel lblPriceToPay;
-        private MetroFramework.Controls.MetroButton metroButton1;
     }
 }

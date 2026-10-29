@@ -81,7 +81,7 @@
             this.Patents.HorizontalScrollbarSize = 10;
             this.Patents.Location = new System.Drawing.Point(23, 63);
             this.Patents.Name = "Patents";
-            this.Patents.Size = new System.Drawing.Size(357, 568);
+            this.Patents.Size = new System.Drawing.Size(357, 477);
             this.Patents.TabIndex = 0;
             this.Patents.Theme = MetroFramework.MetroThemeStyle.Light;
             this.Patents.VerticalScrollbarBarColor = true;
@@ -97,9 +97,9 @@
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(23, 379);
+            this.metroPanel1.Location = new System.Drawing.Point(23, 323);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(307, 162);
+            this.metroPanel1.Size = new System.Drawing.Size(307, 135);
             this.metroPanel1.TabIndex = 7;
             this.metroPanel1.Theme = MetroFramework.MetroThemeStyle.Light;
             this.metroPanel1.VerticalScrollbarBarColor = true;
@@ -110,7 +110,7 @@
             // 
             this.comboDeletePatent.FormattingEnabled = true;
             this.comboDeletePatent.ItemHeight = 23;
-            this.comboDeletePatent.Location = new System.Drawing.Point(23, 63);
+            this.comboDeletePatent.Location = new System.Drawing.Point(23, 50);
             this.comboDeletePatent.Name = "comboDeletePatent";
             this.comboDeletePatent.Size = new System.Drawing.Size(259, 29);
             this.comboDeletePatent.TabIndex = 5;
@@ -118,7 +118,7 @@
             // 
             // btnDeletePatent
             // 
-            this.btnDeletePatent.Location = new System.Drawing.Point(75, 112);
+            this.btnDeletePatent.Location = new System.Drawing.Point(75, 95);
             this.btnDeletePatent.Name = "btnDeletePatent";
             this.btnDeletePatent.Size = new System.Drawing.Size(153, 23);
             this.btnDeletePatent.TabIndex = 3;
@@ -151,7 +151,7 @@
             this.NewPatent.HorizontalScrollbarSize = 10;
             this.NewPatent.Location = new System.Drawing.Point(23, 141);
             this.NewPatent.Name = "NewPatent";
-            this.NewPatent.Size = new System.Drawing.Size(307, 225);
+            this.NewPatent.Size = new System.Drawing.Size(307, 172);
             this.NewPatent.TabIndex = 6;
             this.NewPatent.Theme = MetroFramework.MetroThemeStyle.Light;
             this.NewPatent.VerticalScrollbarBarColor = true;
@@ -162,7 +162,7 @@
             // 
             this.comboNewPatent.FormattingEnabled = true;
             this.comboNewPatent.ItemHeight = 23;
-            this.comboNewPatent.Location = new System.Drawing.Point(23, 63);
+            this.comboNewPatent.Location = new System.Drawing.Point(23, 50);
             this.comboNewPatent.Name = "comboNewPatent";
             this.comboNewPatent.Size = new System.Drawing.Size(259, 29);
             this.comboNewPatent.TabIndex = 5;
@@ -186,7 +186,7 @@
             this.tbNewPatent.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.tbNewPatent.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
             this.tbNewPatent.Lines = new string[0];
-            this.tbNewPatent.Location = new System.Drawing.Point(23, 118);
+            this.tbNewPatent.Location = new System.Drawing.Point(23, 87);
             this.tbNewPatent.MaxLength = 32767;
             this.tbNewPatent.Name = "tbNewPatent";
             this.tbNewPatent.PasswordChar = '\0';
@@ -207,7 +207,7 @@
             // 
             // btnAddNewPatent
             // 
-            this.btnAddNewPatent.Location = new System.Drawing.Point(75, 175);
+            this.btnAddNewPatent.Location = new System.Drawing.Point(75, 132);
             this.btnAddNewPatent.Name = "btnAddNewPatent";
             this.btnAddNewPatent.Size = new System.Drawing.Size(153, 23);
             this.btnAddNewPatent.TabIndex = 3;
@@ -275,7 +275,7 @@
             this.Families.HorizontalScrollbarSize = 10;
             this.Families.Location = new System.Drawing.Point(395, 63);
             this.Families.Name = "Families";
-            this.Families.Size = new System.Drawing.Size(357, 568);
+            this.Families.Size = new System.Drawing.Size(357, 477);
             this.Families.TabIndex = 7;
             this.Families.Theme = MetroFramework.MetroThemeStyle.Light;
             this.Families.VerticalScrollbarBarColor = true;
@@ -291,9 +291,9 @@
             this.metroPanel2.HorizontalScrollbarBarColor = true;
             this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel2.HorizontalScrollbarSize = 10;
-            this.metroPanel2.Location = new System.Drawing.Point(23, 329);
+            this.metroPanel2.Location = new System.Drawing.Point(23, 286);
             this.metroPanel2.Name = "metroPanel2";
-            this.metroPanel2.Size = new System.Drawing.Size(307, 159);
+            this.metroPanel2.Size = new System.Drawing.Size(307, 135);
             this.metroPanel2.TabIndex = 8;
             this.metroPanel2.Theme = MetroFramework.MetroThemeStyle.Light;
             this.metroPanel2.VerticalScrollbarBarColor = true;
@@ -304,7 +304,7 @@
             // 
             this.comboDeleteFamily.FormattingEnabled = true;
             this.comboDeleteFamily.ItemHeight = 23;
-            this.comboDeleteFamily.Location = new System.Drawing.Point(23, 63);
+            this.comboDeleteFamily.Location = new System.Drawing.Point(23, 50);
             this.comboDeleteFamily.Name = "comboDeleteFamily";
             this.comboDeleteFamily.Size = new System.Drawing.Size(259, 29);
             this.comboDeleteFamily.TabIndex = 5;
@@ -312,7 +312,7 @@
             // 
             // btnDeleteFamily
             // 
-            this.btnDeleteFamily.Location = new System.Drawing.Point(75, 112);
+            this.btnDeleteFamily.Location = new System.Drawing.Point(75, 95);
             this.btnDeleteFamily.Name = "btnDeleteFamily";
             this.btnDeleteFamily.Size = new System.Drawing.Size(153, 23);
             this.btnDeleteFamily.TabIndex = 3;
@@ -355,7 +355,7 @@
             this.NewFamily.HorizontalScrollbarSize = 10;
             this.NewFamily.Location = new System.Drawing.Point(23, 141);
             this.NewFamily.Name = "NewFamily";
-            this.NewFamily.Size = new System.Drawing.Size(307, 166);
+            this.NewFamily.Size = new System.Drawing.Size(307, 135);
             this.NewFamily.TabIndex = 6;
             this.NewFamily.Theme = MetroFramework.MetroThemeStyle.Light;
             this.NewFamily.VerticalScrollbarBarColor = true;
@@ -380,7 +380,7 @@
             this.tbNewFamily.FontSize = MetroFramework.MetroTextBoxSize.Tall;
             this.tbNewFamily.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
             this.tbNewFamily.Lines = new string[0];
-            this.tbNewFamily.Location = new System.Drawing.Point(23, 63);
+            this.tbNewFamily.Location = new System.Drawing.Point(23, 50);
             this.tbNewFamily.MaxLength = 32767;
             this.tbNewFamily.Name = "tbNewFamily";
             this.tbNewFamily.PasswordChar = '\0';
@@ -401,7 +401,7 @@
             // 
             // btnAddNewFamily
             // 
-            this.btnAddNewFamily.Location = new System.Drawing.Point(72, 118);
+            this.btnAddNewFamily.Location = new System.Drawing.Point(72, 95);
             this.btnAddNewFamily.Name = "btnAddNewFamily";
             this.btnAddNewFamily.Size = new System.Drawing.Size(153, 23);
             this.btnAddNewFamily.TabIndex = 3;
@@ -466,7 +466,7 @@
             this.ConfigureFamilies.HorizontalScrollbarSize = 10;
             this.ConfigureFamilies.Location = new System.Drawing.Point(767, 63);
             this.ConfigureFamilies.Name = "ConfigureFamilies";
-            this.ConfigureFamilies.Size = new System.Drawing.Size(357, 567);
+            this.ConfigureFamilies.Size = new System.Drawing.Size(357, 477);
             this.ConfigureFamilies.TabIndex = 8;
             this.ConfigureFamilies.Theme = MetroFramework.MetroThemeStyle.Light;
             this.ConfigureFamilies.VerticalScrollbarBarColor = true;
@@ -477,12 +477,12 @@
             // 
             this.treeFamily.Location = new System.Drawing.Point(23, 53);
             this.treeFamily.Name = "treeFamily";
-            this.treeFamily.Size = new System.Drawing.Size(313, 462);
+            this.treeFamily.Size = new System.Drawing.Size(313, 370);
             this.treeFamily.TabIndex = 8;
             // 
             // btnSaveFamily
             // 
-            this.btnSaveFamily.Location = new System.Drawing.Point(103, 525);
+            this.btnSaveFamily.Location = new System.Drawing.Point(103, 433);
             this.btnSaveFamily.Name = "btnSaveFamily";
             this.btnSaveFamily.Size = new System.Drawing.Size(150, 23);
             this.btnSaveFamily.TabIndex = 7;
@@ -507,7 +507,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1148, 653);
+            this.ClientSize = new System.Drawing.Size(1148, 560);
             this.Controls.Add(this.ConfigureFamilies);
             this.Controls.Add(this.Families);
             this.Controls.Add(this.Patents);

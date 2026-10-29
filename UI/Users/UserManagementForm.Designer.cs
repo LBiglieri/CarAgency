@@ -57,6 +57,7 @@
             // 
             // Users
             // 
+            this.Users.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Users.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Users.Controls.Add(this.comboFamily);
             this.Users.Controls.Add(this.tbDniUser);
@@ -76,9 +77,9 @@
             this.Users.HorizontalScrollbarBarColor = true;
             this.Users.HorizontalScrollbarHighlightOnWheel = false;
             this.Users.HorizontalScrollbarSize = 10;
-            this.Users.Location = new System.Drawing.Point(23, 63);
+            this.Users.Location = new System.Drawing.Point(20, 60);
             this.Users.Name = "Users";
-            this.Users.Size = new System.Drawing.Size(1068, 597);
+            this.Users.Size = new System.Drawing.Size(1074, 480);
             this.Users.TabIndex = 0;
             this.Users.Theme = MetroFramework.MetroThemeStyle.Light;
             this.Users.VerticalScrollbarBarColor = true;
@@ -87,9 +88,10 @@
             // 
             // comboFamily
             // 
+            this.comboFamily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.comboFamily.FormattingEnabled = true;
             this.comboFamily.ItemHeight = 23;
-            this.comboFamily.Location = new System.Drawing.Point(23, 546);
+            this.comboFamily.Location = new System.Drawing.Point(23, 431);
             this.comboFamily.Name = "comboFamily";
             this.comboFamily.Size = new System.Drawing.Size(294, 29);
             this.comboFamily.TabIndex = 15;
@@ -97,6 +99,7 @@
             // 
             // tbDniUser
             // 
+            this.tbDniUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // 
             // 
@@ -111,7 +114,7 @@
             this.tbDniUser.CustomButton.Visible = false;
             this.tbDniUser.Icon = global::UI.Properties.Resources.user__1_;
             this.tbDniUser.Lines = new string[0];
-            this.tbDniUser.Location = new System.Drawing.Point(23, 430);
+            this.tbDniUser.Location = new System.Drawing.Point(23, 315);
             this.tbDniUser.MaxLength = 32767;
             this.tbDniUser.Name = "tbDniUser";
             this.tbDniUser.PasswordChar = '\0';
@@ -131,9 +134,10 @@
             // 
             // chkActive
             // 
+            this.chkActive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkActive.AutoSize = true;
             this.chkActive.Enabled = false;
-            this.chkActive.Location = new System.Drawing.Point(353, 560);
+            this.chkActive.Location = new System.Drawing.Point(353, 445);
             this.chkActive.Name = "chkActive";
             this.chkActive.Size = new System.Drawing.Size(56, 15);
             this.chkActive.TabIndex = 8;
@@ -143,9 +147,10 @@
             // 
             // chkBlocked
             // 
+            this.chkBlocked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkBlocked.AutoSize = true;
             this.chkBlocked.Enabled = false;
-            this.chkBlocked.Location = new System.Drawing.Point(353, 531);
+            this.chkBlocked.Location = new System.Drawing.Point(353, 416);
             this.chkBlocked.Name = "chkBlocked";
             this.chkBlocked.Size = new System.Drawing.Size(65, 15);
             this.chkBlocked.TabIndex = 7;
@@ -155,6 +160,7 @@
             // 
             // tbSurnameU
             // 
+            this.tbSurnameU.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // 
             // 
@@ -169,7 +175,7 @@
             this.tbSurnameU.CustomButton.Visible = false;
             this.tbSurnameU.Icon = global::UI.Properties.Resources.user__1_;
             this.tbSurnameU.Lines = new string[0];
-            this.tbSurnameU.Location = new System.Drawing.Point(23, 517);
+            this.tbSurnameU.Location = new System.Drawing.Point(23, 402);
             this.tbSurnameU.MaxLength = 32767;
             this.tbSurnameU.Name = "tbSurnameU";
             this.tbSurnameU.PasswordChar = '\0';
@@ -189,6 +195,7 @@
             // 
             // tbNameU
             // 
+            this.tbNameU.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // 
             // 
@@ -203,7 +210,7 @@
             this.tbNameU.CustomButton.Visible = false;
             this.tbNameU.Icon = global::UI.Properties.Resources.user__1_;
             this.tbNameU.Lines = new string[0];
-            this.tbNameU.Location = new System.Drawing.Point(23, 488);
+            this.tbNameU.Location = new System.Drawing.Point(23, 373);
             this.tbNameU.MaxLength = 32767;
             this.tbNameU.Name = "tbNameU";
             this.tbNameU.PasswordChar = '\0';
@@ -223,6 +230,7 @@
             // 
             // tbUsername
             // 
+            this.tbUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             // 
             // 
             // 
@@ -237,7 +245,7 @@
             this.tbUsername.CustomButton.Visible = false;
             this.tbUsername.Icon = global::UI.Properties.Resources.user__1_;
             this.tbUsername.Lines = new string[0];
-            this.tbUsername.Location = new System.Drawing.Point(23, 459);
+            this.tbUsername.Location = new System.Drawing.Point(23, 344);
             this.tbUsername.MaxLength = 32767;
             this.tbUsername.Name = "tbUsername";
             this.tbUsername.PasswordChar = '\0';
@@ -257,7 +265,8 @@
             // 
             // btnCancelOpp
             // 
-            this.btnCancelOpp.Location = new System.Drawing.Point(893, 540);
+            this.btnCancelOpp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelOpp.Location = new System.Drawing.Point(899, 425);
             this.btnCancelOpp.Name = "btnCancelOpp";
             this.btnCancelOpp.Size = new System.Drawing.Size(153, 35);
             this.btnCancelOpp.TabIndex = 14;
@@ -268,7 +277,8 @@
             // 
             // btnApplyOpp
             // 
-            this.btnApplyOpp.Location = new System.Drawing.Point(893, 487);
+            this.btnApplyOpp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnApplyOpp.Location = new System.Drawing.Point(899, 372);
             this.btnApplyOpp.Name = "btnApplyOpp";
             this.btnApplyOpp.Size = new System.Drawing.Size(153, 35);
             this.btnApplyOpp.TabIndex = 13;
@@ -279,7 +289,8 @@
             // 
             // btnUnblockUser
             // 
-            this.btnUnblockUser.Location = new System.Drawing.Point(893, 195);
+            this.btnUnblockUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUnblockUser.Location = new System.Drawing.Point(899, 195);
             this.btnUnblockUser.Name = "btnUnblockUser";
             this.btnUnblockUser.Size = new System.Drawing.Size(153, 35);
             this.btnUnblockUser.TabIndex = 12;
@@ -290,7 +301,8 @@
             // 
             // btnDeleteUser
             // 
-            this.btnDeleteUser.Location = new System.Drawing.Point(893, 154);
+            this.btnDeleteUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDeleteUser.Location = new System.Drawing.Point(899, 154);
             this.btnDeleteUser.Name = "btnDeleteUser";
             this.btnDeleteUser.Size = new System.Drawing.Size(153, 35);
             this.btnDeleteUser.TabIndex = 11;
@@ -340,7 +352,8 @@
             // 
             // btnUpdateUser
             // 
-            this.btnUpdateUser.Location = new System.Drawing.Point(893, 113);
+            this.btnUpdateUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdateUser.Location = new System.Drawing.Point(899, 113);
             this.btnUpdateUser.Name = "btnUpdateUser";
             this.btnUpdateUser.Size = new System.Drawing.Size(153, 35);
             this.btnUpdateUser.TabIndex = 10;
@@ -351,6 +364,9 @@
             // 
             // metroGrid1
             // 
+            this.metroGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.metroGrid1.AllowUserToAddRows = false;
             this.metroGrid1.AllowUserToDeleteRows = false;
             this.metroGrid1.AllowUserToResizeRows = false;
@@ -393,13 +409,14 @@
             this.metroGrid1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.metroGrid1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.metroGrid1.Size = new System.Drawing.Size(847, 342);
+            this.metroGrid1.Size = new System.Drawing.Size(853, 227);
             this.metroGrid1.TabIndex = 1;
             this.metroGrid1.SelectionChanged += new System.EventHandler(this.metroGrid1_SelectionChanged);
             // 
             // btnAddUser
             // 
-            this.btnAddUser.Location = new System.Drawing.Point(893, 72);
+            this.btnAddUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddUser.Location = new System.Drawing.Point(899, 72);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(153, 35);
             this.btnAddUser.TabIndex = 9;
@@ -412,12 +429,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1114, 683);
+            this.ClientSize = new System.Drawing.Size(1114, 560);
+            this.MinimumSize = new System.Drawing.Size(1114, 560);
             this.Controls.Add(this.Users);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
             this.Name = "UserManagementForm";
-            this.Resizable = false;
             this.Tag = "UserManagementForm";
             this.Text = "User Management";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UserManagementForm_FormClosing);

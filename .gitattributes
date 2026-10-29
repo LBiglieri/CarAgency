@@ -61,3 +61,6 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+# El script de la base se copia byte a byte: convertir sus fines de linea alteraria datos con DVH.
+Database/CarAgency.sql -text

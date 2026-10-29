@@ -405,11 +405,6 @@ namespace UI.Vehicles
             }
         }
 
-        private void metroButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void PaperworkForm_FormClosed(object sender, FormClosedEventArgs e)
         {
 

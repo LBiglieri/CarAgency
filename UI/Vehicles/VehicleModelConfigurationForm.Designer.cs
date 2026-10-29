@@ -87,7 +87,7 @@
             this.ConfigureFamilies.HorizontalScrollbarSize = 10;
             this.ConfigureFamilies.Location = new System.Drawing.Point(767, 63);
             this.ConfigureFamilies.Name = "ConfigureFamilies";
-            this.ConfigureFamilies.Size = new System.Drawing.Size(357, 516);
+            this.ConfigureFamilies.Size = new System.Drawing.Size(357, 477);
             this.ConfigureFamilies.TabIndex = 11;
             this.ConfigureFamilies.Theme = MetroFramework.MetroThemeStyle.Light;
             this.ConfigureFamilies.VerticalScrollbarBarColor = true;
@@ -105,7 +105,7 @@
             this.metroPanel3.HorizontalScrollbarBarColor = true;
             this.metroPanel3.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel3.HorizontalScrollbarSize = 10;
-            this.metroPanel3.Location = new System.Drawing.Point(23, 287);
+            this.metroPanel3.Location = new System.Drawing.Point(23, 259);
             this.metroPanel3.Name = "metroPanel3";
             this.metroPanel3.Size = new System.Drawing.Size(307, 206);
             this.metroPanel3.TabIndex = 10;
@@ -180,9 +180,9 @@
             this.metroPanel4.HorizontalScrollbarBarColor = true;
             this.metroPanel4.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel4.HorizontalScrollbarSize = 10;
-            this.metroPanel4.Location = new System.Drawing.Point(23, 53);
+            this.metroPanel4.Location = new System.Drawing.Point(23, 45);
             this.metroPanel4.Name = "metroPanel4";
-            this.metroPanel4.Size = new System.Drawing.Size(307, 216);
+            this.metroPanel4.Size = new System.Drawing.Size(307, 206);
             this.metroPanel4.TabIndex = 9;
             this.metroPanel4.Theme = MetroFramework.MetroThemeStyle.Light;
             this.metroPanel4.VerticalScrollbarBarColor = true;
@@ -294,7 +294,7 @@
             this.Families.HorizontalScrollbarSize = 10;
             this.Families.Location = new System.Drawing.Point(395, 63);
             this.Families.Name = "Families";
-            this.Families.Size = new System.Drawing.Size(357, 516);
+            this.Families.Size = new System.Drawing.Size(357, 477);
             this.Families.TabIndex = 10;
             this.Families.Theme = MetroFramework.MetroThemeStyle.Light;
             this.Families.VerticalScrollbarBarColor = true;
@@ -311,7 +311,7 @@
             this.metroPanel2.HorizontalScrollbarBarColor = true;
             this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel2.HorizontalScrollbarSize = 10;
-            this.metroPanel2.Location = new System.Drawing.Point(23, 245);
+            this.metroPanel2.Location = new System.Drawing.Point(23, 237);
             this.metroPanel2.Name = "metroPanel2";
             this.metroPanel2.Size = new System.Drawing.Size(307, 182);
             this.metroPanel2.TabIndex = 8;
@@ -374,7 +374,7 @@
             this.NewFamily.HorizontalScrollbarBarColor = true;
             this.NewFamily.HorizontalScrollbarHighlightOnWheel = false;
             this.NewFamily.HorizontalScrollbarSize = 10;
-            this.NewFamily.Location = new System.Drawing.Point(23, 53);
+            this.NewFamily.Location = new System.Drawing.Point(23, 45);
             this.NewFamily.Name = "NewFamily";
             this.NewFamily.Size = new System.Drawing.Size(307, 176);
             this.NewFamily.TabIndex = 6;
@@ -476,7 +476,7 @@
             this.Patents.HorizontalScrollbarSize = 10;
             this.Patents.Location = new System.Drawing.Point(23, 63);
             this.Patents.Name = "Patents";
-            this.Patents.Size = new System.Drawing.Size(357, 516);
+            this.Patents.Size = new System.Drawing.Size(357, 477);
             this.Patents.TabIndex = 9;
             this.Patents.Theme = MetroFramework.MetroThemeStyle.Light;
             this.Patents.VerticalScrollbarBarColor = true;
@@ -492,7 +492,7 @@
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(23, 211);
+            this.metroPanel1.Location = new System.Drawing.Point(23, 203);
             this.metroPanel1.Name = "metroPanel1";
             this.metroPanel1.Size = new System.Drawing.Size(307, 155);
             this.metroPanel1.TabIndex = 7;
@@ -543,7 +543,7 @@
             this.NewPatent.HorizontalScrollbarBarColor = true;
             this.NewPatent.HorizontalScrollbarHighlightOnWheel = false;
             this.NewPatent.HorizontalScrollbarSize = 10;
-            this.NewPatent.Location = new System.Drawing.Point(23, 53);
+            this.NewPatent.Location = new System.Drawing.Point(23, 45);
             this.NewPatent.Name = "NewPatent";
             this.NewPatent.Size = new System.Drawing.Size(307, 142);
             this.NewPatent.TabIndex = 6;
@@ -628,7 +628,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1148, 606);
+            this.ClientSize = new System.Drawing.Size(1148, 560);
+            this.Resizable = false;
+            this.MaximizeBox = false;
             this.Controls.Add(this.ConfigureFamilies);
             this.Controls.Add(this.Families);
             this.Controls.Add(this.Patents);

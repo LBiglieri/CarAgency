@@ -20,6 +20,9 @@ namespace CarAgency.UI
         {
             AuditBLL.RequireAccess();
             InitializeComponent();
+            // El diseñador no persiste estas dos propiedades: si estuvieran en el Designer se perderían al guardarlo.
+            metroGrid1.AutoGenerateColumns = false;
+            printDocument1.DefaultPageSettings.Landscape = true;
             _auditBLL = new AuditBLL();
 
             PerformFillModulesCombo();

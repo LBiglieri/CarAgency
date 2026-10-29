@@ -39,9 +39,6 @@
             // 
             // LoginPanel
             // 
-            this.LoginPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.LoginPanel.Controls.Add(this.tbOldPassword);
             this.LoginPanel.Controls.Add(this.tbNewPassword);
             this.LoginPanel.Controls.Add(this.btnChangePassword);

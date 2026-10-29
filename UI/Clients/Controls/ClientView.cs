@@ -64,6 +64,21 @@ namespace UI.Clients.Controls
 
         private void tbDni_Leave(object sender, EventArgs e)
         {
+            SearchClient();
+        }
+
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            bool handled = base.ProcessDialogKey(keyData);
+            // Si tbDni es el único control habilitado del form (GenerateInvoiceForm), Tab no le saca el foco
+            // y Leave nunca se dispara: con Enter o Tab se busca igual.
+            if ((keyData == Keys.Enter || keyData == Keys.Tab) && tbDni.ContainsFocus)
+                SearchClient();
+            return handled;
+        }
+
+        private void SearchClient()
+        {
             try
             {
                 int dni;

@@ -62,7 +62,7 @@
             // lblMake
             // 
             this.lblMake.AutoSize = true;
-            this.lblMake.Location = new System.Drawing.Point(252, 7);
+            this.lblMake.Location = new System.Drawing.Point(195, 7);
             this.lblMake.Name = "lblMake";
             this.lblMake.Size = new System.Drawing.Size(44, 19);
             this.lblMake.TabIndex = 1;
@@ -74,9 +74,9 @@
             // 
             this.comboMake.FormattingEnabled = true;
             this.comboMake.ItemHeight = 23;
-            this.comboMake.Location = new System.Drawing.Point(299, 5);
+            this.comboMake.Location = new System.Drawing.Point(242, 5);
             this.comboMake.Name = "comboMake";
-            this.comboMake.Size = new System.Drawing.Size(259, 29);
+            this.comboMake.Size = new System.Drawing.Size(209, 29);
             this.comboMake.TabIndex = 2;
             this.comboMake.UseSelectable = true;
             this.comboMake.SelectedIndexChanged += new System.EventHandler(this.comboDeleteVersionMake_SelectedIndexChanged);
@@ -85,9 +85,9 @@
             // 
             this.comboModel.FormattingEnabled = true;
             this.comboModel.ItemHeight = 23;
-            this.comboModel.Location = new System.Drawing.Point(299, 40);
+            this.comboModel.Location = new System.Drawing.Point(242, 40);
             this.comboModel.Name = "comboModel";
-            this.comboModel.Size = new System.Drawing.Size(259, 29);
+            this.comboModel.Size = new System.Drawing.Size(209, 29);
             this.comboModel.TabIndex = 4;
             this.comboModel.UseSelectable = true;
             this.comboModel.SelectedIndexChanged += new System.EventHandler(this.comboDeleteVersionModel_SelectedIndexChanged);
@@ -96,9 +96,9 @@
             // 
             this.comboVersions.FormattingEnabled = true;
             this.comboVersions.ItemHeight = 23;
-            this.comboVersions.Location = new System.Drawing.Point(299, 75);
+            this.comboVersions.Location = new System.Drawing.Point(242, 75);
             this.comboVersions.Name = "comboVersions";
-            this.comboVersions.Size = new System.Drawing.Size(259, 29);
+            this.comboVersions.Size = new System.Drawing.Size(209, 29);
             this.comboVersions.TabIndex = 6;
             this.comboVersions.UseSelectable = true;
             this.comboVersions.SelectedIndexChanged += new System.EventHandler(this.comboVersions_SelectedIndexChanged);
@@ -107,15 +107,18 @@
             // 
             this.comboColour.FormattingEnabled = true;
             this.comboColour.ItemHeight = 23;
-            this.comboColour.Location = new System.Drawing.Point(299, 110);
+            this.comboColour.Location = new System.Drawing.Point(242, 110);
             this.comboColour.Name = "comboColour";
-            this.comboColour.Size = new System.Drawing.Size(259, 29);
+            this.comboColour.Size = new System.Drawing.Size(209, 29);
             this.comboColour.TabIndex = 8;
             this.comboColour.UseSelectable = true;
             this.comboColour.SelectedIndexChanged += new System.EventHandler(this.comboColour_SelectedIndexChanged);
             // 
             // metroGrid1
             // 
+            this.metroGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.metroGrid1.AllowUserToAddRows = false;
             this.metroGrid1.AllowUserToDeleteRows = false;
             this.metroGrid1.AllowUserToResizeRows = false;
@@ -143,7 +146,7 @@
             this.metroGrid1.EnableHeadersVisualStyles = false;
             this.metroGrid1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.metroGrid1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGrid1.Location = new System.Drawing.Point(18, 171);
+            this.metroGrid1.Location = new System.Drawing.Point(18, 161);
             this.metroGrid1.MultiSelect = false;
             this.metroGrid1.Name = "metroGrid1";
             this.metroGrid1.ReadOnly = true;
@@ -158,12 +161,13 @@
             this.metroGrid1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.metroGrid1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.metroGrid1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.metroGrid1.Size = new System.Drawing.Size(1153, 528);
+            this.metroGrid1.Size = new System.Drawing.Size(1144, 249);
             this.metroGrid1.TabIndex = 2;
             this.metroGrid1.SelectionChanged += new System.EventHandler(this.metroGrid1_SelectionChanged);
             // 
             // ConfigureFamilies
             // 
+            this.ConfigureFamilies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ConfigureFamilies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ConfigureFamilies.Controls.Add(this.metroPanel1);
             this.ConfigureFamilies.Controls.Add(this.clientView1);
@@ -172,9 +176,9 @@
             this.ConfigureFamilies.HorizontalScrollbarBarColor = true;
             this.ConfigureFamilies.HorizontalScrollbarHighlightOnWheel = false;
             this.ConfigureFamilies.HorizontalScrollbarSize = 10;
-            this.ConfigureFamilies.Location = new System.Drawing.Point(23, 63);
+            this.ConfigureFamilies.Location = new System.Drawing.Point(20, 60);
             this.ConfigureFamilies.Name = "ConfigureFamilies";
-            this.ConfigureFamilies.Size = new System.Drawing.Size(1322, 777);
+            this.ConfigureFamilies.Size = new System.Drawing.Size(1180, 480);
             this.ConfigureFamilies.TabIndex = 0;
             this.ConfigureFamilies.Theme = MetroFramework.MetroThemeStyle.Light;
             this.ConfigureFamilies.VerticalScrollbarBarColor = true;
@@ -204,9 +208,9 @@
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(421, 20);
+            this.metroPanel1.Location = new System.Drawing.Point(390, 10);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(873, 145);
+            this.metroPanel1.Size = new System.Drawing.Size(766, 145);
             this.metroPanel1.TabIndex = 1;
             this.metroPanel1.Theme = MetroFramework.MetroThemeStyle.Light;
             this.metroPanel1.VerticalScrollbarBarColor = true;
@@ -242,7 +246,7 @@
             this.tbDoorsTo.CustomButton.Visible = false;
             this.tbDoorsTo.Icon = global::UI.Properties.Resources.user__1_;
             this.tbDoorsTo.Lines = new string[0];
-            this.tbDoorsTo.Location = new System.Drawing.Point(722, 114);
+            this.tbDoorsTo.Location = new System.Drawing.Point(615, 114);
             this.tbDoorsTo.MaxLength = 32767;
             this.tbDoorsTo.Name = "tbDoorsTo";
             this.tbDoorsTo.PasswordChar = '\0';
@@ -277,7 +281,7 @@
             this.tbDoorsFrom.CustomButton.Visible = false;
             this.tbDoorsFrom.Icon = global::UI.Properties.Resources.user__1_;
             this.tbDoorsFrom.Lines = new string[0];
-            this.tbDoorsFrom.Location = new System.Drawing.Point(588, 114);
+            this.tbDoorsFrom.Location = new System.Drawing.Point(481, 114);
             this.tbDoorsFrom.MaxLength = 32767;
             this.tbDoorsFrom.Name = "tbDoorsFrom";
             this.tbDoorsFrom.PasswordChar = '\0';
@@ -313,7 +317,7 @@
             this.tbYearFrom.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.tbYearFrom.Icon = global::UI.Properties.Resources.user__1_;
             this.tbYearFrom.Lines = new string[0];
-            this.tbYearFrom.Location = new System.Drawing.Point(588, 7);
+            this.tbYearFrom.Location = new System.Drawing.Point(481, 7);
             this.tbYearFrom.MaxLength = 4;
             this.tbYearFrom.Name = "tbYearFrom";
             this.tbYearFrom.PasswordChar = '\0';
@@ -348,7 +352,7 @@
             this.tbPriceTo.CustomButton.Visible = false;
             this.tbPriceTo.Icon = global::UI.Properties.Resources.user__1_;
             this.tbPriceTo.Lines = new string[0];
-            this.tbPriceTo.Location = new System.Drawing.Point(722, 79);
+            this.tbPriceTo.Location = new System.Drawing.Point(615, 79);
             this.tbPriceTo.MaxLength = 32767;
             this.tbPriceTo.Name = "tbPriceTo";
             this.tbPriceTo.PasswordChar = '\0';
@@ -383,7 +387,7 @@
             this.tbPriceFrom.CustomButton.Visible = false;
             this.tbPriceFrom.Icon = global::UI.Properties.Resources.user__1_;
             this.tbPriceFrom.Lines = new string[0];
-            this.tbPriceFrom.Location = new System.Drawing.Point(588, 79);
+            this.tbPriceFrom.Location = new System.Drawing.Point(481, 79);
             this.tbPriceFrom.MaxLength = 32767;
             this.tbPriceFrom.Name = "tbPriceFrom";
             this.tbPriceFrom.PasswordChar = '\0';
@@ -418,7 +422,7 @@
             this.tbKilometersTo.CustomButton.Visible = false;
             this.tbKilometersTo.Icon = global::UI.Properties.Resources.user__1_;
             this.tbKilometersTo.Lines = new string[0];
-            this.tbKilometersTo.Location = new System.Drawing.Point(722, 43);
+            this.tbKilometersTo.Location = new System.Drawing.Point(615, 43);
             this.tbKilometersTo.MaxLength = 32767;
             this.tbKilometersTo.Name = "tbKilometersTo";
             this.tbKilometersTo.PasswordChar = '\0';
@@ -453,7 +457,7 @@
             this.tbKilometersFrom.CustomButton.Visible = false;
             this.tbKilometersFrom.Icon = global::UI.Properties.Resources.user__1_;
             this.tbKilometersFrom.Lines = new string[0];
-            this.tbKilometersFrom.Location = new System.Drawing.Point(588, 43);
+            this.tbKilometersFrom.Location = new System.Drawing.Point(481, 43);
             this.tbKilometersFrom.MaxLength = 32767;
             this.tbKilometersFrom.Name = "tbKilometersFrom";
             this.tbKilometersFrom.PasswordChar = '\0';
@@ -489,7 +493,7 @@
             this.tbYearTo.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.tbYearTo.Icon = global::UI.Properties.Resources.user__1_;
             this.tbYearTo.Lines = new string[0];
-            this.tbYearTo.Location = new System.Drawing.Point(722, 7);
+            this.tbYearTo.Location = new System.Drawing.Point(615, 7);
             this.tbYearTo.MaxLength = 4;
             this.tbYearTo.Name = "tbYearTo";
             this.tbYearTo.PasswordChar = '\0';
@@ -511,7 +515,7 @@
             // lblModel
             // 
             this.lblModel.AutoSize = true;
-            this.lblModel.Location = new System.Drawing.Point(249, 45);
+            this.lblModel.Location = new System.Drawing.Point(192, 45);
             this.lblModel.Name = "lblModel";
             this.lblModel.Size = new System.Drawing.Size(50, 19);
             this.lblModel.TabIndex = 3;
@@ -522,7 +526,7 @@
             // lblColour
             // 
             this.lblColour.AutoSize = true;
-            this.lblColour.Location = new System.Drawing.Point(245, 114);
+            this.lblColour.Location = new System.Drawing.Point(188, 114);
             this.lblColour.Name = "lblColour";
             this.lblColour.Size = new System.Drawing.Size(53, 19);
             this.lblColour.TabIndex = 7;
@@ -533,7 +537,7 @@
             // lblVersion
             // 
             this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(244, 80);
+            this.lblVersion.Location = new System.Drawing.Point(187, 80);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(54, 19);
             this.lblVersion.TabIndex = 5;
@@ -544,14 +548,15 @@
             // 
             // clientView1
             // 
-            this.clientView1.Location = new System.Drawing.Point(18, 20);
+            this.clientView1.Location = new System.Drawing.Point(18, 10);
             this.clientView1.Name = "clientView1";
             this.clientView1.Size = new System.Drawing.Size(363, 132);
             this.clientView1.TabIndex = 0;
             // 
             // btnGenerateReservation
             // 
-            this.btnGenerateReservation.Location = new System.Drawing.Point(1125, 716);
+            this.btnGenerateReservation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGenerateReservation.Location = new System.Drawing.Point(993, 427);
             this.btnGenerateReservation.Name = "btnGenerateReservation";
             this.btnGenerateReservation.Size = new System.Drawing.Size(169, 35);
             this.btnGenerateReservation.TabIndex = 3;
@@ -564,7 +569,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1368, 865);
+            this.ClientSize = new System.Drawing.Size(1220, 560);
+            this.MinimumSize = new System.Drawing.Size(1220, 560);
             this.Controls.Add(this.ConfigureFamilies);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GenerateReservationForm";

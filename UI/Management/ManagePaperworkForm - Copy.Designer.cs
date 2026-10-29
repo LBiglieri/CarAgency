@@ -48,7 +48,6 @@
             this.clientView1 = new UI.Clients.Controls.ClientView();
             this.btnFinishPaperwork = new MetroFramework.Controls.MetroButton();
             this.btnSavePaperwork = new MetroFramework.Controls.MetroButton();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).BeginInit();
             this.panelPaperwokr.SuspendLayout();
             this.metroPanel1.SuspendLayout();
@@ -99,7 +98,7 @@
             this.metroGrid1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.metroGrid1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.metroGrid1.Size = new System.Drawing.Size(737, 270);
+            this.metroGrid1.Size = new System.Drawing.Size(737, 170);
             this.metroGrid1.TabIndex = 3;
             this.metroGrid1.SelectionChanged += new System.EventHandler(this.metroGrid1_SelectionChanged);
             // 
@@ -111,13 +110,12 @@
             this.panelPaperwokr.Controls.Add(this.clientView1);
             this.panelPaperwokr.Controls.Add(this.btnFinishPaperwork);
             this.panelPaperwokr.Controls.Add(this.btnSavePaperwork);
-            this.panelPaperwokr.Controls.Add(this.metroButton1);
             this.panelPaperwokr.HorizontalScrollbarBarColor = true;
             this.panelPaperwokr.HorizontalScrollbarHighlightOnWheel = false;
             this.panelPaperwokr.HorizontalScrollbarSize = 10;
             this.panelPaperwokr.Location = new System.Drawing.Point(23, 63);
             this.panelPaperwokr.Name = "panelPaperwokr";
-            this.panelPaperwokr.Size = new System.Drawing.Size(785, 658);
+            this.panelPaperwokr.Size = new System.Drawing.Size(785, 557);
             this.panelPaperwokr.TabIndex = 0;
             this.panelPaperwokr.Theme = MetroFramework.MetroThemeStyle.Light;
             this.panelPaperwokr.VerticalScrollbarBarColor = true;
@@ -137,7 +135,7 @@
             this.metroPanel1.HorizontalScrollbarSize = 10;
             this.metroPanel1.Location = new System.Drawing.Point(18, 288);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(745, 311);
+            this.metroPanel1.Size = new System.Drawing.Size(745, 211);
             this.metroPanel1.TabIndex = 3;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
@@ -324,7 +322,7 @@
             // btnFinishPaperwork
             // 
             this.btnFinishPaperwork.Enabled = false;
-            this.btnFinishPaperwork.Location = new System.Drawing.Point(420, 605);
+            this.btnFinishPaperwork.Location = new System.Drawing.Point(420, 505);
             this.btnFinishPaperwork.Name = "btnFinishPaperwork";
             this.btnFinishPaperwork.Size = new System.Drawing.Size(169, 35);
             this.btnFinishPaperwork.TabIndex = 4;
@@ -336,7 +334,7 @@
             // btnSavePaperwork
             // 
             this.btnSavePaperwork.Enabled = false;
-            this.btnSavePaperwork.Location = new System.Drawing.Point(595, 605);
+            this.btnSavePaperwork.Location = new System.Drawing.Point(595, 505);
             this.btnSavePaperwork.Name = "btnSavePaperwork";
             this.btnSavePaperwork.Size = new System.Drawing.Size(169, 35);
             this.btnSavePaperwork.TabIndex = 5;
@@ -345,21 +343,13 @@
             this.btnSavePaperwork.UseSelectable = true;
             this.btnSavePaperwork.Click += new System.EventHandler(this.btnSavePaperwork_Click);
             // 
-            // metroButton1
-            // 
-            this.metroButton1.Location = new System.Drawing.Point(690, 159);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(75, 23);
-            this.metroButton1.TabIndex = 1;
-            this.metroButton1.Text = "metroButton1";
-            this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.metroButton1_Click);
-            // 
             // PaperworkForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(835, 749);
+            this.ClientSize = new System.Drawing.Size(835, 640);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.MaximizeBox = false;
             this.Controls.Add(this.panelPaperwokr);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PaperworkForm";
@@ -394,6 +384,5 @@
         private MetroFramework.Controls.MetroButton btnOpenFile;
         private MetroFramework.Controls.MetroButton btnAddFile;
         private MetroFramework.Controls.MetroPanel metroPanel1;
-        private MetroFramework.Controls.MetroButton metroButton1;
     }
 }
