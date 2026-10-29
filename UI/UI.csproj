@@ -127,6 +127,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acquisitions\RegisterAcquisitionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acquisitions\RegisterAcquisitionForm.Designer.cs">
+      <DependentUpon>RegisterAcquisitionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Billing\AddPaymentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -249,6 +255,9 @@
     <Compile Include="Vehicles\VehicleModelConfigurationForm.Designer.cs">
       <DependentUpon>VehicleModelConfigurationForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Acquisitions\RegisterAcquisitionForm.resx">
+      <DependentUpon>RegisterAcquisitionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Billing\AddPaymentForm.resx">
       <DependentUpon>AddPaymentForm.cs</DependentUpon>
     </EmbeddedResource>

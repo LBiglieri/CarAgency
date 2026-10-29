@@ -29,6 +29,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acquisitions\AcquisitionMapper.cs" />
     <Compile Include="Billing\Invoices\InvoiceMapper.cs" /><Compile Include="Billing\Payments\PaymentMapper.cs" />
     <Compile Include="Clients\ClientMapper.cs" /><Compile Include="Management\PaperworkMapper.cs" />
     <Compile Include="Sales\Quotations\QuotationMapper.cs" />

@@ -14,6 +14,9 @@
 	<translation tag="newQuotationToolStripMenuItem">Generar Cotización</translation>
 	<translation tag="newReservationToolStripMenuItem">Generar Reserva</translation>
 
+	<translation tag="acquisitionsToolStripMenuItem">Compras</translation>
+	<translation tag="registerAcquisitionToolStripMenuItem">Registrar vehículo a tasar</translation>
+
 	<translation tag="billingToolStripMenuItem">Facturación</translation>
 	<translation tag="generateInvoiceToolStripMenuItem">Generar factura</translation>
 
@@ -295,6 +298,38 @@
 
   <!-- Event log -->
   <translation tag="EventLogForm">Bitácora de eventos</translation>
+  <translation tag="RegisterAcquisitionForm">Registrar vehículo a tasar</translation>
+  <translation tag="RegisterInspectionForm">Registrar inspección mecánica</translation>
+  <translation tag="AppraiseVehicleForm">Tasar vehículo</translation>
+  <translation tag="ManageAcquisitionForm">Gestionar compra de vehículo</translation>
+  <translation tag="PayAcquisitionForm">Pagar compra al cliente</translation>
+  <translation tag="lblVehicleToAppraise">Vehículo a tasar</translation>
+  <translation tag="tbChassis_Number">Número de chasis</translation>
+  <translation tag="tbEngine_Number">Número de motor</translation>
+  <translation tag="tbDeclared_Kilometers">Kilometraje declarado</translation>
+  <translation tag="lblInspection">Inspección mecánica</translation>
+  <translation tag="lblInspectionDate">Fecha:</translation>
+  <translation tag="lblInspectionHour">Hora:</translation>
+  <translation tag="lblMechanic">Mecánico:</translation>
+  <translation tag="btnRegisterAcquisition">Registrar vehículo</translation>
+  <translation tag="PleaseSelectVehicleModel">Seleccione la marca, el modelo, la versión y el color del vehículo para continuar.</translation>
+  <translation tag="PleaseWriteVehicleIdentification">Escriba la matrícula, el número de chasis y el número de motor para continuar.</translation>
+  <translation tag="PleaseWriteValidYear">Escriba un año válido para continuar.</translation>
+  <translation tag="PleaseWriteValidDoors">Escriba una cantidad de puertas válida (de 2 a 5) para continuar.</translation>
+  <translation tag="PleaseWriteValidKilometers">Escriba un kilometraje válido para continuar.</translation>
+  <translation tag="PleaseSelectInspectionMechanic">Seleccione la hora y el mecánico de la inspección para continuar.</translation>
+  <translation tag="VehicleAlreadyRegistered">Ya existe un vehículo en inventario o una adquisición abierta con la misma matrícula, chasis o motor.</translation>
+  <translation tag="DuplicateInInventory">En inventario: </translation>
+  <translation tag="DuplicateInAcquisition">Adquisición N° </translation>
+  <translation tag="Chassis">Chasis: </translation>
+  <translation tag="Engine">Motor: </translation>
+  <translation tag="MechanicNotAvailable">El mecánico ya tiene una inspección en esa franja.</translation>
+  <translation tag="MechanicBusyNextSlot">El mecánico tiene otra inspección en esa franja. Próximo horario libre: </translation>
+  <translation tag="NoFreeInspectionSlot">El mecánico no tiene turnos libres en los próximos {0} días.</translation>
+  <translation tag="InspectionDateInPast">La inspección no puede programarse en una fecha u hora pasada.</translation>
+  <translation tag="InspectionOutsideWorkingHours">Las inspecciones se programan de lunes a viernes, de {0} a {1} hs, en turnos de {2} minutos.</translation>
+  <translation tag="AreYouSureRegisterAcquisition">¿Está seguro de que desea registrar para tasar el vehículo </translation>
+  <translation tag="AcquisitionRegistered">¡Vehículo registrado! La adquisición quedó en estado Inspección programada con el número </translation>
   <translation tag="AuditAll">Todos</translation>
   <translation tag="AuditLogin">Login</translation>
   <translation tag="AuditDate">Fecha</translation>
@@ -326,6 +361,7 @@
   <translation tag="AuditModule_Management">Trámites</translation>
   <translation tag="AuditModule_Security">Seguridad</translation>
   <translation tag="AuditModule_Audit">Auditoría</translation>
+  <translation tag="AuditModule_Acquisitions">Compras de vehículos</translation>
   <translation tag="AuditEvent_Login">Inicio de sesión</translation>
   <translation tag="AuditEvent_Logout">Cierre de sesión</translation>
   <translation tag="AuditEvent_LoginFailed">Acceso rechazado</translation>
@@ -371,6 +407,20 @@
   <translation tag="AuditEvent_IntegrityRecalculated">Recalcular dígitos verificadores</translation>
   <translation tag="AuditEvent_AuditViewed">Consultar bitácora</translation>
   <translation tag="AuditEvent_AuditPrintRequested">Solicitar impresión de bitácora</translation>
+  <translation tag="AuditEvent_AcquisitionCreated">Registrar vehículo a tasar</translation>
+  <translation tag="AuditEvent_AcquisitionCancelled">Cancelar adquisición</translation>
+  <translation tag="AuditEvent_AcquisitionRejected">Rechazar adquisición</translation>
+  <translation tag="AuditEvent_InspectionRecorded">Registrar inspección mecánica</translation>
+  <translation tag="AuditEvent_AppraisalCreated">Registrar tasación</translation>
+  <translation tag="AuditEvent_AcquisitionFormalized">Formalizar compra</translation>
+  <translation tag="AuditEvent_AcquisitionDocumentCreated">Cargar documento de compra</translation>
+  <translation tag="AuditEvent_AcquisitionDocumentObserved">Observar documento de compra</translation>
+  <translation tag="AuditEvent_AcquisitionDocumentDeleted">Eliminar documento de compra</translation>
+  <translation tag="AuditEvent_AcquisitionPaymentCreated">Registrar pago al cliente</translation>
+  <translation tag="AuditEvent_PurchaseReceiptIssued">Emitir comprobante de compra</translation>
+  <translation tag="AuditEvent_AcquisitionTransferScheduled">Agendar transferencia</translation>
+  <translation tag="AuditEvent_AcquisitionTransferred">Registrar transferencia</translation>
+  <translation tag="AuditEvent_AcquisitionFinished">Finalizar compra</translation>
   <translation tag="AuditBackupFailed">No se pudo crear el backup.</translation>
   <translation tag="AuditRestoreFailed">No se pudo restaurar la base de datos.</translation>
   <translation tag="IntegrityMaintenanceTitle">Dígitos verificadores</translation>

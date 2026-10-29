@@ -7,9 +7,11 @@ namespace CarAgency.BE.Integrity
     public static class DVTables
     {
         private static readonly string[] tables = {
-            "Clients", "Colours", "Events", "Invoice", "Makes", "Models", "Paperwork", "Payments",
-            "PaymentTypes", "Permission_Permission", "Permissions", "Quotations", "Reservation",
-            "Users", "Vehicles", "Versions"
+            "AcquisitionDocuments", "AcquisitionDocumentTypes", "AcquisitionPayments", "AcquisitionPaymentTerms",
+            "Acquisitions", "Appraisals", "Clients", "Colours", "Events", "InspectionItems", "Inspections",
+            "InspectionScores", "Invoice", "Makes", "Models", "Paperwork", "Payments", "PaymentTypes",
+            "Permission_Permission", "Permissions", "ProspectVehicles", "PurchaseReceipts", "Quotations",
+            "Reservation", "Users", "Vehicles", "Versions"
         };
 
         public static IEnumerable<string> All { get { return tables.ToArray(); } }

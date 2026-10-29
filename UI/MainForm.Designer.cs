@@ -40,6 +40,8 @@
             this.salesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newQuotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newReservationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.acquisitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.registerAcquisitionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.managementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +75,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SessionToolStripMenuItem,
             this.salesToolStripMenuItem,
+            this.acquisitionsToolStripMenuItem,
             this.billingToolStripMenuItem,
             this.managementToolStripMenuItem,
             this.configurationToolStripMenuItem});
@@ -160,7 +163,24 @@
             this.newReservationToolStripMenuItem.Tag = "newReservationToolStripMenuItem";
             this.newReservationToolStripMenuItem.Text = "New Reservation";
             this.newReservationToolStripMenuItem.Click += new System.EventHandler(this.newReservationToolStripMenuItem_Click);
-            // 
+            //
+            // acquisitionsToolStripMenuItem
+            //
+            this.acquisitionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.registerAcquisitionToolStripMenuItem});
+            this.acquisitionsToolStripMenuItem.Name = "acquisitionsToolStripMenuItem";
+            this.acquisitionsToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.acquisitionsToolStripMenuItem.Tag = "acquisitionsToolStripMenuItem";
+            this.acquisitionsToolStripMenuItem.Text = "Acquisitions";
+            //
+            // registerAcquisitionToolStripMenuItem
+            //
+            this.registerAcquisitionToolStripMenuItem.Name = "registerAcquisitionToolStripMenuItem";
+            this.registerAcquisitionToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.registerAcquisitionToolStripMenuItem.Tag = "registerAcquisitionToolStripMenuItem";
+            this.registerAcquisitionToolStripMenuItem.Text = "Register Vehicle for Appraisal";
+            this.registerAcquisitionToolStripMenuItem.Click += new System.EventHandler(this.registerAcquisitionToolStripMenuItem_Click);
+            //
             // billingToolStripMenuItem
             // 
             this.billingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -313,6 +333,8 @@
         private System.Windows.Forms.ToolStripMenuItem salesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newQuotationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newReservationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem acquisitionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem registerAcquisitionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem billingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateInvoiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem managementToolStripMenuItem;

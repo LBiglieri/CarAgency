@@ -2,7 +2,7 @@ using System;
 
 namespace CarAgency.BE.Audit
 {
-    public enum AuditModule { Users, Permissions, Clients, Vehicles, Sales, Billing, Management, Security, Audit }
+    public enum AuditModule { Users, Permissions, Clients, Vehicles, Sales, Billing, Management, Security, Audit, Acquisitions }
 
     public enum AuditEventType
     {
@@ -14,7 +14,10 @@ namespace CarAgency.BE.Audit
         InvoiceDeleted, InvoiceExported, PaymentCreated, PaymentDeleted, PaperworkCreated,
         PaperworkUpdated, PaperworkDeleted, PaperworkFileCreated, PaperworkFileDeleted,
         BackupCreated, RestoreStarted, RestoreCompleted, RestoreFailed, IntegrityRecalculated,
-        AuditViewed, AuditPrintRequested
+        AuditViewed, AuditPrintRequested, AcquisitionCreated, AcquisitionCancelled, AcquisitionRejected,
+        InspectionRecorded, AppraisalCreated, AcquisitionFormalized, AcquisitionDocumentCreated,
+        AcquisitionDocumentObserved, AcquisitionDocumentDeleted, AcquisitionPaymentCreated,
+        PurchaseReceiptIssued, AcquisitionTransferScheduled, AcquisitionTransferred, AcquisitionFinished
     }
 
     public sealed class AuditEvent

@@ -55,9 +55,18 @@
     <Compile Include="Billing\Invoices\InvoiceDataAccess.cs" />
     <Compile Include="Billing\Payments\PaymentDataAccess.cs" />
     <Compile Include="Management\PaperworkDataAccess.cs" />
+    <Compile Include="Acquisitions\AcquisitionDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Acquisitions\SQL\Acquisitions_Add.sql" />
+    <Content Include="Acquisitions\SQL\Acquisitions_GetDuplicates.sql" />
+    <Content Include="Acquisitions\SQL\Acquisitions_GetNextNumber.sql" />
+    <Content Include="Acquisitions\SQL\Inspections_Add.sql" />
+    <Content Include="Acquisitions\SQL\Inspections_GetMechanics.sql" />
+    <Content Include="Acquisitions\SQL\Inspections_GetNextFreeSlot.sql" />
+    <Content Include="Acquisitions\SQL\Inspections_IsMechanicBusy.sql" />
+    <Content Include="Acquisitions\SQL\ProspectVehicles_Add.sql" />
     <Content Include="Billing\Invoices\SQL\Invoice_Add.sql" />
     <Content Include="Billing\Invoices\SQL\Invoice_Delete.sql" />
     <Content Include="Billing\Invoices\SQL\Invoice_GetAllPendingOfPaperworkByClient.sql" />

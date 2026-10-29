@@ -14,6 +14,9 @@
 	<translation tag="newQuotationToolStripMenuItem">New Quotation</translation>
 	<translation tag="newReservationToolStripMenuItem">New Reservation</translation>
 
+	<translation tag="acquisitionsToolStripMenuItem">Acquisitions</translation>
+	<translation tag="registerAcquisitionToolStripMenuItem">Register vehicle for appraisal</translation>
+
 	<translation tag="billingToolStripMenuItem">Billing</translation>
 	<translation tag="generateInvoiceToolStripMenuItem">Generate Invoice</translation>
 
@@ -296,6 +299,38 @@
 
   <!-- Event log -->
   <translation tag="EventLogForm">Event log</translation>
+  <translation tag="RegisterAcquisitionForm">Register vehicle for appraisal</translation>
+  <translation tag="RegisterInspectionForm">Register mechanical inspection</translation>
+  <translation tag="AppraiseVehicleForm">Appraise vehicle</translation>
+  <translation tag="ManageAcquisitionForm">Manage vehicle purchase</translation>
+  <translation tag="PayAcquisitionForm">Pay purchase to client</translation>
+  <translation tag="lblVehicleToAppraise">Vehicle to appraise</translation>
+  <translation tag="tbChassis_Number">Chassis number</translation>
+  <translation tag="tbEngine_Number">Engine number</translation>
+  <translation tag="tbDeclared_Kilometers">Declared kilometers</translation>
+  <translation tag="lblInspection">Mechanical inspection</translation>
+  <translation tag="lblInspectionDate">Date:</translation>
+  <translation tag="lblInspectionHour">Time:</translation>
+  <translation tag="lblMechanic">Mechanic:</translation>
+  <translation tag="btnRegisterAcquisition">Register vehicle</translation>
+  <translation tag="PleaseSelectVehicleModel">Select the vehicle's make, model, version and colour to continue.</translation>
+  <translation tag="PleaseWriteVehicleIdentification">Write the license plate, chassis number and engine number to continue.</translation>
+  <translation tag="PleaseWriteValidYear">Write a valid year to continue.</translation>
+  <translation tag="PleaseWriteValidDoors">Write a valid number of doors (from 2 to 5) to continue.</translation>
+  <translation tag="PleaseWriteValidKilometers">Write a valid mileage to continue.</translation>
+  <translation tag="PleaseSelectInspectionMechanic">Select the inspection time and mechanic to continue.</translation>
+  <translation tag="VehicleAlreadyRegistered">There is already a vehicle in inventory or an open acquisition with the same license plate, chassis or engine.</translation>
+  <translation tag="DuplicateInInventory">In inventory: </translation>
+  <translation tag="DuplicateInAcquisition">Acquisition No. </translation>
+  <translation tag="Chassis">Chassis: </translation>
+  <translation tag="Engine">Engine: </translation>
+  <translation tag="MechanicNotAvailable">The mechanic already has an inspection in that time slot.</translation>
+  <translation tag="MechanicBusyNextSlot">The mechanic has another inspection in that time slot. Next free slot: </translation>
+  <translation tag="NoFreeInspectionSlot">The mechanic has no free slots in the next {0} days.</translation>
+  <translation tag="InspectionDateInPast">The inspection cannot be scheduled on a past date or time.</translation>
+  <translation tag="InspectionOutsideWorkingHours">Inspections are scheduled Monday to Friday, from {0} to {1} hs, in {2} minute slots.</translation>
+  <translation tag="AreYouSureRegisterAcquisition">Are you sure you want to register for appraisal the vehicle </translation>
+  <translation tag="AcquisitionRegistered">Vehicle registered! The acquisition is in Inspection Scheduled status with number </translation>
   <translation tag="AuditAll">All</translation>
   <translation tag="AuditLogin">Login</translation>
   <translation tag="AuditDate">Date</translation>
@@ -327,6 +362,7 @@
   <translation tag="AuditModule_Management">Paperwork</translation>
   <translation tag="AuditModule_Security">Security</translation>
   <translation tag="AuditModule_Audit">Audit</translation>
+  <translation tag="AuditModule_Acquisitions">Vehicle purchases</translation>
   <translation tag="AuditEvent_Login">Login</translation>
   <translation tag="AuditEvent_Logout">Logout</translation>
   <translation tag="AuditEvent_LoginFailed">Login rejected</translation>
@@ -372,6 +408,20 @@
   <translation tag="AuditEvent_IntegrityRecalculated">Recalculate check digits</translation>
   <translation tag="AuditEvent_AuditViewed">View event log</translation>
   <translation tag="AuditEvent_AuditPrintRequested">Request event log printing</translation>
+  <translation tag="AuditEvent_AcquisitionCreated">Register vehicle for appraisal</translation>
+  <translation tag="AuditEvent_AcquisitionCancelled">Cancel acquisition</translation>
+  <translation tag="AuditEvent_AcquisitionRejected">Reject acquisition</translation>
+  <translation tag="AuditEvent_InspectionRecorded">Record mechanical inspection</translation>
+  <translation tag="AuditEvent_AppraisalCreated">Record appraisal</translation>
+  <translation tag="AuditEvent_AcquisitionFormalized">Formalize purchase</translation>
+  <translation tag="AuditEvent_AcquisitionDocumentCreated">Upload purchase document</translation>
+  <translation tag="AuditEvent_AcquisitionDocumentObserved">Flag purchase document</translation>
+  <translation tag="AuditEvent_AcquisitionDocumentDeleted">Delete purchase document</translation>
+  <translation tag="AuditEvent_AcquisitionPaymentCreated">Record payment to client</translation>
+  <translation tag="AuditEvent_PurchaseReceiptIssued">Issue purchase receipt</translation>
+  <translation tag="AuditEvent_AcquisitionTransferScheduled">Schedule transfer</translation>
+  <translation tag="AuditEvent_AcquisitionTransferred">Record transfer</translation>
+  <translation tag="AuditEvent_AcquisitionFinished">Finish purchase</translation>
   <translation tag="AuditBackupFailed">The backup could not be created.</translation>
   <translation tag="AuditRestoreFailed">The database could not be restored.</translation>
   <translation tag="IntegrityMaintenanceTitle">Check digits</translation>

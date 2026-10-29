@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acquisitions\Acquisition.cs" />
+    <Compile Include="Acquisitions\AcquisitionStatus.cs" />
+    <Compile Include="Acquisitions\DuplicateVehicle.cs" />
+    <Compile Include="Acquisitions\Inspection.cs" />
+    <Compile Include="Acquisitions\ProspectVehicle.cs" />
     <Compile Include="Billing\PaymentType.cs" />
     <Compile Include="Billing\Payment.cs" />
     <Compile Include="Clients\Client.cs" />

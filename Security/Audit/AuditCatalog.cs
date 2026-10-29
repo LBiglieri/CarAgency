@@ -50,6 +50,12 @@ namespace CarAgency.Security.Audit
             Add(result, AuditModule.Security, 2, AuditEventType.BackupCreated, AuditEventType.RestoreStarted);
             Add(result, AuditModule.Audit, 5, AuditEventType.AuditViewed);
             Add(result, AuditModule.Audit, 3, AuditEventType.AuditPrintRequested);
+            Add(result, AuditModule.Acquisitions, 4, AuditEventType.AcquisitionCreated, AuditEventType.InspectionRecorded,
+                AuditEventType.AppraisalCreated, AuditEventType.AcquisitionFormalized, AuditEventType.AcquisitionDocumentCreated,
+                AuditEventType.AcquisitionDocumentObserved, AuditEventType.AcquisitionPaymentCreated, AuditEventType.PurchaseReceiptIssued,
+                AuditEventType.AcquisitionTransferScheduled, AuditEventType.AcquisitionTransferred, AuditEventType.AcquisitionFinished);
+            Add(result, AuditModule.Acquisitions, 3, AuditEventType.AcquisitionCancelled, AuditEventType.AcquisitionRejected,
+                AuditEventType.AcquisitionDocumentDeleted);
             return result;
         }
         private static void Add(Dictionary<AuditEventType, AuditDefinition> result, AuditModule module, int criticality, params AuditEventType[] types)

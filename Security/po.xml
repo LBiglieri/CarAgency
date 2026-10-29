@@ -14,6 +14,9 @@
 	<translation tag="newQuotationToolStripMenuItem">Nova Cotação</translation>
 	<translation tag="newReservationToolStripMenuItem">Nova Reserva</translation>
 
+	<translation tag="acquisitionsToolStripMenuItem">Compras</translation>
+	<translation tag="registerAcquisitionToolStripMenuItem">Registrar veículo para avaliação</translation>
+
 	<translation tag="billingToolStripMenuItem">Faturamento</translation>
 	<translation tag="generateInvoiceToolStripMenuItem">Gerar Fatura</translation>
 
@@ -295,6 +298,38 @@
 
   <!-- Event log -->
   <translation tag="EventLogForm">Registro de eventos</translation>
+  <translation tag="RegisterAcquisitionForm">Registrar veículo para avaliação</translation>
+  <translation tag="RegisterInspectionForm">Registrar inspeção mecânica</translation>
+  <translation tag="AppraiseVehicleForm">Avaliar veículo</translation>
+  <translation tag="ManageAcquisitionForm">Gerenciar compra de veículo</translation>
+  <translation tag="PayAcquisitionForm">Pagar compra ao cliente</translation>
+  <translation tag="lblVehicleToAppraise">Veículo a avaliar</translation>
+  <translation tag="tbChassis_Number">Número do chassi</translation>
+  <translation tag="tbEngine_Number">Número do motor</translation>
+  <translation tag="tbDeclared_Kilometers">Quilometragem declarada</translation>
+  <translation tag="lblInspection">Inspeção mecânica</translation>
+  <translation tag="lblInspectionDate">Data:</translation>
+  <translation tag="lblInspectionHour">Hora:</translation>
+  <translation tag="lblMechanic">Mecânico:</translation>
+  <translation tag="btnRegisterAcquisition">Registrar veículo</translation>
+  <translation tag="PleaseSelectVehicleModel">Selecione a marca, o modelo, a versão e a cor do veículo para continuar.</translation>
+  <translation tag="PleaseWriteVehicleIdentification">Escreva a placa, o número do chassi e o número do motor para continuar.</translation>
+  <translation tag="PleaseWriteValidYear">Escreva um ano válido para continuar.</translation>
+  <translation tag="PleaseWriteValidDoors">Escreva uma quantidade de portas válida (de 2 a 5) para continuar.</translation>
+  <translation tag="PleaseWriteValidKilometers">Escreva uma quilometragem válida para continuar.</translation>
+  <translation tag="PleaseSelectInspectionMechanic">Selecione a hora e o mecânico da inspeção para continuar.</translation>
+  <translation tag="VehicleAlreadyRegistered">Já existe um veículo no estoque ou uma aquisição aberta com a mesma placa, chassi ou motor.</translation>
+  <translation tag="DuplicateInInventory">No estoque: </translation>
+  <translation tag="DuplicateInAcquisition">Aquisição N° </translation>
+  <translation tag="Chassis">Chassi: </translation>
+  <translation tag="Engine">Motor: </translation>
+  <translation tag="MechanicNotAvailable">O mecânico já tem uma inspeção nesse horário.</translation>
+  <translation tag="MechanicBusyNextSlot">O mecânico tem outra inspeção nesse horário. Próximo horário livre: </translation>
+  <translation tag="NoFreeInspectionSlot">O mecânico não tem horários livres nos próximos {0} dias.</translation>
+  <translation tag="InspectionDateInPast">A inspeção não pode ser agendada em uma data ou hora passada.</translation>
+  <translation tag="InspectionOutsideWorkingHours">As inspeções são agendadas de segunda a sexta, das {0} às {1} hs, em turnos de {2} minutos.</translation>
+  <translation tag="AreYouSureRegisterAcquisition">Tem certeza de que deseja registrar para avaliação o veículo </translation>
+  <translation tag="AcquisitionRegistered">Veículo registrado! A aquisição ficou no estado Inspeção agendada com o número </translation>
   <translation tag="AuditAll">Todos</translation>
   <translation tag="AuditLogin">Login</translation>
   <translation tag="AuditDate">Data</translation>
@@ -326,6 +361,7 @@
   <translation tag="AuditModule_Management">Trâmites</translation>
   <translation tag="AuditModule_Security">Segurança</translation>
   <translation tag="AuditModule_Audit">Auditoria</translation>
+  <translation tag="AuditModule_Acquisitions">Compras de veículos</translation>
   <translation tag="AuditEvent_Login">Início de sessão</translation>
   <translation tag="AuditEvent_Logout">Encerramento de sessão</translation>
   <translation tag="AuditEvent_LoginFailed">Acesso rejeitado</translation>
@@ -371,6 +407,20 @@
   <translation tag="AuditEvent_IntegrityRecalculated">Recalcular dígitos verificadores</translation>
   <translation tag="AuditEvent_AuditViewed">Consultar registro de eventos</translation>
   <translation tag="AuditEvent_AuditPrintRequested">Solicitar impressão do registro</translation>
+  <translation tag="AuditEvent_AcquisitionCreated">Registrar veículo para avaliação</translation>
+  <translation tag="AuditEvent_AcquisitionCancelled">Cancelar aquisição</translation>
+  <translation tag="AuditEvent_AcquisitionRejected">Rejeitar aquisição</translation>
+  <translation tag="AuditEvent_InspectionRecorded">Registrar inspeção mecânica</translation>
+  <translation tag="AuditEvent_AppraisalCreated">Registrar avaliação</translation>
+  <translation tag="AuditEvent_AcquisitionFormalized">Formalizar compra</translation>
+  <translation tag="AuditEvent_AcquisitionDocumentCreated">Carregar documento de compra</translation>
+  <translation tag="AuditEvent_AcquisitionDocumentObserved">Observar documento de compra</translation>
+  <translation tag="AuditEvent_AcquisitionDocumentDeleted">Excluir documento de compra</translation>
+  <translation tag="AuditEvent_AcquisitionPaymentCreated">Registrar pagamento ao cliente</translation>
+  <translation tag="AuditEvent_PurchaseReceiptIssued">Emitir comprovante de compra</translation>
+  <translation tag="AuditEvent_AcquisitionTransferScheduled">Agendar transferência</translation>
+  <translation tag="AuditEvent_AcquisitionTransferred">Registrar transferência</translation>
+  <translation tag="AuditEvent_AcquisitionFinished">Finalizar compra</translation>
   <translation tag="AuditBackupFailed">Não foi possível criar o backup.</translation>
   <translation tag="AuditRestoreFailed">Não foi possível restaurar o banco de dados.</translation>
   <translation tag="IntegrityMaintenanceTitle">Dígitos verificadores</translation>
