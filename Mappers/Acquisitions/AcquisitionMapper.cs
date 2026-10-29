@@ -143,6 +143,75 @@ namespace CarAgency.Mappers
                 digitVerifier.Dvh("InspectionScores"), digitVerifier.Dvh("Acquisitions")), "Inspections", "InspectionScores", "Acquisitions");
         }
 
+        // Sin adquisiciones para tasar devuelve null.
+        public List<PendingAppraisal> GetPendingAppraisals(string filter, DateTime now)
+        {
+            List<PendingAppraisal> appraisals = MappingHandler.MapTableToEntities<PendingAppraisal>(data.GetPendingAppraisals(filter, now));
+            return appraisals.Count == 0 ? null : appraisals;
+        }
+
+        // Como la adquisicion, la inspeccion registrada tiene NULL y enums: se arma a mano.
+        public Inspection GetInspection(Guid id)
+        {
+            using (DataTable table = data.GetInspection(id))
+            {
+                if (table.Rows.Count == 0) return null;
+                DataRow row = table.Rows[0];
+                Inspection inspection = new Inspection();
+                inspection.Id = (Guid)row["Id"];
+                inspection.Acquisition_Id = (Guid)row["Acquisition_Id"];
+                inspection.Mechanic_Id = (Guid)row["Mechanic_Id"];
+                inspection.Scheduled_Date = (DateTime)row["Scheduled_Date"];
+                inspection.Performed_Date = row["Performed_Date"] as DateTime?;
+                inspection.Verified_Kilometers = row["Verified_Kilometers"] as int?;
+                inspection.Result = (InspectionResult?)(row["Result"] as int?);
+                inspection.Observations = row["Observations"] as string;
+                return inspection;
+            }
+        }
+
+        public List<InspectionScoreDetail> GetInspectionScores(Guid Inspection_Id)
+        {
+            List<InspectionScoreDetail> scores = new List<InspectionScoreDetail>();
+            using (DataTable table = data.GetInspectionScores(Inspection_Id))
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    InspectionScoreDetail score = new InspectionScoreDetail();
+                    score.Inspection_Id = (Guid)row["Inspection_Id"];
+                    score.InspectionItem_Id = (Guid)row["InspectionItem_Id"];
+                    score.Description = (string)row["Description"];
+                    score.Display_Order = (int)row["Display_Order"];
+                    score.Score = (InspectionRating)(int)row["Score"];
+                    score.Observations = row["Observations"] as string;
+                    scores.Add(score);
+                }
+            }
+            return scores;
+        }
+
+        // Sin tasaciones previas devuelve null.
+        public Appraisal GetLastAppraisal(Guid Acquisition_Id)
+        {
+            return MappingHandler.MapTableToEntities<Appraisal>(data.GetLastAppraisal(Acquisition_Id)).FirstOrDefault();
+        }
+
+        public SQLUpdateResult AddAppraisal(Appraisal appraisal)
+        {
+            return DigitVerifierWriteMapper.Save("Appraisals", dvh => data.AddAppraisal(appraisal.Id, appraisal.Acquisition_Id,
+                appraisal.Inspection_Id, appraisal.User_Id, appraisal.Amount, appraisal.Justification, appraisal.Creation_Date,
+                appraisal.Expiration_Date, dvh));
+        }
+
+        public SQLUpdateResult UpdateAcquisition(Acquisition acquisition)
+        {
+            return DigitVerifierWriteMapper.Save("Acquisitions", dvh => data.Update(acquisition.Id, acquisition.Number, acquisition.Client_Id,
+                acquisition.ProspectVehicle_Id, acquisition.Salesman_Id, (int)acquisition.Status, (int?)acquisition.Rejection_Reason,
+                acquisition.Creation_Date, acquisition.Accepted_Appraisal_Id, acquisition.Agreed_Price, acquisition.Owner_CUIL_CUIT,
+                acquisition.Contract_Signed_Date, acquisition.Precharge_Code_08, acquisition.Transfer_Appointment_Date,
+                acquisition.Vehicle_Id, acquisition.Closing_Date, dvh));
+        }
+
         // Filas completas de cada tabla, con el nombre de columna como clave.
         private static IDictionary<string, object> InspectionRow(Inspection inspection)
         {

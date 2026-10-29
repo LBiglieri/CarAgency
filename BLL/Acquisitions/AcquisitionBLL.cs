@@ -25,6 +25,9 @@ namespace CarAgency.BLL
         public const int MaxPhotoMegabytes = 5;
         private static readonly string[] PhotoExtensions = { ".jpg", ".jpeg", ".png" };
 
+        // Vigencia de la tasacion en dias corridos (CUF09 paso 6). Vencida, se puede volver a tasar.
+        public const int AppraisalValidityDays = 7;
+
         private AcquisitionMapper _acquisitionmapper;
         public AcquisitionBLL()
         {
@@ -170,6 +173,62 @@ namespace CarAgency.BLL
             if (acquisition == null || acquisition.Status != AcquisitionStatus.InspectionScheduled || inspection.Mechanic_Id != SessionHandler.Instance.GetId())
                 throw new TranslatableException("InspectionNotPending", "La inspeccion ya fue registrada o no esta asignada a este mecanico.");
             return acquisition;
+        }
+
+        // La matricula se guarda en mayusculas; el DNI se compara tal cual.
+        public List<PendingAppraisal> GetPendingAppraisals(string filter)
+        {
+            return _acquisitionmapper.GetPendingAppraisals(filter == null ? null : filter.Trim().ToUpperInvariant(), DateTime.Now);
+        }
+        public Inspection GetInspection(Guid Inspection_Id)
+        {
+            return _acquisitionmapper.GetInspection(Inspection_Id);
+        }
+        public List<InspectionScoreDetail> GetInspectionScores(Guid Inspection_Id)
+        {
+            return _acquisitionmapper.GetInspectionScores(Inspection_Id);
+        }
+        public Appraisal GetLastAppraisal(Guid Acquisition_Id)
+        {
+            return _acquisitionmapper.GetLastAppraisal(Acquisition_Id);
+        }
+
+        // CUF09: la tasacion y el pase a Tasada se graban uno detras del otro, como el resto de las altas.
+        public SQLUpdateResult AddAppraisal(Appraisal appraisal)
+        {
+            if (appraisal.Amount <= 0)
+                throw new TranslatableException("PleaseWriteValidAppraisalAmount", "Escriba un valor de tasacion mayor a cero para continuar.");
+            if (string.IsNullOrWhiteSpace(appraisal.Justification))
+                throw new TranslatableException("PleaseWriteAppraisalJustification", "Escriba la justificacion de la tasacion para continuar.");
+
+            Acquisition acquisition = GetAppraisableAcquisition(appraisal.Acquisition_Id);
+            appraisal.Id = Guid.NewGuid();
+            appraisal.User_Id = SessionHandler.Instance.GetId();
+            appraisal.Justification = appraisal.Justification.Trim();
+            appraisal.Creation_Date = DateTime.Now;
+            appraisal.Expiration_Date = appraisal.Creation_Date.AddDays(AppraisalValidityDays);
+            acquisition.Status = AcquisitionStatus.Appraised;
+
+            SQLUpdateResult result = _acquisitionmapper.AddAppraisal(appraisal);
+            if (result != null && result.sqlResult == SQLResultType.success)
+                result = _acquisitionmapper.UpdateAcquisition(acquisition);
+            return RecordResult(result, AuditEventType.AppraisalCreated, acquisition.Id);
+        }
+
+        // Se tasa una adquisicion Inspeccionada, o una Tasada cuya ultima tasacion ya vencio (2.1).
+        // Mientras la tasacion este vigente no se puede volver a tasar.
+        private Acquisition GetAppraisableAcquisition(Guid Acquisition_Id)
+        {
+            Acquisition acquisition = _acquisitionmapper.GetById(Acquisition_Id);
+            if (acquisition != null && acquisition.Status == AcquisitionStatus.Inspected)
+                return acquisition;
+            if (acquisition != null && acquisition.Status == AcquisitionStatus.Appraised)
+            {
+                Appraisal last = GetLastAppraisal(Acquisition_Id);
+                if (last == null || last.Expiration_Date < DateTime.Now)
+                    return acquisition;
+            }
+            throw new TranslatableException("AppraisalNotPending", "La adquisicion tiene una tasacion vigente o no esta en estado Inspeccionado.");
         }
 
         private static void ValidatePhoto(InspectionPhoto photo)

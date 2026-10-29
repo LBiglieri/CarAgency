@@ -63,11 +63,17 @@
     <Content Include="Acquisitions\SQL\Acquisitions_GetById.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_GetDuplicates.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_GetNextNumber.sql" />
+    <Content Include="Acquisitions\SQL\Acquisitions_GetPendingAppraisal.sql" />
+    <Content Include="Acquisitions\SQL\Acquisitions_Update.sql" />
+    <Content Include="Acquisitions\SQL\Appraisals_Add.sql" />
+    <Content Include="Acquisitions\SQL\Appraisals_GetLastByAcquisition.sql" />
     <Content Include="Acquisitions\SQL\InspectionItems_GetAll.sql" />
     <Content Include="Acquisitions\SQL\InspectionPhotos_Add.sql" />
     <Content Include="Acquisitions\SQL\InspectionPhotos_Delete.sql" />
     <Content Include="Acquisitions\SQL\InspectionPhotos_GetByInspection.sql" />
+    <Content Include="Acquisitions\SQL\InspectionScores_GetByInspection.sql" />
     <Content Include="Acquisitions\SQL\Inspections_Add.sql" />
+    <Content Include="Acquisitions\SQL\Inspections_GetById.sql" />
     <Content Include="Acquisitions\SQL\Inspections_GetDetail.sql" />
     <Content Include="Acquisitions\SQL\Inspections_GetMechanics.sql" />
     <Content Include="Acquisitions\SQL\Inspections_GetNextFreeSlot.sql" />

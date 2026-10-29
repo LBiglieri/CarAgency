@@ -8,7 +8,7 @@ using CarAgency.DAL.Persistence;
 
 namespace CarAgency.DAL.Acquisitions
 {
-    // Compra de vehiculos a clientes (PN2): vehiculo ofrecido, adquisicion e inspeccion mecanica.
+    // Compra de vehiculos a clientes (PN2): vehiculo ofrecido, adquisicion, inspeccion mecanica y tasacion.
     public sealed class AcquisitionDataAccess : DataAccessBase
     {
         public DataTable GetNextNumber() { return Read("Acquisitions_GetNextNumber"); }
@@ -151,6 +151,63 @@ namespace CarAgency.DAL.Acquisitions
                     new SqlParameter("@Rejection_Reason", SqlDbType.Int) { Value = Value(acquisitionRow, "Rejection_Reason") },
                     new SqlParameter("@Acquisition_DVH", SqlDbType.Char, 64) { Value = acquisitionRow.Dvh });
             }
+        }
+
+        public DataTable GetPendingAppraisals(string filter, DateTime now)
+        {
+            return Read("Acquisitions_GetPendingAppraisal",
+                new SqlParameter("@Filter", (object)filter ?? DBNull.Value),
+                new SqlParameter("@Now", now));
+        }
+
+        public DataTable GetInspection(Guid id) { return Read("Inspections_GetById", new SqlParameter("@Id", id)); }
+
+        public DataTable GetInspectionScores(Guid inspectionId)
+        {
+            return Read("InspectionScores_GetByInspection", new SqlParameter("@Inspection_Id", inspectionId));
+        }
+
+        public DataTable GetLastAppraisal(Guid acquisitionId)
+        {
+            return Read("Appraisals_GetLastByAcquisition", new SqlParameter("@Acquisition_Id", acquisitionId));
+        }
+
+        public DataTable AddAppraisal(Guid id, Guid acquisitionId, Guid inspectionId, Guid userId, double amount, string justification,
+            DateTime creationDate, DateTime expirationDate, DvhCalculator dvh)
+        {
+            return Read("Appraisals_Add", dvh,
+                new SqlParameter("@Id", id),
+                new SqlParameter("@Acquisition_Id", acquisitionId),
+                new SqlParameter("@Inspection_Id", inspectionId),
+                new SqlParameter("@User_Id", userId),
+                new SqlParameter("@Amount", amount),
+                new SqlParameter("@Justification", justification),
+                new SqlParameter("@Creation_Date", creationDate),
+                new SqlParameter("@Expiration_Date", expirationDate));
+        }
+
+        // Igual que el alta: todas las columnas viajan para que el DVH se calcule con la fila completa.
+        public DataTable Update(Guid id, int number, Guid clientId, Guid prospectVehicleId, Guid salesmanId, int status, int? rejectionReason,
+            DateTime creationDate, Guid? acceptedAppraisalId, double? agreedPrice, string ownerCuilCuit, DateTime? contractSignedDate,
+            string prechargeCode08, DateTime? transferAppointmentDate, Guid? vehicleId, DateTime? closingDate, DvhCalculator dvh)
+        {
+            return Read("Acquisitions_Update", dvh,
+                new SqlParameter("@Id", id),
+                new SqlParameter("@Number", number),
+                new SqlParameter("@Client_Id", clientId),
+                new SqlParameter("@ProspectVehicle_Id", prospectVehicleId),
+                new SqlParameter("@Salesman_Id", salesmanId),
+                new SqlParameter("@Status", status),
+                new SqlParameter("@Rejection_Reason", (object)rejectionReason ?? DBNull.Value),
+                new SqlParameter("@Creation_Date", creationDate),
+                new SqlParameter("@Accepted_Appraisal_Id", (object)acceptedAppraisalId ?? DBNull.Value),
+                new SqlParameter("@Agreed_Price", (object)agreedPrice ?? DBNull.Value),
+                new SqlParameter("@Owner_CUIL_CUIT", (object)ownerCuilCuit ?? DBNull.Value),
+                new SqlParameter("@Contract_Signed_Date", (object)contractSignedDate ?? DBNull.Value),
+                new SqlParameter("@Precharge_Code_08", (object)prechargeCode08 ?? DBNull.Value),
+                new SqlParameter("@Transfer_Appointment_Date", (object)transferAppointmentDate ?? DBNull.Value),
+                new SqlParameter("@Vehicle_Id", (object)vehicleId ?? DBNull.Value),
+                new SqlParameter("@Closing_Date", (object)closingDate ?? DBNull.Value));
         }
 
         // Valor normalizado con el que se calculo el DVH: es el que tiene que quedar guardado.

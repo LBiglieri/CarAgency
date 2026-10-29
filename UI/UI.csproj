@@ -133,6 +133,18 @@
     <Compile Include="Acquisitions\RegisterAcquisitionForm.Designer.cs">
       <DependentUpon>RegisterAcquisitionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Acquisitions\AppraiseVehicleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acquisitions\AppraiseVehicleForm.Designer.cs">
+      <DependentUpon>AppraiseVehicleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Acquisitions\Controls\InspectionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Acquisitions\Controls\InspectionView.Designer.cs">
+      <DependentUpon>InspectionView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Acquisitions\RegisterInspectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +275,12 @@
     </Compile>
     <EmbeddedResource Include="Acquisitions\RegisterAcquisitionForm.resx">
       <DependentUpon>RegisterAcquisitionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acquisitions\AppraiseVehicleForm.resx">
+      <DependentUpon>AppraiseVehicleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acquisitions\Controls\InspectionView.resx">
+      <DependentUpon>InspectionView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Acquisitions\RegisterInspectionForm.resx">
       <DependentUpon>RegisterInspectionForm.cs</DependentUpon>
