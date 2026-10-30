@@ -66,6 +66,8 @@
     <Content Include="Acquisitions\SQL\AcquisitionDocuments_GetByAcquisition.sql" />
     <Content Include="Acquisitions\SQL\AcquisitionDocuments_Observe.sql" />
     <Content Include="Acquisitions\SQL\AcquisitionDocumentTypes_GetByStage.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionPayments_Add.sql" />
+    <Content Include="Acquisitions\SQL\AcquisitionPayments_GetByAcquisition.sql" />
     <Content Include="Acquisitions\SQL\AcquisitionPaymentTerms_Add.sql" />
     <Content Include="Acquisitions\SQL\AcquisitionPaymentTerms_DeleteByAcquisition.sql" />
     <Content Include="Acquisitions\SQL\AcquisitionPaymentTerms_GetByAcquisition.sql" />
@@ -76,7 +78,9 @@
     <Content Include="Acquisitions\SQL\Acquisitions_GetNextNumber.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_GetPendingAppraisal.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_GetPendingManagement.sql" />
+    <Content Include="Acquisitions\SQL\Acquisitions_GetPendingPayment.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_GetSummary.sql" />
+    <Content Include="Acquisitions\SQL\Acquisitions_Pay.sql" />
     <Content Include="Acquisitions\SQL\Acquisitions_Update.sql" />
     <Content Include="Acquisitions\SQL\Appraisals_Add.sql" />
     <Content Include="Acquisitions\SQL\Appraisals_GetLastByAcquisition.sql" />
@@ -94,6 +98,8 @@
     <Content Include="Acquisitions\SQL\Inspections_IsMechanicBusy.sql" />
     <Content Include="Acquisitions\SQL\Inspections_Record.sql" />
     <Content Include="Acquisitions\SQL\ProspectVehicles_Add.sql" />
+    <Content Include="Acquisitions\SQL\PurchaseReceipts_GetByAcquisition.sql" />
+    <Content Include="Acquisitions\SQL\PurchaseReceipts_GetNextNumber.sql" />
     <Content Include="Billing\Invoices\SQL\Invoice_Add.sql" />
     <Content Include="Billing\Invoices\SQL\Invoice_Delete.sql" />
     <Content Include="Billing\Invoices\SQL\Invoice_GetAllPendingOfPaperworkByClient.sql" />

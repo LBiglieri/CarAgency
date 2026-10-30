@@ -47,6 +47,7 @@
     <Compile Include="Acquisitions\AcquisitionDocumentStage.cs" />
     <Compile Include="Acquisitions\AcquisitionDocumentStatus.cs" />
     <Compile Include="Acquisitions\AcquisitionDocumentType.cs" />
+    <Compile Include="Acquisitions\AcquisitionPayment.cs" />
     <Compile Include="Acquisitions\AcquisitionPaymentTerm.cs" />
     <Compile Include="Acquisitions\AcquisitionStatus.cs" />
     <Compile Include="Acquisitions\AcquisitionSummary.cs" />
@@ -60,9 +61,11 @@
     <Compile Include="Acquisitions\InspectionResult.cs" />
     <Compile Include="Acquisitions\InspectionScore.cs" />
     <Compile Include="Acquisitions\InspectionScoreDetail.cs" />
+    <Compile Include="Acquisitions\PayableAcquisition.cs" />
     <Compile Include="Acquisitions\PendingAcquisition.cs" />
     <Compile Include="Acquisitions\PendingAppraisal.cs" />
     <Compile Include="Acquisitions\ProspectVehicle.cs" />
+    <Compile Include="Acquisitions\PurchaseReceipt.cs" />
     <Compile Include="Acquisitions\RejectionReason.cs" />
     <Compile Include="Acquisitions\ScheduledInspection.cs" />
     <Compile Include="Billing\PaymentType.cs" />

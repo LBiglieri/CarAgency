@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CarAgency.Mappers;
 using CarAgency.BE;
 using CarAgency.Security.Session;
 using BE;
+using BLL;
 
 namespace CarAgency.BLL
 {
@@ -30,7 +32,18 @@ namespace CarAgency.BLL
 
         // Medios con los que la agencia le paga al cliente (CUF10 paso 5). Se filtran por Description,
         // como las tarjetas en AddPaymentForm.
-        public static readonly string[] AcquisitionPaymentTypes = { "Bank Transfer", "Check", "Cash" };
+        public const string BankTransferPaymentType = "Bank Transfer";
+        public const string CheckPaymentType = "Check";
+        public const string CashPaymentType = "Cash";
+        public static readonly string[] AcquisitionPaymentTypes = { BankTransferPaymentType, CheckPaymentType, CashPaymentType };
+
+        // Emisor del comprobante de compra (CUF11 paso 7). PurchaseReceipts no lo guarda porque es siempre la agencia.
+        public const string AgencyName = "CarAgency";
+        public const string AgencyCuit = "30-71654328-1";
+
+        // CBU de 22 digitos o alias de 6 a 20 caracteres (letras, numeros, punto o guion).
+        private static readonly Regex CbuFormat = new Regex(@"^\d{22}$");
+        private static readonly Regex AliasFormat = new Regex(@"^[A-Za-z0-9.\-]{6,20}$");
 
         // Documentos escaneados (CUF10 paso 12): solo pdf, como los archivos de los tramites.
         private static readonly string[] DocumentExtensions = { ".pdf" };
@@ -477,6 +490,79 @@ namespace CarAgency.BLL
             return RecordResult(result, AuditEventType.AcquisitionFinished, acquisition.Id);
         }
 
+        // CUF11 paso 2: compras del cliente con la documentacion completa y las que ya tienen comprobante.
+        public List<PayableAcquisition> GetPayableAcquisitions(Guid Client_Id)
+        {
+            return _acquisitionmapper.GetPendingPayment(Client_Id);
+        }
+        public List<AcquisitionPayment> GetPayments(Guid Acquisition_Id)
+        {
+            return _acquisitionmapper.GetPayments(Acquisition_Id);
+        }
+        public PurchaseReceipt GetPurchaseReceipt(Guid Acquisition_Id)
+        {
+            return _acquisitionmapper.GetReceipt(Acquisition_Id);
+        }
+        // Saldo de un medio: lo pactado menos lo pagado, redondeado a centavos como la forma de pago.
+        public decimal GetPaymentTermBalance(AcquisitionPaymentTerm term)
+        {
+            return (decimal)Math.Round(term.Amount, 2) - (decimal)Math.Round(term.Paid_Amount, 2);
+        }
+        public decimal GetBalance(List<AcquisitionPaymentTerm> terms)
+        {
+            return terms == null ? 0 : terms.Sum(t => GetPaymentTermBalance(t));
+        }
+
+        // CUF11 pasos 3 a 5: el pago es con un medio pactado y no puede superar su saldo (4.1). Cada medio
+        // guarda solo sus datos: la transferencia banco, CBU o alias y operacion; el cheque banco, numero y fecha.
+        public SQLUpdateResult AddPayment(AcquisitionPayment payment)
+        {
+            GetAcquisitionInStatus(payment.Acquisition_Id, AcquisitionStatus.DocumentationComplete);
+            List<AcquisitionPaymentTerm> terms = GetPaymentTerms(payment.Acquisition_Id);
+            AcquisitionPaymentTerm term = terms == null ? null : terms.FirstOrDefault(t => t.PaymentType_Id == payment.PaymentType_Id);
+            if (term == null)
+                throw new TranslatableException("PaymentTypeNotAgreed", "El medio de pago no esta en la forma de pago pactada con el cliente.");
+            if (payment.Amount <= 0)
+                throw new TranslatableException("PleaseWriteValidPaymentAmount", "Escriba un importe de pago valido para continuar.");
+            decimal balance = GetPaymentTermBalance(term);
+            if ((decimal)Math.Round(payment.Amount, 2) > balance)
+                throw new TranslatableException("PaymentExceedsBalance", "El monto supera el saldo del medio pactado: $ {0}.", balance.ToString("N2"));
+
+            payment.Amount = Math.Round(payment.Amount, 2);
+            NormalizePaymentDetails(payment, term.PaymentType_Description);
+            payment.Cashier_Id = SessionHandler.Instance.GetId();
+            payment.Creation_Date = DateTime.Now;
+            return RecordResult(_acquisitionmapper.AddPayment(payment), AuditEventType.AcquisitionPaymentCreated, payment.Id);
+        }
+
+        // CUF11 pasos 7 y 9: con el saldo en cero se emite el comprobante y la compra pasa a Pagada, en una sola
+        // transaccion. Si fallara despues del ultimo pago, la compra sigue en Documentacion completa y se reintenta.
+        public SQLUpdateResult IssuePurchaseReceipt(Guid Acquisition_Id)
+        {
+            Acquisition acquisition = GetAcquisitionInStatus(Acquisition_Id, AcquisitionStatus.DocumentationComplete);
+            decimal balance = GetBalance(GetPaymentTerms(Acquisition_Id));
+            if (balance != 0)
+                throw new TranslatableException("PurchaseBalancePending", "La compra todavia tiene saldo pendiente: $ {0}.", balance.ToString("N2"));
+
+            AcquisitionSummary summary = GetSummary(Acquisition_Id);
+            Client client = new ClientsBLL().GetById(acquisition.Client_Id);
+            PurchaseReceipt receipt = new PurchaseReceipt();
+            receipt.Id = Guid.NewGuid();
+            receipt.Number = _acquisitionmapper.GetNextReceiptNumber();
+            receipt.Acquisition_Id = acquisition.Id;
+            receipt.Issue_Date = DateTime.Now;
+            receipt.Client_Name = client.Name + " " + client.Surname;
+            receipt.Client_CUIL_CUIT = acquisition.Owner_CUIL_CUIT;
+            receipt.Detail = summary.Vehicle_Description + " - " + summary.License_Plate + " - " + summary.Chassis_Number + " - " + summary.Engine_Number;
+            // La compra a un particular no lleva impuestos: el total es el precio acordado.
+            receipt.Net_Amount = Math.Round(acquisition.Agreed_Price.Value, 2);
+            receipt.Tax_Amount = 0;
+            receipt.Total_Amount = receipt.Net_Amount + receipt.Tax_Amount;
+            acquisition.Status = AcquisitionStatus.Paid;
+
+            return RecordResult(_acquisitionmapper.PayAcquisition(receipt, acquisition), AuditEventType.PurchaseReceiptIssued, acquisition.Id);
+        }
+
         // Etapa A: Tasada y con la tasacion vigente (3.1).
         private Acquisition GetAppraisedAcquisition(Guid Acquisition_Id)
         {
@@ -516,6 +602,48 @@ namespace CarAgency.BLL
             decimal difference = GetPaymentTermsDifference(price, terms);
             if (difference != 0)
                 throw new TranslatableException("PaymentTermsDifference", "La forma de pago no coincide con el precio acordado. Diferencia: $ {0}.", difference.ToString("N2"));
+        }
+
+        // CUF11 paso 4: datos obligatorios de cada medio. Los del resto quedan en NULL.
+        private static void NormalizePaymentDetails(AcquisitionPayment payment, string paymentType)
+        {
+            string bank = payment.Bank == null ? "" : payment.Bank.Trim();
+            string cbu_alias = payment.Cbu_Alias == null ? "" : payment.Cbu_Alias.Trim();
+            string operation_number = payment.Operation_Number == null ? "" : payment.Operation_Number.Trim();
+            string check_number = payment.Check_Number == null ? "" : payment.Check_Number.Trim();
+            DateTime? payment_date = payment.Payment_Date;
+            payment.Bank = null;
+            payment.Cbu_Alias = null;
+            payment.Operation_Number = null;
+            payment.Check_Number = null;
+            payment.Payment_Date = null;
+
+            if (paymentType == BankTransferPaymentType)
+            {
+                if (bank == "")
+                    throw new TranslatableException("PleaseWriteBank", "Escriba el banco para continuar.");
+                if (!CbuFormat.IsMatch(cbu_alias) && !(AliasFormat.IsMatch(cbu_alias) && !cbu_alias.All(char.IsDigit)))
+                    throw new TranslatableException("PleaseWriteValidCbuAlias", "Escriba un CBU de 22 digitos o un alias de 6 a 20 caracteres (letras, numeros, punto o guion).");
+                if (operation_number == "")
+                    throw new TranslatableException("PleaseWriteOperationNumber", "Escriba el numero de operacion de la transferencia para continuar.");
+                payment.Bank = bank;
+                payment.Cbu_Alias = cbu_alias;
+                payment.Operation_Number = operation_number;
+            }
+            else if (paymentType == CheckPaymentType)
+            {
+                if (bank == "")
+                    throw new TranslatableException("PleaseWriteBank", "Escriba el banco para continuar.");
+                if (check_number == "")
+                    throw new TranslatableException("PleaseWriteCheckNumber", "Escriba el numero de cheque para continuar.");
+                if (payment_date == null)
+                    throw new TranslatableException("PleaseSelectCheckPaymentDate", "Seleccione la fecha de pago del cheque para continuar.");
+                if (payment_date.Value.Date < DateTime.Today)
+                    throw new TranslatableException("CheckPaymentDateInPast", "La fecha de pago del cheque no puede ser anterior a hoy.");
+                payment.Bank = bank;
+                payment.Check_Number = check_number;
+                payment.Payment_Date = payment_date.Value.Date;
+            }
         }
 
         private static void ValidateDocumentFile(AcquisitionDocumentFile file)

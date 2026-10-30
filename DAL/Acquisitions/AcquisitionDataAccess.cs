@@ -9,7 +9,8 @@ using CarAgency.DAL.Persistence;
 namespace CarAgency.DAL.Acquisitions
 {
     // Compra de vehiculos a clientes (PN2): vehiculo ofrecido, adquisicion, inspeccion mecanica, tasacion,
-    // forma de pago pactada, documentos y cierre. AcquisitionDocumentFiles no esta protegida con digitos verificadores.
+    // forma de pago pactada, documentos, pagos al cliente, comprobante y cierre. AcquisitionDocumentFiles no esta
+    // protegida con digitos verificadores.
     public sealed class AcquisitionDataAccess : DataAccessBase
     {
         public DataTable GetNextNumber() { return Read("Acquisitions_GetNextNumber"); }
@@ -298,6 +299,61 @@ namespace CarAgency.DAL.Acquisitions
                 new SqlParameter("@Status", SqlDbType.Int) { Value = Value(acquisitionRow, "Status") },
                 new SqlParameter("@Closing_Date", SqlDbType.DateTime) { Value = Value(acquisitionRow, "Closing_Date") },
                 new SqlParameter("@Acquisition_DVH", SqlDbType.Char, 64) { Value = acquisitionRow.Dvh });
+        }
+
+        public DataTable GetPendingPayment(Guid clientId) { return Read("Acquisitions_GetPendingPayment", new SqlParameter("@Client_Id", clientId)); }
+
+        public DataTable GetPayments(Guid acquisitionId)
+        {
+            return Read("AcquisitionPayments_GetByAcquisition", new SqlParameter("@Acquisition_Id", acquisitionId));
+        }
+
+        // Las columnas de los otros medios viajan en NULL: el DVH se calcula con la fila completa.
+        public DataTable AddPayment(Guid id, Guid acquisitionId, Guid paymentTypeId, Guid cashierId, double amount, string bank, string cbuAlias,
+            string operationNumber, string checkNumber, DateTime? paymentDate, DateTime creationDate, DvhCalculator dvh)
+        {
+            return Read("AcquisitionPayments_Add", dvh,
+                new SqlParameter("@Id", id),
+                new SqlParameter("@Acquisition_Id", acquisitionId),
+                new SqlParameter("@PaymentType_Id", paymentTypeId),
+                new SqlParameter("@Cashier_Id", cashierId),
+                new SqlParameter("@Amount", amount),
+                new SqlParameter("@Bank", (object)bank ?? DBNull.Value),
+                new SqlParameter("@Cbu_Alias", (object)cbuAlias ?? DBNull.Value),
+                new SqlParameter("@Operation_Number", (object)operationNumber ?? DBNull.Value),
+                new SqlParameter("@Check_Number", (object)checkNumber ?? DBNull.Value),
+                new SqlParameter("@Payment_Date", (object)paymentDate ?? DBNull.Value),
+                new SqlParameter("@Creation_Date", creationDate));
+        }
+
+        public DataTable GetNextReceiptNumber() { return Read("PurchaseReceipts_GetNextNumber"); }
+
+        // Comprobante y pase a Pagada en un solo SP, dentro de una transaccion. Como en el cierre de la compra,
+        // las filas llegan completas para el DVH y de la adquisicion solo viaja lo que cambia.
+        public DataTable Pay(IDictionary<string, object> receipt, IDictionary<string, object> acquisition, DvhCalculator receiptDvh,
+            DvhCalculator acquisitionDvh)
+        {
+            DvhResult receiptRow = receiptDvh(receipt);
+            DvhResult acquisitionRow = acquisitionDvh(acquisition);
+            return Read("Acquisitions_Pay",
+                new SqlParameter("@Id", Value(receiptRow, "Id")),
+                new SqlParameter("@Number", SqlDbType.Int) { Value = Value(receiptRow, "Number") },
+                new SqlParameter("@Acquisition_Id", Value(receiptRow, "Acquisition_Id")),
+                new SqlParameter("@Issue_Date", SqlDbType.DateTime) { Value = Value(receiptRow, "Issue_Date") },
+                new SqlParameter("@Client_Name", SqlDbType.VarChar, 255) { Value = Value(receiptRow, "Client_Name") },
+                new SqlParameter("@Client_CUIL_CUIT", SqlDbType.VarChar, 13) { Value = Value(receiptRow, "Client_CUIL_CUIT") },
+                new SqlParameter("@Detail", SqlDbType.VarChar, -1) { Value = Value(receiptRow, "Detail") },
+                new SqlParameter("@Net_Amount", SqlDbType.Float) { Value = Value(receiptRow, "Net_Amount") },
+                new SqlParameter("@Tax_Amount", SqlDbType.Float) { Value = Value(receiptRow, "Tax_Amount") },
+                new SqlParameter("@Total_Amount", SqlDbType.Float) { Value = Value(receiptRow, "Total_Amount") },
+                new SqlParameter("@DVH", SqlDbType.Char, 64) { Value = receiptRow.Dvh },
+                new SqlParameter("@Status", SqlDbType.Int) { Value = Value(acquisitionRow, "Status") },
+                new SqlParameter("@Acquisition_DVH", SqlDbType.Char, 64) { Value = acquisitionRow.Dvh });
+        }
+
+        public DataTable GetReceipt(Guid acquisitionId)
+        {
+            return Read("PurchaseReceipts_GetByAcquisition", new SqlParameter("@Acquisition_Id", acquisitionId));
         }
 
         private static SqlParameter[] DocumentParameters(Guid id, Guid acquisitionId, Guid documentTypeId, int status, DateTime issueDate,

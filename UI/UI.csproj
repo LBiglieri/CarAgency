@@ -157,6 +157,18 @@
     <Compile Include="Acquisitions\ManageAcquisitionForm.Designer.cs">
       <DependentUpon>ManageAcquisitionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Acquisitions\PayAcquisitionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acquisitions\PayAcquisitionForm.Designer.cs">
+      <DependentUpon>PayAcquisitionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Acquisitions\AddAcquisitionPaymentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acquisitions\AddAcquisitionPaymentForm.Designer.cs">
+      <DependentUpon>AddAcquisitionPaymentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Acquisitions\Controls\AcquisitionDocumentsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -299,6 +311,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Acquisitions\ManageAcquisitionForm.resx">
       <DependentUpon>ManageAcquisitionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acquisitions\PayAcquisitionForm.resx">
+      <DependentUpon>PayAcquisitionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acquisitions\AddAcquisitionPaymentForm.resx">
+      <DependentUpon>AddAcquisitionPaymentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Acquisitions\Controls\AcquisitionDocumentsView.resx">
       <DependentUpon>AcquisitionDocumentsView.cs</DependentUpon>

@@ -1,7 +1,7 @@
 CREATE or ALTER proc Acquisitions_GetSummary @Id uniqueidentifier as
 
 -- Resumen completo de la compra (CUF10 paso 20): vehiculo, inspeccion, tasacion aceptada, acuerdo,
--- lo pagado en CUF11 y la transferencia. Los datos del cliente se leen aparte porque estan encriptados.
+-- lo pagado y el comprobante de CUF11 y la transferencia. Los datos del cliente se leen aparte porque estan encriptados.
 select	a.Id,
         a.Number,
         a.Client_Id,
@@ -26,6 +26,8 @@ select	a.Id,
         a.Owner_CUIL_CUIT,
         a.Contract_Signed_Date,
         isnull((select sum(y.Amount) from AcquisitionPayments y where y.Acquisition_Id = a.Id), 0) as Paid_Amount,
+        r.Number as Receipt_Number,
+        r.Issue_Date as Receipt_Issue_Date,
         a.Precharge_Code_08,
         a.Transfer_Appointment_Date,
         a.Closing_Date
@@ -38,6 +40,7 @@ from	Acquisitions a
 		join Versions f on (f.Id = g.Version_Id)
 		join Colours e on (e.Id = g.Colour_Id)
         left join Appraisals x on (x.Id = a.Accepted_Appraisal_Id)
+        left join PurchaseReceipts r on (r.Acquisition_Id = a.Id)
 where	a.Id = @Id
 
 go

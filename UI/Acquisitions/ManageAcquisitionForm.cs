@@ -417,6 +417,9 @@ namespace UI.Vehicles
                     lines.Add("      " + string.Format(LanguageService.GetTagText("SummaryPaymentTerm"), GetPaymentTypeDescription(term.PaymentType_Description),
                         term.Amount.ToString("N2"), term.Paid_Amount.ToString("N2")));
             lines.Add(string.Format(LanguageService.GetTagText("SummaryPaid"), summary.Paid_Amount.ToString("N2")));
+            if (summary.Receipt_Number != null)
+                lines.Add(string.Format(LanguageService.GetTagText("SummaryReceipt"), summary.Receipt_Number.Value,
+                    summary.Receipt_Issue_Date.Value.ToString("dd/MM/yyyy")));
             lines.Add(string.Format(LanguageService.GetTagText("SummaryTransfer"), summary.Precharge_Code_08,
                 summary.Transfer_Appointment_Date.Value.ToString("dd/MM/yyyy")));
             lines.Add(LanguageService.GetTagText("SummaryDocuments"));

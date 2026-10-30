@@ -75,6 +75,7 @@ namespace UI.Vehicles
                 pending_appraisals = _AcquisitionBLL.GetPendingAppraisals(tbFilter.Text);
                 gridPending.DataSource = null;
                 gridPending.DataSource = pending_appraisals;
+                PerformSelectAcquisition();
             }
             catch (Exception ex)
             {

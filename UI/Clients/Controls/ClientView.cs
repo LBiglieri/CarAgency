@@ -44,6 +44,22 @@ namespace UI.Clients.Controls
             UpdateControlView();
         }
 
+        // Vuelve a pedir el DNI para buscar otro cliente (PayAcquisitionForm).
+        public void Clear()
+        {
+            client = null;
+            lblDNI.Visible = false;
+            lblNameSurname.Visible = false;
+            lblPhoneHome.Visible = false;
+            lblPhonePersonal.Visible = false;
+            lblEmail.Visible = false;
+            lblPlease.Visible = true;
+            tbDni.Text = "";
+            tbDni.Visible = true;
+            tbDni.Enabled = true;
+            UpdateLanguage("");
+        }
+
         private void UpdateControlView()
         {
             if (client != null)

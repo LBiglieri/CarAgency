@@ -364,6 +364,8 @@ namespace CarAgency.Mappers
                 summary.Precharge_Code_08 = row["Precharge_Code_08"] as string;
                 summary.Transfer_Appointment_Date = row["Transfer_Appointment_Date"] as DateTime?;
                 summary.Closing_Date = row["Closing_Date"] as DateTime?;
+                summary.Receipt_Number = row["Receipt_Number"] as int?;
+                summary.Receipt_Issue_Date = row["Receipt_Issue_Date"] as DateTime?;
                 return summary;
             }
         }
@@ -373,6 +375,83 @@ namespace CarAgency.Mappers
         {
             return DigitVerifierWriteMapper.Save(digitVerifier => data.Finish(VehicleRow(vehicle), AcquisitionRow(acquisition),
                 digitVerifier.Dvh("Vehicles"), digitVerifier.Dvh("Acquisitions")), "Vehicles", "Acquisitions");
+        }
+
+        // Sin compras para pagar ni comprobantes emitidos devuelve null.
+        public List<PayableAcquisition> GetPendingPayment(Guid Client_Id)
+        {
+            List<PayableAcquisition> acquisitions = new List<PayableAcquisition>();
+            using (DataTable table = data.GetPendingPayment(Client_Id))
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    PayableAcquisition acquisition = new PayableAcquisition();
+                    acquisition.Id = (Guid)row["Id"];
+                    acquisition.Number = (int)row["Number"];
+                    acquisition.License_Plate = (string)row["License_Plate"];
+                    acquisition.Vehicle_Description = (string)row["Vehicle_Description"];
+                    acquisition.Agreed_Price = (double)row["Agreed_Price"];
+                    acquisition.Paid_Amount = (double)row["Paid_Amount"];
+                    acquisition.Receipt_Number = row["Receipt_Number"] as int?;
+                    acquisition.Status = (AcquisitionStatus)(int)row["Status"];
+                    acquisitions.Add(acquisition);
+                }
+            }
+            return acquisitions.Count == 0 ? null : acquisitions;
+        }
+
+        // Los datos de cada medio son NULL en los otros: los pagos se arman a mano.
+        public List<AcquisitionPayment> GetPayments(Guid Acquisition_Id)
+        {
+            List<AcquisitionPayment> payments = new List<AcquisitionPayment>();
+            using (DataTable table = data.GetPayments(Acquisition_Id))
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    AcquisitionPayment payment = new AcquisitionPayment();
+                    payment.Id = (Guid)row["Id"];
+                    payment.Acquisition_Id = (Guid)row["Acquisition_Id"];
+                    payment.PaymentType_Id = (Guid)row["PaymentType_Id"];
+                    payment.PaymentType_Description = (string)row["PaymentType_Description"];
+                    payment.Cashier_Id = (Guid)row["Cashier_Id"];
+                    payment.Cashier = (string)row["Cashier"];
+                    payment.Amount = (double)row["Amount"];
+                    payment.Bank = row["Bank"] as string;
+                    payment.Cbu_Alias = row["Cbu_Alias"] as string;
+                    payment.Operation_Number = row["Operation_Number"] as string;
+                    payment.Check_Number = row["Check_Number"] as string;
+                    payment.Payment_Date = row["Payment_Date"] as DateTime?;
+                    payment.Creation_Date = (DateTime)row["Creation_Date"];
+                    payments.Add(payment);
+                }
+            }
+            return payments;
+        }
+
+        public SQLUpdateResult AddPayment(AcquisitionPayment payment)
+        {
+            return DigitVerifierWriteMapper.Save("AcquisitionPayments", dvh => data.AddPayment(payment.Id, payment.Acquisition_Id,
+                payment.PaymentType_Id, payment.Cashier_Id, payment.Amount, payment.Bank, payment.Cbu_Alias, payment.Operation_Number,
+                payment.Check_Number, payment.Payment_Date, payment.Creation_Date, dvh));
+        }
+
+        public int GetNextReceiptNumber()
+        {
+            using (DataTable table = data.GetNextReceiptNumber())
+                return (int)table.Rows[0]["Number"];
+        }
+
+        // Comprobante y adquisicion se graban en una sola transaccion y despues se rehacen sus DVV.
+        public SQLUpdateResult PayAcquisition(PurchaseReceipt receipt, Acquisition acquisition)
+        {
+            return DigitVerifierWriteMapper.Save(digitVerifier => data.Pay(ReceiptRow(receipt), AcquisitionRow(acquisition),
+                digitVerifier.Dvh("PurchaseReceipts"), digitVerifier.Dvh("Acquisitions")), "PurchaseReceipts", "Acquisitions");
+        }
+
+        // Sin comprobante emitido devuelve null.
+        public PurchaseReceipt GetReceipt(Guid Acquisition_Id)
+        {
+            return MappingHandler.MapTableToEntities<PurchaseReceipt>(data.GetReceipt(Acquisition_Id)).FirstOrDefault();
         }
 
         // Filas completas de cada tabla, con el nombre de columna como clave.
@@ -422,6 +501,23 @@ namespace CarAgency.Mappers
                 { "Transfer_Appointment_Date", acquisition.Transfer_Appointment_Date },
                 { "Vehicle_Id", acquisition.Vehicle_Id },
                 { "Closing_Date", acquisition.Closing_Date }
+            };
+        }
+
+        private static IDictionary<string, object> ReceiptRow(PurchaseReceipt receipt)
+        {
+            return new Dictionary<string, object>
+            {
+                { "Id", receipt.Id },
+                { "Number", receipt.Number },
+                { "Acquisition_Id", receipt.Acquisition_Id },
+                { "Issue_Date", receipt.Issue_Date },
+                { "Client_Name", receipt.Client_Name },
+                { "Client_CUIL_CUIT", receipt.Client_CUIL_CUIT },
+                { "Detail", receipt.Detail },
+                { "Net_Amount", receipt.Net_Amount },
+                { "Tax_Amount", receipt.Tax_Amount },
+                { "Total_Amount", receipt.Total_Amount }
             };
         }
 

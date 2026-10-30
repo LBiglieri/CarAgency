@@ -38,6 +38,8 @@ namespace CarAgency.BE
         public string Precharge_Code_08 { get; set; }
         public DateTime? Transfer_Appointment_Date { get; set; }
         public DateTime? Closing_Date { get; set; }
+        public int? Receipt_Number { get; set; }
+        public DateTime? Receipt_Issue_Date { get; set; }
 
     }
 }

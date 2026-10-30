@@ -83,6 +83,7 @@ namespace UI.Vehicles
                 scheduled_inspections = _AcquisitionBLL.GetScheduledInspections();
                 gridScheduled.DataSource = null;
                 gridScheduled.DataSource = scheduled_inspections;
+                PerformSelectInspection();
             }
             catch (Exception ex)
             {

@@ -45,6 +45,7 @@
             this.registerInspectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.appraiseVehicleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageAcquisitionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.payAcquisitionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.managementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -173,7 +174,8 @@
             this.registerAcquisitionToolStripMenuItem,
             this.registerInspectionToolStripMenuItem,
             this.appraiseVehicleToolStripMenuItem,
-            this.manageAcquisitionToolStripMenuItem});
+            this.manageAcquisitionToolStripMenuItem,
+            this.payAcquisitionToolStripMenuItem});
             this.acquisitionsToolStripMenuItem.Name = "acquisitionsToolStripMenuItem";
             this.acquisitionsToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.acquisitionsToolStripMenuItem.Tag = "acquisitionsToolStripMenuItem";
@@ -210,6 +212,14 @@
             this.manageAcquisitionToolStripMenuItem.Tag = "manageAcquisitionToolStripMenuItem";
             this.manageAcquisitionToolStripMenuItem.Text = "Manage Vehicle Purchase";
             this.manageAcquisitionToolStripMenuItem.Click += new System.EventHandler(this.manageAcquisitionToolStripMenuItem_Click);
+            //
+            // payAcquisitionToolStripMenuItem
+            //
+            this.payAcquisitionToolStripMenuItem.Name = "payAcquisitionToolStripMenuItem";
+            this.payAcquisitionToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.payAcquisitionToolStripMenuItem.Tag = "payAcquisitionToolStripMenuItem";
+            this.payAcquisitionToolStripMenuItem.Text = "Pay Purchase to Client";
+            this.payAcquisitionToolStripMenuItem.Click += new System.EventHandler(this.payAcquisitionToolStripMenuItem_Click);
             //
             // billingToolStripMenuItem
             // 
@@ -368,6 +378,7 @@
         private System.Windows.Forms.ToolStripMenuItem registerInspectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem appraiseVehicleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageAcquisitionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem payAcquisitionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem billingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateInvoiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem managementToolStripMenuItem;
