@@ -38,11 +38,13 @@
             this.tbPassword = new MetroFramework.Controls.MetroTextBox();
             this.lblWelcome = new MetroFramework.Controls.MetroLabel();
             this.tbUser = new MetroFramework.Controls.MetroTextBox();
+            this.btnMechanic = new MetroFramework.Controls.MetroButton();
             this.LoginPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // LoginPanel
             // 
+            this.LoginPanel.Controls.Add(this.btnMechanic);
             this.LoginPanel.Controls.Add(this.btnAdministrative);
             this.LoginPanel.Controls.Add(this.btnCashier);
             this.LoginPanel.Controls.Add(this.btnAdmin);
@@ -65,7 +67,7 @@
             // 
             // btnAdministrative
             // 
-            this.btnAdministrative.Location = new System.Drawing.Point(498, 241);
+            this.btnAdministrative.Location = new System.Drawing.Point(498, 212);
             this.btnAdministrative.Name = "btnAdministrative";
             this.btnAdministrative.Size = new System.Drawing.Size(27, 23);
             this.btnAdministrative.TabIndex = 9;
@@ -75,7 +77,7 @@
             // 
             // btnCashier
             // 
-            this.btnCashier.Location = new System.Drawing.Point(498, 212);
+            this.btnCashier.Location = new System.Drawing.Point(498, 183);
             this.btnCashier.Name = "btnCashier";
             this.btnCashier.Size = new System.Drawing.Size(27, 23);
             this.btnCashier.TabIndex = 8;
@@ -85,7 +87,7 @@
             // 
             // btnAdmin
             // 
-            this.btnAdmin.Location = new System.Drawing.Point(498, 154);
+            this.btnAdmin.Location = new System.Drawing.Point(498, 125);
             this.btnAdmin.Name = "btnAdmin";
             this.btnAdmin.Size = new System.Drawing.Size(27, 23);
             this.btnAdmin.TabIndex = 7;
@@ -95,7 +97,7 @@
             // 
             // btnSales
             // 
-            this.btnSales.Location = new System.Drawing.Point(498, 183);
+            this.btnSales.Location = new System.Drawing.Point(498, 154);
             this.btnSales.Name = "btnSales";
             this.btnSales.Size = new System.Drawing.Size(27, 23);
             this.btnSales.TabIndex = 6;
@@ -208,6 +210,16 @@
             this.tbUser.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.tbUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbUser_KeyDown);
             // 
+            // btnMechanic
+            // 
+            this.btnMechanic.Location = new System.Drawing.Point(498, 241);
+            this.btnMechanic.Name = "btnMechanic";
+            this.btnMechanic.Size = new System.Drawing.Size(27, 23);
+            this.btnMechanic.TabIndex = 10;
+            this.btnMechanic.Text = "🔨";
+            this.btnMechanic.UseSelectable = true;
+            this.btnMechanic.Click += new System.EventHandler(this.btnMechanic_Click);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,6 +250,7 @@
         private MetroFramework.Controls.MetroButton btnAdmin;
         private MetroFramework.Controls.MetroButton btnAdministrative;
         private MetroFramework.Controls.MetroButton btnCashier;
+        private MetroFramework.Controls.MetroButton btnMechanic;
     }
 }
 

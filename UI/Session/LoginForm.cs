@@ -124,5 +124,10 @@ namespace CarAgency.UI
         {
             tbUser.Text = "RDMoniado";
         }
+
+        private void btnMechanic_Click(object sender, EventArgs e)
+        {
+            tbUser.Text = "AParedes";
+        }
     }
 }
