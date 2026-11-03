@@ -2,7 +2,7 @@
 # Uso: powershell -ExecutionPolicy Bypass -File Database\GenerarScript.ps1 [-Server .] [-Database CarAgency]
 #
 # El script no incluye CREATE DATABASE ni USE: DbSetup crea la base y ejecuta el script conectado a ella.
-# Orden: tipos y tablas sin claves foraneas -> datos -> claves foraneas -> procedimientos,
+# Orden: tipos, secuencias y tablas sin claves foraneas -> datos -> claves foraneas -> procedimientos,
 # asi los INSERT no dependen del orden entre tablas.
 param(
     [string]$Server = ".",
@@ -87,7 +87,20 @@ $schema.DriDefaults = $true
 $schema.Indexes = $true
 $schema.DriForeignKeys = $false
 foreach ($type in $types) { Add-Script $type.Script($schema) }
-foreach ($table in $tables) { Add-Script $table.Script($schema) }
+
+# Las SEQUENCE siguen desde el ultimo valor usado: los numeros que ya estan en los datos no se repiten.
+$sequences = $db.ExecuteWithResults(
+    "SELECT s.name AS Name, TYPE_NAME(s.user_type_id) AS TypeName, CAST(s.increment AS bigint) AS Increment, " +
+    "CAST(COALESCE(CAST(s.last_used_value AS bigint) + CAST(s.increment AS bigint), CAST(s.start_value AS bigint)) AS bigint) AS NextValue " +
+    "FROM sys.sequences s WHERE SCHEMA_NAME(s.schema_id) = 'dbo' ORDER BY s.name").Tables[0].Rows
+foreach ($sequence in $sequences) {
+    Add-Line ("CREATE SEQUENCE [dbo].[{0}] AS {1} START WITH {2} INCREMENT BY {3}" -f $sequence.Name, $sequence.TypeName, $sequence.NextValue, $sequence.Increment)
+    Add-Line "GO"
+}
+
+# SMO vuelve ANSI_PADDING a OFF despues de cada tabla, y los indices filtrados (UX_Acquisitions_Vehicle)
+# solo se crean con ON: se deja ON para todo el script.
+foreach ($table in $tables) { Add-Script @($table.Script($schema) | Where-Object { $_ -notmatch '^\s*SET ANSI_PADDING OFF\s*$' }) }
 
 # 2. Datos. Se copian los valores tal cual estan, incluidos DVH y DVV.
 $data = New-Options
@@ -114,4 +127,4 @@ foreach ($procedure in (Sort-ByDependency $procedures)) { Add-Script $procedure.
 
 $utf8 = New-Object System.Text.UTF8Encoding($true)
 [System.IO.File]::WriteAllText($Output, $sqlText.ToString(), $utf8)
-Write-Host ("Generado {0}: {1} tablas, {2} tipos, {3} procedimientos." -f $Output, $tables.Count, $types.Count, $procedures.Count)
+Write-Host ("Generado {0}: {1} tablas, {2} tipos, {3} secuencias, {4} procedimientos." -f $Output, $tables.Count, $types.Count, @($sequences).Count, $procedures.Count)
