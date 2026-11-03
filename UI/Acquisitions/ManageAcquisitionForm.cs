@@ -35,6 +35,7 @@ namespace UI.Vehicles
         // El acuerdo en pantalla es el que esta guardado: recien ahi se puede registrar la firma.
         bool agreement_registered;
         MetroFramework.Controls.MetroTabPage stage_tab;
+        List<MetroFramework.Controls.MetroTabPage> previous_tabs = new List<MetroFramework.Controls.MetroTabPage>();
 
         public ManageAcquisitionForm()
         {
@@ -178,44 +179,85 @@ namespace UI.Vehicles
                 MessageBox.Show(LanguageService.GetErrorText(ex));
             }
         }
-        // CUF10 paso 2: solo se habilita la etapa que corresponde al estado de la compra.
+        // CUF10 paso 2: solo se gestiona la etapa que corresponde al estado de la compra;
+        // las etapas ya cumplidas se pueden consultar sin modificarlas.
         private void PerformInitStage()
         {
             stage_tab = null;
+            previous_tabs = new List<MetroFramework.Controls.MetroTabPage>();
             switch (acquisition.Status)
             {
                 case AcquisitionStatus.Appraised:
                     // 3.1: con la tasacion vencida no se puede seguir.
                     if (!_AcquisitionBLL.IsAppraisalExpired(appraisal))
-                    {
                         stage_tab = tabFormalize;
-                        MapAgreementToControls();
-                    }
                     break;
                 case AcquisitionStatus.PurchaseFormalized:
                     stage_tab = tabDocuments;
-                    documentsView1.InitWithAcquisition(acquisition.Id, true);
+                    previous_tabs.Add(tabFormalize);
+                    break;
+                case AcquisitionStatus.DocumentationComplete:
+                    previous_tabs.Add(tabFormalize);
+                    previous_tabs.Add(tabDocuments);
                     break;
                 case AcquisitionStatus.Paid:
                     stage_tab = tabTransfer;
-                    transferDocumentsView1.InitWithAcquisition(acquisition.Id, true);
-                    tbPaperwork_Precharge_Code.Text = acquisition.Precharge_Code_08;
-                    if (acquisition.Transfer_Appointment_Date == null)
-                        dtTransfer_Appointment_Date.Checked = false;
-                    else
-                    {
-                        dtTransfer_Appointment_Date.Checked = true;
-                        dtTransfer_Appointment_Date.Value = acquisition.Transfer_Appointment_Date.Value;
-                    }
+                    previous_tabs.Add(tabFormalize);
+                    previous_tabs.Add(tabDocuments);
                     break;
                 case AcquisitionStatus.Transferred:
                     stage_tab = tabFinish;
+                    previous_tabs.Add(tabFormalize);
+                    previous_tabs.Add(tabDocuments);
+                    previous_tabs.Add(tabTransfer);
                     break;
             }
+            if (stage_tab == tabFormalize || previous_tabs.Contains(tabFormalize))
+                MapAgreementToControls();
+            if (stage_tab == tabDocuments || previous_tabs.Contains(tabDocuments))
+                documentsView1.InitWithAcquisition(acquisition.Id, stage_tab == tabDocuments);
+            if (stage_tab == tabTransfer || previous_tabs.Contains(tabTransfer))
+            {
+                transferDocumentsView1.InitWithAcquisition(acquisition.Id, stage_tab == tabTransfer);
+                MapAppointmentToControls();
+            }
+            EnableFormalizeControls(stage_tab == tabFormalize);
+            EnableTransferControls(stage_tab == tabTransfer);
             MapAcquisitionToControls();
             MapTransferToControls();
             MapSummaryToControls();
             tabStages.SelectedTab = stage_tab == null ? tabInspection : stage_tab;
+        }
+        private void MapAppointmentToControls()
+        {
+            tbPaperwork_Precharge_Code.Text = acquisition.Precharge_Code_08;
+            if (acquisition.Transfer_Appointment_Date == null)
+                dtTransfer_Appointment_Date.Checked = false;
+            else
+            {
+                dtTransfer_Appointment_Date.Checked = true;
+                dtTransfer_Appointment_Date.Value = acquisition.Transfer_Appointment_Date.Value;
+            }
+        }
+        // Una etapa ya cumplida se muestra con sus datos pero sin acciones.
+        private void EnableFormalizeControls(bool editable)
+        {
+            tbAgreed_Price.Enabled = editable;
+            tbOwner_CUIL_CUIT.Enabled = editable;
+            comboPaymentType.Enabled = editable;
+            tbTermAmount.Enabled = editable;
+            btnAddTerm.Enabled = editable;
+            btnRemoveTerm.Enabled = editable;
+            btnRejectAppraisal.Enabled = editable;
+            btnGenerateContract.Enabled = editable;
+            UpdateAgreementButtons();
+        }
+        private void EnableTransferControls(bool editable)
+        {
+            tbPaperwork_Precharge_Code.Enabled = editable;
+            dtTransfer_Appointment_Date.Enabled = editable;
+            btnScheduleTransfer.Enabled = editable;
+            btnRegisterTransfer.Enabled = editable;
         }
         private void ClearAcquisition()
         {
@@ -224,6 +266,7 @@ namespace UI.Vehicles
             appraisal = null;
             client = null;
             stage_tab = null;
+            previous_tabs = new List<MetroFramework.Controls.MetroTabPage>();
             payment_terms = new List<AcquisitionPaymentTerm>();
             inspectionView1.Clear();
             documentsView1.Clear();
@@ -330,8 +373,8 @@ namespace UI.Vehicles
         }
         private void UpdateAgreementButtons()
         {
-            btnContractSigned.Enabled = agreement_registered;
-            btnContractNotSigned.Enabled = agreement_registered;
+            btnContractSigned.Enabled = agreement_registered && stage_tab == tabFormalize;
+            btnContractNotSigned.Enabled = agreement_registered && stage_tab == tabFormalize;
         }
         // CUF10 6.1: se indica la diferencia y se vuelve a la forma de pago.
         private bool ValidateAgreementControls()
@@ -581,6 +624,7 @@ namespace UI.Vehicles
         }
 
         // CUF10 paso 25: copias del formulario 08 firmado y de la baja municipal para entregar al cliente.
+        // Se guardan en el Escritorio sin abrirlas.
         void PerformExportTransferCopies()
         {
             foreach (AcquisitionDocument document in _AcquisitionBLL.GetDocuments(acquisition.Id).Where(d => d.Stage == AcquisitionDocumentStage.Transfer))
@@ -589,7 +633,6 @@ namespace UI.Vehicles
                 string filename = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CarAgency " + document.Description + " " + acquisition.Number
                     + " " + client.Surname + " " + client.Name + Path.GetExtension(file.FileName);
                 File.WriteAllBytes(filename, file.FileContent);
-                Process.Start(filename);
             }
         }
         #endregion
@@ -608,10 +651,10 @@ namespace UI.Vehicles
             }
         }
 
-        // Solo se entra a la etapa del estado actual; la inspeccion se puede consultar siempre.
+        // Se entra a la etapa del estado actual y a las ya cumplidas; la inspeccion se puede consultar siempre.
         private void tabStages_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (e.TabPage != tabInspection && e.TabPage != stage_tab)
+            if (e.TabPage != tabInspection && e.TabPage != stage_tab && !previous_tabs.Contains(e.TabPage))
                 e.Cancel = true;
         }
 

@@ -60,20 +60,30 @@ namespace UI.Vehicles
             lblInspectionHour.Text = LanguageService.GetTagText(lblInspectionHour.Tag.ToString());
             lblMechanic.Text = LanguageService.GetTagText(lblMechanic.Tag.ToString());
             btnRegisterAcquisition.Text = LanguageService.GetTagText(btnRegisterAcquisition.Tag.ToString());
+            if (comboColour.DataSource != null)
+                PerformUpdateColourCombos();
         }
+        // Los colores estan en ingles en la base: se muestran con su traduccion y se conserva el elegido.
         private void PerformUpdateColourCombos()
         {
             try
             {
-                List<Colour> colour = _VehicleBLL.GetAllColours();
-                comboColour.DataSource = colour;
-                comboColour.DisplayMember = "Description";
-                comboColour.SelectedIndex = -1;
+                Guid? selected = comboColour.SelectedIndex == -1 ? (Guid?)null : ((KeyValuePair<Colour, string>)comboColour.SelectedItem).Key.Id;
+                List<KeyValuePair<Colour, string>> colours = _VehicleBLL.GetAllColours()
+                    .Select(c => new KeyValuePair<Colour, string>(c, GetColourDescription(c.Description))).ToList();
+                comboColour.DataSource = colours;
+                comboColour.DisplayMember = "Value";
+                comboColour.ValueMember = "Key";
+                comboColour.SelectedIndex = selected == null ? -1 : colours.FindIndex(c => c.Key.Id == selected.Value);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(LanguageService.GetErrorText(ex));
             }
+        }
+        private string GetColourDescription(string description)
+        {
+            return LanguageService.GetTagText("Colour_" + description.Replace(" ", ""), description);
         }
         private void PerformUpdateMakeCombos()
         {
@@ -187,7 +197,7 @@ namespace UI.Vehicles
             vehicle.Make_Id = ((Make)comboMake.SelectedItem).Id;
             vehicle.Model_Id = ((Model)comboModel.SelectedItem).Id;
             vehicle.Version_Id = ((CarAgency.BE.Version)comboVersions.SelectedItem).Id;
-            vehicle.Colour_Id = ((Colour)comboColour.SelectedItem).Id;
+            vehicle.Colour_Id = ((KeyValuePair<Colour, string>)comboColour.SelectedItem).Key.Id;
             vehicle.Year = int.Parse(tbYear.Text);
             vehicle.Doors = int.Parse(tbDoors.Text);
             vehicle.Declared_Kilometers = int.Parse(tbDeclared_Kilometers.Text);
