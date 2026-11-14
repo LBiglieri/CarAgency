@@ -50,34 +50,34 @@ namespace CarAgency.Security.Integrity
         private DV CreateVertical(string table)
         {
             return new DV {
-                SchemaName = "dbo", TableName = table, AlgorithmVersion = 1,
+                NombreEsquema = "dbo", NombreTabla = table, VersionAlgoritmo = 1,
                 DVV = calculator.CalculateDvv(table, mapper.GetHorizontalDigits(table).Select(d => d.DVH))
             };
         }
 
-        public DVFamilyDeletion PrepareFamilyDeletion(Guid familyId)
+        public DVFamiliaDeletion PrepareFamilyDeletion(Guid familyId)
         {
-            EnsureConfigured("Users", "Permissions", "Permission_Permission");
+            EnsureConfigured("Usuario", "Permiso", "Permiso_Permiso");
             IReadOnlyList<DVRow> users = mapper.GetUsersByRole(familyId);
             Guid? baseRole = null;
             if (users.Count > 0)
             {
-                IReadOnlyList<Family> roles = mapper.GetBaseRoles();
+                IReadOnlyList<Familia> roles = mapper.GetBaseRoles();
                 if (roles.Count != 1)
                     throw new TranslatableException("DVBaseUserFamilyRequired", "Debe existir una unica familia 'Base User' para reasignar usuarios.");
-                baseRole = roles[0].Id;
+                baseRole = roles[0].Permiso_Id;
                 if (baseRole == familyId)
                     throw new TranslatableException("DVBaseUserHasAssignedUsers", "No se puede eliminar Base User mientras tenga usuarios asignados.");
             }
-            var digests = new List<DVUserDigest>();
-            IReadOnlyList<DVColumn> columns = mapper.GetColumns("Users");
+            var digests = new List<DVUsuarioDigest>();
+            IReadOnlyList<DVColumn> columns = mapper.GetColumns("Usuario");
             foreach (DVRow user in users)
             {
-                string dvh = calculator.CalculateDvh("Users", columns,
-                    name => name == "Role_Id" ? (object)baseRole.Value : user.GetValue(name));
-                digests.Add(new DVUserDigest { Id = (Guid)user.GetValue("Id"), DVH = dvh });
+                string dvh = calculator.CalculateDvh("Usuario", columns,
+                    name => name == "Rol_Id" ? (object)baseRole.Value : user.GetValue(name));
+                digests.Add(new DVUsuarioDigest { Usuario_Id = (Guid)user.GetValue("Usuario_Id"), DVH = dvh });
             }
-            return new DVFamilyDeletion(baseRole, digests);
+            return new DVFamiliaDeletion(baseRole, digests);
         }
 
     }

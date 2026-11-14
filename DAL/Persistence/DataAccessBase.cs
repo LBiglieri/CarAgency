@@ -22,6 +22,7 @@ namespace CarAgency.DAL.Persistence
             using (var command = Command(procedure, connection, dvh, parameters))
             {
                 connection.Open();
+                DatabaseSessionContext.Apply(connection);
                 using (var reader = command.ExecuteReader())
                 {
                     var table = new DataTable();
@@ -37,6 +38,7 @@ namespace CarAgency.DAL.Persistence
             using (var command = Command(procedure, connection, dvh, parameters))
             {
                 connection.Open();
+                DatabaseSessionContext.Apply(connection);
                 return command.ExecuteNonQuery();
             }
         }

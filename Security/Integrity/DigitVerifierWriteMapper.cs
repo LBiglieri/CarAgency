@@ -31,7 +31,7 @@ namespace CarAgency.Security.Integrity
             };
         }
 
-        public DVFamilyDeletion PrepareFamilyDeletion(Guid familyId) { return bll.PrepareFamilyDeletion(familyId); }
+        public DVFamiliaDeletion PrepareFamilyDeletion(Guid familyId) { return bll.PrepareFamilyDeletion(familyId); }
 
         // Alta o modificacion de una fila protegida: el SP recibe el DVH y, si sale bien, se rehace el DVV.
         public static SQLUpdateResult Save(string table, Func<DvhCalculator, DataTable> write)

@@ -54,7 +54,7 @@ namespace CarAgency.UI
             btnVerify.Enabled = !value;
             btnRecalculate.Enabled = !value && report.CanRecalculate;
             btnRestore.Enabled = !value && (recovery != null ? recovery.CanRestore
-                : SessionHandler.Instance.IsAuthorized(PermissionType.BackupRestoreForm));
+                : SessionHandler.Instance.IsAuthorized(PermisoType.BackupRestoreForm));
             btnExit.Enabled = !value;
         }
 

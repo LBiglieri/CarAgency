@@ -12,7 +12,8 @@ using CarAgency.BE;
 using CarAgency.Security;
 using CarAgency.Security.Session;
 using BE;
-using UI.Vehicles;
+using UI.Vehiculos;
+using UI.Reportes;
 using Security.Session;
 
 namespace CarAgency.UI
@@ -70,6 +71,10 @@ namespace CarAgency.UI
                 managementToolStripMenuItem.Visible = false;
                 managePaperworkToolStripMenuItem.Visible = false;
 
+                reportsToolStripMenuItem.Visible = false;
+                salesForecastToolStripMenuItem.Visible = false;
+                purchaseForecastToolStripMenuItem.Visible = false;
+
                 configurationToolStripMenuItem.Visible = false;
                 permissionConfigurationToolStripMenuItem.Visible = false;
                 userManagementToolStripMenuItem.Visible = false;
@@ -77,38 +82,47 @@ namespace CarAgency.UI
                 vehicleManagementToolStripMenuItem.Visible = false;
                 backupRestoreDatabaseToolStripMenuItem.Visible = false;
                 eventLogToolStripMenuItem.Visible = false;
+                changeLogToolStripMenuItem.Visible = false;
                 integrityRepairToolStripMenuItem.Visible = false;
                 return;
             }
 
-            changePasswordToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ChangePasswordForm));
+            changePasswordToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.ChangePasswordForm));
 
-            salesToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateQuotationForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateReservationForm)));
-            newQuotationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateQuotationForm));
-            newReservationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateReservationForm));
+            salesToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermisoType.GenerateCotizacionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.GenerateReservaForm)));
+            newQuotationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.GenerateCotizacionForm));
+            newReservationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.GenerateReservaForm));
 
-            acquisitionsToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterAcquisitionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterInspectionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.AppraiseVehicleForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManageAcquisitionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.PayAcquisitionForm)));
-            registerAcquisitionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterAcquisitionForm));
-            registerInspectionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.RegisterInspectionForm));
-            appraiseVehicleToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.AppraiseVehicleForm));
-            manageAcquisitionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManageAcquisitionForm));
-            payAcquisitionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.PayAcquisitionForm));
+            acquisitionsToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermisoType.RegisterCompraForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.RegisterInspeccionForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.AppraiseVehiculoForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.ManageCompraForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.PayCompraForm)));
+            registerAcquisitionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.RegisterCompraForm));
+            registerInspectionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.RegisterInspeccionForm));
+            appraiseVehicleToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.AppraiseVehiculoForm));
+            manageAcquisitionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.ManageCompraForm));
+            payAcquisitionToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.PayCompraForm));
 
-            billingToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateInvoiceForm));
-            generateInvoiceToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.GenerateInvoiceForm));
+            billingToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.GenerateFacturaForm));
+            generateInvoiceToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.GenerateFacturaForm));
 
-            managementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManagePaperworkForm));
-            managePaperworkToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.ManagePaperworkForm));
+            managementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.ManageTramiteForm));
+            managePaperworkToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.ManageTramiteForm));
 
-            configurationToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermissionType.PermissionManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.UserManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleModelConfigurationForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.BackupRestoreForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermissionType.EventLogForm)));
-            permissionConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.PermissionManagementForm));
-            userManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.UserManagementForm));
-            vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleModelConfigurationForm));
-            vehicleManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.VehicleManagementForm));
-            backupRestoreDatabaseToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.BackupRestoreForm));
-            eventLogToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermissionType.EventLogForm));
-            integrityRepairToolStripMenuItem.Visible = SessionHandler.Instance.IsAuthorized(BE.PermissionType.RecalculateDV);
-            configurationToolStripMenuItem.Visible |= integrityRepairToolStripMenuItem.Visible;
+            // El getter de ToolStripItem.Visible devuelve si el item se esta mostrando, no lo que se le asigno:
+            // con el desplegable cerrado da false. Por eso los menus padre se calculan con los permisos.
+            bool canForecastSales = SessionHandler.Instance.IsAuthorized(BE.PermisoType.ProyeccionVentasForm);
+            bool canForecastPurchases = SessionHandler.Instance.IsAuthorized(BE.PermisoType.ProyeccionComprasForm);
+            salesForecastToolStripMenuItem.Visible = canForecastSales;
+            purchaseForecastToolStripMenuItem.Visible = canForecastPurchases;
+            reportsToolStripMenuItem.Visible = canForecastSales || canForecastPurchases;
+
+            configurationToolStripMenuItem.Visible = ((SessionHandler.Instance.IsAuthorized(BE.PermisoType.PermisoManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.UsuarioManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.VehiculoModeloConfigurationForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.VehiculoManagementForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.BackupRestoreForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.BitacoraEventosForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.BitacoraCambiosForm)) || (SessionHandler.Instance.IsAuthorized(BE.PermisoType.RecalculateDV)));
+            permissionConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.PermisoManagementForm));
+            userManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.UsuarioManagementForm));
+            vehicleModelConfigurationToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.VehiculoModeloConfigurationForm));
+            vehicleManagementToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.VehiculoManagementForm));
+            backupRestoreDatabaseToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.BackupRestoreForm));
+            eventLogToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.BitacoraEventosForm));
+            changeLogToolStripMenuItem.Visible = (SessionHandler.Instance.IsAuthorized(BE.PermisoType.BitacoraCambiosForm));
+            integrityRepairToolStripMenuItem.Visible = SessionHandler.Instance.IsAuthorized(BE.PermisoType.RecalculateDV);
 
         }
 
@@ -142,12 +156,18 @@ namespace CarAgency.UI
             {
                 using (LoginForm form = new LoginForm())
                 {
-                    if (form.ShowDialog(this) == DialogResult.Abort) { Close(); return; }
+                    if (form.ShowDialog(this) == DialogResult.Abort)
+                    {
+                        // Diferido: Close() dentro de MainForm_Load descarta el formulario antes de que
+                        // Application.Run lo muestre y tira ObjectDisposedException.
+                        BeginInvoke(new Action(Close));
+                        return;
+                    }
                 }
                 if (SessionHandler.Instance.Logged())
                 {
                     UpdateTitle();
-                    UserBLL _userBLL = new UserBLL();
+                    UsuarioBLL _userBLL = new UsuarioBLL();
                     if (_userBLL.IsUsingDefaultPassword(SessionHandler.Instance.GetId()))
                     {
                         ChangePasswordForm frm = new ChangePasswordForm();
@@ -202,13 +222,13 @@ namespace CarAgency.UI
         }
         private void permissionConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PermissionManagementForm frm = new PermissionManagementForm();
+            PermisoManagementForm frm = new PermisoManagementForm();
             frm.MdiParent = this;
             frm.Show();
         }
         private void userManagementToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserManagementForm frm = new UserManagementForm();
+            UsuarioManagementForm frm = new UsuarioManagementForm();
             frm.MdiParent = this;
             frm.Show();
         }
@@ -235,77 +255,77 @@ namespace CarAgency.UI
 
         private void newQuotationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GenerateQuotationForm frm = new GenerateQuotationForm();
+            GenerateCotizacionForm frm = new GenerateCotizacionForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void newReservationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GenerateReservationForm frm = new GenerateReservationForm();
+            GenerateReservaForm frm = new GenerateReservaForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void registerAcquisitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RegisterAcquisitionForm frm = new RegisterAcquisitionForm();
+            RegisterCompraForm frm = new RegisterCompraForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void registerInspectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RegisterInspectionForm frm = new RegisterInspectionForm();
+            RegisterInspeccionForm frm = new RegisterInspeccionForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void appraiseVehicleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AppraiseVehicleForm frm = new AppraiseVehicleForm();
+            AppraiseVehiculoForm frm = new AppraiseVehiculoForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void manageAcquisitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ManageAcquisitionForm frm = new ManageAcquisitionForm();
+            ManageCompraForm frm = new ManageCompraForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void payAcquisitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PayAcquisitionForm frm = new PayAcquisitionForm();
+            PayCompraForm frm = new PayCompraForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void generateInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GenerateInvoiceForm frm = new GenerateInvoiceForm();
+            GenerateFacturaForm frm = new GenerateFacturaForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void managePaperworkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ManagePaperworkForm frm = new ManagePaperworkForm();
+            ManageTramiteForm frm = new ManageTramiteForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void vehicleModelConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            VehicleModelConfigurationForm frm = new VehicleModelConfigurationForm();
+            VehiculoModeloConfigurationForm frm = new VehiculoModeloConfigurationForm();
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void vehicleManagementToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            VehicleManagementForm frm = new VehicleManagementForm();
+            VehiculoManagementForm frm = new VehiculoManagementForm();
             frm.MdiParent = this;
             frm.Show();
         }
@@ -330,7 +350,40 @@ namespace CarAgency.UI
         {
             try
             {
-                EventLogForm frm = new EventLogForm();
+                BitacoraEventosForm frm = new BitacoraEventosForm();
+                frm.MdiParent = this;
+                frm.Show();
+            }
+            catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
+        }
+
+        private void changeLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BitacoraCambiosForm frm = new BitacoraCambiosForm();
+                frm.MdiParent = this;
+                frm.Show();
+            }
+            catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
+        }
+
+        private void salesForecastToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ProyeccionVentasForm frm = new ProyeccionVentasForm();
+                frm.MdiParent = this;
+                frm.Show();
+            }
+            catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
+        }
+
+        private void purchaseForecastToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ProyeccionComprasForm frm = new ProyeccionComprasForm();
                 frm.MdiParent = this;
                 frm.Show();
             }

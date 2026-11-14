@@ -50,6 +50,9 @@
             this.generateInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.managementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.managePaperworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salesForecastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.purchaseForecastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.permissionConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +61,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.backupRestoreDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.integrityRepairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -82,6 +86,7 @@
             this.acquisitionsToolStripMenuItem,
             this.billingToolStripMenuItem,
             this.managementToolStripMenuItem,
+            this.reportsToolStripMenuItem,
             this.configurationToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
@@ -218,7 +223,7 @@
             this.payAcquisitionToolStripMenuItem.Name = "payAcquisitionToolStripMenuItem";
             this.payAcquisitionToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.payAcquisitionToolStripMenuItem.Tag = "payAcquisitionToolStripMenuItem";
-            this.payAcquisitionToolStripMenuItem.Text = "Pay Purchase to Client";
+            this.payAcquisitionToolStripMenuItem.Text = "Pay Purchase to Supplier";
             this.payAcquisitionToolStripMenuItem.Click += new System.EventHandler(this.payAcquisitionToolStripMenuItem_Click);
             //
             // billingToolStripMenuItem
@@ -254,6 +259,32 @@
             this.managePaperworkToolStripMenuItem.Tag = "managePaperworkToolStripMenuItem";
             this.managePaperworkToolStripMenuItem.Text = "Manage Paperwork";
             this.managePaperworkToolStripMenuItem.Click += new System.EventHandler(this.managePaperworkToolStripMenuItem_Click);
+            //
+            // reportsToolStripMenuItem
+            //
+            this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.salesForecastToolStripMenuItem,
+            this.purchaseForecastToolStripMenuItem});
+            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.reportsToolStripMenuItem.Tag = "reportsToolStripMenuItem";
+            this.reportsToolStripMenuItem.Text = "Reports";
+            //
+            // salesForecastToolStripMenuItem
+            //
+            this.salesForecastToolStripMenuItem.Name = "salesForecastToolStripMenuItem";
+            this.salesForecastToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.salesForecastToolStripMenuItem.Tag = "ProyeccionVentasForm";
+            this.salesForecastToolStripMenuItem.Text = "Sales Forecast";
+            this.salesForecastToolStripMenuItem.Click += new System.EventHandler(this.salesForecastToolStripMenuItem_Click);
+            //
+            // purchaseForecastToolStripMenuItem
+            //
+            this.purchaseForecastToolStripMenuItem.Name = "purchaseForecastToolStripMenuItem";
+            this.purchaseForecastToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.purchaseForecastToolStripMenuItem.Tag = "ProyeccionComprasForm";
+            this.purchaseForecastToolStripMenuItem.Text = "Purchase Forecast";
+            this.purchaseForecastToolStripMenuItem.Click += new System.EventHandler(this.purchaseForecastToolStripMenuItem_Click);
             // 
             // configurationToolStripMenuItem
             // 
@@ -264,6 +295,7 @@
             this.vehicleManagementToolStripMenuItem,
             this.backupRestoreDatabaseToolStripMenuItem,
             this.eventLogToolStripMenuItem,
+            this.changeLogToolStripMenuItem,
             this.integrityRepairToolStripMenuItem});
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
             this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
@@ -323,9 +355,17 @@
             // 
             this.eventLogToolStripMenuItem.Name = "eventLogToolStripMenuItem";
             this.eventLogToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.eventLogToolStripMenuItem.Tag = "EventLogForm";
+            this.eventLogToolStripMenuItem.Tag = "BitacoraEventosForm";
             this.eventLogToolStripMenuItem.Text = "Event Log";
             this.eventLogToolStripMenuItem.Click += new System.EventHandler(this.eventLogToolStripMenuItem_Click);
+            //
+            // changeLogToolStripMenuItem
+            //
+            this.changeLogToolStripMenuItem.Name = "changeLogToolStripMenuItem";
+            this.changeLogToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.changeLogToolStripMenuItem.Tag = "BitacoraCambiosForm";
+            this.changeLogToolStripMenuItem.Text = "Change Log";
+            this.changeLogToolStripMenuItem.Click += new System.EventHandler(this.changeLogToolStripMenuItem_Click);
             //
             // integrityRepairToolStripMenuItem
             //
@@ -389,7 +429,11 @@
         private System.Windows.Forms.ToolStripMenuItem changeSystemsLanguageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backupRestoreDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eventLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem integrityRepairToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem salesForecastToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem purchaseForecastToolStripMenuItem;
     }
 }
 

@@ -39,7 +39,7 @@ namespace CarAgency.DAL.Integrity
 
         private static SqlParameter TableParameter(string table)
         {
-            return new SqlParameter("@TableName", SqlDbType.NVarChar, 128) { Value = (object)table ?? DBNull.Value };
+            return new SqlParameter("@NombreTabla", SqlDbType.NVarChar, 128) { Value = (object)table ?? DBNull.Value };
         }
 
         private DataTable Read(string procedure, params SqlParameter[] parameters)

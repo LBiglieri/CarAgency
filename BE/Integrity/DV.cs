@@ -2,9 +2,9 @@ namespace CarAgency.BE.Integrity
 {
     public sealed class DV
     {
-        [TableColumn] public string SchemaName { get; set; }
-        [TableColumn] public string TableName { get; set; }
+        [TableColumn] public string NombreEsquema { get; set; }
+        [TableColumn] public string NombreTabla { get; set; }
         [TableColumn] public string DVV { get; set; }
-        [TableColumn] public byte AlgorithmVersion { get; set; }
+        [TableColumn] public byte VersionAlgoritmo { get; set; }
     }
 }

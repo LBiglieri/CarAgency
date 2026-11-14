@@ -29,12 +29,15 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acquisitions\AcquisitionMapper.cs" />
-    <Compile Include="Billing\Invoices\InvoiceMapper.cs" /><Compile Include="Billing\Payments\PaymentMapper.cs" />
-    <Compile Include="Clients\ClientMapper.cs" /><Compile Include="Management\PaperworkMapper.cs" />
-    <Compile Include="Sales\Quotations\QuotationMapper.cs" />
-    <Compile Include="Sales\Reservation\ReservationMapper.cs" />
-    <Compile Include="Vehicles\VehicleMapper.cs" />
+    <Compile Include="Compras\CompraMapper.cs" />
+    <Compile Include="Billing\Facturas\FacturaMapper.cs" /><Compile Include="Billing\Pagos\PagoMapper.cs" />
+    <Compile Include="Personas\PersonaMapper.cs" /><Compile Include="Management\TramiteMapper.cs" />
+    <Compile Include="Sales\Cotizaciones\CotizacionMapper.cs" />
+    <Compile Include="Sales\Reservas\ReservaMapper.cs" />
+    <Compile Include="Vehiculos\VehiculoMapper.cs" />
+    <Compile Include="Vehiculos\BitacoraCambiosMapper.cs" />
+    <Compile Include="Reportes\ReporteVentasMapper.cs" />
+    <Compile Include="Reportes\ReporteComprasMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj"><Project>{569fec50-9ba5-44c9-bf55-da53213c6031}</Project><Name>BE</Name></ProjectReference>

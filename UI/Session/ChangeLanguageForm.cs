@@ -17,13 +17,13 @@ namespace CarAgency.UI
 {
     public partial class ChangeLanguageForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
-        UserBLL _userBLL;
+        UsuarioBLL _userBLL;
         List<Languages> languages;
         string initial_language;
         public ChangeLanguageForm()
         {
             InitializeComponent();
-            _userBLL = new UserBLL();
+            _userBLL = new UsuarioBLL();
             initial_language = LanguageService.GetCurrentLanguage();
             LanguageService.Attach(this);
             UpdateLanguageCombo();

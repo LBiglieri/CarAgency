@@ -41,15 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acquisitions\AcquisitionBLL.cs" />
-    <Compile Include="Billing\PaymentBLL.cs" />
-    <Compile Include="Billing\InvoiceBLL.cs" />
-    <Compile Include="Clients\ClientsBLL.cs" />
-    <Compile Include="Management\PaperworkBLL.cs" />
-    <Compile Include="Sales\ReservationBLL.cs" />
-    <Compile Include="Sales\QuotationBLL.cs" />
+    <Compile Include="Compras\CompraBLL.cs" />
+    <Compile Include="Billing\PagoBLL.cs" />
+    <Compile Include="Billing\FacturaBLL.cs" />
+    <Compile Include="Personas\PersonaBLL.cs" />
+    <Compile Include="Management\TramiteBLL.cs" />
+    <Compile Include="Sales\ReservaBLL.cs" />
+    <Compile Include="Sales\CotizacionBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vehicles\VehicleBLL.cs" />
+    <Compile Include="Vehiculos\VehiculoBLL.cs" />
+    <Compile Include="Vehiculos\BitacoraCambiosBLL.cs" />
+    <Compile Include="Reportes\ProyeccionVentasCalculator.cs" />
+    <Compile Include="Reportes\ProyeccionComprasCalculator.cs" />
+    <Compile Include="Reportes\ReporteComprasBLL.cs" />
+    <Compile Include="Reportes\ReporteVentasBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
