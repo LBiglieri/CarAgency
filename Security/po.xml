@@ -36,6 +36,7 @@
 	<translation tag="successfullLogin">Login bem-sucedido!</translation>
 	<translation tag="alreadyLogged">Você já está logado.</translation>
 	<translation tag="sessionClosed">Sessão encerrada corretamente.</translation>
+	<translation tag="AreYouSureLogout">Tem certeza de que deseja encerrar a sessão?</translation>
 	<translation tag="notLogged">Você não está logado.</translation>
 
 	<translation tag="tbUser">Digite seu Nome de Usuário</translation>
@@ -51,6 +52,8 @@
 	<translation tag="passwordChangedSuccessfully">Senha alterada com sucesso!</translation>
 	<translation tag="passwordWriteOld">Por favor, escreva sua senha antiga.</translation>
 	<translation tag="passwordWriteNew">Por favor, escreva sua nova senha.</translation>
+	<translation tag="passwordWrongCurrent">A senha atual está incorreta.</translation>
+	<translation tag="passwordSameAsCurrent">A nova senha não pode ser igual à atual.</translation>
 	<translation tag="passwordAtLeast8Chars">Sua nova senha deve ter pelo menos 8 caracteres.</translation>
 	<translation tag="passwordPleaseRepeat">Por favor, repita sua nova senha.</translation>
 	<translation tag="passwordPleaseRepeatCorrectly">Por favor, repita sua nova senha corretamente.</translation>
@@ -142,6 +145,8 @@
 	<translation tag="PleaseSelectReservation">Por favor, selecione uma reserva para continuar.</translation>
 	<translation tag="PleaseWrite08">Por favor, escreva o Código de Pré-carga do Documento 08 para continuar.</translation>
 	<translation tag="AtLeast1FileToFinishPaperwork">Você deve carregar pelo menos 1 arquivo para finalizar a documentação.</translation>
+	<translation tag="AreYouSureDeletePaperworkFile">Tem certeza de que deseja excluir o arquivo {0}?</translation>
+	<translation tag="AreYouSureDeletePaperworkFiles">Tem certeza de que deseja excluir os arquivos {0}?</translation>
 	<translation tag="WriteTransferDate">Você deve colocar a data de transferência atual para finalizar a documentação.</translation>
 	<translation tag="AreYouSureYouWantToFinishPaperwork">Tem certeza de que deseja finalizar a Documentação? </translation>
 

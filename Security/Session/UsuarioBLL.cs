@@ -84,25 +84,24 @@ namespace CarAgency.Security.Session
                 return _userDataMapper.UpdateUser(user);
         }
 
-        public SQLUpdateResult ChangePassword(Guid Id, string NewPassword)
+        public SQLUpdateResult ChangePassword(Guid Id, string CurrentPassword, string NewPassword)
         {
             SQLUpdateResult result;
 
-            if (!SessionHandler.Instance.ValidatePassword(NewPassword))
-            {
-                result = new SQLUpdateResult(SQLResultType.validation_error, "The new password you entered is the same as the one you had before.");
-            }
-            else
-            {
-                Usuario user = GetFullUserById(Id);
-                user.Clave = CryptographyHandler.HashPassword(NewPassword);
-                result = _userDataMapper.UpdateUser(user);
+            Usuario user = GetFullUserById(Id);
+            if (!CryptographyHandler.VerifyPassword(CurrentPassword, user.Clave))
+                throw new TranslatableException("passwordWrongCurrent", "The current password is incorrect.");
 
-                if (result != null && result.sqlResult == SQLResultType.success)
-                {
-                    SessionHandler.Instance.RefreshUser(user);
-                    BitacoraEventosBLL.Record(TipoEvento.PasswordChanged, user.Usuario_Id);
-                }
+            if (!SessionHandler.Instance.ValidatePassword(NewPassword))
+                throw new TranslatableException("passwordSameAsCurrent", "The new password you entered is the same as the one you had before.");
+
+            user.Clave = CryptographyHandler.HashPassword(NewPassword);
+            result = _userDataMapper.UpdateUser(user);
+
+            if (result != null && result.sqlResult == SQLResultType.success)
+            {
+                SessionHandler.Instance.RefreshUser(user);
+                BitacoraEventosBLL.Record(TipoEvento.PasswordChanged, user.Usuario_Id);
             }
 
             return result;

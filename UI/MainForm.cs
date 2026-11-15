@@ -186,6 +186,9 @@ namespace CarAgency.UI
         {
             if (SessionHandler.Instance.Logged())
             {
+                if (MessageBox.Show(LanguageService.GetTagText("AreYouSureLogout"), LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
                 try { SessionHandler.Instance.Logout(); }
                 catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
                 

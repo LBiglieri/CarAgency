@@ -364,7 +364,6 @@ namespace UI.Vehiculos
                     foreach (DataGridViewRow row in rows)
                     {
                         ArchivoTramite file = (ArchivoTramite)row.DataBoundItem;
-                        SQLUpdateResult result = _PaperworkBLL.DeletePaperworkFile(file);
 
                         string tempFilePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.pdf");
                         File.WriteAllBytes(tempFilePath, file.Contenido);
@@ -385,18 +384,19 @@ namespace UI.Vehiculos
             {
                 if (metroGrid1.SelectedRows.Count > 0)
                 {
-                    DataGridViewSelectedRowCollection rows = metroGrid1.SelectedRows;
-                    foreach (DataGridViewRow row in rows)
-                    {
-                        ArchivoTramite file = (ArchivoTramite)row.DataBoundItem;
-                        SQLUpdateResult result = _PaperworkBLL.DeletePaperworkFile(file);
+                    List<ArchivoTramite> files = metroGrid1.SelectedRows.Cast<DataGridViewRow>()
+                        .Select(row => (ArchivoTramite)row.DataBoundItem)
+                        .ToList();
 
-                        if (result != null && result.sqlResult == SQLResultType.success)
-                        {
-                            PerformUpdatePaperworkFilesView();
-                        }
-                    }
+                    string names = string.Join(", ", files.Select(file => file.NombreArchivo));
+                    string question = LanguageService.GetTagText(files.Count == 1 ? "AreYouSureDeletePaperworkFile" : "AreYouSureDeletePaperworkFiles");
+                    if (MessageBox.Show(string.Format(question, names), LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) != DialogResult.Yes)
+                        return;
 
+                    foreach (ArchivoTramite file in files)
+                        _PaperworkBLL.DeletePaperworkFile(file);
+
+                    PerformUpdatePaperworkFilesView();
                 }
             }
             catch (Exception ex)

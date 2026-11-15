@@ -36,6 +36,7 @@
 	<translation tag="successfullLogin">¡Inicio de sesión exitoso!</translation>
 	<translation tag="alreadyLogged">Ya has iniciado sesión.</translation>
 	<translation tag="sessionClosed">Sesión cerrada correctamente.</translation>
+	<translation tag="AreYouSureLogout">¿Está seguro de que desea cerrar la sesión?</translation>
 	<translation tag="notLogged">No has iniciado sesión.</translation>
 
 	<translation tag="tbUser">Ingrese su nombre de usuario</translation>
@@ -51,6 +52,8 @@
 	<translation tag="passwordChangedSuccessfully">¡Contraseña cambiada exitosamente!</translation>
 	<translation tag="passwordWriteOld">Por favor, escriba su contraseña antigua.</translation>
 	<translation tag="passwordWriteNew">Por favor, escriba su nueva contraseña.</translation>
+	<translation tag="passwordWrongCurrent">La contraseña actual es incorrecta.</translation>
+	<translation tag="passwordSameAsCurrent">La nueva contraseña no puede ser igual a la actual.</translation>
 	<translation tag="passwordAtLeast8Chars">Su nueva contraseña debe tener al menos 8 caracteres.</translation>
 	<translation tag="passwordPleaseRepeat">Por favor, repita su nueva contraseña.</translation>
 	<translation tag="passwordPleaseRepeatCorrectly">Por favor, repita su nueva contraseña correctamente.</translation>
@@ -142,6 +145,8 @@
 	<translation tag="PleaseSelectReservation">Por favor, seleccione una reserva para continuar.</translation>
 	<translation tag="PleaseWrite08">Por favor, escriba el Código de Precarga 08 del trámite para continuar.</translation>
 	<translation tag="AtLeast1FileToFinishPaperwork">Debe cargar al menos 1 archivo para finalizar el trámite.</translation>
+	<translation tag="AreYouSureDeletePaperworkFile">¿Está seguro de que desea eliminar el archivo {0}?</translation>
+	<translation tag="AreYouSureDeletePaperworkFiles">¿Está seguro de que desea eliminar los archivos {0}?</translation>
 	<translation tag="WriteTransferDate">Debe ingresar la fecha de transferencia real para finalizar el trámite.</translation>
 	<translation tag="AreYouSureYouWantToFinishPaperwork">¿Está seguro de que desea finalizar el trámite? </translation>
 

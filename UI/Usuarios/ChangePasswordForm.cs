@@ -24,11 +24,6 @@ namespace CarAgency.UI
         {
             InitializeComponent();
             _userBLL = new UsuarioBLL();
-            if (_userBLL.IsUsingDefaultPassword(SessionHandler.Instance.GetId()))
-            {
-                tbOldPassword.Visible = false;  
-                tbOldPassword.Enabled = false;
-            }
             LanguageService.Attach(this);
             this.Text = LanguageService.GetTagText(this.Tag.ToString());
             UpdateLanguage(LanguageService.GetCurrentLanguage());
@@ -46,7 +41,7 @@ namespace CarAgency.UI
             {
                 if(ValidatePassword())
                 {
-                    result = _userBLL.ChangePassword(SessionHandler.Instance.GetId(), tbNewPassword.Text);
+                    result = _userBLL.ChangePassword(SessionHandler.Instance.GetId(), tbOldPassword.Text, tbNewPassword.Text);
 
                     if (result != null && result.sqlResult != SQLResultType.success)
                     {
@@ -66,7 +61,7 @@ namespace CarAgency.UI
 
         private bool ValidatePassword()
         {
-            if (tbOldPassword.Visible && (tbOldPassword.Text == ""))
+            if (tbOldPassword.Text == "")
             {
                 MessageBox.Show(LanguageService.GetTagText("passwordWriteOld"));
                 return false;

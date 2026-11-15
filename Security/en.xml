@@ -36,6 +36,7 @@
 	<translation tag="successfullLogin">Login successful!</translation>
 	<translation tag="alreadyLogged">You are already logged in.</translation>
 	<translation tag="sessionClosed">Session closed correctly.</translation>
+	<translation tag="AreYouSureLogout">Are you sure you want to log out?</translation>
 	<translation tag="notLogged">You are not logged in.</translation>
 
 	<translation tag="tbUser">Enter your Username</translation>
@@ -51,6 +52,8 @@
 	<translation tag="passwordChangedSuccessfully">Password changed successfully!</translation>
 	<translation tag="passwordWriteOld">Please write your old password.</translation>
 	<translation tag="passwordWriteNew">Please write your new password.</translation>
+	<translation tag="passwordWrongCurrent">The current password is incorrect.</translation>
+	<translation tag="passwordSameAsCurrent">The new password cannot be the same as the current one.</translation>
 	<translation tag="passwordAtLeast8Chars">Your new password needs to be at least 8 characters.</translation>
 	<translation tag="passwordPleaseRepeat">Please repeat your new password.</translation>
 	<translation tag="passwordPleaseRepeatCorrectly">Please repeat your new password correctly.</translation>
@@ -142,6 +145,8 @@
 	<translation tag="PleaseSelectReservation">Please select a reservation to continue.</translation>
 	<translation tag="PleaseWrite08">Please write the Paperwork's 08 Precharge Code to continue.</translation>
 	<translation tag="AtLeast1FileToFinishPaperwork">You have to at least upload 1 file to finish the paperwork.</translation>
+	<translation tag="AreYouSureDeletePaperworkFile">Are you sure you want to delete the file {0}?</translation>
+	<translation tag="AreYouSureDeletePaperworkFiles">Are you sure you want to delete the files {0}?</translation>
 	<translation tag="WriteTransferDate">You have to put the actual transfer date to finish the paperwork.</translation>
 	<translation tag="AreYouSureYouWantToFinishPaperwork">Are you sure you want to finish the Paperwork? </translation>
 	
