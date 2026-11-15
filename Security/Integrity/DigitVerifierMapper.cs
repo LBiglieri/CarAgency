@@ -44,10 +44,10 @@ namespace CarAgency.Security.Integrity
 
         public void Save(DV digit)
         {
-            DVTables.RequireProtected(digit.TableName);
-            if (digit.SchemaName != "dbo" || digit.AlgorithmVersion != 1)
+            DVTables.RequireProtected(digit.NombreTabla);
+            if (digit.NombreEsquema != "dbo" || digit.VersionAlgoritmo != 1)
                 throw new TranslatableException("DVUnsupportedSchema", "Esquema o version de digitos no soportados.");
-            data.SaveDvv(digit.TableName, digit.DVV);
+            data.SaveDvv(digit.NombreTabla, digit.DVV);
         }
 
         public IEnumerable<DVHorizontal> GetHorizontalDigits(string table)
@@ -59,11 +59,11 @@ namespace CarAgency.Security.Integrity
 
         public IReadOnlyList<DVRow> GetUsersByRole(Guid role) { return MapRows(data.ReadUsersByRole(role)); }
 
-        public IReadOnlyList<Family> GetBaseRoles()
+        public IReadOnlyList<Familia> GetBaseRoles()
         {
             using (DataTable result = data.ReadBaseRoles())
-                return result.AsEnumerable().Select(row => new Family {
-                    Id = row.Field<Guid>("Id"), Name = row.Field<string>("Name")
+                return result.AsEnumerable().Select(row => new Familia {
+                    Permiso_Id = row.Field<Guid>("Permiso_Id"), Nombre = row.Field<string>("Nombre")
                 }).ToList().AsReadOnly();
         }
 

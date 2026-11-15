@@ -1,5 +1,5 @@
-﻿using CarAgency.Security.Audit;
-using CarAgency.BE.Audit;
+﻿using CarAgency.Security.BitacoraEventos;
+using CarAgency.BE.BitacoraEventos;
 using System;
 using CarAgency.BE;
 using CarAgency.BE.Integrity;
@@ -25,14 +25,14 @@ namespace CarAgency.Security.Integrity
         internal bool Revoked;
         public IntegrityReport Report { get; private set; }
         public bool CanRestore { get; private set; }
-        internal User AuditUser { get; private set; }
+        internal Usuario AuditUser { get; private set; }
 
         internal RecoverySession(IntegrityService owner, DVRow user, IntegrityReport report, bool canRestore)
         {
-            AuditUser = new User { Id = (Guid)user.GetValue("Id"), Username = (string)user.GetValue("Username"), Name = (string)user.GetValue("Name"), Surname = (string)user.GetValue("Surname") };
+            AuditUser = new Usuario { Usuario_Id = (Guid)user.GetValue("Usuario_Id"), NombreUsuario = (string)user.GetValue("NombreUsuario"), Nombre = (string)user.GetValue("Nombre"), Apellido = (string)user.GetValue("Apellido") };
             Owner = owner;
-            UserId = (Guid)user.GetValue("Id");
-            PasswordHash = (string)user.GetValue("Password");
+            UserId = (Guid)user.GetValue("Usuario_Id");
+            PasswordHash = (string)user.GetValue("Clave");
             ExpiresAt = DateTime.UtcNow.AddMinutes(10);
             Report = report;
             CanRestore = canRestore;
@@ -75,9 +75,9 @@ namespace CarAgency.Security.Integrity
             return Verify();
         }
 
-        private static User RequireRecalculatePermission()
+        private static Usuario RequireRecalculatePermission()
         {
-            if (!SessionHandler.Instance.IsAuthorized(PermissionType.RecalculateDV))
+            if (!SessionHandler.Instance.IsAuthorized(PermisoType.RecalculateDV))
                 throw new TranslatableException("IntegrityPermissionDenied", "No tiene permiso para verificar o recalcular digitos verificadores.");
             return SessionHandler.Instance.User;
         }
@@ -86,18 +86,18 @@ namespace CarAgency.Security.Integrity
         {
             lock (gate)
             {
-                User actor = RequireRecalculatePermission();
+                Usuario actor = RequireRecalculatePermission();
                 using (var inspection = Inspect())
                 {
-                    DVRow user = inspection.FindUser(actor.Id);
-                    if (!inspection.HasPermission(user, PermissionType.RecalculateDV)
-                        || !string.Equals(user.GetValue("Password") as string, actor.Password, StringComparison.Ordinal))
+                    DVRow user = inspection.FindUser(actor.Usuario_Id);
+                    if (!inspection.HasPermission(user, PermisoType.RecalculateDV)
+                        || !string.Equals(user.GetValue("Clave") as string, actor.Clave, StringComparison.Ordinal))
                         throw new TranslatableException("IntegrityPermissionDenied", "No tiene permiso para verificar o recalcular digitos verificadores.");
                     inspection.Recalculate();
                 }
                 EndRecoveryCore();
                 DigitVerifierMapper.ClearMetadataCache();
-                try { new AuditBLL(connectionString).Write(AuditEventType.IntegrityRecalculated, null, actor); }
+                try { new BitacoraEventosBLL(connectionString).Write(TipoEvento.IntegrityRecalculated, null, actor); }
                 finally { SessionHandler.Instance.Logout(); }
             }
         }
@@ -115,15 +115,15 @@ namespace CarAgency.Security.Integrity
                         throw new TranslatableException("IntegrityIncompatibleConfig", "La configuracion de digitos es incompatible. Recupere la version original; no se permite iniciar sesion ni recalcular.");
                     if (DateTime.UtcNow < retryAfter) throw new IntegrityAccessDeniedException();
                     DVRow user = inspection.FindUser(username);
-                    if (!inspection.HasPermission(user, PermissionType.RecalculateDV)
-                        || !CryptographyHandler.VerifyPassword(password, (string)user.GetValue("Password")))
+                    if (!inspection.HasPermission(user, PermisoType.RecalculateDV)
+                        || !CryptographyHandler.VerifyPassword(password, (string)user.GetValue("Clave")))
                     {
                         if (++failures >= 3) { retryAfter = DateTime.UtcNow.AddSeconds(30); failures = 0; }
                         throw new IntegrityAccessDeniedException();
                     }
                     failures = 0;
                     active = new RecoverySession(this, user, inspection.Report,
-                        inspection.HasPermission(user, PermissionType.BackupRestoreForm));
+                        inspection.HasPermission(user, PermisoType.BackupRestoreForm));
                     return active;
                 }
             }
@@ -135,9 +135,9 @@ namespace CarAgency.Security.Integrity
                 || DateTime.UtcNow >= session.ExpiresAt || SessionHandler.Instance.Logged())
                 throw new TranslatableException("IntegrityRecoveryInvalid", "El acceso de recuperacion no es valido. Inicie sesion nuevamente.");
             DVRow user = inspection.FindUser(session.UserId);
-            if (!inspection.HasPermission(user, PermissionType.RecalculateDV)
-                || !string.Equals(user.GetValue("Password") as string, session.PasswordHash, StringComparison.Ordinal)
-                || (restore && !inspection.HasPermission(user, PermissionType.BackupRestoreForm)))
+            if (!inspection.HasPermission(user, PermisoType.RecalculateDV)
+                || !string.Equals(user.GetValue("Clave") as string, session.PasswordHash, StringComparison.Ordinal)
+                || (restore && !inspection.HasPermission(user, PermisoType.BackupRestoreForm)))
             {
                 EndRecoveryCore();
                 throw new TranslatableException("IntegrityRecoveryRevoked", "Las credenciales o patentes de recuperacion ya no son validas.");
@@ -150,7 +150,7 @@ namespace CarAgency.Security.Integrity
             using (var inspection = Inspect()) Authorize(inspection, session, restore);
         }
 
-        public User GetRecoveryAuditUser(RecoverySession session)
+        public Usuario GetRecoveryAuditUser(RecoverySession session)
         {
             AuthorizeRecovery(session, true);
             return session.AuditUser;
@@ -167,7 +167,7 @@ namespace CarAgency.Security.Integrity
                 }
                 EndRecoveryCore();
                 DigitVerifierMapper.ClearMetadataCache();
-                new AuditBLL(connectionString).Write(AuditEventType.IntegrityRecalculated, null, session.AuditUser);
+                new BitacoraEventosBLL(connectionString).Write(TipoEvento.IntegrityRecalculated, null, session.AuditUser);
             }
         }
 

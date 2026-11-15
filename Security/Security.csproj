@@ -51,12 +51,12 @@
     <Compile Include="Session\LanguageService.cs" />
     <Compile Include="Session\SessionHandler.cs" />
     <Compile Include="MappingHandler.cs" />
-    <Compile Include="Session\PermissionBLL.cs" />
-    <Compile Include="Session\PermissionMapper.cs" />
+    <Compile Include="Session\PermisoBLL.cs" />
+    <Compile Include="Session\PermisoMapper.cs" />
     <Compile Include="Database\BackupBLL.cs" />
     <Compile Include="Database\BackupMapper.cs" />
-    <Compile Include="Session\UserBLL.cs" />
-    <Compile Include="Session\UserDataMapper.cs" />
+    <Compile Include="Session\UsuarioBLL.cs" />
+    <Compile Include="Session\UsuarioDataMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
@@ -91,9 +91,10 @@
     <Compile Include="Integrity\DigitVerifierWriteMapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audit\AuditCatalog.cs" />
-    <Compile Include="Audit\AuditMapper.cs" />
-    <Compile Include="Audit\AuditBLL.cs" />
+    <Compile Include="BitacoraEventos\BitacoraEventosCatalog.cs" />
+    <Compile Include="BitacoraEventos\BitacoraEventosMapper.cs" />
+    <Compile Include="BitacoraEventos\BitacoraEventosBLL.cs" />
+    <Compile Include="BitacoraEventos\BitacoraEventosXmlSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

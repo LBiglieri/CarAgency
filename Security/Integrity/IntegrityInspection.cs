@@ -72,7 +72,7 @@ namespace CarAgency.Security.Integrity
                         continue;
                     }
                     DataRow dv = digit.Rows[0];
-                    if ((string)dv["SchemaName"] != "dbo" || Convert.ToInt32(dv["AlgorithmVersion"]) != 1)
+                    if ((string)dv["NombreEsquema"] != "dbo" || Convert.ToInt32(dv["VersionAlgoritmo"]) != 1)
                     {
                         compatible = false;
                         issues.Add(table + ": esquema o version DV incompatible. Recuperar la configuracion original.");
@@ -87,30 +87,30 @@ namespace CarAgency.Security.Integrity
 
         public DVRow FindUser(string username)
         {
-            return rows["Users"].SingleOrDefault(r => string.Equals((string)r.GetValue("Username"), username, StringComparison.OrdinalIgnoreCase));
+            return rows["Usuario"].SingleOrDefault(r => string.Equals((string)r.GetValue("NombreUsuario"), username, StringComparison.OrdinalIgnoreCase));
         }
-        public DVRow FindUser(Guid id) { return rows["Users"].SingleOrDefault(r => (Guid)r.GetValue("Id") == id); }
+        public DVRow FindUser(Guid id) { return rows["Usuario"].SingleOrDefault(r => (Guid)r.GetValue("Usuario_Id") == id); }
 
         public bool IsTrustedUser(DVRow user)
         {
             return Report.CanRecalculate && user != null && trusted.Contains(user)
-                && (bool)user.GetValue("Active") && !(bool)user.GetValue("Blocked");
+                && (bool)user.GetValue("Activo") && !(bool)user.GetValue("Bloqueado");
         }
 
-        public bool HasPermission(DVRow user, PermissionType permission)
+        public bool HasPermission(DVRow user, PermisoType permission)
         {
-            return IsTrustedUser(user) && HasPermission((Guid)user.GetValue("Role_Id"), permission, new HashSet<Guid>());
+            return IsTrustedUser(user) && HasPermission((Guid)user.GetValue("Rol_Id"), permission, new HashSet<Guid>());
         }
 
-        private bool HasPermission(Guid id, PermissionType permission, HashSet<Guid> visited)
+        private bool HasPermission(Guid id, PermisoType permission, HashSet<Guid> visited)
         {
             if (!visited.Add(id)) return false;
-            DVRow component = rows["Permissions"].SingleOrDefault(r => (Guid)r.GetValue("Id") == id);
+            DVRow component = rows["Permiso"].SingleOrDefault(r => (Guid)r.GetValue("Permiso_Id") == id);
             if (component == null || !trusted.Contains(component)) return false;
-            string type = component.GetValue("Type") as string;
+            string type = component.GetValue("Tipo") as string;
             if (!string.IsNullOrEmpty(type)) return type == permission.ToString();
-            foreach (DVRow link in rows["Permission_Permission"].Where(r => (Guid)r.GetValue("Father_Id") == id))
-                if (trusted.Contains(link) && HasPermission((Guid)link.GetValue("Child_Id"), permission, visited)) return true;
+            foreach (DVRow link in rows["Permiso_Permiso"].Where(r => (Guid)r.GetValue("Padre_Id") == id))
+                if (trusted.Contains(link) && HasPermission((Guid)link.GetValue("Hijo_Id"), permission, visited)) return true;
             return false;
         }
 

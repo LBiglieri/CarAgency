@@ -18,11 +18,11 @@ namespace CarAgency.UI
 {
     public partial class LoginForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
-        UserBLL _userBLL;
+        UsuarioBLL _userBLL;
         string initial_language;
         public LoginForm()
         {
-            _userBLL = new UserBLL();
+            _userBLL = new UsuarioBLL();
             InitializeComponent();
             initial_language = LanguageService.GetCurrentLanguage();
             LanguageService.Attach(this);

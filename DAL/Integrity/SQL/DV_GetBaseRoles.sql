@@ -2,6 +2,6 @@ CREATE OR ALTER PROCEDURE dbo.DV_GetBaseRoles
 AS
 BEGIN
     SET NOCOUNT ON;
-    SELECT Id,Name FROM dbo.Permissions WHERE Name='Base User' AND Type IS NULL;
+    SELECT Permiso_Id,Nombre FROM dbo.Permiso WHERE Nombre='Base User' AND Tipo IS NULL;
 END
 GO

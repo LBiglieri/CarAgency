@@ -127,77 +127,88 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acquisitions\RegisterAcquisitionForm.cs">
+    <Compile Include="Compras\RegisterCompraForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acquisitions\RegisterAcquisitionForm.Designer.cs">
-      <DependentUpon>RegisterAcquisitionForm.cs</DependentUpon>
+    <Compile Include="Compras\RegisterCompraForm.Designer.cs">
+      <DependentUpon>RegisterCompraForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Acquisitions\AppraiseVehicleForm.cs">
+    <Compile Include="Compras\AppraiseVehiculoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acquisitions\AppraiseVehicleForm.Designer.cs">
-      <DependentUpon>AppraiseVehicleForm.cs</DependentUpon>
+    <Compile Include="Compras\AppraiseVehiculoForm.Designer.cs">
+      <DependentUpon>AppraiseVehiculoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Acquisitions\Controls\InspectionView.cs">
+    <Compile Include="Compras\Controls\InspeccionView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Acquisitions\Controls\InspectionView.Designer.cs">
-      <DependentUpon>InspectionView.cs</DependentUpon>
+    <Compile Include="Compras\Controls\InspeccionView.Designer.cs">
+      <DependentUpon>InspeccionView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Acquisitions\RegisterInspectionForm.cs">
+    <Compile Include="Compras\RegisterInspeccionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acquisitions\RegisterInspectionForm.Designer.cs">
-      <DependentUpon>RegisterInspectionForm.cs</DependentUpon>
+    <Compile Include="Compras\RegisterInspeccionForm.Designer.cs">
+      <DependentUpon>RegisterInspeccionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Acquisitions\ManageAcquisitionForm.cs">
+    <Compile Include="Compras\ManageCompraForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acquisitions\ManageAcquisitionForm.Designer.cs">
-      <DependentUpon>ManageAcquisitionForm.cs</DependentUpon>
+    <Compile Include="Compras\ManageCompraForm.Designer.cs">
+      <DependentUpon>ManageCompraForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Acquisitions\PayAcquisitionForm.cs">
+    <Compile Include="Compras\PayCompraForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acquisitions\PayAcquisitionForm.Designer.cs">
-      <DependentUpon>PayAcquisitionForm.cs</DependentUpon>
+    <Compile Include="Compras\PayCompraForm.Designer.cs">
+      <DependentUpon>PayCompraForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Acquisitions\AddAcquisitionPaymentForm.cs">
+    <Compile Include="Compras\AddPagoCompraForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Acquisitions\AddAcquisitionPaymentForm.Designer.cs">
-      <DependentUpon>AddAcquisitionPaymentForm.cs</DependentUpon>
+    <Compile Include="Compras\AddPagoCompraForm.Designer.cs">
+      <DependentUpon>AddPagoCompraForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Acquisitions\Controls\AcquisitionDocumentsView.cs">
+    <Compile Include="Compras\Controls\DocumentosCompraView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Acquisitions\Controls\AcquisitionDocumentsView.Designer.cs">
-      <DependentUpon>AcquisitionDocumentsView.cs</DependentUpon>
+    <Compile Include="Compras\Controls\DocumentosCompraView.Designer.cs">
+      <DependentUpon>DocumentosCompraView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Billing\AddPaymentForm.cs">
+    <Compile Include="Comun\GridColumns.cs" />
+    <Compile Include="Comun\LookupText.cs" />
+    <Compile Include="Ayuda\AyudaButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ayuda\AyudaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Billing\AddPaymentForm.Designer.cs">
-      <DependentUpon>AddPaymentForm.cs</DependentUpon>
+    <Compile Include="Ayuda\AyudaForm.Designer.cs">
+      <DependentUpon>AyudaForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Billing\GenerateInvoiceForm.cs">
+    <Compile Include="Billing\AddPagoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Billing\GenerateInvoiceForm.Designer.cs">
-      <DependentUpon>GenerateInvoiceForm.cs</DependentUpon>
+    <Compile Include="Billing\AddPagoForm.Designer.cs">
+      <DependentUpon>AddPagoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Clients\CreateClientForm.cs">
+    <Compile Include="Billing\GenerateFacturaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Clients\CreateClientForm.Designer.cs">
-      <DependentUpon>CreateClientForm.cs</DependentUpon>
+    <Compile Include="Billing\GenerateFacturaForm.Designer.cs">
+      <DependentUpon>GenerateFacturaForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Clients\Controls\ClientView.cs">
+    <Compile Include="Personas\CreatePersonaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Personas\CreatePersonaForm.Designer.cs">
+      <DependentUpon>CreatePersonaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Personas\Controls\PersonaView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Clients\Controls\ClientView.Designer.cs">
-      <DependentUpon>ClientView.cs</DependentUpon>
+    <Compile Include="Personas\Controls\PersonaView.Designer.cs">
+      <DependentUpon>PersonaView.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -205,37 +216,37 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Management\PaperworkForm.cs">
+    <Compile Include="Management\TramiteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Management\ManagePaperworkForm - Copy.Designer.cs">
-      <DependentUpon>PaperworkForm.cs</DependentUpon>
+    <Compile Include="Management\TramiteForm.Designer.cs">
+      <DependentUpon>TramiteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Management\ManagePaperworkForm.cs">
+    <Compile Include="Management\ManageTramiteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Management\ManagePaperworkForm.Designer.cs">
-      <DependentUpon>ManagePaperworkForm.cs</DependentUpon>
+    <Compile Include="Management\ManageTramiteForm.Designer.cs">
+      <DependentUpon>ManageTramiteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Permisions\PermissionManagementForm.cs">
+    <Compile Include="Permisos\PermisoManagementForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Permisions\PermissionManagementForm.Designer.cs">
-      <DependentUpon>PermissionManagementForm.cs</DependentUpon>
+    <Compile Include="Permisos\PermisoManagementForm.Designer.cs">
+      <DependentUpon>PermisoManagementForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sales\GenerateReservationForm.cs">
+    <Compile Include="Sales\GenerateReservaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sales\GenerateReservationForm.Designer.cs">
-      <DependentUpon>GenerateReservationForm.cs</DependentUpon>
+    <Compile Include="Sales\GenerateReservaForm.Designer.cs">
+      <DependentUpon>GenerateReservaForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sales\GenerateQuotationForm.cs">
+    <Compile Include="Sales\GenerateCotizacionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sales\GenerateQuotationForm.Designer.cs">
-      <DependentUpon>GenerateQuotationForm.cs</DependentUpon>
+    <Compile Include="Sales\GenerateCotizacionForm.Designer.cs">
+      <DependentUpon>GenerateCotizacionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Security\BackupRestoreForm.cs">
       <SubType>Form</SubType>
@@ -249,11 +260,11 @@
     <Compile Include="Security\IntegrityRepairForm.Designer.cs">
       <DependentUpon>IntegrityRepairForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Security\EventLogForm.cs">
+    <Compile Include="Security\BitacoraEventosForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Security\EventLogForm.Designer.cs">
-      <DependentUpon>EventLogForm.cs</DependentUpon>
+    <Compile Include="Security\BitacoraEventosForm.Designer.cs">
+      <DependentUpon>BitacoraEventosForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Session\ChangeLanguageForm.cs">
       <SubType>Form</SubType>
@@ -261,10 +272,10 @@
     <Compile Include="Session\ChangeLanguageForm.Designer.cs">
       <DependentUpon>ChangeLanguageForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Users\ChangePasswordForm.cs">
+    <Compile Include="Usuarios\ChangePasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Users\ChangePasswordForm.Designer.cs">
+    <Compile Include="Usuarios\ChangePasswordForm.Designer.cs">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Session\LoginForm.cs">
@@ -273,74 +284,95 @@
     <Compile Include="Session\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Users\UserManagementForm.cs">
+    <Compile Include="Usuarios\UsuarioManagementForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Users\UserManagementForm.Designer.cs">
-      <DependentUpon>UserManagementForm.cs</DependentUpon>
+    <Compile Include="Usuarios\UsuarioManagementForm.Designer.cs">
+      <DependentUpon>UsuarioManagementForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vehicles\Controls\VehicleViewHorizontal.cs">
+    <Compile Include="Vehiculos\Controls\VehiculoViewHorizontal.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vehicles\Controls\VehicleViewHorizontal.Designer.cs">
-      <DependentUpon>VehicleViewHorizontal.cs</DependentUpon>
+    <Compile Include="Vehiculos\Controls\VehiculoViewHorizontal.Designer.cs">
+      <DependentUpon>VehiculoViewHorizontal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vehicles\VehicleManagementForm.cs">
+    <Compile Include="Vehiculos\BitacoraCambiosForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vehicles\VehicleManagementForm.Designer.cs">
-      <DependentUpon>VehicleManagementForm.cs</DependentUpon>
+    <Compile Include="Vehiculos\BitacoraCambiosForm.Designer.cs">
+      <DependentUpon>BitacoraCambiosForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vehicles\VehicleModelConfigurationForm.cs">
+    <Compile Include="Reportes\ProyeccionVentasForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vehicles\VehicleModelConfigurationForm.Designer.cs">
-      <DependentUpon>VehicleModelConfigurationForm.cs</DependentUpon>
+    <Compile Include="Reportes\ProyeccionVentasForm.Designer.cs">
+      <DependentUpon>ProyeccionVentasForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Acquisitions\RegisterAcquisitionForm.resx">
-      <DependentUpon>RegisterAcquisitionForm.cs</DependentUpon>
+    <Compile Include="Reportes\Pdf\ReportePdfBuilder.cs" />
+    <Compile Include="Reportes\Pdf\ProyeccionVentasPdf.cs" />
+    <Compile Include="Reportes\Pdf\ProyeccionComprasPdf.cs" />
+    <Compile Include="Reportes\ProyeccionComprasForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ProyeccionComprasForm.Designer.cs">
+      <DependentUpon>ProyeccionComprasForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vehiculos\VehiculoManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vehiculos\VehiculoManagementForm.Designer.cs">
+      <DependentUpon>VehiculoManagementForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vehiculos\VehiculoModeloConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vehiculos\VehiculoModeloConfigurationForm.Designer.cs">
+      <DependentUpon>VehiculoModeloConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Compras\RegisterCompraForm.resx">
+      <DependentUpon>RegisterCompraForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acquisitions\AppraiseVehicleForm.resx">
-      <DependentUpon>AppraiseVehicleForm.cs</DependentUpon>
+    <EmbeddedResource Include="Compras\AppraiseVehiculoForm.resx">
+      <DependentUpon>AppraiseVehiculoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acquisitions\Controls\InspectionView.resx">
-      <DependentUpon>InspectionView.cs</DependentUpon>
+    <EmbeddedResource Include="Compras\Controls\InspeccionView.resx">
+      <DependentUpon>InspeccionView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acquisitions\RegisterInspectionForm.resx">
-      <DependentUpon>RegisterInspectionForm.cs</DependentUpon>
+    <EmbeddedResource Include="Compras\RegisterInspeccionForm.resx">
+      <DependentUpon>RegisterInspeccionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acquisitions\ManageAcquisitionForm.resx">
-      <DependentUpon>ManageAcquisitionForm.cs</DependentUpon>
+    <EmbeddedResource Include="Compras\ManageCompraForm.resx">
+      <DependentUpon>ManageCompraForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acquisitions\PayAcquisitionForm.resx">
-      <DependentUpon>PayAcquisitionForm.cs</DependentUpon>
+    <EmbeddedResource Include="Compras\PayCompraForm.resx">
+      <DependentUpon>PayCompraForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acquisitions\AddAcquisitionPaymentForm.resx">
-      <DependentUpon>AddAcquisitionPaymentForm.cs</DependentUpon>
+    <EmbeddedResource Include="Compras\AddPagoCompraForm.resx">
+      <DependentUpon>AddPagoCompraForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acquisitions\Controls\AcquisitionDocumentsView.resx">
-      <DependentUpon>AcquisitionDocumentsView.cs</DependentUpon>
+    <EmbeddedResource Include="Compras\Controls\DocumentosCompraView.resx">
+      <DependentUpon>DocumentosCompraView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Billing\AddPaymentForm.resx">
-      <DependentUpon>AddPaymentForm.cs</DependentUpon>
+    <EmbeddedResource Include="Billing\AddPagoForm.resx">
+      <DependentUpon>AddPagoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Billing\GenerateInvoiceForm.resx">
-      <DependentUpon>GenerateInvoiceForm.cs</DependentUpon>
+    <EmbeddedResource Include="Billing\GenerateFacturaForm.resx">
+      <DependentUpon>GenerateFacturaForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Clients\CreateClientForm.resx">
-      <DependentUpon>CreateClientForm.cs</DependentUpon>
+    <EmbeddedResource Include="Personas\CreatePersonaForm.resx">
+      <DependentUpon>CreatePersonaForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Clients\Controls\ClientView.resx">
-      <DependentUpon>ClientView.cs</DependentUpon>
+    <EmbeddedResource Include="Personas\Controls\PersonaView.resx">
+      <DependentUpon>PersonaView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Management\ManagePaperworkForm.resx">
-      <DependentUpon>ManagePaperworkForm.cs</DependentUpon>
+    <EmbeddedResource Include="Management\ManageTramiteForm.resx">
+      <DependentUpon>ManageTramiteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Management\PaperworkForm.resx">
-      <DependentUpon>PaperworkForm.cs</DependentUpon>
+    <EmbeddedResource Include="Management\TramiteForm.resx">
+      <DependentUpon>TramiteForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -352,14 +384,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Permisions\PermissionManagementForm.resx">
-      <DependentUpon>PermissionManagementForm.cs</DependentUpon>
+    <EmbeddedResource Include="Permisos\PermisoManagementForm.resx">
+      <DependentUpon>PermisoManagementForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sales\GenerateReservationForm.resx">
-      <DependentUpon>GenerateReservationForm.cs</DependentUpon>
+    <EmbeddedResource Include="Sales\GenerateReservaForm.resx">
+      <DependentUpon>GenerateReservaForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sales\GenerateQuotationForm.resx">
-      <DependentUpon>GenerateQuotationForm.cs</DependentUpon>
+    <EmbeddedResource Include="Sales\GenerateCotizacionForm.resx">
+      <DependentUpon>GenerateCotizacionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Security\BackupRestoreForm.resx">
       <DependentUpon>BackupRestoreForm.cs</DependentUpon>
@@ -367,29 +399,32 @@
     <EmbeddedResource Include="Security\IntegrityRepairForm.resx">
       <DependentUpon>IntegrityRepairForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Security\EventLogForm.resx">
-      <DependentUpon>EventLogForm.cs</DependentUpon>
+    <EmbeddedResource Include="Security\BitacoraEventosForm.resx">
+      <DependentUpon>BitacoraEventosForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Session\ChangeLanguageForm.resx">
       <DependentUpon>ChangeLanguageForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Users\ChangePasswordForm.resx">
+    <EmbeddedResource Include="Usuarios\ChangePasswordForm.resx">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Session\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Users\UserManagementForm.resx">
-      <DependentUpon>UserManagementForm.cs</DependentUpon>
+    <EmbeddedResource Include="Usuarios\UsuarioManagementForm.resx">
+      <DependentUpon>UsuarioManagementForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vehicles\Controls\VehicleViewHorizontal.resx">
-      <DependentUpon>VehicleViewHorizontal.cs</DependentUpon>
+    <EmbeddedResource Include="Vehiculos\Controls\VehiculoViewHorizontal.resx">
+      <DependentUpon>VehiculoViewHorizontal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vehicles\VehicleManagementForm.resx">
-      <DependentUpon>VehicleManagementForm.cs</DependentUpon>
+    <EmbeddedResource Include="Vehiculos\BitacoraCambiosForm.resx">
+      <DependentUpon>BitacoraCambiosForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vehicles\VehicleModelConfigurationForm.resx">
-      <DependentUpon>VehicleModelConfigurationForm.cs</DependentUpon>
+    <EmbeddedResource Include="Vehiculos\VehiculoManagementForm.resx">
+      <DependentUpon>VehiculoManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vehiculos\VehiculoModeloConfigurationForm.resx">
+      <DependentUpon>VehiculoModeloConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

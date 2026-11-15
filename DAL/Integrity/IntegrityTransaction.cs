@@ -45,7 +45,7 @@ namespace CarAgency.DAL.Integrity
         {
             // El SP valida la lista de tablas protegidas antes de usar el identificador.
             if (!columns.ContainsKey(table))
-                columns[table] = Read("EXEC dbo.DV_GetColumns @TableName", new SqlParameter("@TableName", table));
+                columns[table] = Read("EXEC dbo.DV_GetColumns @NombreTabla", new SqlParameter("@NombreTabla", table));
             return columns[table].Copy();
         }
 
@@ -57,7 +57,7 @@ namespace CarAgency.DAL.Integrity
 
         public DataTable GetDigit(string table)
         {
-            return Read("EXEC dbo.DV_GetByTable @TableName", new SqlParameter("@TableName", table));
+            return Read("EXEC dbo.DV_GetByTable @NombreTabla", new SqlParameter("@NombreTabla", table));
         }
 
         public void SaveRow(string table, IDictionary<string, object> keys, string dvh)
@@ -85,7 +85,7 @@ namespace CarAgency.DAL.Integrity
             using (var command = Command("dbo.DV_Save"))
             {
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@TableName", SqlDbType.NVarChar, 128).Value = table;
+                command.Parameters.Add("@NombreTabla", SqlDbType.NVarChar, 128).Value = table;
                 command.Parameters.Add("@DVV", SqlDbType.Char, 64).Value = dvv;
                 command.ExecuteNonQuery();
             }

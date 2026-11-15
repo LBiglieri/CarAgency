@@ -41,21 +41,21 @@ namespace CarAgency.BE.Integrity
         }
     }
 
-    public sealed class DVUserDigest
+    public sealed class DVUsuarioDigest
     {
-        public Guid Id { get; set; }
+        public Guid Usuario_Id { get; set; }
         public string DVH { get; set; }
     }
 
-    public sealed class DVFamilyDeletion
+    public sealed class DVFamiliaDeletion
     {
         public Guid? BaseRoleId { get; private set; }
-        public IReadOnlyList<DVUserDigest> UserDigests { get; private set; }
+        public IReadOnlyList<DVUsuarioDigest> UserDigests { get; private set; }
 
-        public DVFamilyDeletion(Guid? baseRoleId, IList<DVUserDigest> digests)
+        public DVFamiliaDeletion(Guid? baseRoleId, IList<DVUsuarioDigest> digests)
         {
             BaseRoleId = baseRoleId;
-            UserDigests = new ReadOnlyCollection<DVUserDigest>(digests);
+            UserDigests = new ReadOnlyCollection<DVUsuarioDigest>(digests);
         }
     }
 }

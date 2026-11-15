@@ -15,7 +15,7 @@ using CarAgency.Security.Security;
 using CarAgency.Security.Session;
 using BE;
 using Microsoft.Win32;
-using UI.Clients.Controls;
+using UI.Personas.Controls;
 using Security.Session;
 using CarAgency.Security.Integrity;
 using CarAgency.Security.Database;
@@ -32,7 +32,7 @@ namespace CarAgency.UI
         public BackupRestoreForm(RecoverySession recovery)
         {
             if (recovery != null) IntegrityService.Current.AuthorizeRecovery(recovery, true);
-            else if (!SessionHandler.Instance.IsAuthorized(PermissionType.BackupRestoreForm))
+            else if (!SessionHandler.Instance.IsAuthorized(PermisoType.BackupRestoreForm))
                 throw new TranslatableException("NoBackupRestorePermission", "No tiene la patente de backup/restore.");
             this.recovery = recovery;
             InitializeComponent();
@@ -90,7 +90,7 @@ namespace CarAgency.UI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(LanguageService.GetTagText("errorBackupDatabase") + LanguageService.GetErrorText(ex));
+                    MessageBox.Show(LanguageService.GetTagText("errorBackupDatabase").Trim() + " " + LanguageService.GetErrorText(ex));
                 }
             }
             else

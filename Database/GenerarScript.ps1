@@ -125,6 +125,13 @@ foreach ($table in $tables) {
 $code = New-Options
 foreach ($procedure in (Sort-ByDependency $procedures)) { Add-Script $procedure.Script($code) }
 
+# 5. Triggers. Van despues de los datos: si existieran durante los INSERT, la carga del script
+# agregaria filas a BitacoraCambios por cada vehiculo, ademas de las que ya trae el historial.
+$triggerCount = 0
+foreach ($table in $tables) {
+    foreach ($trigger in $table.Triggers) { Add-Script $trigger.Script($code); $triggerCount++ }
+}
+
 $utf8 = New-Object System.Text.UTF8Encoding($true)
 [System.IO.File]::WriteAllText($Output, $sqlText.ToString(), $utf8)
-Write-Host ("Generado {0}: {1} tablas, {2} tipos, {3} secuencias, {4} procedimientos." -f $Output, $tables.Count, $types.Count, @($sequences).Count, $procedures.Count)
+Write-Host ("Generado {0}: {1} tablas, {2} tipos, {3} secuencias, {4} procedimientos, {5} triggers." -f $Output, $tables.Count, $types.Count, @($sequences).Count, $procedures.Count, $triggerCount)
