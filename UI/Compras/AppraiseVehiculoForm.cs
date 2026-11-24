@@ -24,7 +24,7 @@ namespace UI.Vehiculos
 {
     public partial class AppraiseVehiculoForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
-        CompraBLL _AcquisitionBLL;
+        TasacionBLL _AppraisalBLL;
         PersonaBLL _PeopleBLL;
         List<PendingTasacion> pending_appraisals;
         PendingTasacion acquisition;
@@ -36,7 +36,7 @@ namespace UI.Vehiculos
             AyudaButton.Add(this);
             // El Designer no guarda AutoGenerateColumns: la grilla usa las columnas definidas ahi.
             gridPending.AutoGenerateColumns = false;
-            _AcquisitionBLL = new CompraBLL();
+            _AppraisalBLL = new TasacionBLL();
             _PeopleBLL = new PersonaBLL();
 
             PerformUpdatePendingView();
@@ -74,7 +74,7 @@ namespace UI.Vehiculos
         {
             try
             {
-                pending_appraisals = _AcquisitionBLL.GetPendingAppraisals(tbFilter.Text);
+                pending_appraisals = _AppraisalBLL.GetPendingAppraisals(tbFilter.Text);
                 gridPending.DataSource = null;
                 gridPending.DataSource = pending_appraisals;
                 PerformSelectAcquisition();
@@ -111,7 +111,7 @@ namespace UI.Vehiculos
                 acquisition = selected;
                 inspectionView1.InitWithInspection(acquisition.Inspeccion_Id);
                 if (acquisition.TasacionesPrevias > 0)
-                    previous_appraisal = _AcquisitionBLL.GetLastAppraisal(acquisition.Compra_Id);
+                    previous_appraisal = _AppraisalBLL.GetLastAppraisal(acquisition.Compra_Id);
                 MapPreviousAppraisalToControls();
                 AppraisalPanel.Enabled = true;
             }
@@ -282,10 +282,10 @@ namespace UI.Vehiculos
                 if (MessageBox.Show(string.Format(LanguageService.GetTagText("AreYouSureGenerateAppraisal"), double.Parse(tbAppraisalAmount.Text).ToString("N2"), acquisition.Patente), LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
 
-                SQLUpdateResult result = _AcquisitionBLL.AddAppraisal(MapControlsToAppraisal());
+                SQLUpdateResult result = _AppraisalBLL.AddAppraisal(MapControlsToAppraisal());
                 if (result != null && result.sqlResult == SQLResultType.success)
                 {
-                    Tasacion appraisal = _AcquisitionBLL.GetLastAppraisal(acquisition.Compra_Id);
+                    Tasacion appraisal = _AppraisalBLL.GetLastAppraisal(acquisition.Compra_Id);
                     MessageBox.Show(string.Format(LanguageService.GetTagText("AppraisalGenerated"), acquisition.Numero, appraisal.Vigencia.ToString("dd/MM/yyyy")));
                     PerformGenerateAppraisalPDF(appraisal);
                     PerformUpdatePendingView();

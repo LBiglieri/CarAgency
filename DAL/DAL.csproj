@@ -60,6 +60,10 @@
     <Compile Include="Billing\Pagos\PagoDataAccess.cs" />
     <Compile Include="Management\TramiteDataAccess.cs" />
     <Compile Include="Compras\CompraDataAccess.cs" />
+    <Compile Include="Compras\InspeccionDataAccess.cs" />
+    <Compile Include="Compras\TasacionDataAccess.cs" />
+    <Compile Include="Compras\DocumentoCompraDataAccess.cs" />
+    <Compile Include="Compras\PagoCompraDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

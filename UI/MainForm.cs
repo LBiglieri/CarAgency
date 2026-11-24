@@ -393,6 +393,12 @@ namespace CarAgency.UI
             catch (Exception error) { MessageBox.Show(LanguageService.GetErrorText(error)); }
         }
 
+        // Siempre visible (UpdateAuthorizedMenus no lo toca): cualquier rol, y tambien sin sesion iniciada.
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            global::UI.Ayuda.AyudaF1.Abrir();
+        }
+
         private void integrityRepairToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try

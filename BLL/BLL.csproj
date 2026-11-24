@@ -42,6 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compras\CompraBLL.cs" />
+    <Compile Include="Compras\CompraStatusGuard.cs" />
+    <Compile Include="Compras\InspeccionBLL.cs" />
+    <Compile Include="Compras\TasacionBLL.cs" />
+    <Compile Include="Compras\DocumentoCompraBLL.cs" />
+    <Compile Include="Compras\PagoCompraBLL.cs" />
     <Compile Include="Billing\PagoBLL.cs" />
     <Compile Include="Billing\FacturaBLL.cs" />
     <Compile Include="Personas\PersonaBLL.cs" />

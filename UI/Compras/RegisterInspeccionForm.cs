@@ -21,7 +21,7 @@ namespace UI.Vehiculos
 {
     public partial class RegisterInspeccionForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
-        CompraBLL _AcquisitionBLL;
+        InspeccionBLL _InspectionBLL;
         List<ScheduledInspeccion> scheduled_inspections;
         List<ItemInspeccion> inspection_items;
         List<FotografiaInspeccion> inspection_photos;
@@ -35,7 +35,7 @@ namespace UI.Vehiculos
             // El Designer no guarda AutoGenerateColumns: las grillas usan las columnas definidas ahi.
             gridScheduled.AutoGenerateColumns = false;
             gridPhotos.AutoGenerateColumns = false;
-            _AcquisitionBLL = new CompraBLL();
+            _InspectionBLL = new InspeccionBLL();
 
             PerformUpdateItemsView();
             PerformUpdateScheduledView();
@@ -82,7 +82,7 @@ namespace UI.Vehiculos
         {
             try
             {
-                scheduled_inspections = _AcquisitionBLL.GetScheduledInspections();
+                scheduled_inspections = _InspectionBLL.GetScheduledInspections();
                 gridScheduled.DataSource = null;
                 gridScheduled.DataSource = scheduled_inspections;
                 PerformSelectInspection();
@@ -97,7 +97,7 @@ namespace UI.Vehiculos
         {
             try
             {
-                inspection_items = _AcquisitionBLL.GetInspectionItems();
+                inspection_items = _InspectionBLL.GetInspectionItems();
                 gridItems.Rows.Clear();
                 foreach (ItemInspeccion item in inspection_items)
                 {
@@ -116,7 +116,7 @@ namespace UI.Vehiculos
             {
                 if (inspection != null)
                 {
-                    inspection_photos = _AcquisitionBLL.GetInspectionPhotos(inspection.Inspeccion_Id);
+                    inspection_photos = _InspectionBLL.GetInspectionPhotos(inspection.Inspeccion_Id);
                     gridPhotos.DataSource = null;
                     gridPhotos.DataSource = inspection_photos;
                 }
@@ -195,7 +195,7 @@ namespace UI.Vehiculos
 
                 ClearInspection();
                 inspection = selected;
-                inspection_detail = _AcquisitionBLL.GetInspectionDetail(inspection.Inspeccion_Id);
+                inspection_detail = _InspectionBLL.GetInspectionDetail(inspection.Inspeccion_Id);
                 MapDetailToControls();
                 PerformUpdatePhotosView();
                 InspectionPanel.Enabled = true;
@@ -328,7 +328,7 @@ namespace UI.Vehiculos
                             photo.Inspeccion_Id = inspection.Inspeccion_Id;
                             photo.NombreArchivo = Path.GetFileName(filePath);
                             photo.Contenido = File.ReadAllBytes(filePath);
-                            _AcquisitionBLL.AddInspectionPhoto(photo);
+                            _InspectionBLL.AddInspectionPhoto(photo);
                         }
                     }
                 }
@@ -372,7 +372,7 @@ namespace UI.Vehiculos
                     foreach (DataGridViewRow row in rows)
                     {
                         FotografiaInspeccion photo = (FotografiaInspeccion)row.DataBoundItem;
-                        _AcquisitionBLL.DeleteInspectionPhoto(photo);
+                        _InspectionBLL.DeleteInspectionPhoto(photo);
                     }
                     PerformUpdatePhotosView();
                 }
@@ -394,7 +394,7 @@ namespace UI.Vehiculos
                     return;
 
                 Inspeccion _inspection = MapControlsToInspection();
-                SQLUpdateResult result = _AcquisitionBLL.RecordInspection(_inspection);
+                SQLUpdateResult result = _InspectionBLL.RecordInspection(_inspection);
                 if (result != null && result.sqlResult == SQLResultType.success)
                 {
                     if (_inspection.Resultado == InspeccionResult.Fit)
@@ -421,7 +421,7 @@ namespace UI.Vehiculos
                 if (MessageBox.Show(string.Format(LanguageService.GetTagText("AreYouSureRegisterNoShow"), inspection.Patente), LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
 
-                SQLUpdateResult result = _AcquisitionBLL.RegisterNoShow(MapSelectionToInspection());
+                SQLUpdateResult result = _InspectionBLL.RegisterNoShow(MapSelectionToInspection());
                 if (result != null && result.sqlResult == SQLResultType.success)
                 {
                     MessageBox.Show(string.Format(LanguageService.GetTagText("NoShowRegistered"), inspection.Numero));

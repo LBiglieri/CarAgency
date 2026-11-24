@@ -26,6 +26,7 @@ namespace UI.Vehiculos
     public partial class PayCompraForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         CompraBLL _AcquisitionBLL;
+        PagoCompraBLL _PurchasePaymentBLL;
         Persona person;
         List<PayableCompra> payable_acquisitions;
         PayableCompra payable;
@@ -41,6 +42,7 @@ namespace UI.Vehiculos
             // El Designer no guarda AutoGenerateColumns: la grilla usa las columnas definidas ahi.
             gridAcquisitions.AutoGenerateColumns = false;
             _AcquisitionBLL = new CompraBLL();
+            _PurchasePaymentBLL = new PagoCompraBLL();
 
             this.personView1.PersonFound += new EventHandler(personView1_PersonFound);
 
@@ -87,7 +89,7 @@ namespace UI.Vehiculos
         {
             try
             {
-                payable_acquisitions = person == null ? null : _AcquisitionBLL.GetPayableAcquisitions(person.Persona_Id);
+                payable_acquisitions = person == null ? null : _PurchasePaymentBLL.GetPayableAcquisitions(person.Persona_Id);
                 // Despues de un pago cambian lo pagado y el saldo: la compra se vuelve a cargar.
                 payable = null;
                 gridAcquisitions.DataSource = null;
@@ -126,10 +128,10 @@ namespace UI.Vehiculos
                 ClearAcquisition();
                 payable = selected;
                 acquisition = _AcquisitionBLL.GetAcquisition(payable.Compra_Id);
-                List<FormaPagoCompra> terms = _AcquisitionBLL.GetPaymentTerms(payable.Compra_Id);
+                List<FormaPagoCompra> terms = _PurchasePaymentBLL.GetPaymentTerms(payable.Compra_Id);
                 payment_terms = terms == null ? new List<FormaPagoCompra>() : terms;
-                payments = _AcquisitionBLL.GetPayments(payable.Compra_Id);
-                receipt = _AcquisitionBLL.GetPurchaseReceipt(payable.Compra_Id);
+                payments = _PurchasePaymentBLL.GetPayments(payable.Compra_Id);
+                receipt = _PurchasePaymentBLL.GetPurchaseReceipt(payable.Compra_Id);
                 PerformUpdateTermsView();
                 PerformUpdatePaymentsView();
                 MapAcquisitionToControls();
@@ -157,7 +159,7 @@ namespace UI.Vehiculos
             foreach (FormaPagoCompra term in payment_terms)
             {
                 int index = gridTerms.Rows.Add(LookupText.PaymentType(term.TipoPago_Descripcion), term.Monto.ToString("N2"),
-                    term.MontoPagado.ToString("N2"), _AcquisitionBLL.GetPaymentTermBalance(term).ToString("N2"));
+                    term.MontoPagado.ToString("N2"), _PurchasePaymentBLL.GetPaymentTermBalance(term).ToString("N2"));
                 gridTerms.Rows[index].Tag = term;
             }
         }
@@ -186,11 +188,11 @@ namespace UI.Vehiculos
                 + " - " + payable.Patente;
             lblAgreement.Text = string.Format(LanguageService.GetTagText("PaymentAgreement"), acquisition.PrecioAcordado.Value.ToString("N2"),
                 acquisition.CuilCuitTitular);
-            lblBalance.Text = string.Format(LanguageService.GetTagText("PurchaseBalance"), _AcquisitionBLL.GetBalance(payment_terms).ToString("N2"));
+            lblBalance.Text = string.Format(LanguageService.GetTagText("PurchaseBalance"), _PurchasePaymentBLL.GetBalance(payment_terms).ToString("N2"));
             if (receipt != null)
                 lblStageMessage.Text = string.Format(LanguageService.GetTagText("PurchaseReceiptIssuedOn"), receipt.Numero,
                     receipt.Fecha.ToString("dd/MM/yyyy"));
-            else if (_AcquisitionBLL.GetBalance(payment_terms) == 0)
+            else if (_PurchasePaymentBLL.GetBalance(payment_terms) == 0)
                 lblStageMessage.Text = LanguageService.GetTagText("PurchaseBalanceCancelled");
             else
                 lblStageMessage.Text = "";
@@ -200,7 +202,7 @@ namespace UI.Vehiculos
         private void UpdatePaymentButtons()
         {
             bool pending = acquisition != null && acquisition.Estado == CompraStatus.DocumentationComplete && receipt == null;
-            decimal balance = _AcquisitionBLL.GetBalance(payment_terms);
+            decimal balance = _PurchasePaymentBLL.GetBalance(payment_terms);
             btnAddPayment.Enabled = pending && balance > 0;
             btnIssueReceipt.Enabled = pending && payment_terms.Count > 0 && balance == 0;
             btnPrintReceipt.Enabled = receipt != null;
@@ -213,9 +215,9 @@ namespace UI.Vehiculos
         }
         private string GetPaymentDetail(PagoCompra payment)
         {
-            if (payment.TipoPago_Descripcion == CompraBLL.BankTransferPaymentType)
+            if (payment.TipoPago_Descripcion == PagoCompraBLL.BankTransferPaymentType)
                 return string.Format(LanguageService.GetTagText("PaymentDetailTransfer"), payment.Banco, payment.CbuAlias, payment.NumeroOperacion);
-            if (payment.TipoPago_Descripcion == CompraBLL.CheckPaymentType)
+            if (payment.TipoPago_Descripcion == PagoCompraBLL.CheckPaymentType)
                 return string.Format(LanguageService.GetTagText("PaymentDetailCheck"), payment.Banco, payment.NumeroCheque,
                     payment.FechaPago.Value.ToString("dd/MM/yyyy"));
             return "";
@@ -225,7 +227,7 @@ namespace UI.Vehiculos
         private void PerformIssueReceipt()
         {
             Guid Acquisition_Id = acquisition.Compra_Id;
-            SQLUpdateResult result = _AcquisitionBLL.IssuePurchaseReceipt(Acquisition_Id);
+            SQLUpdateResult result = _PurchasePaymentBLL.IssuePurchaseReceipt(Acquisition_Id);
             if (result != null && result.sqlResult == SQLResultType.success)
             {
                 PerformUpdateAcquisitionsView(Acquisition_Id);
@@ -276,7 +278,7 @@ namespace UI.Vehiculos
                 rectplace += 35;
                 tf.DrawString(LanguageService.GetTagText("ReceiptIssuer"), fontSection, XBrushes.Black, new XRect(25, rectplace, page.Width.Point - 20, 20), XStringFormats.TopLeft);
                 rectplace += 25;
-                tf.DrawString(CompraBLL.AgencyName + "®. " + LanguageService.GetTagText("CUILCUIT") + " " + CompraBLL.AgencyCuit,
+                tf.DrawString(PagoCompraBLL.AgencyName + "®. " + LanguageService.GetTagText("CUILCUIT") + " " + PagoCompraBLL.AgencyCuit,
                     fontBody, XBrushes.Black, new XRect(25, rectplace, page.Width.Point - 20, 20), XStringFormats.TopLeft);
 
                 rectplace += 35;
@@ -397,7 +399,7 @@ namespace UI.Vehiculos
                     return;
                 }
                 FormaPagoCompra term = (FormaPagoCompra)gridTerms.CurrentRow.Tag;
-                decimal balance = _AcquisitionBLL.GetPaymentTermBalance(term);
+                decimal balance = _PurchasePaymentBLL.GetPaymentTermBalance(term);
                 if (balance <= 0)
                 {
                     MessageBox.Show(LanguageService.GetTagText("PaymentTermAlreadyPaid"), LanguageService.GetTagText("AttentionTitle"));
@@ -410,7 +412,7 @@ namespace UI.Vehiculos
                 {
                     PerformUpdateAcquisitionsView(acquisition.Compra_Id);
                     // Paso 7: con el ultimo pago el saldo queda en cero y se emite el comprobante.
-                    if (acquisition != null && receipt == null && _AcquisitionBLL.GetBalance(payment_terms) == 0)
+                    if (acquisition != null && receipt == null && _PurchasePaymentBLL.GetBalance(payment_terms) == 0)
                         PerformIssueReceipt();
                 }
             }

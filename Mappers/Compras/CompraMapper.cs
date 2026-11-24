@@ -27,27 +27,6 @@ namespace CarAgency.Mappers
             return duplicates.Count == 0 ? null : duplicates;
         }
 
-        public List<Usuario> GetMechanics(PermisoType patent)
-        {
-            return MappingHandler.MapTableToEntities<Usuario>(data.GetMechanics(patent.ToString()));
-        }
-
-        public bool IsMechanicBusy(Guid Mechanic_Id, DateTime Scheduled_Date, int slotMinutes)
-        {
-            using (DataTable table = data.IsMechanicBusy(Mechanic_Id, Scheduled_Date, slotMinutes))
-                return (int)table.Rows[0]["Inspecciones"] > 0;
-        }
-
-        // Sin turnos libres en el periodo devuelve null.
-        public DateTime? GetNextFreeSlot(Guid Mechanic_Id, DateTime from, int slotMinutes, int dayStartHour, int dayEndHour, int maxDays)
-        {
-            using (DataTable table = data.GetNextFreeSlot(Mechanic_Id, from, slotMinutes, dayStartHour, dayEndHour, maxDays))
-            {
-                if (table.Rows.Count == 0) return null;
-                return (DateTime)table.Rows[0]["FechaProgramada"];
-            }
-        }
-
         public SQLUpdateResult AddProspectVehicle(VehiculoProspecto vehicle)
         {
             return DigitVerifierWriteMapper.Save("VehiculoProspecto", dvh => data.AddProspectVehicle(vehicle.VehiculoProspecto_Id, vehicle.Patente,
@@ -62,13 +41,6 @@ namespace CarAgency.Mappers
                 acquisition.Fecha, acquisition.TasacionAceptada_Id, acquisition.PrecioAcordado, acquisition.CuilCuitTitular,
                 acquisition.FechaFirmaContrato, acquisition.CodigoPrecarga08, acquisition.FechaCitaTransferencia,
                 acquisition.Vehiculo_Id, acquisition.FechaCierre, dvh));
-        }
-
-        public SQLUpdateResult AddInspection(Inspeccion inspection)
-        {
-            return DigitVerifierWriteMapper.Save("Inspeccion", dvh => data.AddInspection(inspection.Inspeccion_Id, inspection.Compra_Id,
-                inspection.Mecanico_Id, inspection.FechaProgramada, inspection.FechaRealizada, inspection.KilometrajeVerificado,
-                (int?)inspection.Resultado, inspection.Observaciones, dvh));
         }
 
         // El MappingHandler no convierte NULL ni enums: la adquisicion se arma a mano.
@@ -97,110 +69,6 @@ namespace CarAgency.Mappers
                 acquisition.FechaCierre = row["FechaCierre"] as DateTime?;
                 return acquisition;
             }
-        }
-
-        // Sin inspecciones pendientes devuelve null.
-        public List<ScheduledInspeccion> GetScheduledInspections(Guid Mechanic_Id)
-        {
-            List<ScheduledInspeccion> inspections = MappingHandler.MapTableToEntities<ScheduledInspeccion>(data.GetScheduledInspections(Mechanic_Id));
-            return inspections.Count == 0 ? null : inspections;
-        }
-
-        public InspeccionDetail GetInspectionDetail(Guid id)
-        {
-            return MappingHandler.MapTableToEntities<InspeccionDetail>(data.GetInspectionDetail(id)).FirstOrDefault();
-        }
-
-        public List<ItemInspeccion> GetInspectionItems()
-        {
-            return MappingHandler.MapTableToEntities<ItemInspeccion>(data.GetInspectionItems());
-        }
-
-        // Sin fotos devuelve null.
-        public List<FotografiaInspeccion> GetInspectionPhotos(Guid Inspection_Id)
-        {
-            List<FotografiaInspeccion> photos = MappingHandler.MapTableToEntities<FotografiaInspeccion>(data.GetInspectionPhotos(Inspection_Id));
-            return photos.Count == 0 ? null : photos;
-        }
-
-        // InspectionPhotos no esta protegida con digitos verificadores.
-        public SQLUpdateResult AddInspectionPhoto(FotografiaInspeccion photo)
-        {
-            return MappingHandler.MapUpdateResult(data.AddInspectionPhoto(photo.FotografiaInspeccion_Id, photo.Inspeccion_Id, photo.NombreArchivo,
-                photo.Contenido, photo.FechaCarga));
-        }
-
-        public SQLUpdateResult DeleteInspectionPhoto(FotografiaInspeccion photo)
-        {
-            return MappingHandler.MapUpdateResult(data.DeleteInspectionPhoto(photo.FotografiaInspeccion_Id));
-        }
-
-        // Las tres tablas se graban en una sola transaccion y despues se rehacen sus DVV.
-        public SQLUpdateResult RecordInspection(Inspeccion inspection, Compra acquisition)
-        {
-            return DigitVerifierWriteMapper.Save(digitVerifier => data.RecordInspection(InspectionRow(inspection),
-                inspection.Puntajes.Select(ScoreRow).ToList(), AcquisitionRow(acquisition), digitVerifier.Dvh("Inspeccion"),
-                digitVerifier.Dvh("PuntajeInspeccion"), digitVerifier.Dvh("Compra")), "Inspeccion", "PuntajeInspeccion", "Compra");
-        }
-
-        // Sin adquisiciones para tasar devuelve null.
-        public List<PendingTasacion> GetPendingAppraisals(string filter, DateTime now)
-        {
-            List<PendingTasacion> appraisals = MappingHandler.MapTableToEntities<PendingTasacion>(data.GetPendingAppraisals(filter, now));
-            return appraisals.Count == 0 ? null : appraisals;
-        }
-
-        // Como la adquisicion, la inspeccion registrada tiene NULL y enums: se arma a mano.
-        public Inspeccion GetInspection(Guid id)
-        {
-            using (DataTable table = data.GetInspection(id))
-            {
-                if (table.Rows.Count == 0) return null;
-                DataRow row = table.Rows[0];
-                Inspeccion inspection = new Inspeccion();
-                inspection.Inspeccion_Id = (Guid)row["Inspeccion_Id"];
-                inspection.Compra_Id = (Guid)row["Compra_Id"];
-                inspection.Mecanico_Id = (Guid)row["Mecanico_Id"];
-                inspection.FechaProgramada = (DateTime)row["FechaProgramada"];
-                inspection.FechaRealizada = row["FechaRealizada"] as DateTime?;
-                inspection.KilometrajeVerificado = row["KilometrajeVerificado"] as int?;
-                inspection.Resultado = (InspeccionResult?)(row["Resultado"] as int?);
-                inspection.Observaciones = row["Observaciones"] as string;
-                return inspection;
-            }
-        }
-
-        public List<PuntajeInspeccionDetail> GetInspectionScores(Guid Inspection_Id)
-        {
-            List<PuntajeInspeccionDetail> scores = new List<PuntajeInspeccionDetail>();
-            using (DataTable table = data.GetInspectionScores(Inspection_Id))
-            {
-                foreach (DataRow row in table.Rows)
-                {
-                    PuntajeInspeccionDetail score = new PuntajeInspeccionDetail();
-                    score.Inspeccion_Id = (Guid)row["Inspeccion_Id"];
-                    score.ItemInspeccion_Id = (Guid)row["ItemInspeccion_Id"];
-                    score.Descripcion = (string)row["Descripcion"];
-                    score.Orden = (int)row["Orden"];
-                    score.Puntaje = (InspeccionRating)(int)row["Puntaje"];
-                    score.Observaciones = row["Observaciones"] as string;
-                    scores.Add(score);
-                }
-            }
-            return scores;
-        }
-
-        // Sin tasaciones previas devuelve null.
-        public Tasacion GetLastAppraisal(Guid Acquisition_Id)
-        {
-            return MappingHandler.MapTableToEntities<Tasacion>(data.GetLastAppraisal(Acquisition_Id)).FirstOrDefault();
-        }
-
-        public SQLUpdateResult AddAppraisal(Tasacion appraisal)
-        {
-            return DigitVerifierWriteMapper.Save("Tasacion", dvh => data.AddAppraisal(appraisal.Tasacion_Id, appraisal.Compra_Id,
-                appraisal.Inspeccion_Id, appraisal.Tasador_Id, appraisal.Valor, appraisal.Justificacion, appraisal.Fecha,
-                appraisal.Vigencia, dvh));
         }
 
         public SQLUpdateResult UpdateAcquisition(Compra acquisition)
@@ -233,100 +101,6 @@ namespace CarAgency.Mappers
                 }
             }
             return acquisitions.Count == 0 ? null : acquisitions;
-        }
-
-        // Sin forma de pago pactada devuelve null.
-        public List<FormaPagoCompra> GetPaymentTerms(Guid Acquisition_Id)
-        {
-            List<FormaPagoCompra> terms = MappingHandler.MapTableToEntities<FormaPagoCompra>(data.GetPaymentTerms(Acquisition_Id));
-            return terms.Count == 0 ? null : terms;
-        }
-
-        public SQLUpdateResult AddPaymentTerm(FormaPagoCompra term)
-        {
-            return DigitVerifierWriteMapper.Save("FormaPagoCompra", dvh => data.AddPaymentTerm(term.Compra_Id, term.TipoPago_Id,
-                term.Monto, dvh));
-        }
-
-        public SQLUpdateResult DeletePaymentTerms(Guid Acquisition_Id)
-        {
-            return DigitVerifierWriteMapper.Remove(() => data.DeletePaymentTerms(Acquisition_Id), "FormaPagoCompra");
-        }
-
-        // Validity_Days puede ser NULL: los tipos se arman a mano.
-        public List<TipoDocumentoCompra> GetDocumentTypes(DocumentoCompraStage stage)
-        {
-            List<TipoDocumentoCompra> types = new List<TipoDocumentoCompra>();
-            using (DataTable table = data.GetDocumentTypes((int)stage))
-            {
-                foreach (DataRow row in table.Rows)
-                {
-                    TipoDocumentoCompra type = new TipoDocumentoCompra();
-                    type.TipoDocumentoCompra_Id = (Guid)row["TipoDocumentoCompra_Id"];
-                    type.Descripcion = (string)row["Descripcion"];
-                    type.Etapa = (DocumentoCompraStage)(int)row["Etapa"];
-                    type.DiasVigencia = row["DiasVigencia"] as int?;
-                    type.Orden = (int)row["Orden"];
-                    types.Add(type);
-                }
-            }
-            return types;
-        }
-
-        public List<DocumentoCompra> GetDocuments(Guid Acquisition_Id)
-        {
-            List<DocumentoCompra> documents = new List<DocumentoCompra>();
-            using (DataTable table = data.GetDocuments(Acquisition_Id))
-            {
-                foreach (DataRow row in table.Rows)
-                {
-                    DocumentoCompra document = new DocumentoCompra();
-                    document.DocumentoCompra_Id = (Guid)row["DocumentoCompra_Id"];
-                    document.Compra_Id = (Guid)row["Compra_Id"];
-                    document.TipoDocumentoCompra_Id = (Guid)row["TipoDocumentoCompra_Id"];
-                    document.Estado = (DocumentoCompraStatus)(int)row["Estado"];
-                    document.FechaEmision = (DateTime)row["FechaEmision"];
-                    document.Observacion = row["Observacion"] as string;
-                    document.UsuarioCarga_Id = (Guid)row["UsuarioCarga_Id"];
-                    document.FechaCarga = (DateTime)row["FechaCarga"];
-                    document.Descripcion = (string)row["Descripcion"];
-                    document.Etapa = (DocumentoCompraStage)(int)row["Etapa"];
-                    document.NombreArchivo = row["NombreArchivo"] as string;
-                    documents.Add(document);
-                }
-            }
-            return documents;
-        }
-
-        public SQLUpdateResult AddDocument(DocumentoCompra document)
-        {
-            return DigitVerifierWriteMapper.Save("DocumentoCompra", dvh => data.AddDocument(document.DocumentoCompra_Id, document.Compra_Id,
-                document.TipoDocumentoCompra_Id, (int)document.Estado, document.FechaEmision, document.Observacion, document.UsuarioCarga_Id,
-                document.FechaCarga, dvh));
-        }
-
-        public SQLUpdateResult ObserveDocument(DocumentoCompra document)
-        {
-            return DigitVerifierWriteMapper.Save("DocumentoCompra", dvh => data.ObserveDocument(document.DocumentoCompra_Id, document.Compra_Id,
-                document.TipoDocumentoCompra_Id, (int)document.Estado, document.FechaEmision, document.Observacion, document.UsuarioCarga_Id,
-                document.FechaCarga, dvh));
-        }
-
-        // El archivo se borra en cascada y no esta protegido: solo cambia el DVV de AcquisitionDocuments.
-        public SQLUpdateResult DeleteDocument(DocumentoCompra document)
-        {
-            return DigitVerifierWriteMapper.Remove(() => data.DeleteDocument(document.DocumentoCompra_Id), "DocumentoCompra");
-        }
-
-        // AcquisitionDocumentFiles no esta protegida con digitos verificadores.
-        public SQLUpdateResult AddDocumentFile(ArchivoDocumentoCompra file)
-        {
-            return MappingHandler.MapUpdateResult(data.AddDocumentFile(file.DocumentoCompra_Id, file.NombreArchivo, file.Contenido));
-        }
-
-        public ArchivoDocumentoCompra GetDocumentFile(Guid Document_Id)
-        {
-            return MappingHandler.MapTableToEntities<ArchivoDocumentoCompra>(data.GetDocumentFile(Document_Id)).FirstOrDefault();
         }
 
         // Como la adquisicion, el resumen tiene NULL segun la etapa: se arma a mano.
@@ -377,111 +151,9 @@ namespace CarAgency.Mappers
                 digitVerifier.Dvh("Vehiculo"), digitVerifier.Dvh("Compra")), "Vehiculo", "Compra");
         }
 
-        // Sin compras para pagar ni comprobantes emitidos devuelve null.
-        public List<PayableCompra> GetPendingPayment(Guid Person_Id)
-        {
-            List<PayableCompra> acquisitions = new List<PayableCompra>();
-            using (DataTable table = data.GetPendingPayment(Person_Id))
-            {
-                foreach (DataRow row in table.Rows)
-                {
-                    PayableCompra acquisition = new PayableCompra();
-                    acquisition.Compra_Id = (Guid)row["Compra_Id"];
-                    acquisition.Numero = (int)row["Numero"];
-                    acquisition.Patente = (string)row["Patente"];
-                    acquisition.Vehiculo_Descripcion = (string)row["Vehiculo_Descripcion"];
-                    acquisition.PrecioAcordado = (double)row["PrecioAcordado"];
-                    acquisition.MontoPagado = (double)row["MontoPagado"];
-                    acquisition.ComprobanteCompra_Numero = row["ComprobanteCompra_Numero"] as int?;
-                    acquisition.Estado = (CompraStatus)(int)row["Estado"];
-                    acquisitions.Add(acquisition);
-                }
-            }
-            return acquisitions.Count == 0 ? null : acquisitions;
-        }
-
-        // Los datos de cada medio son NULL en los otros: los pagos se arman a mano.
-        public List<PagoCompra> GetPayments(Guid Acquisition_Id)
-        {
-            List<PagoCompra> payments = new List<PagoCompra>();
-            using (DataTable table = data.GetPayments(Acquisition_Id))
-            {
-                foreach (DataRow row in table.Rows)
-                {
-                    PagoCompra payment = new PagoCompra();
-                    payment.PagoCompra_Id = (Guid)row["PagoCompra_Id"];
-                    payment.Compra_Id = (Guid)row["Compra_Id"];
-                    payment.TipoPago_Id = (Guid)row["TipoPago_Id"];
-                    payment.TipoPago_Descripcion = (string)row["TipoPago_Descripcion"];
-                    payment.Cajero_Id = (Guid)row["Cajero_Id"];
-                    payment.Cajero = (string)row["Cajero"];
-                    payment.Monto = (double)row["Monto"];
-                    payment.Banco = row["Banco"] as string;
-                    payment.CbuAlias = row["CbuAlias"] as string;
-                    payment.NumeroOperacion = row["NumeroOperacion"] as string;
-                    payment.NumeroCheque = row["NumeroCheque"] as string;
-                    payment.FechaPago = row["FechaPago"] as DateTime?;
-                    payment.FechaCreacion = (DateTime)row["FechaCreacion"];
-                    payments.Add(payment);
-                }
-            }
-            return payments;
-        }
-
-        public SQLUpdateResult AddPayment(PagoCompra payment)
-        {
-            return DigitVerifierWriteMapper.Save("PagoCompra", dvh => data.AddPayment(payment.PagoCompra_Id, payment.Compra_Id,
-                payment.TipoPago_Id, payment.Cajero_Id, payment.Monto, payment.Banco, payment.CbuAlias, payment.NumeroOperacion,
-                payment.NumeroCheque, payment.FechaPago, payment.FechaCreacion, dvh));
-        }
-
-        public int GetNextReceiptNumber()
-        {
-            using (DataTable table = data.GetNextReceiptNumber())
-                return (int)table.Rows[0]["Numero"];
-        }
-
-        // Comprobante y adquisicion se graban en una sola transaccion y despues se rehacen sus DVV.
-        public SQLUpdateResult PayAcquisition(ComprobanteCompra receipt, Compra acquisition)
-        {
-            return DigitVerifierWriteMapper.Save(digitVerifier => data.Pay(ReceiptRow(receipt), AcquisitionRow(acquisition),
-                digitVerifier.Dvh("ComprobanteCompra"), digitVerifier.Dvh("Compra")), "ComprobanteCompra", "Compra");
-        }
-
-        // Sin comprobante emitido devuelve null.
-        public ComprobanteCompra GetReceipt(Guid Acquisition_Id)
-        {
-            return MappingHandler.MapTableToEntities<ComprobanteCompra>(data.GetReceipt(Acquisition_Id)).FirstOrDefault();
-        }
-
-        // Filas completas de cada tabla, con el nombre de columna como clave.
-        private static IDictionary<string, object> InspectionRow(Inspeccion inspection)
-        {
-            return new Dictionary<string, object>
-            {
-                { "Inspeccion_Id", inspection.Inspeccion_Id },
-                { "Compra_Id", inspection.Compra_Id },
-                { "Mecanico_Id", inspection.Mecanico_Id },
-                { "FechaProgramada", inspection.FechaProgramada },
-                { "FechaRealizada", inspection.FechaRealizada },
-                { "KilometrajeVerificado", inspection.KilometrajeVerificado },
-                { "Resultado", (int?)inspection.Resultado },
-                { "Observaciones", inspection.Observaciones }
-            };
-        }
-
-        private static IDictionary<string, object> ScoreRow(PuntajeInspeccion score)
-        {
-            return new Dictionary<string, object>
-            {
-                { "Inspeccion_Id", score.Inspeccion_Id },
-                { "ItemInspeccion_Id", score.ItemInspeccion_Id },
-                { "Puntaje", (int)score.Puntaje },
-                { "Observaciones", score.Observaciones }
-            };
-        }
-
-        private static IDictionary<string, object> AcquisitionRow(Compra acquisition)
+        // Fila completa de la adquisicion, con el nombre de columna como clave. La usan tambien las transacciones
+        // de la inspeccion y del pago, que cambian el estado de la compra junto con su propia tabla.
+        internal static IDictionary<string, object> AcquisitionRow(Compra acquisition)
         {
             return new Dictionary<string, object>
             {
@@ -501,23 +173,6 @@ namespace CarAgency.Mappers
                 { "FechaCitaTransferencia", acquisition.FechaCitaTransferencia },
                 { "Vehiculo_Id", acquisition.Vehiculo_Id },
                 { "FechaCierre", acquisition.FechaCierre }
-            };
-        }
-
-        private static IDictionary<string, object> ReceiptRow(ComprobanteCompra receipt)
-        {
-            return new Dictionary<string, object>
-            {
-                { "ComprobanteCompra_Id", receipt.ComprobanteCompra_Id },
-                { "Numero", receipt.Numero },
-                { "Compra_Id", receipt.Compra_Id },
-                { "Fecha", receipt.Fecha },
-                { "NombrePersona", receipt.NombrePersona },
-                { "CuilCuit", receipt.CuilCuit },
-                { "Detalle", receipt.Detalle },
-                { "MontoNeto", receipt.MontoNeto },
-                { "MontoImpuesto", receipt.MontoImpuesto },
-                { "MontoTotal", receipt.MontoTotal }
             };
         }
 

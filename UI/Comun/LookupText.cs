@@ -7,7 +7,7 @@ using Security.Session;
 namespace UI.Comun
 {
     // Color y TipoPago guardan la descripcion en ingles y la logica compara contra ella
-    // (PagoBLL.DefaultPaymentType, las tarjetas de AddPagoForm, CompraBLL.BankTransferPaymentType):
+    // (PagoBLL.DefaultPaymentType, las tarjetas de AddPagoForm, PagoCompraBLL.BankTransferPaymentType):
     // la base no se traduce. Se traduce al mostrar, con los tags Colour_<Descripcion> y
     // PaymentType_<Descripcion> sin espacios. Un valor nuevo sin tag se muestra tal cual.
     public static class LookupText

@@ -24,6 +24,7 @@ namespace UI.Vehiculos
     {
         VehiculoBLL _VehicleBLL;
         CompraBLL _AcquisitionBLL;
+        InspeccionBLL _InspectionBLL;
 
         public RegisterCompraForm()
         {
@@ -31,6 +32,7 @@ namespace UI.Vehiculos
             AyudaButton.Add(this);
             _VehicleBLL = new VehiculoBLL();
             _AcquisitionBLL = new CompraBLL();
+            _InspectionBLL = new InspeccionBLL();
 
             personView1.personViewMode = PersonaViewMode.WithRegistration;
             this.personView1.PersonFound += new EventHandler(personView1_PersonFound);
@@ -142,7 +144,7 @@ namespace UI.Vehiculos
         {
             try
             {
-                List<Usuario> mechanics = _AcquisitionBLL.GetMechanics();
+                List<Usuario> mechanics = _InspectionBLL.GetMechanics();
                 comboMechanic.DataSource = mechanics;
                 comboMechanic.DisplayMember = "NombreUsuario";
                 comboMechanic.SelectedIndex = mechanics.Count == 1 ? 0 : -1;
@@ -155,8 +157,8 @@ namespace UI.Vehiculos
         // Viene elegido el primer turno que todavia no paso, con su fecha.
         private void PerformUpdateHourCombo()
         {
-            comboHour.DataSource = _AcquisitionBLL.GetInspectionHours().Select(h => h.ToString(@"hh\:mm")).ToList();
-            MapSlotToControls(_AcquisitionBLL.GetFirstInspectionSlot(DateTime.Now));
+            comboHour.DataSource = _InspectionBLL.GetInspectionHours().Select(h => h.ToString(@"hh\:mm")).ToList();
+            MapSlotToControls(_InspectionBLL.GetFirstInspectionSlot(DateTime.Now));
         }
         private bool ValidateControls()
         {
@@ -241,10 +243,10 @@ namespace UI.Vehiculos
         // CUF07 6.1: si el mecanico esta ocupado se propone el proximo horario libre y se vuelve a elegir.
         private bool PerformValidateMechanicAvailability(Usuario mechanic, DateTime scheduledDate)
         {
-            if (_AcquisitionBLL.IsMechanicAvailable(mechanic.Usuario_Id, scheduledDate))
+            if (_InspectionBLL.IsMechanicAvailable(mechanic.Usuario_Id, scheduledDate))
                 return true;
 
-            DateTime nextSlot = _AcquisitionBLL.GetNextFreeSlot(mechanic.Usuario_Id, scheduledDate);
+            DateTime nextSlot = _InspectionBLL.GetNextFreeSlot(mechanic.Usuario_Id, scheduledDate);
             MapSlotToControls(nextSlot);
             MessageBox.Show(LanguageService.GetTagText("MechanicBusyNextSlot") + nextSlot.ToString("dd/MM/yyyy HH:mm"), LanguageService.GetTagText("AttentionTitle"));
             return false;

@@ -17,6 +17,7 @@ namespace CarAgency.UI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var gui = Guid.NewGuid();
+            Application.AddMessageFilter(new global::UI.Ayuda.AyudaF1());  // F1 en cualquier pantalla abre la guia
             Application.Run(new MainForm());
         }
     }

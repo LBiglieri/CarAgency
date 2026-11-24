@@ -24,13 +24,13 @@ namespace UI.Vehiculos
         Compra _acquisition;
         FormaPagoCompra _term;
         decimal _balance;
-        CompraBLL _AcquisitionBLL;
+        PagoCompraBLL _PurchasePaymentBLL;
 
         public AddPagoCompraForm(Compra acquisition, FormaPagoCompra term, decimal balance)
         {
             InitializeComponent();
             AyudaButton.Add(this);
-            _AcquisitionBLL = new CompraBLL();
+            _PurchasePaymentBLL = new PagoCompraBLL();
 
             _acquisition = acquisition;
             _term = term;
@@ -68,11 +68,11 @@ namespace UI.Vehiculos
         }
         private bool IsBankTransfer()
         {
-            return _term.TipoPago_Descripcion == CompraBLL.BankTransferPaymentType;
+            return _term.TipoPago_Descripcion == PagoCompraBLL.BankTransferPaymentType;
         }
         private bool IsCheck()
         {
-            return _term.TipoPago_Descripcion == CompraBLL.CheckPaymentType;
+            return _term.TipoPago_Descripcion == PagoCompraBLL.CheckPaymentType;
         }
         private Boolean ValidatePaymentCreation()
         {
@@ -126,7 +126,7 @@ namespace UI.Vehiculos
                 payment.NumeroCheque = tbCheck_Number.Text;
                 payment.FechaPago = dtPayment_Date.Value;
 
-                SQLUpdateResult result = _AcquisitionBLL.AddPayment(payment);
+                SQLUpdateResult result = _PurchasePaymentBLL.AddPayment(payment);
                 if (result != null && result.sqlResult == SQLResultType.success)
                 {
                     _payment = payment;

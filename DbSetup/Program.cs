@@ -6,10 +6,15 @@ namespace CarAgency.DbSetup
 {
     // Uso:
     //   DbSetup check   --server <instancia> [--database CarAgency]
-    //   DbSetup install --server <instancia> --script <archivo.sql> [--database CarAgency] [--replace] [--config <UI.exe.config>] [--log <archivo>]
+    //   DbSetup install --server <instancia> --script <archivo.sql> [--database CarAgency] [--replace] [--log <archivo>]
+    //   DbSetup config  --server <instancia> --config <UI.exe.config> [--database CarAgency] [--log <archivo>]
+    //   DbSetup drop    --server <instancia> [--database CarAgency] [--log <archivo>]
     //
     // check:   0 = la base no existe, 1 = la base existe, 2 = error (por ejemplo, no se pudo conectar).
     // install: 0 = ok, 2 = error. Si la base existe y no se pasa --replace, se conserva intacta (reparacion).
+    // config:  0 = ok, 2 = error. No se conecta a SQL Server: solo escribe la cadena de conexion.
+    // drop:    0 = ok (tambien si la base no existia), 2 = error. Lo usa la opcion Desinstalar del instalador.
+    // install, check y drop corren como el usuario de la aplicacion; config, elevado, porque escribe en Program Files.
     public static class Program
     {
         public const int Ok = 0;
@@ -41,8 +46,10 @@ namespace CarAgency.DbSetup
                 {
                     case "check": return Check(options);
                     case "install": return Install(options);
+                    case "config": return Config(options);
+                    case "drop": CreateInstaller(options).Drop(); return Ok;
                     default:
-                        Console.Error.WriteLine("Comando desconocido. Use 'check' o 'install'.");
+                        Console.Error.WriteLine("Comando desconocido. Use 'check', 'install', 'config' o 'drop'.");
                         return Failure;
                 }
             }
@@ -93,13 +100,14 @@ namespace CarAgency.DbSetup
                     throw;
                 }
             }
+            return Ok;
+        }
 
-            string configPath;
-            if (options.TryGetValue("config", out configPath))
-            {
-                AppConfigWriter.SetConnectionString(configPath, DefaultDatabase, installer.ApplicationConnectionString);
-                Log("Cadena de conexion actualizada en " + configPath + ".");
-            }
+        private static int Config(Dictionary<string, string> options)
+        {
+            string configPath = Require(options, "config");
+            AppConfigWriter.SetConnectionString(configPath, DefaultDatabase, CreateInstaller(options).ApplicationConnectionString);
+            Log("Cadena de conexion actualizada en " + configPath + ".");
             return Ok;
         }
 

@@ -27,6 +27,9 @@ namespace UI.Vehiculos
     public partial class ManageCompraForm : MetroFramework.Forms.MetroForm, ILanguageObserver
     {
         CompraBLL _AcquisitionBLL;
+        TasacionBLL _AppraisalBLL;
+        DocumentoCompraBLL _DocumentBLL;
+        PagoCompraBLL _PurchasePaymentBLL;
         PersonaBLL _PeopleBLL;
         List<PendingCompra> pending_acquisitions;
         PendingCompra pending;
@@ -46,6 +49,9 @@ namespace UI.Vehiculos
             // El Designer no guarda AutoGenerateColumns: la grilla usa las columnas definidas ahi.
             gridPending.AutoGenerateColumns = false;
             _AcquisitionBLL = new CompraBLL();
+            _AppraisalBLL = new TasacionBLL();
+            _DocumentBLL = new DocumentoCompraBLL();
+            _PurchasePaymentBLL = new PagoCompraBLL();
             _PeopleBLL = new PersonaBLL();
             documentsView1.Stage = DocumentoCompraStage.Document;
             transferDocumentsView1.Stage = DocumentoCompraStage.Transfer;
@@ -145,7 +151,7 @@ namespace UI.Vehiculos
             {
                 // Bank Transfer, Check y Cash, con su traduccion. Al cambiar de idioma se conserva el elegido.
                 Guid? selected = comboPaymentType.SelectedIndex == -1 ? (Guid?)null : ((KeyValuePair<TipoPago, string>)comboPaymentType.SelectedItem).Key.TipoPago_Id;
-                List<KeyValuePair<TipoPago, string>> payment_types = _AcquisitionBLL.GetAcquisitionPaymentTypes()
+                List<KeyValuePair<TipoPago, string>> payment_types = _PurchasePaymentBLL.GetAcquisitionPaymentTypes()
                     .Select(t => new KeyValuePair<TipoPago, string>(t, LookupText.PaymentType(t.Descripcion))).ToList();
                 comboPaymentType.DataSource = payment_types;
                 comboPaymentType.DisplayMember = "Value";
@@ -166,7 +172,7 @@ namespace UI.Vehiculos
             List<KeyValuePair<TipoPago, string>> payment_types = comboPaymentType.DataSource as List<KeyValuePair<TipoPago, string>>;
             if (payment_types == null)
                 return;
-            int index = payment_types.FindIndex(t => t.Key.Descripcion == CompraBLL.DefaultPaymentType);
+            int index = payment_types.FindIndex(t => t.Key.Descripcion == PagoCompraBLL.DefaultPaymentType);
             if (index != -1 && payment_terms.Any(t => t.TipoPago_Id == payment_types[index].Key.TipoPago_Id))
                 index = -1;
             comboPaymentType.SelectedIndex = index;
@@ -187,7 +193,7 @@ namespace UI.Vehiculos
                 ClearAcquisition();
                 pending = selected;
                 acquisition = _AcquisitionBLL.GetAcquisition(pending.Compra_Id);
-                appraisal = _AcquisitionBLL.GetLastAppraisal(pending.Compra_Id);
+                appraisal = _AppraisalBLL.GetLastAppraisal(pending.Compra_Id);
                 person = _PeopleBLL.GetById(pending.Persona_Id);
                 inspectionView1.InitWithInspection(pending.Inspeccion_Id);
                 PerformInitStage();
@@ -207,7 +213,7 @@ namespace UI.Vehiculos
             {
                 case CompraStatus.Appraised:
                     // 3.1: con la tasacion vencida no se puede seguir.
-                    if (!_AcquisitionBLL.IsAppraisalExpired(appraisal))
+                    if (!_AppraisalBLL.IsAppraisalExpired(appraisal))
                         stage_tab = tabFormalize;
                     break;
                 case CompraStatus.PurchaseFormalized:
@@ -324,7 +330,7 @@ namespace UI.Vehiculos
                 appraisal.Valor.ToString("N2"), appraisal.Vigencia.ToString("dd/MM/yyyy"));
             lblSummaryStatus.Text = LanguageService.GetTagText("SummaryStatus") + GetStatusDescription(acquisition.Estado);
             // 3.1 y 2.1: la compra no tiene etapa para gestionar.
-            if (acquisition.Estado == CompraStatus.Appraised && _AcquisitionBLL.IsAppraisalExpired(appraisal))
+            if (acquisition.Estado == CompraStatus.Appraised && _AppraisalBLL.IsAppraisalExpired(appraisal))
                 lblStageMessage.Text = LanguageService.GetTagText("AppraisalExpired");
             else if (acquisition.Estado == CompraStatus.DocumentationComplete)
                 lblStageMessage.Text = LanguageService.GetTagText("AcquisitionWaitingPayment");
@@ -346,7 +352,7 @@ namespace UI.Vehiculos
             {
                 tbAgreed_Price.Text = acquisition.PrecioAcordado.Value.ToString("0.00");
                 tbOwner_CUIL_CUIT.Text = acquisition.CuilCuitTitular;
-                List<FormaPagoCompra> terms = _AcquisitionBLL.GetPaymentTerms(acquisition.Compra_Id);
+                List<FormaPagoCompra> terms = _PurchasePaymentBLL.GetPaymentTerms(acquisition.Compra_Id);
                 payment_terms = terms == null ? new List<FormaPagoCompra>() : terms;
             }
             else
@@ -376,7 +382,7 @@ namespace UI.Vehiculos
             double price;
             if (!double.TryParse(tbAgreed_Price.Text, out price))
                 price = 0;
-            decimal difference = _AcquisitionBLL.GetPaymentTermsDifference(price, payment_terms);
+            decimal difference = _PurchasePaymentBLL.GetPaymentTermsDifference(price, payment_terms);
             lblTermsDifference.Text = string.Format(LanguageService.GetTagText("PaymentTermsTotal"), payment_terms.Sum(t => t.Monto).ToString("N2"),
                 difference.ToString("N2"));
         }
@@ -410,7 +416,7 @@ namespace UI.Vehiculos
                 MessageBox.Show(LanguageService.GetTagText("PleaseAddPaymentTerm"), LanguageService.GetTagText("AttentionTitle"));
                 return false;
             }
-            decimal difference = _AcquisitionBLL.GetPaymentTermsDifference(price, payment_terms);
+            decimal difference = _PurchasePaymentBLL.GetPaymentTermsDifference(price, payment_terms);
             if (difference != 0)
             {
                 MessageBox.Show(string.Format(LanguageService.GetTagText("PaymentTermsDifference"), difference.ToString("N2")), LanguageService.GetTagText("AttentionTitle"));
@@ -469,7 +475,7 @@ namespace UI.Vehiculos
             lines.Add(string.Format(LanguageService.GetTagText("SummaryAgreement"), summary.PrecioAcordado.Value.ToString("N2"), summary.CuilCuitTitular,
                 summary.FechaFirmaContrato.Value.ToString("dd/MM/yyyy")));
             lines.Add(LanguageService.GetTagText("SummaryPaymentTerms"));
-            List<FormaPagoCompra> terms = _AcquisitionBLL.GetPaymentTerms(summary.Compra_Id);
+            List<FormaPagoCompra> terms = _PurchasePaymentBLL.GetPaymentTerms(summary.Compra_Id);
             if (terms != null)
                 foreach (FormaPagoCompra term in terms)
                     lines.Add("      " + string.Format(LanguageService.GetTagText("SummaryPaymentTerm"), LookupText.PaymentType(term.TipoPago_Descripcion),
@@ -481,7 +487,7 @@ namespace UI.Vehiculos
             lines.Add(string.Format(LanguageService.GetTagText("SummaryTransfer"), summary.CodigoPrecarga08,
                 summary.FechaCitaTransferencia.Value.ToString("dd/MM/yyyy")));
             lines.Add(LanguageService.GetTagText("SummaryDocuments"));
-            foreach (DocumentoCompra document in _AcquisitionBLL.GetDocuments(summary.Compra_Id))
+            foreach (DocumentoCompra document in _DocumentBLL.GetDocuments(summary.Compra_Id))
                 lines.Add("      " + string.Format(LanguageService.GetTagText("SummaryDocument"), DocumentosCompraView.GetDocumentTypeDescription(document.Descripcion),
                     document.FechaEmision.ToString("dd/MM/yyyy")));
             return lines;
@@ -642,9 +648,9 @@ namespace UI.Vehiculos
         // Se guardan en el Escritorio sin abrirlas.
         void PerformExportTransferCopies()
         {
-            foreach (DocumentoCompra document in _AcquisitionBLL.GetDocuments(acquisition.Compra_Id).Where(d => d.Etapa == DocumentoCompraStage.Transfer))
+            foreach (DocumentoCompra document in _DocumentBLL.GetDocuments(acquisition.Compra_Id).Where(d => d.Etapa == DocumentoCompraStage.Transfer))
             {
-                ArchivoDocumentoCompra file = _AcquisitionBLL.GetDocumentFile(document.DocumentoCompra_Id);
+                ArchivoDocumentoCompra file = _DocumentBLL.GetDocumentFile(document.DocumentoCompra_Id);
                 string filename = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CarAgency " + document.Descripcion + " " + acquisition.Numero
                     + " " + person.Apellido + " " + person.Nombre + Path.GetExtension(file.NombreArchivo);
                 File.WriteAllBytes(filename, file.Contenido);

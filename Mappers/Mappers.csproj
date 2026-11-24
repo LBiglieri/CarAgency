@@ -30,6 +30,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compras\CompraMapper.cs" />
+    <Compile Include="Compras\InspeccionMapper.cs" />
+    <Compile Include="Compras\TasacionMapper.cs" />
+    <Compile Include="Compras\DocumentoCompraMapper.cs" />
+    <Compile Include="Compras\PagoCompraMapper.cs" />
     <Compile Include="Billing\Facturas\FacturaMapper.cs" /><Compile Include="Billing\Pagos\PagoMapper.cs" />
     <Compile Include="Personas\PersonaMapper.cs" /><Compile Include="Management\TramiteMapper.cs" />
     <Compile Include="Sales\Cotizaciones\CotizacionMapper.cs" />

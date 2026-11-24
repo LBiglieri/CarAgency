@@ -25,22 +25,22 @@ namespace UI.Compras.Controls
         public Inspeccion inspection;
         public List<PuntajeInspeccionDetail> inspection_scores;
         List<FotografiaInspeccion> inspection_photos;
-        CompraBLL _AcquisitionBLL;
+        InspeccionBLL _InspectionBLL;
 
         public InspeccionView()
         {
             InitializeComponent();
             gridPhotos.AutoGenerateColumns = false;
-            _AcquisitionBLL = new CompraBLL();
+            _InspectionBLL = new InspeccionBLL();
             UpdateLanguage("");
         }
 
         public void InitWithInspection(Guid Inspection_Id)
         {
-            inspection_detail = _AcquisitionBLL.GetInspectionDetail(Inspection_Id);
-            inspection = _AcquisitionBLL.GetInspection(Inspection_Id);
-            inspection_scores = _AcquisitionBLL.GetInspectionScores(Inspection_Id);
-            inspection_photos = _AcquisitionBLL.GetInspectionPhotos(Inspection_Id);
+            inspection_detail = _InspectionBLL.GetInspectionDetail(Inspection_Id);
+            inspection = _InspectionBLL.GetInspection(Inspection_Id);
+            inspection_scores = _InspectionBLL.GetInspectionScores(Inspection_Id);
+            inspection_photos = _InspectionBLL.GetInspectionPhotos(Inspection_Id);
             gridPhotos.DataSource = null;
             gridPhotos.DataSource = inspection_photos;
             UpdateLanguage("");

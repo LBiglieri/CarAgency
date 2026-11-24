@@ -54,6 +54,7 @@
             this.salesForecastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.purchaseForecastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.permissionConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vehicleModelConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +88,8 @@
             this.billingToolStripMenuItem,
             this.managementToolStripMenuItem,
             this.reportsToolStripMenuItem,
-            this.configurationToolStripMenuItem});
+            this.configurationToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1015, 24);
@@ -301,6 +303,14 @@
             this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.configurationToolStripMenuItem.Tag = "configurationToolStripMenuItem";
             this.configurationToolStripMenuItem.Text = "Configuration";
+            //
+            // helpToolStripMenuItem
+            //
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.helpToolStripMenuItem.Tag = "HelpButton";
+            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // permissionConfigurationToolStripMenuItem
             // 
@@ -426,6 +436,7 @@
         private System.Windows.Forms.ToolStripMenuItem vehicleModelConfigurationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vehicleManagementToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeSystemsLanguageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backupRestoreDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eventLogToolStripMenuItem;

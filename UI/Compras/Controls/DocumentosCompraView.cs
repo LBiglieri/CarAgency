@@ -27,20 +27,20 @@ namespace UI.Compras.Controls
         List<TipoDocumentoCompra> document_types;
         List<DocumentoCompra> documents;
         Guid acquisition_id;
-        CompraBLL _AcquisitionBLL;
+        DocumentoCompraBLL _DocumentBLL;
 
         public DocumentosCompraView()
         {
             InitializeComponent();
-            _AcquisitionBLL = new CompraBLL();
+            _DocumentBLL = new DocumentoCompraBLL();
             UpdateLanguage("");
         }
 
         public void InitWithAcquisition(Guid Acquisition_Id, bool editable)
         {
             acquisition_id = Acquisition_Id;
-            document_types = _AcquisitionBLL.GetDocumentTypes(Stage);
-            documents = _AcquisitionBLL.GetDocuments(Acquisition_Id);
+            document_types = _DocumentBLL.GetDocumentTypes(Stage);
+            documents = _DocumentBLL.GetDocuments(Acquisition_Id);
             dtIssue_Date.Value = DateTime.Today;
             tbDocumentObservation.Text = "";
             EnableControls(editable);
@@ -101,7 +101,7 @@ namespace UI.Compras.Controls
         }
         private void PerformDocumentsChanged()
         {
-            documents = _AcquisitionBLL.GetDocuments(acquisition_id);
+            documents = _DocumentBLL.GetDocuments(acquisition_id);
             tbDocumentObservation.Text = "";
             PerformUpdateDocumentsView();
             if (DocumentsChanged != null)
@@ -166,7 +166,7 @@ namespace UI.Compras.Controls
                         string filePath = openFileDialog.FileName;
                         document.File.NombreArchivo = Path.GetFileName(filePath);
                         document.File.Contenido = File.ReadAllBytes(filePath);
-                        SQLUpdateResult result = _AcquisitionBLL.AddDocument(document);
+                        SQLUpdateResult result = _DocumentBLL.AddDocument(document);
 
                         if (result != null && result.sqlResult == SQLResultType.success)
                             PerformDocumentsChanged();
@@ -187,7 +187,7 @@ namespace UI.Compras.Controls
                 if (document == null)
                     return;
 
-                ArchivoDocumentoCompra file = _AcquisitionBLL.GetDocumentFile(document.DocumentoCompra_Id);
+                ArchivoDocumentoCompra file = _DocumentBLL.GetDocumentFile(document.DocumentoCompra_Id);
                 string tempFilePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + Path.GetExtension(file.NombreArchivo));
                 File.WriteAllBytes(tempFilePath, file.Contenido);
                 Process.Start(tempFilePath);
@@ -209,7 +209,7 @@ namespace UI.Compras.Controls
                 if (MessageBox.Show(string.Format(LanguageService.GetTagText("AreYouSureDeleteDocument"), GetDocumentTypeDescription(document.Descripcion)), LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
 
-                SQLUpdateResult result = _AcquisitionBLL.DeleteDocument(document);
+                SQLUpdateResult result = _DocumentBLL.DeleteDocument(document);
                 if (result != null && result.sqlResult == SQLResultType.success)
                     PerformDocumentsChanged();
             }
@@ -236,7 +236,7 @@ namespace UI.Compras.Controls
                 if (MessageBox.Show(string.Format(LanguageService.GetTagText("AreYouSureObserveDocument"), GetDocumentTypeDescription(document.Descripcion)), LanguageService.GetTagText("AttentionTitle"), MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
 
-                SQLUpdateResult result = _AcquisitionBLL.ObserveDocument(document, tbDocumentObservation.Text);
+                SQLUpdateResult result = _DocumentBLL.ObserveDocument(document, tbDocumentObservation.Text);
                 if (result != null && result.sqlResult == SQLResultType.success)
                     PerformDocumentsChanged();
             }
